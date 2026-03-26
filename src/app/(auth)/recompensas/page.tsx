@@ -1,0 +1,414 @@
+'use client'
+
+import { useEffect, useState } from 'react'
+import { Star, Users, PiggyBank, TrendingUp, Award, CheckCircle } from 'lucide-react'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { Progress } from '@/components/ui/progress'
+import { Badge } from '@/components/ui/badge'
+import { useBrokerProfile } from '@/hooks/useBrokerProfile'
+import { TIER_CONFIG } from '@/lib/constants'
+import { createClient } from '@/lib/supabase/client'
+import { formatPrice, formatDate, cn } from '@/lib/utils'
+import ReferralCode from '@/components/shared/ReferralCode'
+import EmptyState from '@/components/shared/EmptyState'
+import { CardSkeleton } from '@/components/shared/SkeletonCard'
+import type { Reward, BrokerTier } from '@/types/database'
+
+const REWARD_TYPE_CONFIG: Record<string, { label: string; badgeClass: string }> = {
+  volume_discount: { label: 'Descuento por volumen', badgeClass: 'bg-blue-50 text-blue-700 border-blue-200' },
+  referral_bonus:  { label: 'Bono de referido',      badgeClass: 'bg-purple-50 text-purple-700 border-purple-200' },
+  price_match:     { label: 'Price match',            badgeClass: 'bg-green-50 text-green-700 border-green-200' },
+}
+
+const TIER_GRADIENT: Record<BrokerTier, string> = {
+  bronce: 'from-orange-100 to-orange-50 border-orange-200',
+  plata:  'from-gray-100 to-gray-50 border-gray-200',
+  oro:    'from-yellow-100 to-yellow-50 border-yellow-200',
+}
+
+interface RewardRow extends Reward {
+  tramites?: { reference_code: string } | null
+}
+
+export default function RecompensasPage() {
+  const { broker, loading: brokerLoading } = useBrokerProfile()
+  const [rewards, setRewards] = useState<RewardRow[]>([])
+  const [referralCount, setReferralCount] = useState(0)
+  const [referralSavings, setReferralSavings] = useState(0)
+  const [rewardsLoading, setRewardsLoading] = useState(true)
+
+  const supabase = createClient()
+
+  useEffect(() => {
+    if (!broker) return
+
+    const fetchData = async () => {
+      setRewardsLoading(true)
+
+      const [rewardsResult, referralsResult, referralRewardsResult] = await Promise.all([
+        supabase
+          .from('rewards')
+          .select('*, tramites(reference_code)')
+          .eq('broker_id', broker.id)
+          .order('created_at', { ascending: false }),
+        supabase
+          .from('brokers')
+          .select('id', { count: 'exact', head: true })
+          .eq('referred_by', broker.id),
+        supabase
+          .from('rewards')
+          .select('amount')
+          .eq('broker_id', broker.id)
+          .eq('type', 'referral_bonus'),
+      ])
+
+      setRewards((rewardsResult.data ?? []) as RewardRow[])
+      setReferralCount(referralsResult.count ?? 0)
+      const savingsSum = (referralRewardsResult.data ?? []).reduce(
+        (sum, r) => sum + (r.amount ?? 0),
+        0
+      )
+      setReferralSavings(savingsSum)
+      setRewardsLoading(false)
+    }
+
+    fetchData()
+  }, [broker])
+
+  const tier = (broker?.tier ?? 'bronce') as BrokerTier
+  const tierConfig = TIER_CONFIG[tier]
+  const monthCount = broker?.total_tramites_month ?? 0
+
+  // Progress calculation
+  let progressPercent = 0
+  let nextTierLabel = ''
+  let tramitesToNext = 0
+  let nextTierDiscount = 0
+
+  if (tier === 'bronce') {
+    progressPercent = Math.min((monthCount / 4) * 100, 100)
+    nextTierLabel = 'Plata'
+    tramitesToNext = Math.max(4 - monthCount, 0)
+    nextTierDiscount = 5
+  } else if (tier === 'plata') {
+    progressPercent = Math.min(((monthCount - 4) / 4) * 100, 100)
+    nextTierLabel = 'Oro'
+    tramitesToNext = Math.max(8 - monthCount, 0)
+    nextTierDiscount = 10
+  } else {
+    progressPercent = 100
+  }
+
+  const tierBenefits: Record<BrokerTier, { title: string; benefits: string[]; isHighlighted: boolean }> = {
+    bronce: {
+      title: 'Bronce',
+      isHighlighted: tier === 'bronce',
+      benefits: [
+        'Precio estándar en todos los trámites',
+        'Soporte básico por mensajería',
+        'Price matching disponible',
+      ],
+    },
+    plata: {
+      title: 'Plata',
+      isHighlighted: tier === 'plata',
+      benefits: [
+        'Todo lo de Bronce',
+        '5% de descuento en todos los trámites',
+        'Prioridad media en revisión',
+        'Soporte preferente',
+      ],
+    },
+    oro: {
+      title: 'Oro',
+      isHighlighted: tier === 'oro',
+      benefits: [
+        'Todo lo de Plata',
+        '10% de descuento en todos los trámites',
+        'Prioridad máxima en revisión',
+        'Atención dedicada',
+        'Gestor asignado',
+      ],
+    },
+  }
+
+  return (
+    <div className="space-y-8">
+      {/* Header */}
+      <div>
+        <h1 className="text-2xl font-bold text-slate-900">Recompensas</h1>
+        <p className="text-slate-500 text-sm mt-1">
+          Tu nivel de fidelidad, beneficios y ahorro acumulado.
+        </p>
+      </div>
+
+      {/* ── Section 1: Tier actual ── */}
+      {brokerLoading ? (
+        <CardSkeleton />
+      ) : (
+        <Card className={cn('border-2 bg-gradient-to-br shadow-sm', TIER_GRADIENT[tier])}>
+          <CardContent className="p-6">
+            <div className="flex items-start justify-between gap-4">
+              <div className="flex items-center gap-3">
+                <span className="text-5xl leading-none">{tierConfig.icon}</span>
+                <div>
+                  <div className="flex items-center gap-2">
+                    <h2 className={cn('text-2xl font-bold', tierConfig.color)}>
+                      {tierConfig.label}
+                    </h2>
+                    {tier === 'oro' && (
+                      <Star size={18} className="text-yellow-500 fill-yellow-400" />
+                    )}
+                  </div>
+                  <p className="text-sm text-slate-600 mt-0.5">
+                    {monthCount} trámite{monthCount !== 1 ? 's' : ''} este mes
+                  </p>
+                </div>
+              </div>
+
+              {tierConfig.discount > 0 && (
+                <div className="bg-white/70 border border-white/80 rounded-xl px-4 py-2 text-center shrink-0">
+                  <div className={cn('text-2xl font-bold', tierConfig.color)}>
+                    {tierConfig.discount}%
+                  </div>
+                  <div className="text-xs text-slate-500 font-medium">descuento</div>
+                </div>
+              )}
+            </div>
+
+            <div className="mt-5">
+              {tier !== 'oro' ? (
+                <>
+                  <div className="flex justify-between items-center mb-2">
+                    <span className="text-xs text-slate-500 font-medium">
+                      Progreso hacia {nextTierLabel}
+                    </span>
+                    <span className="text-xs font-semibold text-slate-700">
+                      {monthCount} / {tier === 'bronce' ? 4 : 8}
+                    </span>
+                  </div>
+                  <Progress value={progressPercent} className="h-2.5" />
+                  <p className="text-xs text-slate-600 mt-2">
+                    {tramitesToNext > 0 ? (
+                      <>
+                        <span className="font-semibold text-slate-800">{tramitesToNext} trámite{tramitesToNext !== 1 ? 's' : ''} más</span>
+                        {' '}para {nextTierLabel} → {nextTierDiscount}% descuento
+                      </>
+                    ) : (
+                      <span className="text-brand-green font-medium">
+                        ¡Estás a punto de subir a {nextTierLabel}!
+                      </span>
+                    )}
+                  </p>
+                </>
+              ) : (
+                <div className="flex items-center gap-2 bg-yellow-50 border border-yellow-200 rounded-lg px-4 py-2.5 mt-1 w-fit">
+                  <Star size={14} className="text-yellow-500 fill-yellow-400 shrink-0" />
+                  <span className="text-sm text-yellow-700 font-medium">
+                    Máximo nivel alcanzado
+                  </span>
+                </div>
+              )}
+            </div>
+          </CardContent>
+        </Card>
+      )}
+
+      {/* ── Section 2: Beneficios del programa ── */}
+      <div>
+        <h2 className="text-lg font-semibold text-slate-900 mb-4">Beneficios del programa</h2>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          {(['bronce', 'plata', 'oro'] as BrokerTier[]).map((t) => {
+            const config = TIER_CONFIG[t]
+            const info = tierBenefits[t]
+            const isActive = info.isHighlighted
+
+            return (
+              <Card
+                key={t}
+                className={cn(
+                  'border-2 transition-shadow',
+                  isActive
+                    ? 'border-accent shadow-md'
+                    : 'border-slate-200 shadow-sm opacity-80'
+                )}
+              >
+                <CardHeader className="pb-3">
+                  <div className="flex items-center gap-2">
+                    <span className="text-2xl">{config.icon}</span>
+                    <CardTitle
+                      className={cn(
+                        'text-base',
+                        isActive ? 'text-accent' : config.color
+                      )}
+                    >
+                      {config.label}
+                      {isActive && (
+                        <span className="ml-2 text-xs font-medium bg-accent/10 text-accent px-2 py-0.5 rounded-full align-middle">
+                          Tu nivel
+                        </span>
+                      )}
+                    </CardTitle>
+                  </div>
+                  {config.discount > 0 && (
+                    <p className="text-xs text-slate-500 mt-1">
+                      Desde{' '}
+                      <span className="font-semibold text-slate-700">
+                        {TIER_CONFIG[t].minTramites} trámites/mes
+                      </span>
+                    </p>
+                  )}
+                </CardHeader>
+                <CardContent className="pt-0 space-y-2">
+                  {info.benefits.map((benefit, i) => (
+                    <div key={i} className="flex items-start gap-2">
+                      <CheckCircle
+                        size={14}
+                        className={cn(
+                          'mt-0.5 shrink-0',
+                          isActive ? 'text-accent' : 'text-slate-400'
+                        )}
+                      />
+                      <span className="text-sm text-slate-600">{benefit}</span>
+                    </div>
+                  ))}
+                </CardContent>
+              </Card>
+            )
+          })}
+        </div>
+      </div>
+
+      {/* ── Section 3: Código de referido ── */}
+      <Card className="shadow-sm">
+        <CardHeader className="pb-3">
+          <div className="flex items-center gap-2">
+            <Users size={18} className="text-slate-500" />
+            <CardTitle className="text-base">Código de referido</CardTitle>
+          </div>
+          <p className="text-sm text-slate-500 mt-1">
+            Comparte tu código y gana beneficios adicionales cuando tus referidos completen trámites.
+          </p>
+        </CardHeader>
+        <CardContent className="space-y-4">
+          {brokerLoading ? (
+            <div className="h-11 bg-slate-100 rounded-lg animate-pulse" />
+          ) : broker?.referral_code ? (
+            <ReferralCode code={broker.referral_code} />
+          ) : (
+            <p className="text-sm text-slate-400 italic">Código de referido no disponible.</p>
+          )}
+
+          <div className="grid grid-cols-2 gap-3 pt-1">
+            <div className="bg-slate-50 border border-slate-200 rounded-xl p-4 text-center">
+              <div className="flex items-center justify-center gap-1.5 mb-1">
+                <Users size={16} className="text-purple-500" />
+              </div>
+              <div className="text-2xl font-bold text-slate-900">
+                {rewardsLoading ? '–' : referralCount}
+              </div>
+              <div className="text-xs text-slate-500 mt-0.5">referidos activos</div>
+            </div>
+            <div className="bg-slate-50 border border-slate-200 rounded-xl p-4 text-center">
+              <div className="flex items-center justify-center gap-1.5 mb-1">
+                <PiggyBank size={16} className="text-brand-green" />
+              </div>
+              <div className="text-lg font-bold text-slate-900 tabular-nums">
+                {rewardsLoading ? '–' : formatPrice(referralSavings)}
+              </div>
+              <div className="text-xs text-slate-500 mt-0.5">ahorro por referidos</div>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+
+      {/* ── Section 4: Historial de recompensas ── */}
+      <div>
+        <div className="flex items-center gap-2 mb-4">
+          <TrendingUp size={18} className="text-slate-500" />
+          <h2 className="text-lg font-semibold text-slate-900">Historial de recompensas</h2>
+        </div>
+
+        {rewardsLoading ? (
+          <div className="space-y-3">
+            {[1, 2, 3].map((i) => (
+              <CardSkeleton key={i} />
+            ))}
+          </div>
+        ) : rewards.length === 0 ? (
+          <EmptyState
+            icon={<Award size={28} className="text-slate-400" />}
+            title="Sin recompensas aún"
+            description="Completa trámites y sube de nivel para empezar a acumular recompensas y descuentos."
+          />
+        ) : (
+          <div className="overflow-x-auto rounded-xl border border-slate-200 shadow-sm">
+            <table className="w-full text-sm">
+              <thead>
+                <tr className="border-b border-slate-200 bg-slate-50">
+                  <th className="text-left text-xs font-semibold text-slate-500 uppercase tracking-wide px-4 py-3">
+                    Tipo
+                  </th>
+                  <th className="text-left text-xs font-semibold text-slate-500 uppercase tracking-wide px-4 py-3">
+                    Descripción
+                  </th>
+                  <th className="text-right text-xs font-semibold text-slate-500 uppercase tracking-wide px-4 py-3">
+                    Monto
+                  </th>
+                  <th className="text-left text-xs font-semibold text-slate-500 uppercase tracking-wide px-4 py-3 hidden md:table-cell">
+                    Trámite
+                  </th>
+                  <th className="text-left text-xs font-semibold text-slate-500 uppercase tracking-wide px-4 py-3">
+                    Fecha
+                  </th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-slate-100 bg-white">
+                {rewards.map((reward) => {
+                  const typeConfig = REWARD_TYPE_CONFIG[reward.type] ?? {
+                    label: reward.type,
+                    badgeClass: 'bg-slate-50 text-slate-600 border-slate-200',
+                  }
+                  return (
+                    <tr key={reward.id} className="hover:bg-slate-50/60 transition-colors">
+                      <td className="px-4 py-3 whitespace-nowrap">
+                        <span
+                          className={cn(
+                            'inline-flex items-center text-xs font-medium px-2.5 py-1 rounded-full border',
+                            typeConfig.badgeClass
+                          )}
+                        >
+                          {typeConfig.label}
+                        </span>
+                      </td>
+                      <td className="px-4 py-3 text-slate-700 max-w-xs">
+                        <span className="line-clamp-2">{reward.description}</span>
+                      </td>
+                      <td className="px-4 py-3 text-right whitespace-nowrap">
+                        <span className="font-semibold text-brand-green tabular-nums font-mono">
+                          {formatPrice(reward.amount)}
+                        </span>
+                      </td>
+                      <td className="px-4 py-3 hidden md:table-cell">
+                        {reward.tramites ? (
+                          <code className="text-xs font-mono text-slate-500 bg-slate-50 border border-slate-200 px-1.5 py-0.5 rounded">
+                            {(reward as any).tramites?.reference_code}
+                          </code>
+                        ) : (
+                          <span className="text-slate-400 text-xs">—</span>
+                        )}
+                      </td>
+                      <td className="px-4 py-3 text-slate-500 text-xs whitespace-nowrap">
+                        {formatDate(reward.created_at)}
+                      </td>
+                    </tr>
+                  )
+                })}
+              </tbody>
+            </table>
+          </div>
+        )}
+      </div>
+    </div>
+  )
+}

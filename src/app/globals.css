@@ -1,0 +1,116 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 44 25% 96%;
+    --foreground: 225 28% 10%;
+    --card: 0 0% 100%;
+    --card-foreground: 225 28% 10%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 225 28% 10%;
+    --primary: 217 65% 20%;
+    --primary-foreground: 44 25% 96%;
+    --secondary: 44 20% 91%;
+    --secondary-foreground: 225 28% 10%;
+    --muted: 44 20% 93%;
+    --muted-foreground: 220 10% 48%;
+    --accent: 35 87% 41%;
+    --accent-foreground: 0 0% 100%;
+    --destructive: 0 78% 56%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 42 20% 87%;
+    --input: 42 20% 87%;
+    --ring: 217 65% 20%;
+    --radius: 0.5rem;
+  }
+}
+
+@layer base {
+  * { @apply border-border; }
+  html { scroll-behavior: smooth; }
+  body {
+    @apply bg-parchment text-ink font-sans antialiased;
+    font-feature-settings: 'kern' 1, 'liga' 1;
+  }
+  h1, h2 { @apply font-display; }
+  .tabular-nums {
+    font-variant-numeric: tabular-nums;
+    font-feature-settings: 'tnum';
+  }
+  .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
+  .scrollbar-hide::-webkit-scrollbar { display: none; }
+  .pb-safe { padding-bottom: env(safe-area-inset-bottom); }
+  .pt-safe { padding-top: env(safe-area-inset-top); }
+}
+
+@layer components {
+  .noise-overlay { position: relative; overflow: hidden; }
+  .noise-overlay::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+    background-size: 200px;
+    opacity: 0.035;
+    pointer-events: none;
+    z-index: 1;
+    mix-blend-mode: overlay;
+  }
+
+  .text-gold-gradient {
+    background: linear-gradient(135deg, #E8A21A 0%, #C9880E 60%, #A06A08 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .shimmer {
+    background: linear-gradient(90deg, #ece9e0 25%, #f5f3ec 50%, #ece9e0 75%);
+    background-size: 200% 100%;
+    animation: shimmer 2s linear infinite;
+  }
+
+  .anim-1 { animation: fade-up 0.65s cubic-bezier(0.22,1,0.36,1) 0.05s both; }
+  .anim-2 { animation: fade-up 0.65s cubic-bezier(0.22,1,0.36,1) 0.15s both; }
+  .anim-3 { animation: fade-up 0.65s cubic-bezier(0.22,1,0.36,1) 0.25s both; }
+  .anim-4 { animation: fade-up 0.65s cubic-bezier(0.22,1,0.36,1) 0.35s both; }
+  .anim-5 { animation: fade-up 0.65s cubic-bezier(0.22,1,0.36,1) 0.45s both; }
+  .anim-6 { animation: fade-up 0.65s cubic-bezier(0.22,1,0.36,1) 0.55s both; }
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  50% { transform: translateY(-10px) rotate(0.5deg); }
+}
+
+@keyframes pulse-gold {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Defer rendering of off-screen landing sections — improves LCP/FID */
+#como-funciona,
+#beneficios,
+#precios {
+  content-visibility: auto;
+  contain-intrinsic-size: 0 600px;
+}

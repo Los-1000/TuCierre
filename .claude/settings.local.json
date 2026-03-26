@@ -1,0 +1,18 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(python3:*)",
+      "Bash(ls:*)",
+      "Bash(ls /c/Users/cefd2/Downloads/TuCierre/src/app/'\\(auth\\)'/tramites/)",
+      "Bash(head -5 \"/c/Users/cefd2/Downloads/TuCierre/src/app/\\(auth\\)/dashboard/page.tsx\")",
+      "Bash(wc -l \"/c/Users/cefd2/Downloads/TuCierre/src/app/\\(auth\\)/tramites/[id]/page.tsx\")",
+      "Bash(node:*)",
+      "Bash(npm install:*)",
+      "Bash(ls C:/Users/cefd2/Downloads/TuCierre/src/app/\\\\\\(auth\\\\\\)/)",
+      "Bash(sort find:*)",
+      "Bash(npx shadcn@latest add checkbox --yes)",
+      "Bash(sort -t: -k2 -rn)",
+      "Bash(npx tsc:*)"
+    ]
+  }
+}
