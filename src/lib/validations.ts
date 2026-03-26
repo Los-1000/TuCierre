@@ -66,3 +66,33 @@ export type PriceMatchInput = z.infer<typeof priceMatchSchema>
 export type PriceMatchFormInput = z.infer<typeof priceMatchFormSchema>
 export type MessageInput = z.infer<typeof messageSchema>
 export type TramiteTypeInput = z.infer<typeof tramiteTypeSchema>
+
+export const cashoutFormSchema = z.object({
+  amount: z.number({ required_error: 'Ingresa el monto' }).positive('El monto debe ser mayor a 0'),
+  method: z.enum(['bank_transfer', 'yape', 'plin', 'otros'], {
+    required_error: 'Selecciona un método de pago',
+  }),
+  banco: z.string().optional(),
+  cci: z.string().optional(),
+  tipo_cuenta: z.enum(['ahorros', 'corriente']).optional(),
+  titular: z.string().min(1, 'Ingresa el nombre del titular'),
+  telefono: z.string().optional(),
+}).superRefine((data, ctx) => {
+  if (data.method === 'bank_transfer') {
+    if (!data.banco || data.banco.trim().length === 0) {
+      ctx.addIssue({ code: z.ZodIssueCode.custom, message: 'Ingresa el banco', path: ['banco'] })
+    }
+    if (!data.cci || data.cci.length !== 20) {
+      ctx.addIssue({ code: z.ZodIssueCode.custom, message: 'El CCI debe tener exactamente 20 dígitos', path: ['cci'] })
+    }
+    if (!data.tipo_cuenta) {
+      ctx.addIssue({ code: z.ZodIssueCode.custom, message: 'Selecciona el tipo de cuenta', path: ['tipo_cuenta'] })
+    }
+  } else {
+    if (!data.telefono || data.telefono.length !== 9) {
+      ctx.addIssue({ code: z.ZodIssueCode.custom, message: 'El teléfono debe tener 9 dígitos', path: ['telefono'] })
+    }
+  }
+})
+
+export type CashoutFormInput = z.infer<typeof cashoutFormSchema>
