@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { Star, Users, PiggyBank, TrendingUp, Award, CheckCircle } from 'lucide-react'
+import { Star, Users, PiggyBank, TrendingUp, Award, CheckCircle, Wallet, Clock, ArrowDownCircle } from 'lucide-react'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Progress } from '@/components/ui/progress'
 import { Badge } from '@/components/ui/badge'
@@ -12,7 +12,8 @@ import { formatPrice, formatDate, cn } from '@/lib/utils'
 import ReferralCode from '@/components/shared/ReferralCode'
 import EmptyState from '@/components/shared/EmptyState'
 import { CardSkeleton } from '@/components/shared/SkeletonCard'
-import type { Reward, BrokerTier } from '@/types/database'
+import CashoutDialog from '@/components/recompensas/CashoutDialog'
+import type { Reward, BrokerTier, CashoutRequest, CashoutStatus } from '@/types/database'
 
 const REWARD_TYPE_CONFIG: Record<string, { label: string; badgeClass: string }> = {
   volume_discount: { label: 'Descuento por volumen', badgeClass: 'bg-blue-50 text-blue-700 border-blue-200' },
@@ -26,6 +27,20 @@ const TIER_GRADIENT: Record<BrokerTier, string> = {
   oro:    'from-yellow-100 to-yellow-50 border-yellow-200',
 }
 
+const CASHOUT_STATUS_CONFIG: Record<CashoutStatus, { label: string; badgeClass: string }> = {
+  pending:   { label: 'Pendiente',  badgeClass: 'bg-amber-50 text-amber-700 border-amber-200' },
+  approved:  { label: 'Aprobado',   badgeClass: 'bg-blue-50 text-blue-700 border-blue-200' },
+  rejected:  { label: 'Rechazado',  badgeClass: 'bg-red-50 text-red-700 border-red-200' },
+  completed: { label: 'Completado', badgeClass: 'bg-green-50 text-green-700 border-green-200' },
+}
+
+const CASHOUT_METHOD_LABEL: Record<string, string> = {
+  bank_transfer: '🏦 Transferencia',
+  yape:          '💜 Yape',
+  plin:          '💚 Plin',
+  otros:         '📱 Otros',
+}
+
 interface RewardRow extends Reward {
   tramites?: { reference_code: string } | null
 }
@@ -36,6 +51,8 @@ export default function RecompensasPage() {
   const [referralCount, setReferralCount] = useState(0)
   const [referralSavings, setReferralSavings] = useState(0)
   const [rewardsLoading, setRewardsLoading] = useState(true)
+  const [cashouts, setCashouts] = useState<CashoutRequest[]>([])
+  const [cashoutsLoading, setCashoutsLoading] = useState(true)
 
   const supabase = createClient()
 
@@ -44,8 +61,9 @@ export default function RecompensasPage() {
 
     const fetchData = async () => {
       setRewardsLoading(true)
+      setCashoutsLoading(true)
 
-      const [rewardsResult, referralsResult, referralRewardsResult] = await Promise.all([
+      const [rewardsResult, referralsResult, referralRewardsResult, cashoutsResult] = await Promise.all([
         supabase
           .from('rewards')
           .select('*, tramites(reference_code)')
@@ -60,6 +78,11 @@ export default function RecompensasPage() {
           .select('amount')
           .eq('broker_id', broker.id)
           .eq('type', 'referral_bonus'),
+        supabase
+          .from('cashout_requests')
+          .select('*')
+          .eq('broker_id', broker.id)
+          .order('created_at', { ascending: false }),
       ])
 
       setRewards((rewardsResult.data ?? []) as RewardRow[])
@@ -69,7 +92,9 @@ export default function RecompensasPage() {
         0
       )
       setReferralSavings(savingsSum)
+      setCashouts((cashoutsResult.data ?? []) as CashoutRequest[])
       setRewardsLoading(false)
+      setCashoutsLoading(false)
     }
 
     fetchData()
@@ -78,6 +103,16 @@ export default function RecompensasPage() {
   const tier = (broker?.tier ?? 'bronce') as BrokerTier
   const tierConfig = TIER_CONFIG[tier]
   const monthCount = broker?.total_tramites_month ?? 0
+
+  // Cashout balance calculations
+  const lockedAmount = cashouts
+    .filter(c => c.status === 'pending')
+    .reduce((sum, c) => sum + c.amount, 0)
+  const withdrawnAmount = cashouts
+    .filter(c => c.status === 'approved' || c.status === 'completed')
+    .reduce((sum, c) => sum + c.amount, 0)
+  const availableBalance = Math.max(0, referralSavings - lockedAmount - withdrawnAmount)
+  const hasPendingCashout = cashouts.some(c => c.status === 'pending')
 
   // Progress calculation
   let progressPercent = 0
@@ -321,6 +356,118 @@ export default function RecompensasPage() {
           </div>
         </CardContent>
       </Card>
+
+      {/* ── Section 3b: Retiro de referidos ── */}
+      <div>
+        <div className="flex items-center gap-2 mb-4">
+          <Wallet size={18} className="text-slate-500" />
+          <h2 className="text-lg font-semibold text-slate-900">Retiro de referidos</h2>
+        </div>
+
+        {brokerLoading || cashoutsLoading ? (
+          <CardSkeleton />
+        ) : (
+          <Card className="shadow-sm">
+            <CardContent className="p-6">
+              {/* Balance grid */}
+              <div className="grid grid-cols-2 gap-3 mb-5">
+                <div className="bg-green-50 border border-green-200 rounded-xl p-4">
+                  <div className="flex items-center gap-1.5 mb-1">
+                    <ArrowDownCircle size={15} className="text-brand-green" />
+                    <span className="text-xs text-slate-500 font-medium">Saldo disponible</span>
+                  </div>
+                  <div className="text-xl font-bold text-brand-green tabular-nums font-mono">
+                    {formatPrice(availableBalance)}
+                  </div>
+                </div>
+                {lockedAmount > 0 && (
+                  <div className="bg-amber-50 border border-amber-200 rounded-xl p-4">
+                    <div className="flex items-center gap-1.5 mb-1">
+                      <Clock size={15} className="text-amber-600" />
+                      <span className="text-xs text-slate-500 font-medium">En proceso</span>
+                    </div>
+                    <div className="text-xl font-bold text-amber-700 tabular-nums font-mono">
+                      {formatPrice(lockedAmount)}
+                    </div>
+                  </div>
+                )}
+              </div>
+
+              {/* CTA */}
+              <div className="flex items-center justify-between gap-4 flex-wrap">
+                <p className="text-sm text-slate-500">
+                  {hasPendingCashout
+                    ? 'Tienes una solicitud en proceso. Espera a que sea aprobada.'
+                    : availableBalance <= 0
+                    ? 'Sin saldo disponible para retirar.'
+                    : 'Puedes solicitar el retiro de tu saldo acumulado.'}
+                </p>
+                {broker && (
+                  <CashoutDialog
+                    availableBalance={availableBalance}
+                    brokerId={broker.id}
+                    onSuccess={() => {
+                      setCashoutsLoading(true)
+                      supabase
+                        .from('cashout_requests')
+                        .select('*')
+                        .eq('broker_id', broker.id)
+                        .order('created_at', { ascending: false })
+                        .then(({ data }) => {
+                          setCashouts((data ?? []) as CashoutRequest[])
+                          setCashoutsLoading(false)
+                        })
+                    }}
+                  />
+                )}
+              </div>
+
+              {/* Cashout history */}
+              {cashouts.length > 0 && (
+                <div className="mt-5 border-t border-slate-100 pt-4">
+                  <h3 className="text-sm font-semibold text-slate-700 mb-3">Historial de retiros</h3>
+                  <div className="space-y-2">
+                    {cashouts.map((c) => {
+                      const statusConf = CASHOUT_STATUS_CONFIG[c.status]
+                      return (
+                        <div
+                          key={c.id}
+                          className="flex items-center justify-between gap-3 py-2 border-b border-slate-50 last:border-0"
+                        >
+                          <div className="flex items-center gap-2 min-w-0 flex-wrap">
+                            <span className="text-sm text-slate-500">
+                              {CASHOUT_METHOD_LABEL[c.method] ?? c.method}
+                            </span>
+                            <span
+                              className={cn(
+                                'inline-flex items-center text-xs font-medium px-2 py-0.5 rounded-full border',
+                                statusConf.badgeClass
+                              )}
+                            >
+                              {statusConf.label}
+                            </span>
+                            {c.status === 'rejected' && c.admin_notes && (
+                              <span className="text-xs text-red-500 truncate max-w-[160px]">
+                                {c.admin_notes}
+                              </span>
+                            )}
+                          </div>
+                          <div className="text-right shrink-0">
+                            <div className="text-sm font-semibold text-slate-800 tabular-nums font-mono">
+                              {formatPrice(c.amount)}
+                            </div>
+                            <div className="text-xs text-slate-400">{formatDate(c.created_at)}</div>
+                          </div>
+                        </div>
+                      )
+                    })}
+                  </div>
+                </div>
+              )}
+            </CardContent>
+          </Card>
+        )}
+      </div>
 
       {/* ── Section 4: Historial de recompensas ── */}
       <div>
