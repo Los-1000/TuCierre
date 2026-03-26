@@ -14,6 +14,32 @@ export type RewardType = 'volume_discount' | 'referral_bonus' | 'price_match'
 export type PriceMatchStatus = 'pending' | 'approved' | 'rejected'
 export type DocumentStatus = 'pending' | 'uploaded' | 'approved' | 'rejected'
 export type PartyRole = 'comprador' | 'vendedor' | 'otro'
+export type CashoutMethod = 'bank_transfer' | 'yape' | 'plin' | 'otros'
+export type CashoutStatus = 'pending' | 'approved' | 'rejected' | 'completed'
+
+export interface BankTransferDetails {
+  banco: string
+  cci: string
+  titular: string
+  tipo_cuenta: 'ahorros' | 'corriente'
+}
+
+export interface WalletDetails {
+  titular: string
+  telefono: string
+}
+
+export interface CashoutRequest {
+  id: string
+  broker_id: string
+  amount: number
+  method: CashoutMethod
+  payment_details: BankTransferDetails | WalletDetails
+  status: CashoutStatus
+  admin_notes: string | null
+  created_at: string
+  processed_at: string | null
+}
 
 export interface Broker {
   id: string
@@ -28,6 +54,7 @@ export interface Broker {
   referral_code: string | null
   referred_by: string | null
   is_admin: boolean
+  is_superadmin: boolean
   notaria_name: string | null
   notaria_address: string | null
   avatar_url: string | null
@@ -154,6 +181,11 @@ export interface Database {
       messages: { Row: Message; Insert: Omit<Message, 'id' | 'created_at'>; Update: Partial<Pick<Message, 'read_at'>> }
       rewards: { Row: Reward; Insert: Omit<Reward, 'id' | 'created_at'>; Update: Partial<Omit<Reward, 'id'>> }
       price_match_requests: { Row: PriceMatchRequest; Insert: Omit<PriceMatchRequest, 'id' | 'created_at'>; Update: Partial<Omit<PriceMatchRequest, 'id'>> }
+      cashout_requests: {
+        Row: CashoutRequest
+        Insert: Omit<CashoutRequest, 'id' | 'created_at'>
+        Update: Partial<Omit<CashoutRequest, 'id' | 'broker_id' | 'created_at'>>
+      }
     }
   }
 }
