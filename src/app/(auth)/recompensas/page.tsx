@@ -126,14 +126,16 @@ export default function RecompensasPage() {
       }
       // Fetch cashout statuses for commission cashouts
       const commCashoutIds = [...new Set(tramiteRows.map(t => t.commission_cashout_id).filter(Boolean))] as string[]
-      const cashoutStatusMap: Record<string, 'pending' | 'completed'> = {}
+      const cashoutStatusMap: Record<string, 'pending' | 'completed' | 'unpaid'> = {}
       if (commCashoutIds.length > 0) {
         const { data: cData } = await supabase
           .from('cashout_requests')
           .select('id, status')
           .in('id', commCashoutIds)
+          .eq('cashout_type', 'commission')
         for (const c of (cData ?? [])) {
-          cashoutStatusMap[(c as any).id] = (c as any).status === 'completed' ? 'completed' : 'pending'
+          const cs = (c as any).status as string
+          cashoutStatusMap[(c as any).id] = cs === 'completed' ? 'completed' : cs === 'rejected' ? 'unpaid' : 'pending'
         }
       }
       const months: CommissionMonth[] = Object.entries(byMonth)
