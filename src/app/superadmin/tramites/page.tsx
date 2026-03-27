@@ -44,7 +44,7 @@ export default async function SuperAdminTramitesPage({
     .limit(200)
 
   if (currentStatus !== 'all') {
-    query = query.eq('status', currentStatus)
+    query = query.eq('status', currentStatus as TramiteStatus)
   }
 
   const { data } = await query

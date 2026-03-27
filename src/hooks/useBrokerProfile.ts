@@ -20,7 +20,7 @@ export function useBrokerProfile() {
         .eq('id', user.id)
         .single()
 
-      setBroker(data)
+      setBroker(data as unknown as Broker | null)
       setLoading(false)
     }
 
@@ -31,7 +31,7 @@ export function useBrokerProfile() {
     const { data: { user } } = await supabase.auth.getUser()
     if (!user) return
     const { data } = await supabase.from('brokers').select('*').eq('id', user.id).single()
-    setBroker(data)
+    setBroker(data as unknown as Broker | null)
   }
 
   return { broker, loading, refresh }

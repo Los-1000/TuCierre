@@ -95,6 +95,23 @@
   50% { transform: translateY(-10px) rotate(0.5deg); }
 }
 
+@keyframes text-swirl {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+.animate-text-swirl {
+  animation: text-swirl 60s linear infinite;
+}
+
+@keyframes marquee {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+.animate-marquee {
+  animation: marquee 40s linear infinite;
+  will-change: transform;
+}
+
 @keyframes pulse-gold {
   0%, 100% { opacity: 1; }
   50% { opacity: 0.5; }
@@ -110,7 +127,8 @@
 /* Defer rendering of off-screen landing sections — improves LCP/FID */
 #como-funciona,
 #beneficios,
-#precios {
+#precios,
+#testimonios {
   content-visibility: auto;
   contain-intrinsic-size: 0 600px;
 }

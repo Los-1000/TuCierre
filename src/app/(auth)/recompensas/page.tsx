@@ -103,7 +103,7 @@ export default function RecompensasPage() {
 
       setRewards((rewardsResult.data ?? []) as RewardRow[])
       setReferralCount(referralsResult.count ?? 0)
-      const savingsSum = (referralRewardsResult.data ?? []).reduce(
+      const savingsSum = ((referralRewardsResult.data ?? []) as { amount: number }[]).reduce(
         (sum, r) => sum + (r.amount ?? 0),
         0
       )
@@ -125,7 +125,7 @@ export default function RecompensasPage() {
         byMonth[ym].push(t)
       }
       // Fetch cashout statuses for commission cashouts
-      const commCashoutIds = [...new Set(tramiteRows.map(t => t.commission_cashout_id).filter(Boolean))] as string[]
+      const commCashoutIds = Array.from(new Set(tramiteRows.map(t => t.commission_cashout_id).filter(Boolean))) as string[]
       const cashoutStatusMap: Record<string, 'pending' | 'completed' | 'unpaid'> = {}
       if (commCashoutIds.length > 0) {
         const { data: cData } = await supabase
@@ -172,18 +172,15 @@ export default function RecompensasPage() {
   let progressPercent = 0
   let nextTierLabel = ''
   let tramitesToNext = 0
-  let nextTierDiscount = 0
 
   if (tier === 'bronce') {
     progressPercent = Math.min((monthCount / 4) * 100, 100)
     nextTierLabel = 'Plata'
     tramitesToNext = Math.max(4 - monthCount, 0)
-    nextTierDiscount = 5
   } else if (tier === 'plata') {
     progressPercent = Math.min(((monthCount - 4) / 4) * 100, 100)
     nextTierLabel = 'Oro'
     tramitesToNext = Math.max(8 - monthCount, 0)
-    nextTierDiscount = 10
   } else {
     progressPercent = 100
   }
@@ -193,7 +190,7 @@ export default function RecompensasPage() {
       title: 'Bronce',
       isHighlighted: tier === 'bronce',
       benefits: [
-        'Precio estándar en todos los trámites',
+        '3% de comisión por cada trámite completado',
         'Soporte básico por mensajería',
         'Price matching disponible',
       ],
@@ -202,8 +199,7 @@ export default function RecompensasPage() {
       title: 'Plata',
       isHighlighted: tier === 'plata',
       benefits: [
-        'Todo lo de Bronce',
-        '5% de descuento en todos los trámites',
+        '5% de comisión por cada trámite completado',
         'Prioridad media en revisión',
         'Soporte preferente',
       ],
@@ -212,8 +208,7 @@ export default function RecompensasPage() {
       title: 'Oro',
       isHighlighted: tier === 'oro',
       benefits: [
-        'Todo lo de Plata',
-        '10% de descuento en todos los trámites',
+        '8% de comisión por cada trámite completado',
         'Prioridad máxima en revisión',
         'Atención dedicada',
         'Gestor asignado',
@@ -281,7 +276,7 @@ export default function RecompensasPage() {
                     {tramitesToNext > 0 ? (
                       <>
                         <span className="font-semibold text-slate-800">{tramitesToNext} trámite{tramitesToNext !== 1 ? 's' : ''} más</span>
-                        {' '}para {nextTierLabel} → {nextTierDiscount}% descuento
+                        {' '}para subir a {nextTierLabel}
                       </>
                     ) : (
                       <span className="text-brand-green font-medium">

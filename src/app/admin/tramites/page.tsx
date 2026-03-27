@@ -12,12 +12,13 @@ export default async function AdminTramitesPage({
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) redirect('/login')
 
-  const { data: broker } = await supabase
+  const { data: brokerResult } = await supabase
     .from('brokers')
     .select('is_admin')
     .eq('id', user.id)
     .single()
 
+  const broker = brokerResult as { is_admin: boolean } | null
   if (!broker?.is_admin) redirect('/dashboard')
 
   // Fetch ALL tramites using admin client (bypasses RLS).
@@ -35,7 +36,8 @@ export default async function AdminTramitesPage({
 
   // Debug: log status distribution in terminal
   if (tramites?.length) {
-    const byStatus = tramites.reduce<Record<string, number>>((acc, t) => {
+    const list = tramites as { status: string }[]
+    const byStatus = list.reduce<Record<string, number>>((acc, t) => {
       acc[t.status ?? 'null'] = (acc[t.status ?? 'null'] ?? 0) + 1
       return acc
     }, {})

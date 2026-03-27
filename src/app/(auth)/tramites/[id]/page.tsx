@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useTransition } from 'react'
 import { useParams, useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { createBrowserClient } from '@supabase/ssr'
@@ -27,13 +27,14 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from '@/components/ui/alert-dialog'
-import { ArrowLeft, ExternalLink } from 'lucide-react'
+import { ArrowLeft, ExternalLink, Loader2 } from 'lucide-react'
 import type { TramiteDocument, TramiteStatus } from '@/types/database'
 
 export default function TramiteDetailPage() {
   const { id } = useParams<{ id: string }>()
   const router = useRouter()
   const [cancelling, setCancelling] = useState(false)
+  const [isPending, startTransition] = useTransition()
 
   const { tramite, history, loading, refresh } = useTramite(id)
   const [liveStatus, setLiveStatus] = useState<TramiteStatus | null>(null)
@@ -57,12 +58,14 @@ export default function TramiteDetailPage() {
     try {
       const { error } = await supabase
         .from('tramites')
-        .update({ status: 'cancelado' })
+        .update({ status: 'cancelado' } as never)
         .eq('id', tramite.id)
 
       if (error) throw error
       toast.success('Trámite cancelado.')
-      router.push('/tramites')
+      startTransition(() => {
+        router.push('/tramites')
+      })
     } catch (err: any) {
       toast.error(err?.message ?? 'No se pudo cancelar el trámite.')
       setCancelling(false)
@@ -332,10 +335,10 @@ export default function TramiteDetailPage() {
                 <AlertDialogCancel>Volver</AlertDialogCancel>
                 <AlertDialogAction
                   onClick={handleCancelTramite}
-                  disabled={cancelling}
+                  disabled={cancelling || isPending}
                   className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
                 >
-                  {cancelling ? 'Cancelando...' : 'Sí, cancelar'}
+                  {(cancelling || isPending) ? <><Loader2 size={14} className="animate-spin mr-1.5" />Cancelando...</> : 'Sí, cancelar'}
                 </AlertDialogAction>
               </AlertDialogFooter>
             </AlertDialogContent>

@@ -90,7 +90,7 @@ export default function NuevoBrokerPage() {
       const type = tramiteTypes.find(t => t.id === values.tramite_type_id)
       if (!type) { toast.error('Tipo de trámite no encontrado'); return }
 
-      const { data: tramite, error } = await supabase
+      const { data: tramiteRaw, error } = await supabase
         .from('tramites')
         .insert({
           broker_id: foundBroker.id,
@@ -110,13 +110,14 @@ export default function NuevoBrokerPage() {
           }],
           documents: [],
           commission_cashout_id: null,
-        })
+        } as never)
         .select('id')
         .single()
+      const tramite = tramiteRaw as { id: string } | null
 
       if (error) { toast.error(error.message); return }
       toast.success('Trámite creado para broker ' + foundBroker.full_name + ' — ' + refCode)
-      router.push('/admin/tramites/' + tramite.id)
+      router.push('/admin/tramites/' + tramite!.id)
     } finally {
       setSubmitting(false)
     }

@@ -1,7 +1,7 @@
 import { createClient } from '@/lib/supabase/server'
 import { redirect } from 'next/navigation'
 import Link from 'next/link'
-import { Calculator, FileText, TrendingUp, CheckCircle, Clock, Wallet, PiggyBank, ArrowRight, ChevronRight } from 'lucide-react'
+import { Calculator, FileText, TrendingUp, CheckCircle, Clock, Wallet, PiggyBank, ArrowRight, ChevronRight, UserPlus } from 'lucide-react'
 import { Card, CardContent } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { TIER_CONFIG } from '@/lib/constants'
@@ -120,9 +120,9 @@ export default async function DashboardPage() {
           </p>
         </div>
         <Button asChild className="hidden sm:flex gap-2 bg-brand-navy hover:bg-brand-navy-light text-parchment">
-          <Link href="/cotizar">
-            <Calculator size={15} />
-            Cotizar
+          <Link href="/clientes/nuevo">
+            <UserPlus size={15} />
+            Nuevo cliente
           </Link>
         </Button>
       </div>
@@ -198,12 +198,6 @@ export default async function DashboardPage() {
                     <div className="text-xs text-muted-foreground">{monthCount} trámites este mes</div>
                   </div>
                 </div>
-                {tierConfig.discount > 0 && (
-                  <div className="bg-brand-gold/10 border border-brand-gold/20 rounded-xl px-3 py-1.5 text-center">
-                    <div className={cn('font-display text-lg font-semibold text-brand-gold')}>{tierConfig.discount}%</div>
-                    <div className="text-[10px] text-muted-foreground leading-none">dto.</div>
-                  </div>
-                )}
               </div>
 
               {tier !== 'oro' && (
@@ -232,9 +226,9 @@ export default async function DashboardPage() {
         <h2 className="text-xs font-semibold text-muted-foreground uppercase tracking-widest mb-3">Acciones rápidas</h2>
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
           {[
-            { href: '/cotizar', label: 'Nueva cotización', desc: 'Obtén precio al instante', icon: Calculator, accent: 'bg-brand-navy text-parchment' },
+            { href: '/clientes/nuevo', label: 'Nuevo cliente', desc: 'Registra un cliente ahora', icon: UserPlus, accent: 'bg-brand-navy text-parchment' },
             { href: '/tramites', label: 'Mis trámites', desc: `${activeCount} en proceso`, icon: FileText, accent: 'bg-white border border-border text-ink' },
-            { href: '/recompensas', label: 'Recompensas', desc: formatPrice(totalSavings) + ' ahorrado', icon: TrendingUp, accent: 'bg-white border border-border text-ink' },
+            { href: '/cotizar', label: 'Cotizar', desc: 'Precio al instante', icon: Calculator, accent: 'bg-white border border-border text-ink' },
           ].map(action => (
             <Link key={action.href} href={action.href}>
               <div className={cn('flex items-center gap-3 px-4 py-3.5 rounded-xl transition-all hover:shadow-sm', action.accent)}>

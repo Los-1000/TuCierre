@@ -1,7 +1,5 @@
-'use client'
-
-import { useEffect, useState } from 'react'
-import { createBrowserClient } from '@supabase/ssr'
+import { createClient } from '@/lib/supabase/server'
+import { redirect } from 'next/navigation'
 import Link from 'next/link'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
@@ -21,13 +19,6 @@ import {
   AlertCircle,
 } from 'lucide-react'
 
-interface DashboardStats {
-  byStatus: Record<string, number>
-  incomeThisMonth: number
-  activeBrokers: number
-  pendingPriceMatch: number
-}
-
 interface RecentTramite {
   id: string
   reference_code: string
@@ -38,89 +29,73 @@ interface RecentTramite {
   brokers: { full_name: string } | null
 }
 
-export default function AdminDashboardPage() {
-  const supabase = createBrowserClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-  )
+async function fetchDashboard() {
+  const supabase = await createClient()
+  const { data: { user } } = await supabase.auth.getUser()
+  if (!user) redirect('/login')
 
-  const [stats, setStats] = useState<DashboardStats>({
-    byStatus: {},
-    incomeThisMonth: 0,
-    activeBrokers: 0,
-    pendingPriceMatch: 0,
-  })
-  const [recentTramites, setRecentTramites] = useState<RecentTramite[]>([])
-  const [loading, setLoading] = useState(true)
+  const now = new Date()
+  const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1).toISOString()
 
-  useEffect(() => {
-    async function fetchDashboard() {
-      setLoading(true)
+  const [tramitesRes, priceMatchRes, monthTramitesRes, recentRes] = await Promise.all([
+    supabase.from('tramites').select('status, final_price, broker_id, updated_at'),
+    supabase.from('price_match_requests').select('id', { count: 'exact' }).eq('status', 'pending'),
+    supabase
+      .from('tramites')
+      .select('broker_id, final_price, status')
+      .gte('created_at', startOfMonth),
+    supabase
+      .from('tramites')
+      .select('id, reference_code, status, final_price, updated_at, tramite_types(display_name), brokers(full_name)')
+      .order('updated_at', { ascending: false })
+      .limit(10),
+  ])
 
-      const now = new Date()
-      const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1).toISOString()
-
-      // Fetch all tramites for stats
-      const [tramitesRes, priceMatchRes, monthTramitesRes, recentRes] = await Promise.all([
-        supabase.from('tramites').select('status, final_price, broker_id, updated_at'),
-        supabase.from('price_match_requests').select('id', { count: 'exact' }).eq('status', 'pending'),
-        supabase
-          .from('tramites')
-          .select('broker_id, final_price, status')
-          .gte('created_at', startOfMonth),
-        supabase
-          .from('tramites')
-          .select('id, reference_code, status, final_price, updated_at, tramite_types(display_name), brokers(full_name)')
-          .order('updated_at', { ascending: false })
-          .limit(10),
-      ])
-
-      // Count by status
-      const byStatus: Record<string, number> = {}
-      if (tramitesRes.data) {
-        for (const t of tramitesRes.data) {
-          byStatus[t.status] = (byStatus[t.status] || 0) + 1
-        }
-      }
-
-      // Income this month (completado)
-      let incomeThisMonth = 0
-      if (monthTramitesRes.data) {
-        incomeThisMonth = monthTramitesRes.data
-          .filter(t => t.status === 'completado')
-          .reduce((sum, t) => sum + (t.final_price || 0), 0)
-      }
-
-      // Active brokers this month (unique broker_ids)
-      const activeBrokerIds = new Set(monthTramitesRes.data?.map(t => t.broker_id) ?? [])
-      const activeBrokers = activeBrokerIds.size
-
-      // Pending price match count
-      const pendingPriceMatch = priceMatchRes.count ?? 0
-
-      setStats({ byStatus, incomeThisMonth, activeBrokers, pendingPriceMatch })
-
-      if (recentRes.data) {
-        setRecentTramites(recentRes.data as unknown as RecentTramite[])
-      }
-
-      setLoading(false)
+  // Count by status
+  const byStatus: Record<string, number> = {}
+  const tramites = (tramitesRes.data ?? []) as { status: string; final_price: number; broker_id: string; updated_at: string }[]
+  if (tramites.length > 0) {
+    for (const t of tramites) {
+      byStatus[t.status] = (byStatus[t.status] || 0) + 1
     }
+  }
 
-    fetchDashboard()
-  }, [])
+  // Income this month (completado)
+  let incomeThisMonth = 0
+  const monthTramites = (monthTramitesRes.data ?? []) as { broker_id: string; final_price: number; status: string }[]
+  if (monthTramites.length > 0) {
+    incomeThisMonth = monthTramites
+      .filter(t => t.status === 'completado')
+      .reduce((sum, t) => sum + (t.final_price || 0), 0)
+  }
+
+  // Active brokers this month
+  const activeBrokerIds = new Set(monthTramites.map(t => t.broker_id))
+  const activeBrokers = activeBrokerIds.size
+
+  // Pending price match count
+  const pendingPriceMatch = priceMatchRes.count ?? 0
+
+  const recentTramites = (recentRes.data ?? []) as unknown as RecentTramite[]
+
+  return { byStatus, incomeThisMonth, activeBrokers, pendingPriceMatch, recentTramites }
+}
+
+export default async function AdminDashboardPage() {
+  const { byStatus, incomeThisMonth, activeBrokers, pendingPriceMatch, recentTramites } =
+    await fetchDashboard()
 
   const activeCount =
-    (stats.byStatus['solicitado'] || 0) +
-    (stats.byStatus['documentos_pendientes'] || 0) +
-    (stats.byStatus['en_revision'] || 0) +
-    (stats.byStatus['en_firma'] || 0) +
-    (stats.byStatus['en_registro'] || 0)
+    (byStatus['solicitado'] || 0) +
+    (byStatus['documentos_pendientes'] || 0) +
+    (byStatus['en_revision'] || 0) +
+    (byStatus['en_firma'] || 0) +
+    (byStatus['en_registro'] || 0)
 
   const kpis = [
     {
       title: 'Trámites activos',
-      value: loading ? '—' : activeCount.toString(),
+      value: activeCount.toString(),
       icon: FileText,
       iconColor: 'text-blue-600',
       iconBg: 'bg-blue-50',
@@ -128,7 +103,7 @@ export default function AdminDashboardPage() {
     },
     {
       title: 'Ingresos del mes',
-      value: loading ? '—' : formatPrice(stats.incomeThisMonth),
+      value: formatPrice(incomeThisMonth),
       icon: DollarSign,
       iconColor: 'text-emerald-600',
       iconBg: 'bg-emerald-50',
@@ -136,7 +111,7 @@ export default function AdminDashboardPage() {
     },
     {
       title: 'Brokers activos',
-      value: loading ? '—' : stats.activeBrokers.toString(),
+      value: activeBrokers.toString(),
       icon: Users,
       iconColor: 'text-purple-600',
       iconBg: 'bg-purple-50',
@@ -144,12 +119,12 @@ export default function AdminDashboardPage() {
     },
     {
       title: 'Price Match pendientes',
-      value: loading ? '—' : stats.pendingPriceMatch.toString(),
+      value: pendingPriceMatch.toString(),
       icon: GitCompare,
-      iconColor: stats.pendingPriceMatch > 0 ? 'text-red-600' : 'text-gray-500',
-      iconBg: stats.pendingPriceMatch > 0 ? 'bg-red-50' : 'bg-gray-50',
+      iconColor: pendingPriceMatch > 0 ? 'text-red-600' : 'text-gray-500',
+      iconBg: pendingPriceMatch > 0 ? 'bg-red-50' : 'bg-gray-50',
       sub: 'Solicitudes por revisar',
-      badge: stats.pendingPriceMatch > 0 ? stats.pendingPriceMatch : null,
+      badge: pendingPriceMatch > 0 ? pendingPriceMatch : null,
     },
   ]
 
@@ -197,7 +172,7 @@ export default function AdminDashboardPage() {
               <div key={status} className="flex items-center gap-2">
                 <StatusBadge status={status} size="sm" />
                 <span className="text-sm font-semibold text-gray-700">
-                  {loading ? '—' : (stats.byStatus[status] || 0)}
+                  {byStatus[status] || 0}
                 </span>
               </div>
             ))}
@@ -218,7 +193,7 @@ export default function AdminDashboardPage() {
                 <div className="flex-1 min-w-0">
                   <p className="text-sm font-medium text-gray-900">Nuevas solicitudes</p>
                   <p className="text-xs text-gray-500">
-                    {loading ? '—' : stats.byStatus['solicitado'] || 0} trámites solicitados
+                    {byStatus['solicitado'] || 0} trámites solicitados
                   </p>
                 </div>
                 <ArrowRight size={16} className="text-gray-400 group-hover:text-blue-500 transition-colors shrink-0" />
@@ -235,7 +210,7 @@ export default function AdminDashboardPage() {
                 <div className="flex-1 min-w-0">
                   <p className="text-sm font-medium text-gray-900">Price Match</p>
                   <p className="text-xs text-gray-500">
-                    {loading ? '—' : stats.pendingPriceMatch} solicitudes pendientes
+                    {pendingPriceMatch} solicitudes pendientes
                   </p>
                 </div>
                 <ArrowRight size={16} className="text-gray-400 group-hover:text-blue-500 transition-colors shrink-0" />
@@ -252,7 +227,7 @@ export default function AdminDashboardPage() {
                 <div className="flex-1 min-w-0">
                   <p className="text-sm font-medium text-gray-900">Docs. pendientes</p>
                   <p className="text-xs text-gray-500">
-                    {loading ? '—' : stats.byStatus['documentos_pendientes'] || 0} trámites esperando
+                    {byStatus['documentos_pendientes'] || 0} trámites esperando
                   </p>
                 </div>
                 <ArrowRight size={16} className="text-gray-400 group-hover:text-blue-500 transition-colors shrink-0" />
@@ -267,9 +242,7 @@ export default function AdminDashboardPage() {
         <h2 className="text-base font-semibold text-gray-800 mb-3">Actividad reciente</h2>
         <Card className="border border-gray-200 shadow-sm">
           <CardContent className="p-0">
-            {loading ? (
-              <div className="p-8 text-center text-gray-400 text-sm">Cargando...</div>
-            ) : recentTramites.length === 0 ? (
+            {recentTramites.length === 0 ? (
               <div className="p-8 text-center text-gray-400 text-sm">
                 <AlertCircle size={24} className="mx-auto mb-2 opacity-40" />
                 Sin actividad reciente

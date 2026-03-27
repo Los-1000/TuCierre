@@ -43,11 +43,6 @@ export default function PriceBreakdown({ basePrice, tier, propertyValue }: Price
           </span>
         </div>
       </div>
-      {tierConfig.discount === 0 && (
-        <p className="text-xs text-slate-500 mt-3 bg-blue-50 border border-blue-100 rounded-lg p-2.5">
-          💡 Completa 4+ trámites este mes para obtener 5% de descuento en nivel Plata.
-        </p>
-      )}
     </div>
   )
 }

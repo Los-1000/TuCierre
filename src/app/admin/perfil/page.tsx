@@ -36,11 +36,12 @@ export default function AdminPerfilPage() {
       if (!user) return
       setEmail(user.email ?? '')
 
-      const { data: broker } = await supabase
+      const { data: brokerRaw } = await supabase
         .from('brokers')
         .select('full_name, notaria_name, notaria_address, phone')
         .eq('id', user.id)
         .single()
+      const broker = brokerRaw as { full_name: string; notaria_name: string | null; notaria_address: string | null; phone: string } | null
 
       if (broker) {
         reset({
@@ -67,7 +68,7 @@ export default function AdminPerfilPage() {
         notaria_name: data.notaria_name,
         notaria_address: data.notaria_address,
         phone: data.phone ?? null,
-      })
+      } as never)
       .eq('id', user.id)
 
     setSaving(false)

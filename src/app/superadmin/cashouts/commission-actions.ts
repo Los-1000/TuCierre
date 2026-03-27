@@ -63,14 +63,14 @@ export async function generateMonthlyCommissions(
   const brokerIds = Object.keys(byBroker)
   const { data: brokers, error: brokersError } = await adminClient
     .from('brokers')
-    .select('id, full_name, email')
+    .select('id, full_name, email, bank_cci, bank_name, bank_titular')
     .in('id', brokerIds)
 
   if (brokersError) return { error: brokersError.message }
 
   let generated = 0
 
-  for (const broker of (brokers ?? []) as { id: string; full_name: string; email: string }[]) {
+  for (const broker of (brokers ?? []) as { id: string; full_name: string; email: string; bank_cci: string | null; bank_name: string | null; bank_titular: string | null }[]) {
     const brokerTramites = byBroker[broker.id]
     if (!brokerTramites?.length) continue
 
@@ -83,7 +83,12 @@ export async function generateMonthlyCommissions(
         broker_id: broker.id,
         amount: result.amount,
         method: 'bank_transfer',
-        payment_details: {
+        payment_details: broker.bank_cci ? {
+          banco: broker.bank_name ?? '',
+          cci: broker.bank_cci,
+          titular: broker.bank_titular ?? broker.full_name,
+          tipo_cuenta: 'ahorros',
+        } : {
           nota: `Comisión mensual ${year}-${String(month).padStart(2, '0')}`,
           broker: broker.full_name,
         },

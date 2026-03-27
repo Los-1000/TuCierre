@@ -1,9 +1,9 @@
-import { Check, FileText, Home, Building2, Key, Landmark, TrendingDown } from 'lucide-react'
+import { Check, FileText, Home, Building2, Key, Landmark, TrendingDown, type LucideIcon } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { formatPrice } from '@/lib/utils'
 import type { TramiteType } from '@/types/database'
 
-const TRAMITE_ICONS: Record<string, React.ComponentType<{ size?: number; className?: string }>> = {
+const TRAMITE_ICONS: Record<string, LucideIcon> = {
   compraventa: Home,
   hipoteca: Landmark,
   poder: Key,

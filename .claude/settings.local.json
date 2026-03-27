@@ -12,7 +12,15 @@
       "Bash(sort find:*)",
       "Bash(npx shadcn@latest add checkbox --yes)",
       "Bash(sort -t: -k2 -rn)",
-      "Bash(npx tsc:*)"
+      "Bash(npx tsc:*)",
+      "Bash(C:/Users/cefd2/.claude/plugins/cache/claude-plugins-official/superpowers/5.0.6/scripts/start-server.sh --project-dir \"C:/Users/cefd2/Downloads/TuCierre\")",
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(npm run:*)",
+      "Bash(npx next:*)",
+      "WebFetch(domain:wisprflow.ai)",
+      "Bash(grep -n \"TablesAndViews$2\\\\|TablesAndViews\" C:/Users/cefd2/Downloads/TuCierre/node_modules/@supabase/postgrest-js/dist/index.d.cts)",
+      "Bash(grep -rn \"import.*GenericSchema\\\\|from.*GenericSchema\" C:/Users/cefd2/Downloads/TuCierre/node_modules/@supabase/ssr/dist/main/*.d.ts)"
     ]
   }
 }

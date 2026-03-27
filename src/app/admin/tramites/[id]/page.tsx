@@ -12,12 +12,13 @@ export default async function AdminTramiteDetailPage({
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) redirect('/login')
 
-  const { data: self } = await supabase
+  const { data: selfResult } = await supabase
     .from('brokers')
     .select('is_admin, full_name')
     .eq('id', user.id)
     .single()
 
+  const self = selfResult as { is_admin: boolean; full_name: string } | null
   if (!self?.is_admin) redirect('/dashboard')
 
   const admin = createAdminClient()

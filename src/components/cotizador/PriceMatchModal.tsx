@@ -67,7 +67,7 @@ export default function PriceMatchModal({ open, onClose, tramiteTypeId }: PriceM
         competitor_name: data.competitor_name,
         competitor_price: data.competitor_price,
         evidence_url: evidenceUrl,
-      })
+      } as never)
 
       if (error) throw error
 

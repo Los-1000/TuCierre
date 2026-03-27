@@ -40,7 +40,7 @@ export function useTramite(id: string) {
       supabase.from('tramites').select('*, tramite_types(*)').eq('id', id).single(),
       supabase.from('tramite_status_history').select('*').eq('tramite_id', id).order('created_at'),
     ])
-    setTramite(tramiteData as Tramite)
+    setTramite(tramiteData as unknown as Tramite | null)
     setHistory(historyData ?? [])
     setLoading(false)
   }, [id])

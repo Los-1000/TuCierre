@@ -1,0 +1,70 @@
+'use client'
+
+import { useRef, useEffect, useState, type ReactNode } from 'react'
+import { cn } from '@/lib/utils'
+
+interface RevealProps {
+  children: ReactNode
+  className?: string
+  delay?: number        // ms
+  direction?: 'up' | 'down' | 'left' | 'right' | 'none'
+  duration?: number     // ms
+  once?: boolean
+}
+
+export default function Reveal({
+  children,
+  className,
+  delay = 0,
+  direction = 'up',
+  duration = 700,
+  once = true,
+}: RevealProps) {
+  const ref = useRef<HTMLDivElement>(null)
+  const [visible, setVisible] = useState(false)
+
+  useEffect(() => {
+    const el = ref.current
+    if (!el) return
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setVisible(true)
+          if (once) observer.unobserve(el)
+        } else if (!once) {
+          setVisible(false)
+        }
+      },
+      { threshold: 0.15, rootMargin: '0px 0px -40px 0px' }
+    )
+
+    observer.observe(el)
+    return () => observer.disconnect()
+  }, [once])
+
+  const translate = {
+    up: 'translate-y-8',
+    down: '-translate-y-8',
+    left: 'translate-x-8',
+    right: '-translate-x-8',
+    none: '',
+  }[direction]
+
+  return (
+    <div
+      ref={ref}
+      className={cn(
+        'transition-all ease-out',
+        visible ? 'opacity-100 translate-x-0 translate-y-0' : `opacity-0 ${translate}`,
+        className
+      )}
+      style={{
+        transitionDuration: `${duration}ms`,
+        transitionDelay: `${delay}ms`,
+      }}
+    >
+      {children}
+    </div>
+  )
+}

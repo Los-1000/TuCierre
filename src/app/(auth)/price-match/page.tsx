@@ -46,7 +46,7 @@ const HOW_IT_WORKS_STEPS = [
 
 type FormValues = PriceMatchFormInput & { notes?: string }
 
-interface PriceMatchRow extends PriceMatchRequest {
+type PriceMatchRow = PriceMatchRequest & {
   tramite_types?: TramiteType | null
 }
 
@@ -136,7 +136,7 @@ export default function PriceMatchPage() {
       status: 'pending' as PriceMatchStatus,
       our_matched_price: null,
       reviewed_at: null,
-    })
+    } as never)
 
     if (error) {
       toast.error('Error al enviar la solicitud. Intenta de nuevo.')

@@ -77,7 +77,7 @@ export default function CashoutDialog({
       method: data.method,
       payment_details,
       status: 'pending' as const,
-    })
+    } as never)
 
     if (error) {
       toast.error('Error al enviar la solicitud. Intenta de nuevo.')

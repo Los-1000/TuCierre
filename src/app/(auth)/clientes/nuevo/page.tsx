@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { useRouter } from 'next/navigation'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -13,7 +13,7 @@ import { Label } from '@/components/ui/label'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { createClient } from '@/lib/supabase/client'
 import { formatPrice } from '@/lib/utils'
-import { UserPlus } from 'lucide-react'
+import { UserPlus, Paperclip, X, FileText, Loader2 } from 'lucide-react'
 import type { TramiteType } from '@/types/database'
 
 const schema = z.object({
@@ -30,6 +30,8 @@ export default function NuevoClientePage() {
   const supabase = createClient()
   const [tramiteTypes, setTramiteTypes] = useState<TramiteType[]>([])
   const [loading, setLoading] = useState(false)
+  const [files, setFiles] = useState<File[]>([])
+  const fileInputRef = useRef<HTMLInputElement>(null)
 
   const { register, handleSubmit, setValue, watch, formState: { errors } } = useForm<FormValues>({
     resolver: zodResolver(schema),
@@ -56,18 +58,34 @@ export default function NuevoClientePage() {
     if (type) setValue('final_price', type.base_price)
   }, [selectedTypeId, tramiteTypes])
 
+  const handleFilePick = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const picked = Array.from(e.target.files ?? [])
+    const oversized = picked.filter(f => f.size > 10 * 1024 * 1024)
+    if (oversized.length > 0) {
+      toast.error(`${oversized.length} archivo(s) superan 10 MB y no se agregaron.`)
+    }
+    const valid = picked.filter(f => f.size <= 10 * 1024 * 1024)
+    setFiles(prev => [...prev, ...valid])
+    // Reset input so the same file can be added again if needed
+    e.target.value = ''
+  }
+
+  const removeFile = (index: number) => {
+    setFiles(prev => prev.filter((_, i) => i !== index))
+  }
+
   const onSubmit = async (values: FormValues) => {
     setLoading(true)
     try {
       const { data: { user } } = await supabase.auth.getUser()
       if (!user) { toast.error('No autenticado'); return }
 
-      // Generate reference code
       const refCode = 'TC-' + Math.random().toString(36).toUpperCase().slice(2, 8)
-
       const type = tramiteTypes.find(t => t.id === values.tramite_type_id)
       if (!type) { toast.error('Tipo de trámite no encontrado'); return }
-      const { data: tramite, error: tramiteError } = await supabase
+
+      // 1. Create tramite
+      const { data: tramiteRaw, error: tramiteError } = await supabase
         .from('tramites')
         .insert({
           broker_id: user.id,
@@ -87,14 +105,49 @@ export default function NuevoClientePage() {
           }],
           documents: [],
           commission_cashout_id: null,
-        })
+        } as never)
         .select('id')
         .single()
+      const tramite = tramiteRaw as { id: string } | null
 
       if (tramiteError) { toast.error(tramiteError.message); return }
 
+      // 2. Upload files if any
+      if (files.length > 0) {
+        const uploadedDocs: { name: string; url: string; uploaded_at: string; status: 'pending' }[] = []
+        for (let i = 0; i < files.length; i++) {
+          const file = files[i]
+          const safeName = file.name.replace(/[^a-zA-Z0-9._-]/g, '_')
+          const path = `${tramite!.id}/doc-${i}-${safeName}`
+          const { data: uploadData, error: uploadError } = await supabase.storage
+            .from('tramite-documents')
+            .upload(path, file, { upsert: true })
+          if (uploadError) {
+            toast.error(`Error al subir "${file.name}": ${uploadError.message}`)
+            continue
+          }
+          const { data: urlData } = supabase.storage
+            .from('tramite-documents')
+            .getPublicUrl(uploadData.path)
+          uploadedDocs.push({
+            name: file.name,
+            url: urlData.publicUrl,
+            uploaded_at: new Date().toISOString(),
+            status: 'pending',
+          })
+        }
+
+        // 3. Update tramite with documents
+        if (uploadedDocs.length > 0) {
+          await supabase
+            .from('tramites')
+            .update({ documents: uploadedDocs } as never)
+            .eq('id', tramite!.id)
+        }
+      }
+
       toast.success('Cliente registrado — trámite ' + refCode)
-      router.push('/tramites/' + tramite.id)
+      router.push('/tramites/' + tramite!.id)
     } finally {
       setLoading(false)
     }
@@ -183,7 +236,62 @@ export default function NuevoClientePage() {
               )}
             </div>
 
+            {/* Documentos */}
+            <div className="space-y-2.5">
+              <div className="flex items-center justify-between">
+                <Label>Documentos <span className="text-muted-foreground font-normal">(opcional)</span></Label>
+                <button
+                  type="button"
+                  onClick={() => fileInputRef.current?.click()}
+                  className="flex items-center gap-1.5 text-xs text-brand-navy hover:text-brand-navy-light font-medium transition-colors"
+                >
+                  <Paperclip size={13} />
+                  Adjuntar
+                </button>
+              </div>
+
+              <input
+                ref={fileInputRef}
+                type="file"
+                multiple
+                accept=".pdf,.jpg,.jpeg,.png,.doc,.docx"
+                className="hidden"
+                onChange={handleFilePick}
+              />
+
+              {files.length > 0 ? (
+                <ul className="space-y-1.5">
+                  {files.map((file, i) => (
+                    <li key={i} className="flex items-center gap-2 bg-muted/50 border border-border rounded-lg px-3 py-2">
+                      <FileText size={14} className="text-muted-foreground shrink-0" />
+                      <span className="text-sm text-ink truncate flex-1">{file.name}</span>
+                      <span className="text-xs text-muted-foreground shrink-0">
+                        {(file.size / 1024 / 1024).toFixed(1)} MB
+                      </span>
+                      <button
+                        type="button"
+                        onClick={() => removeFile(i)}
+                        className="text-muted-foreground hover:text-destructive transition-colors shrink-0"
+                        aria-label="Quitar documento"
+                      >
+                        <X size={14} />
+                      </button>
+                    </li>
+                  ))}
+                </ul>
+              ) : (
+                <button
+                  type="button"
+                  onClick={() => fileInputRef.current?.click()}
+                  className="w-full border border-dashed border-border rounded-lg py-4 text-sm text-muted-foreground hover:border-brand-navy/40 hover:text-ink transition-colors"
+                >
+                  Haz clic para adjuntar documentos
+                </button>
+              )}
+            </div>
+
             <Button type="submit" className="w-full bg-brand-navy text-parchment hover:bg-brand-navy-light" disabled={loading}>
+              {loading && <Loader2 size={14} className="animate-spin mr-2" />}
               {loading ? 'Registrando...' : 'Registrar cliente'}
             </Button>
           </form>

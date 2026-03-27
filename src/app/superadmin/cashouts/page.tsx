@@ -52,7 +52,7 @@ export default async function SuperAdminCashoutsPage() {
   const cashouts = (cashoutsResult.data ?? []) as unknown as CashoutRow[]
 
   // Compute pending commissions per broker for previous month
-  const tramites = (pendingCommTramitesResult.data ?? []) as {
+  const tramites = (pendingCommTramitesResult.data ?? []) as unknown as {
     id: string
     broker_id: string
     final_price: number

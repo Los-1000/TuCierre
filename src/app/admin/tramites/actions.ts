@@ -15,26 +15,25 @@ export async function updateTramiteStatus(
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) return { error: 'No autenticado' }
 
-  const { data: broker } = await supabase
+  const { data: brokerResult } = await supabase
     .from('brokers')
     .select('is_admin')
     .eq('id', user.id)
     .single()
 
+  const broker = brokerResult as { is_admin: boolean } | null
   if (!broker?.is_admin) return { error: 'Sin permisos' }
 
   // Use admin client to bypass RLS for writes
   const adminClient = createAdminClient()
 
-  const { error: updateError } = await adminClient
-    .from('tramites')
+  const { error: updateError } = await (adminClient.from('tramites') as any)
     .update({ status, updated_at: new Date().toISOString() })
     .in('id', ids)
 
   if (updateError) return { error: updateError.message }
 
-  const { error: historyError } = await adminClient
-    .from('tramite_status_history')
+  const { error: historyError } = await (adminClient.from('tramite_status_history') as any)
     .insert(ids.map(id => ({
       tramite_id: id,
       status,
@@ -59,34 +58,35 @@ export async function updateDocumentStatus(
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) return { error: 'No autenticado' }
 
-  const { data: broker } = await supabase
+  const { data: brokerResult } = await supabase
     .from('brokers')
     .select('is_admin')
     .eq('id', user.id)
     .single()
 
+  const broker = brokerResult as { is_admin: boolean } | null
   if (!broker?.is_admin) return { error: 'Sin permisos' }
 
   const adminClient = createAdminClient()
 
   // Fetch current documents array
-  const { data: tramite } = await adminClient
+  const { data: tramiteResult } = await adminClient
     .from('tramites')
     .select('documents')
     .eq('id', tramiteId)
     .single()
 
+  const tramite = tramiteResult as { documents: any[] } | null
   if (!tramite) return { error: 'Trámite no encontrado' }
 
-  const docs = (tramite.documents as any[]) ?? []
+  const docs = tramite.documents ?? []
   const updated = docs.map((d: any) =>
     d.name === documentName
       ? { ...d, status, ...(rejectionNote ? { rejection_note: rejectionNote } : {}) }
       : d
   )
 
-  const { error } = await adminClient
-    .from('tramites')
+  const { error } = await (adminClient.from('tramites') as any)
     .update({ documents: updated })
     .eq('id', tramiteId)
 

@@ -14,7 +14,7 @@ import { Separator } from '@/components/ui/separator'
 import ReferralCode from '@/components/shared/ReferralCode'
 import { TIER_CONFIG } from '@/lib/constants'
 import { generateInitials } from '@/lib/utils'
-import { Loader2, User, Phone, Building2, Gift, RefreshCw, Lock, Users, PiggyBank } from 'lucide-react'
+import { Loader2, User, Phone, Building2, Gift, RefreshCw, Lock, Users, PiggyBank, Landmark } from 'lucide-react'
 import { formatPrice } from '@/lib/utils'
 import type { Broker } from '@/types/database'
 
@@ -22,6 +22,12 @@ const profileSchema = z.object({
   full_name: z.string().min(3, 'Nombre muy corto').max(100),
   phone: z.string().min(9, 'Teléfono inválido').max(15),
   company_name: z.string().optional(),
+})
+
+const bankSchema = z.object({
+  bank_cci: z.string().length(20, 'El CCI debe tener 20 dígitos').regex(/^\d+$/, 'Solo números'),
+  bank_name: z.string().min(2, 'Ingresa el nombre del banco').max(100),
+  bank_titular: z.string().min(3, 'Ingresa el nombre del titular').max(100),
 })
 
 const passwordSchema = z.object({
@@ -33,6 +39,7 @@ const passwordSchema = z.object({
 })
 
 type ProfileInput = z.infer<typeof profileSchema>
+type BankInput = z.infer<typeof bankSchema>
 type PasswordInput = z.infer<typeof passwordSchema>
 
 export default function PerfilPage() {
@@ -40,6 +47,7 @@ export default function PerfilPage() {
   const [broker, setBroker] = useState<Broker | null>(null)
   const [loading, setLoading] = useState(true)
   const [saving, setSaving] = useState(false)
+  const [savingBank, setSavingBank] = useState(false)
   const [changingPassword, setChangingPassword] = useState(false)
   const [generatingCode, setGeneratingCode] = useState(false)
   const [referralCount, setReferralCount] = useState(0)
@@ -48,6 +56,13 @@ export default function PerfilPage() {
   const { register, handleSubmit, reset, formState: { errors, isDirty } } = useForm<ProfileInput>({
     resolver: zodResolver(profileSchema),
   })
+
+  const {
+    register: registerBank,
+    handleSubmit: handleSubmitBank,
+    reset: resetBank,
+    formState: { errors: bankErrors, isDirty: isBankDirty },
+  } = useForm<BankInput>({ resolver: zodResolver(bankSchema) })
 
   const {
     register: registerPwd,
@@ -61,19 +76,26 @@ export default function PerfilPage() {
       const { data: { user } } = await supabase.auth.getUser()
       if (!user) return
 
-      const [{ data }, referralsResult, bonusResult] = await Promise.all([
+      const [brokerResult, referralsResult, bonusResult] = await Promise.all([
         supabase.from('brokers').select('*').eq('id', user.id).single(),
         supabase.from('brokers').select('id', { count: 'exact', head: true }).eq('referred_by', user.id),
         supabase.from('rewards').select('amount').eq('broker_id', user.id).eq('type', 'referral_bonus'),
       ])
+      const data = brokerResult.data as Broker | null
+      const bonusRows = bonusResult.data as { amount: number }[] | null
 
       if (data) {
-        setBroker(data as Broker)
+        setBroker(data)
         reset({ full_name: data.full_name, phone: data.phone, company_name: data.company_name ?? '' })
+        resetBank({
+          bank_cci: data.bank_cci ?? '',
+          bank_name: data.bank_name ?? '',
+          bank_titular: data.bank_titular ?? '',
+        })
       }
       setReferralCount(referralsResult.count ?? 0)
       setReferralBonuses(
-        (bonusResult.data ?? []).reduce((sum, r) => sum + (r.amount ?? 0), 0)
+        (bonusRows ?? []).reduce((sum, r) => sum + (r.amount ?? 0), 0)
       )
       setLoading(false)
     }
@@ -85,13 +107,27 @@ export default function PerfilPage() {
     setSaving(true)
     const { error } = await supabase
       .from('brokers')
-      .update({ full_name: data.full_name, phone: data.phone, company_name: data.company_name || null })
+      .update({ full_name: data.full_name, phone: data.phone, company_name: data.company_name || null } as never)
       .eq('id', broker.id)
     setSaving(false)
     if (error) { toast.error('Error al guardar'); return }
     setBroker(prev => prev ? { ...prev, ...data } : prev)
     toast.success('Perfil actualizado')
     reset(data)
+  }
+
+  async function onSaveBankDetails(data: BankInput) {
+    if (!broker) return
+    setSavingBank(true)
+    const { error } = await supabase
+      .from('brokers')
+      .update({ bank_cci: data.bank_cci, bank_name: data.bank_name, bank_titular: data.bank_titular } as never)
+      .eq('id', broker.id)
+    setSavingBank(false)
+    if (error) { toast.error('Error al guardar datos bancarios'); return }
+    setBroker(prev => prev ? { ...prev, ...data } : prev)
+    toast.success('Datos bancarios guardados')
+    resetBank(data)
   }
 
   async function onChangePassword(data: PasswordInput) {
@@ -107,7 +143,7 @@ export default function PerfilPage() {
     if (!broker) return
     setGeneratingCode(true)
     const code = 'TC-' + Math.random().toString(36).substring(2, 8).toUpperCase()
-    const { error } = await supabase.from('brokers').update({ referral_code: code }).eq('id', broker.id)
+    const { error } = await supabase.from('brokers').update({ referral_code: code } as never).eq('id', broker.id)
     setGeneratingCode(false)
     if (error) { toast.error('Error al generar código'); return }
     setBroker(prev => prev ? { ...prev, referral_code: code } : prev)
@@ -241,6 +277,46 @@ export default function PerfilPage() {
               <p className="text-xs text-slate-500 mt-0.5">Bonos ganados</p>
             </div>
           </div>
+        </CardContent>
+      </Card>
+
+      {/* Bank details */}
+      <Card className="shadow-sm">
+        <CardHeader className="pb-3">
+          <CardTitle className="text-base flex items-center gap-2">
+            <Landmark size={16} className="text-slate-500" />
+            Datos bancarios
+          </CardTitle>
+          <p className="text-sm text-slate-500 mt-1">
+            Se usarán automáticamente al generar tu pago de comisiones mensual.
+          </p>
+        </CardHeader>
+        <CardContent>
+          <form onSubmit={handleSubmitBank(onSaveBankDetails)} className="space-y-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div className="sm:col-span-2">
+                <Label htmlFor="bank_cci">Número CCI <span className="text-slate-400 text-xs">(20 dígitos)</span></Label>
+                <Input id="bank_cci" className="mt-1 font-mono" placeholder="00219300000000000000" maxLength={20} {...registerBank('bank_cci')} />
+                {bankErrors.bank_cci && <p className="text-red-500 text-xs mt-1">{bankErrors.bank_cci.message}</p>}
+              </div>
+              <div>
+                <Label htmlFor="bank_name">Banco</Label>
+                <Input id="bank_name" className="mt-1" placeholder="BCP, Interbank, BBVA..." {...registerBank('bank_name')} />
+                {bankErrors.bank_name && <p className="text-red-500 text-xs mt-1">{bankErrors.bank_name.message}</p>}
+              </div>
+              <div>
+                <Label htmlFor="bank_titular">Titular de la cuenta</Label>
+                <Input id="bank_titular" className="mt-1" placeholder="Nombre completo" {...registerBank('bank_titular')} />
+                {bankErrors.bank_titular && <p className="text-red-500 text-xs mt-1">{bankErrors.bank_titular.message}</p>}
+              </div>
+            </div>
+            <div className="flex justify-end">
+              <Button type="submit" disabled={savingBank || !isBankDirty}>
+                {savingBank && <Loader2 size={14} className="animate-spin mr-2" />}
+                Guardar datos bancarios
+              </Button>
+            </div>
+          </form>
         </CardContent>
       </Card>
 

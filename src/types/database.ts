@@ -18,19 +18,19 @@ export type CashoutMethod = 'bank_transfer' | 'yape' | 'plin' | 'otros'
 export type CashoutStatus = 'pending' | 'approved' | 'rejected' | 'completed'
 export type CashoutType = 'referral_bonus' | 'commission'
 
-export interface BankTransferDetails {
+export type BankTransferDetails = {
   banco: string
   cci: string
   titular: string
   tipo_cuenta: 'ahorros' | 'corriente'
 }
 
-export interface WalletDetails {
+export type WalletDetails = {
   titular: string
   telefono: string
 }
 
-export interface CashoutRequest {
+export type CashoutRequest = {
   id: string
   broker_id: string
   amount: number
@@ -43,7 +43,7 @@ export interface CashoutRequest {
   cashout_type: CashoutType
 }
 
-export interface Broker {
+export type Broker = {
   id: string
   email: string
   full_name: string
@@ -60,11 +60,14 @@ export interface Broker {
   notaria_name: string | null
   notaria_address: string | null
   avatar_url: string | null
+  bank_cci: string | null
+  bank_name: string | null
+  bank_titular: string | null
   created_at: string
   updated_at: string
 }
 
-export interface TramiteType {
+export type TramiteType = {
   id: string
   name: string
   display_name: string
@@ -76,12 +79,12 @@ export interface TramiteType {
   created_at: string
 }
 
-export interface RequiredDocument {
+export type RequiredDocument = {
   name: string
   description: string
 }
 
-export interface TramiteParty {
+export type TramiteParty = {
   name: string
   dni: string
   role: PartyRole
@@ -89,7 +92,7 @@ export interface TramiteParty {
   phone: string
 }
 
-export interface TramiteDocument {
+export type TramiteDocument = {
   name: string
   url: string | null
   uploaded_at: string | null
@@ -97,7 +100,7 @@ export interface TramiteDocument {
   rejection_note?: string
 }
 
-export interface Tramite {
+export type Tramite = {
   id: string
   broker_id: string
   notaria_id: string | null
@@ -123,7 +126,7 @@ export interface Tramite {
   tramite_types?: TramiteType
 }
 
-export interface TramiteStatusHistory {
+export type TramiteStatusHistory = {
   id: string
   tramite_id: string
   status: TramiteStatus
@@ -132,13 +135,13 @@ export interface TramiteStatusHistory {
   created_at: string
 }
 
-export interface MessageAttachment {
+export type MessageAttachment = {
   name: string
   url: string
   type: string
 }
 
-export interface Message {
+export type Message = {
   id: string
   tramite_id: string
   sender_type: SenderType
@@ -149,7 +152,7 @@ export interface Message {
   created_at: string
 }
 
-export interface Reward {
+export type Reward = {
   id: string
   broker_id: string
   type: RewardType
@@ -160,7 +163,7 @@ export interface Reward {
   created_at: string
 }
 
-export interface PriceMatchRequest {
+export type PriceMatchRequest = {
   id: string
   broker_id: string
   tramite_type_id: string
@@ -171,24 +174,148 @@ export interface PriceMatchRequest {
   our_matched_price: number | null
   reviewed_at: string | null
   created_at: string
-  tramite_types?: TramiteType
+  tramite_types?: TramiteType | null
 }
 
-export interface Database {
+export type Database = {
   public: {
     Tables: {
-      brokers: { Row: Broker; Insert: Omit<Broker, 'id' | 'created_at' | 'updated_at'>; Update: Partial<Omit<Broker, 'id'>> }
-      tramite_types: { Row: TramiteType; Insert: Omit<TramiteType, 'id' | 'created_at'>; Update: Partial<Omit<TramiteType, 'id'>> }
-      tramites: { Row: Tramite; Insert: Omit<Tramite, 'id' | 'created_at' | 'updated_at'>; Update: Partial<Omit<Tramite, 'id'>> }
-      tramite_status_history: { Row: TramiteStatusHistory; Insert: Omit<TramiteStatusHistory, 'id' | 'created_at'>; Update: never }
-      messages: { Row: Message; Insert: Omit<Message, 'id' | 'created_at'>; Update: Partial<Pick<Message, 'read_at'>> }
-      rewards: { Row: Reward; Insert: Omit<Reward, 'id' | 'created_at'>; Update: Partial<Omit<Reward, 'id'>> }
-      price_match_requests: { Row: PriceMatchRequest; Insert: Omit<PriceMatchRequest, 'id' | 'created_at'>; Update: Partial<Omit<PriceMatchRequest, 'id'>> }
+      brokers: {
+        Row: Broker
+        Insert: Omit<Broker, 'id' | 'created_at' | 'updated_at'>
+        Update: Partial<Omit<Broker, 'id'>>
+        Relationships: [
+          {
+            foreignKeyName: 'brokers_referred_by_fkey'
+            columns: ['referred_by']
+            isOneToOne: false
+            referencedRelation: 'brokers'
+            referencedColumns: ['id']
+          },
+        ]
+      }
+      tramite_types: {
+        Row: TramiteType
+        Insert: Omit<TramiteType, 'id' | 'created_at'>
+        Update: Partial<Omit<TramiteType, 'id'>>
+        Relationships: []
+      }
+      tramites: {
+        Row: Tramite
+        Insert: Omit<Tramite, 'id' | 'created_at' | 'updated_at'>
+        Update: Partial<Omit<Tramite, 'id'>>
+        Relationships: [
+          {
+            foreignKeyName: 'tramites_broker_id_fkey'
+            columns: ['broker_id']
+            isOneToOne: false
+            referencedRelation: 'brokers'
+            referencedColumns: ['id']
+          },
+          {
+            foreignKeyName: 'tramites_notaria_id_fkey'
+            columns: ['notaria_id']
+            isOneToOne: false
+            referencedRelation: 'brokers'
+            referencedColumns: ['id']
+          },
+          {
+            foreignKeyName: 'tramites_tramite_type_id_fkey'
+            columns: ['tramite_type_id']
+            isOneToOne: false
+            referencedRelation: 'tramite_types'
+            referencedColumns: ['id']
+          },
+          {
+            foreignKeyName: 'tramites_commission_cashout_id_fkey'
+            columns: ['commission_cashout_id']
+            isOneToOne: false
+            referencedRelation: 'cashout_requests'
+            referencedColumns: ['id']
+          },
+        ]
+      }
+      tramite_status_history: {
+        Row: TramiteStatusHistory
+        Insert: Omit<TramiteStatusHistory, 'id' | 'created_at'>
+        Update: never
+        Relationships: [
+          {
+            foreignKeyName: 'tramite_status_history_tramite_id_fkey'
+            columns: ['tramite_id']
+            isOneToOne: false
+            referencedRelation: 'tramites'
+            referencedColumns: ['id']
+          },
+        ]
+      }
+      messages: {
+        Row: Message
+        Insert: Omit<Message, 'id' | 'created_at'>
+        Update: Partial<Pick<Message, 'read_at'>>
+        Relationships: [
+          {
+            foreignKeyName: 'messages_tramite_id_fkey'
+            columns: ['tramite_id']
+            isOneToOne: false
+            referencedRelation: 'tramites'
+            referencedColumns: ['id']
+          },
+        ]
+      }
+      rewards: {
+        Row: Reward
+        Insert: Omit<Reward, 'id' | 'created_at'>
+        Update: Partial<Omit<Reward, 'id'>>
+        Relationships: [
+          {
+            foreignKeyName: 'rewards_broker_id_fkey'
+            columns: ['broker_id']
+            isOneToOne: false
+            referencedRelation: 'brokers'
+            referencedColumns: ['id']
+          },
+        ]
+      }
+      price_match_requests: {
+        Row: PriceMatchRequest
+        Insert: Omit<PriceMatchRequest, 'id' | 'created_at'>
+        Update: Partial<Omit<PriceMatchRequest, 'id'>>
+        Relationships: [
+          {
+            foreignKeyName: 'price_match_requests_broker_id_fkey'
+            columns: ['broker_id']
+            isOneToOne: false
+            referencedRelation: 'brokers'
+            referencedColumns: ['id']
+          },
+          {
+            foreignKeyName: 'price_match_requests_tramite_type_id_fkey'
+            columns: ['tramite_type_id']
+            isOneToOne: false
+            referencedRelation: 'tramite_types'
+            referencedColumns: ['id']
+          },
+        ]
+      }
       cashout_requests: {
         Row: CashoutRequest
         Insert: Omit<CashoutRequest, 'id' | 'created_at'>
         Update: Partial<Omit<CashoutRequest, 'id' | 'broker_id' | 'created_at'>>
+        Relationships: [
+          {
+            foreignKeyName: 'cashout_requests_broker_id_fkey'
+            columns: ['broker_id']
+            isOneToOne: false
+            referencedRelation: 'brokers'
+            referencedColumns: ['id']
+          },
+        ]
       }
     }
+    Views: Record<never, never>
+    Functions: Record<never, never>
+    Enums: Record<never, never>
+    CompositeTypes: Record<never, never>
   }
 }

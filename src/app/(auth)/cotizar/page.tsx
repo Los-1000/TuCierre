@@ -114,12 +114,13 @@ export default function CotizarPage() {
       setTramiteTypes(types ?? [])
       setNotarias((admins ?? []) as Notaria[])
       if (user) {
-        const { data: broker } = await supabase
+        const { data: brokerResult } = await supabase
           .from('brokers')
           .select('tier')
           .eq('id', user.id)
           .single()
-        if (broker) setBrokerTier(broker.tier as BrokerTier)
+        const broker = brokerResult as { tier: string } | null
+        if (broker) setBrokerTier((broker as { tier: string }).tier as BrokerTier)
       }
       setLoading(false)
     }
@@ -144,7 +145,7 @@ export default function CotizarPage() {
         status: 'pending' as const,
       }))
 
-      const { data: tramite, error } = await supabase.from('tramites').insert({
+      const { data: tramiteRaw, error } = await supabase.from('tramites').insert({
         broker_id: user.id,
         notaria_id: selectedNotaria.id,
         tramite_type_id: selectedType.id,
@@ -161,12 +162,13 @@ export default function CotizarPage() {
         estimated_completion: new Date(
           Date.now() + selectedType.estimated_days * 24 * 60 * 60 * 1000
         ).toISOString().split('T')[0],
-      }).select().single()
+      } as never).select().single()
+      const tramite = tramiteRaw as { id: string } | null
 
       if (error) throw error
 
       toast.success('¡Trámite solicitado exitosamente!')
-      router.push(`/tramites/${tramite.id}`)
+      router.push(`/tramites/${tramite!.id}`)
     } catch (err) {
       toast.error('Error al solicitar el trámite. Intenta de nuevo.')
     } finally {
