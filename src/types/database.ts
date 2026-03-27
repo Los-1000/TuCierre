@@ -16,6 +16,7 @@ export type DocumentStatus = 'pending' | 'uploaded' | 'approved' | 'rejected'
 export type PartyRole = 'comprador' | 'vendedor' | 'otro'
 export type CashoutMethod = 'bank_transfer' | 'yape' | 'plin' | 'otros'
 export type CashoutStatus = 'pending' | 'approved' | 'rejected' | 'completed'
+export type CashoutType = 'referral_bonus' | 'commission'
 
 export interface BankTransferDetails {
   banco: string
@@ -39,6 +40,7 @@ export interface CashoutRequest {
   admin_notes: string | null
   created_at: string
   processed_at: string | null
+  cashout_type: CashoutType
 }
 
 export interface Broker {
@@ -115,6 +117,7 @@ export interface Tramite {
   notes: string | null
   estimated_completion: string | null
   completed_at: string | null
+  commission_cashout_id: string | null
   created_at: string
   updated_at: string
   tramite_types?: TramiteType
