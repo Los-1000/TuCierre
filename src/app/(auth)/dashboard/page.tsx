@@ -5,6 +5,7 @@ import { Calculator, FileText, TrendingUp, CheckCircle, Clock, Wallet, PiggyBank
 import { Card, CardContent } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { TIER_CONFIG } from '@/lib/constants'
+import { calculateMonthlyCommission, COMMISSION_TIER_CONFIG } from '@/lib/commission'
 import { formatPrice, formatDate, cn } from '@/lib/utils'
 import StatusBadge from '@/components/tramites/StatusBadge'
 import EmptyState from '@/components/shared/EmptyState'
@@ -16,7 +17,7 @@ async function getDashboardData(brokerId: string) {
   const now = new Date()
   const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1).toISOString()
 
-  const [tramitesResult, rewardsResult] = await Promise.all([
+  const [tramitesResult, rewardsResult, commissionResult] = await Promise.all([
     supabase
       .from('tramites')
       .select('*, tramite_types(display_name)')
@@ -27,10 +28,18 @@ async function getDashboardData(brokerId: string) {
       .select('amount')
       .eq('broker_id', brokerId)
       .eq('applied', true),
+    supabase
+      .from('tramites')
+      .select('final_price')
+      .eq('broker_id', brokerId)
+      .eq('status', 'completado')
+      .gte('completed_at', startOfMonth)
+      .is('commission_cashout_id', null),
   ])
 
   const tramites = (tramitesResult.data ?? []) as Tramite[]
-  const rewards = rewardsResult.data ?? []
+  const rewards = (rewardsResult.data ?? []) as { amount: number }[]
+  const commissionTramites = (commissionResult.data ?? []) as { final_price: number }[]
 
   const activeCount = tramites.filter(t =>
     !['completado', 'cancelado', 'cotizado'].includes(t.status)
@@ -46,7 +55,7 @@ async function getDashboardData(brokerId: string) {
 
   const totalSavings = rewards.reduce((sum, r) => sum + r.amount, 0)
 
-  return { tramites, activeCount, completedThisMonth, totalAmount, totalSavings }
+  return { tramites, activeCount, completedThisMonth, totalAmount, totalSavings, commissionTramites }
 }
 
 export default async function DashboardPage() {
@@ -54,14 +63,20 @@ export default async function DashboardPage() {
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) redirect('/login')
 
-  const { data: broker } = await supabase
-    .from('brokers')
-    .select('*')
-    .eq('id', user.id)
-    .single()
+  const [brokerResult, dashboardData] = await Promise.all([
+    supabase.from('brokers').select('*').eq('id', user.id).single(),
+    getDashboardData(user.id),
+  ])
 
-  const { tramites, activeCount, completedThisMonth, totalAmount, totalSavings } =
-    await getDashboardData(user.id)
+  const broker = brokerResult.data as Broker | null
+  const { tramites, activeCount, completedThisMonth, totalAmount, totalSavings, commissionTramites } = dashboardData
+
+  const commissionResult = calculateMonthlyCommission(commissionTramites)
+  const commissionTierConfig = COMMISSION_TIER_CONFIG[commissionResult.tier]
+  const nextCommissionTier = commissionResult.tier < 3 ? COMMISSION_TIER_CONFIG[(commissionResult.tier + 1) as 2 | 3] : null
+  const clientsToNextCommissionTier = nextCommissionTier
+    ? Math.max(nextCommissionTier.minClients - commissionResult.count, 0)
+    : 0
 
   const recentTramites = tramites.slice(0, 5)
   const tier = (broker?.tier as 'bronce' | 'plata' | 'oro') ?? 'bronce'
@@ -128,6 +143,39 @@ export default async function DashboardPage() {
           </Card>
         ))}
       </div>
+
+      {/* Commission card */}
+      <Card className="bg-white border-border shadow-none overflow-hidden">
+        <CardContent className="p-5">
+          <div className="flex items-start justify-between gap-4">
+            <div>
+              <div className="text-xs font-semibold text-muted-foreground uppercase tracking-widest mb-2">
+                Comisiones del mes
+              </div>
+              <div className="flex items-center gap-2 mb-1">
+                <span className="text-xl">{commissionTierConfig.icon}</span>
+                <span className="font-semibold text-sm text-ink">{commissionTierConfig.label}</span>
+                <span className="text-xs text-muted-foreground">· {commissionTierConfig.ratePercent}%</span>
+              </div>
+              <div className="text-xs text-muted-foreground">
+                {commissionResult.count} cliente{commissionResult.count !== 1 ? 's' : ''} cerrado{commissionResult.count !== 1 ? 's' : ''} este mes
+              </div>
+            </div>
+            <div className="text-right">
+              <div className="font-display font-semibold text-xl text-brand-emerald tabular-nums">
+                {formatPrice(commissionResult.amount)}
+              </div>
+              <div className="text-xs text-muted-foreground mt-0.5">comisión estimada</div>
+            </div>
+          </div>
+          {clientsToNextCommissionTier > 0 && nextCommissionTier && (
+            <p className="text-xs text-muted-foreground mt-3 pt-3 border-t border-border">
+              <span className="font-semibold text-ink">{clientsToNextCommissionTier} cliente{clientsToNextCommissionTier !== 1 ? 's' : ''} más</span>
+              {' '}para {nextCommissionTier.label} ({nextCommissionTier.ratePercent}%)
+            </p>
+          )}
+        </CardContent>
+      </Card>
 
       {/* Tier progress */}
       <Card className="bg-white border-border shadow-none overflow-hidden">
