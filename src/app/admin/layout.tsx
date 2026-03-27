@@ -2,20 +2,28 @@ import { redirect } from 'next/navigation'
 import { createClient } from '@/lib/supabase/server'
 import Link from 'next/link'
 import {
-  LayoutDashboard, FileText, Users, Tag, ArrowLeftRight, LogOut, Gift, Settings
+  LayoutDashboard, FileText, Users, Tag, LogOut, Gift, Settings
 } from 'lucide-react'
+
+async function signOutAction() {
+  'use server'
+  const supabase = await createClient()
+  await supabase.auth.signOut()
+  redirect('/login')
+}
 
 export default async function AdminLayout({ children }: { children: React.ReactNode }) {
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) redirect('/login')
 
-  const { data: broker } = await supabase
+  const { data: brokerResult } = await supabase
     .from('brokers')
     .select('is_admin, full_name')
     .eq('id', user.id)
     .single()
 
+  const broker = brokerResult as { is_admin: boolean; full_name: string } | null
   if (!broker?.is_admin) redirect('/dashboard')
 
   const adminNavItems = [
@@ -23,7 +31,6 @@ export default async function AdminLayout({ children }: { children: React.ReactN
     { href: '/admin/tramites', label: 'Trámites', icon: FileText },
     { href: '/admin/brokers', label: 'Brokers', icon: Users },
     { href: '/admin/referidos', label: 'Referidos', icon: Gift },
-    { href: '/admin/price-match', label: 'Price Match', icon: ArrowLeftRight },
     { href: '/admin/tipos', label: 'Tipos', icon: Tag },
     { href: '/admin/perfil', label: 'Mi Notaría', icon: Settings },
   ]
@@ -49,7 +56,7 @@ export default async function AdminLayout({ children }: { children: React.ReactN
           ))}
         </nav>
         <div className="p-3 border-t border-white/10">
-          <form action="/api/auth/signout" method="POST">
+          <form action={signOutAction}>
             <button
               type="submit"
               className="flex items-center gap-3 px-3 py-2.5 w-full rounded-lg text-white/70 hover:text-white hover:bg-white/10 transition-colors text-sm"

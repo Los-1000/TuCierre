@@ -54,6 +54,9 @@ export default async function AdminPriceMatchPage() {
   const broker = brokerResult as { is_admin: boolean; id: string } | null
   if (!broker?.is_admin) redirect('/dashboard')
 
+  // Price match is managed exclusively by SuperAdmin
+  redirect('/admin')
+
   // Use admin client to bypass RLS — fetch all price match requests for brokers of this notaría
   const adminClient = createAdminClient()
   const { data } = await adminClient
