@@ -127,8 +127,8 @@ export default function CashoutsClient({
   const prevMonthLabel = new Date(prevYear, prevMonth - 1, 1)
     .toLocaleDateString('es-PE', { month: 'long', year: 'numeric' })
 
-  const referidoCashouts = cashouts.filter(c => (c as any).cashout_type !== 'commission')
-  const commissionCashouts = cashouts.filter(c => (c as any).cashout_type === 'commission')
+  const referidoCashouts = cashouts.filter(c => c.cashout_type !== 'commission')
+  const commissionCashouts = cashouts.filter(c => c.cashout_type === 'commission')
   const pendingReferidoCount = referidoCashouts.filter(c => c.status === 'pending').length
 
   const statusCounts = referidoCashouts.reduce<Record<string, number>>((acc, c) => {
