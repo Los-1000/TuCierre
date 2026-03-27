@@ -43,7 +43,10 @@ export default function NuevoClientePage() {
       .select('*')
       .eq('is_active', true)
       .order('display_name')
-      .then(({ data }) => setTramiteTypes((data ?? []) as TramiteType[]))
+      .then(({ data, error }) => {
+        if (error) { toast.error('Error al cargar tipos de trámite'); return }
+        setTramiteTypes((data ?? []) as TramiteType[])
+      })
   }, [])
 
   // Auto-fill price when type changes
@@ -62,7 +65,8 @@ export default function NuevoClientePage() {
       // Generate reference code
       const refCode = 'TC-' + Math.random().toString(36).toUpperCase().slice(2, 8)
 
-      const type = tramiteTypes.find(t => t.id === values.tramite_type_id)!
+      const type = tramiteTypes.find(t => t.id === values.tramite_type_id)
+      if (!type) { toast.error('Tipo de trámite no encontrado'); return }
       const { data: tramite, error: tramiteError } = await supabase
         .from('tramites')
         .insert({
