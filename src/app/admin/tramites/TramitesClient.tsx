@@ -21,7 +21,7 @@ import { Badge } from '@/components/ui/badge'
 import { formatPrice, formatDate } from '@/lib/utils'
 import { TRAMITE_STATUS_CONFIG } from '@/lib/constants'
 import type { TramiteStatus } from '@/types/database'
-import { ArrowUpDown, ArrowUp, ArrowDown, ExternalLink, Loader2 } from 'lucide-react'
+import { ArrowUpDown, ArrowUp, ArrowDown, ExternalLink, Loader2, UserPlus } from 'lucide-react'
 import { updateTramiteStatus } from './actions'
 
 // ─── Types ───────────────────────────────────────────────────────────────────
@@ -174,11 +174,19 @@ export default function TramitesClient({
             {filtered.length} de {tramites.length} trámite{tramites.length !== 1 ? 's' : ''}
           </p>
         </div>
-        {selected.size > 0 && (
-          <Button variant="outline" size="sm" onClick={() => openDialog(Array.from(selected))}>
-            Cambiar estado ({selected.size})
-          </Button>
-        )}
+        <div className="flex items-center gap-2">
+          <Link href="/admin/tramites/nuevo-broker">
+            <Button variant="outline" size="sm">
+              <UserPlus size={16} className="mr-1" />
+              Trámite de broker
+            </Button>
+          </Link>
+          {selected.size > 0 && (
+            <Button variant="outline" size="sm" onClick={() => openDialog(Array.from(selected))}>
+              Cambiar estado ({selected.size})
+            </Button>
+          )}
+        </div>
       </div>
 
       {/* Filters */}
