@@ -56,7 +56,8 @@ function RegisterForm() {
       if (error.message.includes('already registered')) {
         toast.error('Este email ya está registrado. Intenta iniciar sesión.')
       } else {
-        toast.error('Error al registrarse. Intenta de nuevo.')
+        console.error('Sign up error:', error)
+        toast.error(`Error al registrarse: ${error.message}`)
       }
       return
     }
