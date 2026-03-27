@@ -26,6 +26,7 @@ export async function approveCashout(id: string): Promise<{ error?: string }> {
   if ('error' in check) return { error: check.error }
 
   const adminClient = createAdminClient()
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const { error } = await (adminClient.from('cashout_requests') as any)
     .update({ status: 'approved', processed_at: new Date().toISOString() })
     .eq('id', id)
@@ -43,6 +44,7 @@ export async function rejectCashout(
   if ('error' in check) return { error: check.error }
 
   const adminClient = createAdminClient()
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const { error } = await (adminClient.from('cashout_requests') as any)
     .update({
       status: 'rejected',
@@ -61,6 +63,7 @@ export async function completeCashout(id: string): Promise<{ error?: string }> {
   if ('error' in check) return { error: check.error }
 
   const adminClient = createAdminClient()
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const { error } = await (adminClient.from('cashout_requests') as any)
     .update({ status: 'completed', processed_at: new Date().toISOString() })
     .eq('id', id)

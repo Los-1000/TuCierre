@@ -1,5 +1,4 @@
 import { createAdminClient } from '@/lib/supabase/admin'
-import { Card, CardContent } from '@/components/ui/card'
 import { formatPrice, formatDate, cn } from '@/lib/utils'
 import { ExternalLink } from 'lucide-react'
 import type { PriceMatchStatus } from '@/types/database'

@@ -38,7 +38,7 @@ export default async function SuperAdminNotariasPage() {
 
   const aggByNotaria = (tramiteAgg ?? []).reduce<
     Record<string, { total: number; income: number }>
-  >((acc, t: any) => {
+  >((acc, t: { notaria_id: string | null; status: string; final_price: number | null }) => {
     if (!t.notaria_id) return acc
     if (!acc[t.notaria_id]) acc[t.notaria_id] = { total: 0, income: 0 }
     acc[t.notaria_id].total++
