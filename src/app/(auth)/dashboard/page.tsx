@@ -17,7 +17,7 @@ async function getDashboardData(brokerId: string) {
   const now = new Date()
   const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1).toISOString()
 
-  const [tramitesResult, rewardsResult, commissionResult] = await Promise.all([
+  const [tramitesResult, rewardsResult, commissionTramitesResult] = await Promise.all([
     supabase
       .from('tramites')
       .select('*, tramite_types(display_name)')
@@ -39,7 +39,7 @@ async function getDashboardData(brokerId: string) {
 
   const tramites = (tramitesResult.data ?? []) as Tramite[]
   const rewards = (rewardsResult.data ?? []) as { amount: number }[]
-  const commissionTramites = (commissionResult.data ?? []) as { final_price: number }[]
+  const commissionTramites = (commissionTramitesResult.data ?? []) as { final_price: number }[]
 
   const activeCount = tramites.filter(t =>
     !['completado', 'cancelado', 'cotizado'].includes(t.status)
@@ -152,11 +152,15 @@ export default async function DashboardPage() {
               <div className="text-xs font-semibold text-muted-foreground uppercase tracking-widest mb-2">
                 Comisiones del mes
               </div>
-              <div className="flex items-center gap-2 mb-1">
-                <span className="text-xl">{commissionTierConfig.icon}</span>
-                <span className="font-semibold text-sm text-ink">{commissionTierConfig.label}</span>
-                <span className="text-xs text-muted-foreground">· {commissionTierConfig.ratePercent}%</span>
-              </div>
+              {commissionResult.count > 0 ? (
+                <div className="flex items-center gap-2 mb-1">
+                  <span className="text-xl">{commissionTierConfig.icon}</span>
+                  <span className="font-semibold text-sm text-ink">{commissionTierConfig.label}</span>
+                  <span className="text-xs text-muted-foreground">· {commissionTierConfig.ratePercent}%</span>
+                </div>
+              ) : (
+                <div className="text-sm text-muted-foreground mb-1">Sin actividad este mes</div>
+              )}
               <div className="text-xs text-muted-foreground">
                 {commissionResult.count} cliente{commissionResult.count !== 1 ? 's' : ''} cerrado{commissionResult.count !== 1 ? 's' : ''} este mes
               </div>
