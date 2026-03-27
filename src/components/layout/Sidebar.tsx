@@ -3,7 +3,7 @@
 import Link from 'next/link'
 import { usePathname, useRouter } from 'next/navigation'
 import {
-  LayoutDashboard, FileText, Calculator, Gift, ArrowLeftRight,
+  LayoutDashboard, FileText, Calculator, Gift, ArrowLeftRight, UserPlus,
   Settings, LogOut, Shield
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
@@ -16,6 +16,7 @@ const navItems = [
   { href: '/dashboard', label: 'Dashboard', icon: LayoutDashboard },
   { href: '/tramites', label: 'Mis Trámites', icon: FileText },
   { href: '/cotizar', label: 'Cotizar', icon: Calculator },
+  { href: '/clientes/nuevo', label: 'Nuevo cliente', icon: UserPlus },
   { href: '/recompensas', label: 'Recompensas', icon: Gift },
   { href: '/price-match', label: 'Price Match', icon: ArrowLeftRight },
 ]
