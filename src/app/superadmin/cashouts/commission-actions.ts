@@ -102,8 +102,7 @@ export async function generateMonthlyCommissions(
 
     // Update all tramites with commission_cashout_id
     const tramiteIds = brokerTramites.map(t => t.id)
-    const { error: updateError } = await adminClient
-      .from('tramites')
+    const { error: updateError } = await (adminClient.from('tramites') as any)
       .update({ commission_cashout_id: cashout.id })
       .in('id', tramiteIds)
 
