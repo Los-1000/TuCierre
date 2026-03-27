@@ -1,7 +1,8 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { Star, Users, PiggyBank, TrendingUp, Award, CheckCircle, Wallet, Clock, ArrowDownCircle } from 'lucide-react'
+import { Star, Users, PiggyBank, TrendingUp, Award, CheckCircle, Wallet, Clock, ArrowDownCircle, DollarSign } from 'lucide-react'
+import { calculateMonthlyCommission, COMMISSION_TIER_CONFIG } from '@/lib/commission'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Progress } from '@/components/ui/progress'
 import { Badge } from '@/components/ui/badge'
@@ -45,6 +46,12 @@ interface RewardRow extends Reward {
   tramites?: { reference_code: string } | null
 }
 
+interface CommissionMonth {
+  yearMonth: string  // 'YYYY-MM'
+  tramites: { final_price: number; commission_cashout_id: string | null }[]
+  cashoutStatus: 'pending' | 'completed' | 'unpaid'
+}
+
 export default function RecompensasPage() {
   const { broker, loading: brokerLoading } = useBrokerProfile()
   const [rewards, setRewards] = useState<RewardRow[]>([])
@@ -53,6 +60,8 @@ export default function RecompensasPage() {
   const [rewardsLoading, setRewardsLoading] = useState(true)
   const [cashouts, setCashouts] = useState<CashoutRequest[]>([])
   const [cashoutsLoading, setCashoutsLoading] = useState(true)
+  const [commissionMonths, setCommissionMonths] = useState<CommissionMonth[]>([])
+  const [commissionsLoading, setCommissionsLoading] = useState(true)
 
   const supabase = createClient()
 
@@ -62,8 +71,9 @@ export default function RecompensasPage() {
     const fetchData = async () => {
       setRewardsLoading(true)
       setCashoutsLoading(true)
+      setCommissionsLoading(true)
 
-      const [rewardsResult, referralsResult, referralRewardsResult, cashoutsResult] = await Promise.all([
+      const [rewardsResult, referralsResult, referralRewardsResult, cashoutsResult, commTramitesResult] = await Promise.all([
         supabase
           .from('rewards')
           .select('*, tramites(reference_code)')
@@ -83,6 +93,12 @@ export default function RecompensasPage() {
           .select('*')
           .eq('broker_id', broker.id)
           .order('created_at', { ascending: false }),
+        supabase
+          .from('tramites')
+          .select('final_price, commission_cashout_id, completed_at')
+          .eq('broker_id', broker.id)
+          .eq('status', 'completado')
+          .not('completed_at', 'is', null),
       ])
 
       setRewards((rewardsResult.data ?? []) as RewardRow[])
@@ -95,6 +111,42 @@ export default function RecompensasPage() {
       setCashouts((cashoutsResult.data ?? []) as CashoutRequest[])
       setRewardsLoading(false)
       setCashoutsLoading(false)
+
+      // Group commission tramites by month
+      const tramiteRows = (commTramitesResult.data ?? []) as {
+        final_price: number
+        commission_cashout_id: string | null
+        completed_at: string
+      }[]
+      const byMonth: Record<string, typeof tramiteRows> = {}
+      for (const t of tramiteRows) {
+        const ym = t.completed_at.slice(0, 7) // 'YYYY-MM'
+        if (!byMonth[ym]) byMonth[ym] = []
+        byMonth[ym].push(t)
+      }
+      // Fetch cashout statuses for commission cashouts
+      const commCashoutIds = [...new Set(tramiteRows.map(t => t.commission_cashout_id).filter(Boolean))] as string[]
+      const cashoutStatusMap: Record<string, 'pending' | 'completed'> = {}
+      if (commCashoutIds.length > 0) {
+        const { data: cData } = await supabase
+          .from('cashout_requests')
+          .select('id, status')
+          .in('id', commCashoutIds)
+        for (const c of (cData ?? [])) {
+          cashoutStatusMap[(c as any).id] = (c as any).status === 'completed' ? 'completed' : 'pending'
+        }
+      }
+      const months: CommissionMonth[] = Object.entries(byMonth)
+        .sort(([a], [b]) => b.localeCompare(a))
+        .map(([ym, trams]) => {
+          const firstCashoutId = trams.find(t => t.commission_cashout_id)?.commission_cashout_id
+          const cashoutStatus = firstCashoutId
+            ? (cashoutStatusMap[firstCashoutId] ?? 'pending')
+            : 'unpaid'
+          return { yearMonth: ym, tramites: trams, cashoutStatus }
+        })
+      setCommissionMonths(months)
+      setCommissionsLoading(false)
     }
 
     fetchData()
@@ -464,6 +516,103 @@ export default function RecompensasPage() {
                   </div>
                 </div>
               )}
+            </CardContent>
+          </Card>
+        )}
+      </div>
+
+      {/* ── Section 3c: Comisiones ── */}
+      <div>
+        <div className="flex items-center gap-2 mb-4">
+          <DollarSign size={18} className="text-slate-500" />
+          <h2 className="text-lg font-semibold text-slate-900">Comisiones</h2>
+        </div>
+
+        {commissionsLoading ? (
+          <CardSkeleton />
+        ) : commissionMonths.length === 0 ? (
+          <Card className="shadow-sm">
+            <CardContent className="py-10 text-center">
+              <DollarSign size={28} className="mx-auto text-slate-300 mb-2" />
+              <p className="text-sm text-slate-400">Aún no tienes comisiones generadas.</p>
+            </CardContent>
+          </Card>
+        ) : (
+          <Card className="shadow-sm">
+            <CardContent className="p-0">
+              {(() => {
+                const currentMonth = new Date().toISOString().slice(0, 7)
+                const currentMonthData = commissionMonths.find(m => m.yearMonth === currentMonth)
+                const pendingMonths = commissionMonths.filter(m => m.cashoutStatus === 'unpaid')
+                const currentCommission = currentMonthData
+                  ? calculateMonthlyCommission(currentMonthData.tramites)
+                  : null
+                const totalPending = pendingMonths.reduce((sum, m) => {
+                  const r = calculateMonthlyCommission(m.tramites)
+                  return sum + r.amount
+                }, 0)
+                return (
+                  <div className="grid grid-cols-2 gap-3 p-5 border-b border-slate-100">
+                    <div className="bg-green-50 border border-green-200 rounded-xl p-4">
+                      <div className="text-xs text-slate-500 font-medium mb-1">Comisión este mes</div>
+                      <div className="text-xl font-bold text-brand-green tabular-nums font-mono">
+                        {currentCommission ? formatPrice(currentCommission.amount) : 'S/. 0.00'}
+                      </div>
+                      {currentCommission && currentCommission.count > 0 && (
+                        <div className="text-xs text-slate-500 mt-0.5">
+                          {COMMISSION_TIER_CONFIG[currentCommission.tier].icon} {COMMISSION_TIER_CONFIG[currentCommission.tier].label} · {COMMISSION_TIER_CONFIG[currentCommission.tier].ratePercent}%
+                        </div>
+                      )}
+                    </div>
+                    <div className="bg-amber-50 border border-amber-200 rounded-xl p-4">
+                      <div className="text-xs text-slate-500 font-medium mb-1">Pendiente de cobro</div>
+                      <div className="text-xl font-bold text-amber-700 tabular-nums font-mono">
+                        {formatPrice(totalPending)}
+                      </div>
+                      <div className="text-xs text-slate-500 mt-0.5">se paga a fin de mes</div>
+                    </div>
+                  </div>
+                )
+              })()}
+
+              <div className="overflow-x-auto">
+                <table className="w-full text-sm">
+                  <thead>
+                    <tr className="border-b border-slate-100 bg-slate-50">
+                      {['Mes', 'Clientes', 'Nivel', '%', 'Monto', 'Estado'].map(h => (
+                        <th key={h} className="text-left text-xs font-semibold text-slate-500 uppercase tracking-wide px-4 py-3">{h}</th>
+                      ))}
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-slate-50">
+                    {commissionMonths.map(month => {
+                      const r = calculateMonthlyCommission(month.tramites)
+                      const tc = COMMISSION_TIER_CONFIG[r.tier]
+                      const [year, mo] = month.yearMonth.split('-')
+                      const label = new Date(parseInt(year), parseInt(mo) - 1, 1)
+                        .toLocaleDateString('es-PE', { month: 'long', year: 'numeric' })
+                      return (
+                        <tr key={month.yearMonth} className="hover:bg-slate-50/60">
+                          <td className="px-4 py-3 font-medium text-slate-800 capitalize">{label}</td>
+                          <td className="px-4 py-3 text-slate-600">{r.count}</td>
+                          <td className="px-4 py-3">{tc.icon} {tc.label}</td>
+                          <td className="px-4 py-3 text-slate-600">{tc.ratePercent}%</td>
+                          <td className="px-4 py-3 font-mono font-semibold text-slate-800 tabular-nums">{formatPrice(r.amount)}</td>
+                          <td className="px-4 py-3">
+                            {month.cashoutStatus === 'completed' ? (
+                              <span className="inline-flex items-center text-xs font-medium px-2 py-0.5 rounded-full border bg-green-50 text-green-700 border-green-200">Pagado</span>
+                            ) : month.cashoutStatus === 'pending' ? (
+                              <span className="inline-flex items-center text-xs font-medium px-2 py-0.5 rounded-full border bg-amber-50 text-amber-700 border-amber-200">En proceso</span>
+                            ) : (
+                              <span className="inline-flex items-center text-xs font-medium px-2 py-0.5 rounded-full border bg-slate-50 text-slate-500 border-slate-200">Pendiente</span>
+                            )}
+                          </td>
+                        </tr>
+                      )
+                    })}
+                  </tbody>
+                </table>
+              </div>
             </CardContent>
           </Card>
         )}
