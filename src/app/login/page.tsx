@@ -43,21 +43,24 @@ export default function LoginPage() {
     }
 
     if (authData.user) {
-      const { data: broker } = await supabase
+      const { data: brokerResult } = await supabase
         .from('brokers')
-        .select('is_admin')
+        .select('is_admin, is_superadmin')
         .eq('id', authData.user.id)
         .single()
 
+      const broker = brokerResult as { is_admin: boolean; is_superadmin: boolean } | null
+      if (broker?.is_superadmin) {
+        router.push('/superadmin')
+        return
+      }
       if (broker?.is_admin) {
         router.push('/admin')
-        router.refresh()
         return
       }
     }
 
     router.push('/dashboard')
-    router.refresh()
   }
 
   return (

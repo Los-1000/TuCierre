@@ -4,8 +4,6 @@ import { useEffect, useState, useCallback } from 'react'
 import { createBrowserClient } from '@supabase/ssr'
 import { toast } from 'sonner'
 import { Card, CardContent } from '@/components/ui/card'
-import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
 import { Badge } from '@/components/ui/badge'
 import { formatPrice, formatDate } from '@/lib/utils'
 import type { PriceMatchStatus } from '@/types/database'
@@ -35,12 +33,6 @@ interface PriceMatchRow {
   // our_base_price is not in DB, we derive from tramite_types or show competitor as reference
 }
 
-interface ActionState {
-  id: string
-  matchedPrice: number
-  loading: boolean
-}
-
 export default function AdminPriceMatchPage() {
   const supabase = createBrowserClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -49,7 +41,6 @@ export default function AdminPriceMatchPage() {
 
   const [requests, setRequests] = useState<PriceMatchRow[]>([])
   const [loading, setLoading] = useState(true)
-  const [actionStates, setActionStates] = useState<Record<string, ActionState>>({})
   const [showResolved, setShowResolved] = useState(false)
 
   const fetchRequests = useCallback(async () => {
@@ -62,21 +53,7 @@ export default function AdminPriceMatchPage() {
     if (error) {
       toast.error('Error al cargar solicitudes')
     } else {
-      const rows = (data ?? []) as unknown as PriceMatchRow[]
-      setRequests(rows)
-
-      // Initialize action states for pending requests
-      const states: Record<string, ActionState> = {}
-      for (const r of rows) {
-        if (r.status === 'pending') {
-          states[r.id] = {
-            id: r.id,
-            matchedPrice: r.competitor_price,
-            loading: false,
-          }
-        }
-      }
-      setActionStates(states)
+      setRequests((data ?? []) as unknown as PriceMatchRow[])
     }
     setLoading(false)
   }, [supabase])
@@ -85,71 +62,10 @@ export default function AdminPriceMatchPage() {
     fetchRequests()
   }, [fetchRequests])
 
-  function setMatchedPrice(id: string, value: number) {
-    setActionStates((prev) => ({
-      ...prev,
-      [id]: { ...prev[id], matchedPrice: value },
-    }))
-  }
-
-  function setRowLoading(id: string, loading: boolean) {
-    setActionStates((prev) => ({
-      ...prev,
-      [id]: { ...prev[id], loading },
-    }))
-  }
-
-  async function handleApprove(id: string) {
-    const state = actionStates[id]
-    if (!state) return
-    setRowLoading(id, true)
-
-    try {
-      const { error } = await supabase
-        .from('price_match_requests')
-        .update({
-          status: 'approved',
-          our_matched_price: state.matchedPrice,
-          reviewed_at: new Date().toISOString(),
-        })
-        .eq('id', id)
-
-      if (error) throw error
-
-      toast.success('Price match aprobado')
-      fetchRequests()
-    } catch (err: unknown) {
-      toast.error('Error al aprobar la solicitud')
-      console.error(err)
-      setRowLoading(id, false)
-    }
-  }
-
-  async function handleReject(id: string) {
-    setRowLoading(id, true)
-
-    try {
-      const { error } = await supabase
-        .from('price_match_requests')
-        .update({
-          status: 'rejected',
-          reviewed_at: new Date().toISOString(),
-        })
-        .eq('id', id)
-
-      if (error) throw error
-
-      toast.success('Solicitud rechazada')
-      fetchRequests()
-    } catch (err: unknown) {
-      toast.error('Error al rechazar la solicitud')
-      console.error(err)
-      setRowLoading(id, false)
-    }
-  }
-
   const pending = requests.filter((r) => r.status === 'pending')
   const resolved = requests.filter((r) => r.status !== 'pending')
+
+  // Price match is approved/rejected by SuperAdmin only
 
   function StatusPill({ status }: { status: PriceMatchStatus }) {
     if (status === 'approved') {
@@ -212,14 +128,9 @@ export default function AdminPriceMatchPage() {
           </Card>
         ) : (
           <div className="space-y-4">
-            {pending.map((r) => {
-              const state = actionStates[r.id]
-              const isLoading = state?.loading ?? false
-
-              return (
+            {pending.map((r) => (
                 <Card key={r.id} className="border border-yellow-200 shadow-sm bg-white">
                   <CardContent className="p-5 space-y-4">
-                    {/* Info grid */}
                     <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
                       <div>
                         <p className="text-xs text-gray-400 font-medium uppercase tracking-wide mb-1">Broker</p>
@@ -239,74 +150,29 @@ export default function AdminPriceMatchPage() {
                       </div>
                     </div>
 
-                    {/* Evidence */}
                     {r.evidence_url && (
-                      <div>
-                        <a
-                          href={r.evidence_url}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="inline-flex items-center gap-1.5 text-xs text-blue-600 hover:text-blue-800 font-medium underline underline-offset-2"
-                        >
-                          <ExternalLink size={12} />
-                          Ver evidencia
-                        </a>
-                      </div>
+                      <a
+                        href={r.evidence_url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-1.5 text-xs text-blue-600 hover:text-blue-800 font-medium underline underline-offset-2"
+                      >
+                        <ExternalLink size={12} />
+                        Ver evidencia
+                      </a>
                     )}
 
-                    <hr className="border-gray-100" />
-
-                    {/* Action area */}
-                    <div className="flex flex-col sm:flex-row sm:items-end gap-4">
-                      <div className="space-y-1.5 flex-1">
-                        <label className="text-xs font-medium text-gray-700">
-                          Precio igualado propuesto
-                        </label>
-                        <div className="relative max-w-xs">
-                          <span className="absolute left-3 top-1/2 -translate-y-1/2 text-sm text-gray-500 font-medium">S/.</span>
-                          <Input
-                            type="number"
-                            min={0}
-                            step={0.01}
-                            value={state?.matchedPrice ?? r.competitor_price}
-                            onChange={(e) => setMatchedPrice(r.id, parseFloat(e.target.value) || 0)}
-                            className="pl-10"
-                            disabled={isLoading}
-                          />
-                        </div>
-                        <p className="text-xs text-gray-400">
-                          Precio del competidor: {formatPrice(r.competitor_price)}
-                        </p>
-                      </div>
-
-                      <div className="flex gap-2 shrink-0">
-                        <Button
-                          variant="outline"
-                          size="sm"
-                          onClick={() => handleReject(r.id)}
-                          disabled={isLoading}
-                          className="text-red-600 border-red-200 hover:bg-red-50 hover:text-red-700"
-                        >
-                          {isLoading ? <Loader2 size={14} className="animate-spin mr-1" /> : <XCircle size={14} className="mr-1" />}
-                          Rechazar
-                        </Button>
-                        <Button
-                          size="sm"
-                          onClick={() => handleApprove(r.id)}
-                          disabled={isLoading}
-                          className="bg-emerald-600 hover:bg-emerald-700 text-white"
-                        >
-                          {isLoading ? <Loader2 size={14} className="animate-spin mr-1" /> : <CheckCircle2 size={14} className="mr-1" />}
-                          Aprobar con precio igualado
-                        </Button>
-                      </div>
+                    <div className="flex items-center gap-2 bg-amber-50 border border-amber-200 rounded-lg px-3 py-2">
+                      <Clock size={14} className="text-amber-600 shrink-0" />
+                      <p className="text-xs text-amber-700">
+                        En revisión por SuperAdmin — recibirás respuesta pronto.
+                      </p>
                     </div>
 
                     <p className="text-xs text-gray-400">Recibido {formatDate(r.created_at)}</p>
                   </CardContent>
                 </Card>
-              )
-            })}
+            ))}
           </div>
         )}
       </section>
