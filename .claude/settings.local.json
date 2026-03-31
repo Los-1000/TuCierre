@@ -20,7 +20,9 @@
       "Bash(npx next:*)",
       "WebFetch(domain:wisprflow.ai)",
       "Bash(grep -n \"TablesAndViews$2\\\\|TablesAndViews\" C:/Users/cefd2/Downloads/TuCierre/node_modules/@supabase/postgrest-js/dist/index.d.cts)",
-      "Bash(grep -rn \"import.*GenericSchema\\\\|from.*GenericSchema\" C:/Users/cefd2/Downloads/TuCierre/node_modules/@supabase/ssr/dist/main/*.d.ts)"
+      "Bash(grep -rn \"import.*GenericSchema\\\\|from.*GenericSchema\" C:/Users/cefd2/Downloads/TuCierre/node_modules/@supabase/ssr/dist/main/*.d.ts)",
+      "Bash(Remove-Item -Recurse -Force .next -ErrorAction SilentlyContinue)",
+      "Bash(npx skills:*)"
     ]
   }
 }

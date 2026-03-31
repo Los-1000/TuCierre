@@ -59,6 +59,17 @@
     mix-blend-mode: overlay;
   }
 
+  .glass-pill {
+    @apply bg-[#FFFEF5]/80 backdrop-blur-md border border-[#12161F]/10 shadow-[0_8px_32px_rgba(0,0,0,0.06)];
+  }
+  .glass-pill-dark {
+    @apply bg-[#12161F]/80 backdrop-blur-md border border-white/10 shadow-[0_8px_32px_rgba(0,0,0,0.2)];
+  }
+
+  ::selection {
+    @apply bg-[#C9880E]/20 text-[#12161F];
+  }
+
   .text-gold-gradient {
     background: linear-gradient(135deg, #E8A21A 0%, #C9880E 60%, #A06A08 100%);
     -webkit-background-clip: text;
@@ -124,11 +135,31 @@
   }
 }
 
-/* Defer rendering of off-screen landing sections — improves LCP/FID */
-#como-funciona,
-#beneficios,
-#precios,
-#testimonios {
-  content-visibility: auto;
-  contain-intrinsic-size: 0 600px;
+/* ── Commission Calculator range slider ─────────────────────────────────── */
+.commission-range::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: #12161F;
+  cursor: pointer;
+  border: 3px solid #fff;
+  box-shadow: 0 1px 6px rgba(18, 22, 31, 0.25);
+  transition: box-shadow 150ms ease, transform 150ms ease;
 }
+.commission-range::-webkit-slider-thumb:hover,
+.commission-range:focus-visible::-webkit-slider-thumb {
+  box-shadow: 0 2px 12px rgba(18, 22, 31, 0.35);
+  transform: scale(1.1);
+}
+.commission-range::-moz-range-thumb {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: #12161F;
+  cursor: pointer;
+  border: 3px solid #fff;
+  box-shadow: 0 1px 6px rgba(18, 22, 31, 0.25);
+}
+
+/* content-visibility removed — it applies contain:layout which breaks IntersectionObserver in Reveal components */

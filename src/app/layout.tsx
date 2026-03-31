@@ -1,11 +1,10 @@
 import type { Metadata } from 'next'
-import { Cormorant_Garamond, Manrope, JetBrains_Mono } from 'next/font/google'
+import { Playfair_Display, Inter, JetBrains_Mono } from 'next/font/google'
 import './globals.css'
 import { Toaster } from 'sonner'
 
-const cormorant = Cormorant_Garamond({
+const playfair = Playfair_Display({
   subsets: ['latin'],
-  weight: ['300', '400', '500', '600', '700'],
   style: ['normal', 'italic'],
   variable: '--font-display',
   display: 'swap',
@@ -13,7 +12,7 @@ const cormorant = Cormorant_Garamond({
   fallback: ['Georgia', 'serif'],
 })
 
-const manrope = Manrope({
+const inter = Inter({
   subsets: ['latin'],
   variable: '--font-sans',
   display: 'swap',
@@ -45,7 +44,7 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="es" suppressHydrationWarning>
-      <body className={`${cormorant.variable} ${manrope.variable} ${jetbrains.variable} font-sans`}>
+      <body className={`${playfair.variable} ${inter.variable} ${jetbrains.variable} font-sans`}>
         {children}
         <Toaster
           position="top-right"

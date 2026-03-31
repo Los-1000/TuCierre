@@ -21,11 +21,20 @@ export default function Reveal({
   once = true,
 }: RevealProps) {
   const ref = useRef<HTMLDivElement>(null)
-  const [visible, setVisible] = useState(false)
+  const [visible, setVisible] = useState(true)
 
   useEffect(() => {
     const el = ref.current
     if (!el) return
+
+    const rect = el.getBoundingClientRect()
+    // Only animate elements that are below the fold on initial load
+    if (rect.top <= window.innerHeight * 0.95) {
+      setVisible(true)
+      return
+    }
+
+    setVisible(false)
 
     const observer = new IntersectionObserver(
       ([entry]) => {
@@ -36,7 +45,7 @@ export default function Reveal({
           setVisible(false)
         }
       },
-      { threshold: 0.15, rootMargin: '0px 0px -40px 0px' }
+      { threshold: 0.1, rootMargin: '0px 0px -20px 0px' }
     )
 
     observer.observe(el)
@@ -55,13 +64,14 @@ export default function Reveal({
     <div
       ref={ref}
       className={cn(
-        'transition-all ease-out',
+        'transition-all',
         visible ? 'opacity-100 translate-x-0 translate-y-0' : `opacity-0 ${translate}`,
         className
       )}
       style={{
         transitionDuration: `${duration}ms`,
         transitionDelay: `${delay}ms`,
+        transitionTimingFunction: 'cubic-bezier(0.16, 1, 0.3, 1)',
       }}
     >
       {children}

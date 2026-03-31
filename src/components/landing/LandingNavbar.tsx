@@ -30,10 +30,10 @@ export default function LandingNavbar() {
       >
         <div
           className={cn(
-            'flex items-center justify-between px-6 py-3.5 rounded-full border transition-all duration-300',
+            'flex items-center justify-between px-6 py-3.5 rounded-full transition-all duration-300',
             scrolled
-              ? 'bg-[#FFFEF5]/90 backdrop-blur-md border-[#12161F]/10 shadow-[0_8px_32px_rgba(0,0,0,0.08)]'
-              : 'bg-[#FFFEF5]/80 backdrop-blur-sm border-[#12161F]/5 shadow-sm'
+              ? 'glass-pill'
+              : 'bg-[#FFFEF5]/80 backdrop-blur-sm border border-[#12161F]/5 shadow-[0_4px_16px_rgba(0,0,0,0.02)]'
           )}
         >
           {/* Logo */}
@@ -68,7 +68,7 @@ export default function LandingNavbar() {
             </Link>
             <Link
               href="/register"
-              className="text-[13px] font-semibold bg-[#12161F] text-[#FFFEF5] px-5 py-2.5 rounded-full hover:scale-105 active:scale-95 transition-all shadow-sm"
+              className="text-[13px] font-semibold bg-[#12161F] text-[#FFFEF5] px-6 py-2.5 rounded-full hover:scale-105 active:scale-95 transition-all shadow-md hover:shadow-lg hover:bg-black"
             >
               Empezar gratis
             </Link>
