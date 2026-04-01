@@ -1,112 +1,32 @@
 'use client'
 
-import { useState, useEffect } from 'react'
 import Link from 'next/link'
-import { cn } from '@/lib/utils'
-
-const NAV_LINKS = [
-  { label: 'Cómo funciona', href: '#como-funciona' },
-  { label: 'Comisiones', href: '#precios' },
-  { label: 'Testimonios', href: '#testimonios' },
-]
 
 export default function LandingNavbar() {
-  const [scrolled, setScrolled] = useState(false)
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
-
-  useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 20)
-    window.addEventListener('scroll', handleScroll)
-    return () => window.removeEventListener('scroll', handleScroll)
-  }, [])
-
   return (
-    <>
-      <nav
-        className={cn(
-          'fixed top-4 left-1/2 -translate-x-1/2 w-[calc(100%-2rem)] max-w-5xl z-50 transition-all duration-300',
-          scrolled ? 'top-2' : ''
-        )}
-      >
-        <div
-          className={cn(
-            'flex items-center justify-between px-6 py-3.5 rounded-full transition-all duration-300',
-            scrolled
-              ? 'glass-pill'
-              : 'bg-[#FFFEF5]/80 backdrop-blur-sm border border-[#12161F]/5 shadow-[0_4px_16px_rgba(0,0,0,0.02)]'
-          )}
-        >
-          {/* Logo */}
-          <Link href="/" className="flex items-center gap-2 shrink-0">
-            <div className="w-6 h-6 rounded-md bg-[#12161F] flex items-center justify-center">
-              <svg width="12" height="12" viewBox="0 0 14 14" fill="none">
-                <path d="M7 1L12 4V10L7 13L2 10V4L7 1Z" stroke="#C9880E" strokeWidth="1.5" strokeLinejoin="round"/>
-              </svg>
-            </div>
-            <span className="font-display font-semibold text-[16px] text-[#12161F] tracking-tight">TuCierre</span>
-          </Link>
+    <nav className="fixed top-0 left-0 right-0 z-50">
+      <div className="flex items-center justify-between px-10 py-5 bg-[#0A0A0A]/90 backdrop-blur-xl border-b border-[#D47151]/15">
+        <Link href="/" className="text-[13px] font-black tracking-widest uppercase text-white/60 hover:text-[#D47151] transition-colors">
+          TC
+        </Link>
 
-          {/* Desktop nav links */}
-          <div className="hidden md:flex items-center gap-8">
-            <Link href="#como-funciona" className="text-[13px] font-medium text-[#12161F]/60 hover:text-[#12161F] transition-colors">
-              Cómo funciona
-            </Link>
-            <Link href="#beneficios" className="text-[13px] font-medium text-[#12161F]/60 hover:text-[#12161F] transition-colors">
-              Beneficios
-            </Link>
-            <Link href="#precios" className="text-[13px] font-medium text-[#12161F]/60 hover:text-[#12161F] transition-colors">
-              Precios
-            </Link>
-          </div>
-
-          <div className="hidden md:flex items-center gap-3">
-            <Link
-              href="/login"
-              className="text-[13px] font-semibold text-[#12161F] hover:text-[#C9880E] px-4 py-2 transition-colors"
-            >
-              Iniciar sesión
-            </Link>
-            <Link
-              href="/register"
-              className="text-[13px] font-semibold bg-[#12161F] text-[#FFFEF5] px-6 py-2.5 rounded-full hover:scale-105 active:scale-95 transition-all shadow-md hover:shadow-lg hover:bg-black"
-            >
-              Empezar gratis
-            </Link>
-          </div>
-
-          {/* Mobile hamburger */}
-          <button
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="md:hidden flex flex-col gap-1 p-1.5"
-            aria-label="Menú"
-          >
-            <div className={cn('w-4 h-[1.5px] bg-[#12161F] transition-all duration-300', mobileMenuOpen && 'rotate-45 translate-y-[3.5px]')} />
-            <div className={cn('w-4 h-[1.5px] bg-[#12161F] transition-all duration-300', mobileMenuOpen && '-rotate-45 -translate-y-[2px]')} />
-          </button>
-        </div>
-      </nav>
-
-      {/* Mobile menu */}
-      <div className={cn(
-        'fixed inset-x-0 top-[72px] z-40 md:hidden transition-all duration-300',
-        mobileMenuOpen ? 'opacity-100 translate-y-0 pointer-events-auto' : 'opacity-0 -translate-y-3 pointer-events-none'
-      )}>
-        <div className="mx-4 bg-[#FFFEF5]/95 backdrop-blur-xl rounded-2xl border border-[#12161F]/8 shadow-lg p-5 space-y-4">
-          {NAV_LINKS.map(link => (
-            <a
-              key={link.label}
-              href={link.href}
-              onClick={() => setMobileMenuOpen(false)}
-              className="block text-[15px] text-[#12161F]/70 font-medium py-1"
-            >
-              {link.label}
+        <div className="hidden md:flex items-center gap-10">
+          {[['Cómo funciona', '#como-funciona'], ['Características', '#features'], ['Precios', '#precios']].map(([label, href]) => (
+            <a key={label} href={href} className="text-[11px] font-light uppercase tracking-widest text-white/40 hover:text-white transition-colors">
+              {label}
             </a>
           ))}
-          <div className="pt-3 border-t border-[#12161F]/8 flex gap-3">
-            <Link href="/login" className="text-[14px] text-[#12161F]/60 font-medium py-1">Ingresar</Link>
-          </div>
+        </div>
+
+        <div className="flex items-center gap-5">
+          <Link href="/login" className="text-[11px] uppercase tracking-widest font-light text-white/35 hover:text-white transition-colors">
+            Ingresar
+          </Link>
+          <Link href="/register" className="text-[11px] font-black uppercase tracking-widest bg-[#D47151] text-white rounded-full px-5 py-2.5 hover:bg-[#A6553A] transition-colors">
+            Empezar gratis
+          </Link>
         </div>
       </div>
-    </>
+    </nav>
   )
 }

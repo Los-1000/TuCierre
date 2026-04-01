@@ -1,104 +1,143 @@
 import Link from 'next/link'
-import { cn } from '@/lib/utils'
-import Reveal from '@/components/landing/Reveal'
-import CountUp from '@/components/landing/CountUp'
 
-const TIERS = [
-  { name: 'Nivel 1', range: '1–3 trámites/mes', commission: '3%', featured: false, benefits: ['3% de comisión al cierre', 'Plataforma notarial gratis', 'Tracking en tiempo real', 'Soporte por chat integrado'] },
-  { name: 'Nivel 2', range: '4–7 trámites/mes', commission: '5%', featured: true, benefits: ['5% de comisión al cierre', 'Price match garantizado', 'Soporte prioritario', 'Gestor de cuenta asignado'] },
-  { name: 'Nivel 3', range: '8+ trámites/mes', commission: '8%', featured: false, benefits: ['8% de comisión al cierre', 'Prioridad de firma máxima', 'Atención notarial dedicada', 'Ejecutivo senior asignado'] },
+const ROWS = [
+  {
+    level: 'Nivel 1',
+    range: '1–3 trámites / mes',
+    pct: '3%',
+    cta: 'Empezar →',
+    featured: false,
+    benefits: 'Plataforma gratis · Tracking · Chat notaría',
+  },
+  {
+    level: 'Nivel 2',
+    range: '4–7 trámites / mes',
+    pct: '5%',
+    cta: 'Escalar a Nivel 2 →',
+    featured: true,
+    benefits: 'Price match · Soporte prioritario · Gestor asignado',
+  },
+  {
+    level: 'Nivel 3',
+    range: '8+ trámites / mes',
+    pct: '8%',
+    cta: 'Alcanzar Nivel 3 →',
+    featured: false,
+    benefits: 'Prioridad máxima · Ejecutivo senior · Atención dedicada',
+  },
 ]
 
 export default function PricingSection() {
   return (
-    <section id="precios" className="py-24 sm:py-32 bg-[#FFFEF5] relative">
-      <div className="max-w-6xl mx-auto px-6 sm:px-10">
-        <Reveal>
-          <div className="max-w-2xl mb-16 text-center mx-auto">
-            <div className="inline-flex items-center gap-2 border border-[#C9880E]/20 bg-[#C9880E]/5 rounded-full px-3 py-1 mb-6">
-              <span className="text-[11px] text-[#C9880E] font-bold tracking-widest uppercase">Escala automática</span>
-            </div>
-            <h2 className="font-display font-semibold leading-tight mb-6" style={{ fontSize: 'clamp(40px, 5vw, 60px)', color: '#12161F' }}>
-              Más clientes,<br /><span className="italic text-[#C9880E] font-medium">más comisión.</span>
-            </h2>
-            <p className="text-[17px] font-medium leading-relaxed text-[#12161F]/65">
-              Tres niveles automáticos. Tu porcentaje sube solo cuando cierras más trámites. Sin pagar suscripciones.{' '}
-              <br className="hidden sm:block" />
-              <a href="#precios" className="underline underline-offset-4 text-[#C9880E] hover:text-[#A06A08] transition-colors font-semibold">
-                Sube de nivel sumando referidos →
-              </a>
-            </p>
-          </div>
-        </Reveal>
+    <section id="precios" className="bg-[#131313] px-10 lg:px-16 py-32 lg:py-40 overflow-x-auto">
+      <div className="min-w-[720px]">
 
-        <div className="grid lg:grid-cols-3 gap-6 lg:gap-8 items-center">
-          {TIERS.map((tier, i) => (
-            <Reveal key={tier.name} delay={i * 150}>
-              <div
-                className={cn(
-                  'rounded-[2rem] p-8 sm:p-10 border transition-all duration-500 hover:-translate-y-2 flex flex-col h-full',
-                  tier.featured
-                    ? 'bg-[#12161F] border-[#C9880E]/40 shadow-[0_20px_60px_rgba(201,136,14,0.15)] relative overflow-hidden transform lg:scale-105 z-10'
-                    : 'bg-white border-[#12161F]/10 hover:border-[#12161F]/20 shadow-sm'
-                )}
-              >
-                {/* Glow effect for featured card */}
-                {tier.featured && (
-                  <>
-                    <div className="absolute -top-20 -right-20 w-64 h-64 bg-[#C9880E]/20 rounded-full blur-[60px] pointer-events-none" />
-                    <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-[#C9880E]/40 to-transparent" />
-                  </>
-                )}
-                
-                <div className="mb-8 relative z-10">
-                  <p className="text-[12px] font-bold tracking-widest uppercase mb-2" style={{ color: tier.featured ? '#C9880E' : '#12161F', opacity: tier.featured ? 1 : 0.6 }}>
-                    {tier.name} {tier.featured && '· Popular'}
-                  </p>
-                  
-                  <div className="font-display font-bold flex items-baseline tracking-tight" style={{ fontSize: 'clamp(56px, 6vw, 76px)', lineHeight: 1, color: tier.featured ? '#FFFEF5' : '#12161F' }}>
-                    <CountUp end={parseInt(tier.commission)} duration={1500} />%
-                  </div>
-                  
-                  <p className="text-[14px] font-semibold mt-2" style={{ color: tier.featured ? '#FFFEF5' : '#12161F', opacity: tier.featured ? 0.8 : 0.5 }}>
-                    comisión directa · {tier.range}
-                  </p>
-                </div>
-                
-                <ul className="space-y-4 mb-10 relative z-10 flex-grow">
-                  {tier.benefits.map(b => (
-                    <li key={b} className="flex items-start gap-4 text-[14px] font-medium" style={{ color: tier.featured ? '#FFFEF5' : '#12161F', opacity: tier.featured ? 0.9 : 0.75 }}>
-                      <div className="mt-0.5 shrink-0 flex items-center justify-center">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
-                          <circle cx="12" cy="12" r="12" fill={tier.featured ? '#C9880E' : '#12161F'} fillOpacity={tier.featured ? "0.2" : "0.05"} />
-                          <path d="M8 12l3 3 5-6" stroke={tier.featured ? '#C9880E' : '#12161F'} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                        </svg>
-                      </div>
-                      {b}
-                    </li>
-                  ))}
-                </ul>
-                
-                <Link
-                  href="/register"
-                  className={cn(
-                    'block text-center w-full rounded-full py-4 text-[14px] font-semibold transition-all duration-300 relative z-10 border',
-                    tier.featured
-                      ? 'bg-[#C9880E] border-[#C9880E] text-white shadow-lg hover:bg-[#A06A08] hover:border-[#A06A08]'
-                      : 'bg-transparent border-[#12161F]/15 text-[#12161F] hover:border-[#12161F]/40 hover:bg-[#12161F]/5'
-                  )}
-                >
-                  Continuar
-                </Link>
-              </div>
-            </Reveal>
+        {/* Heading */}
+        <h2
+          className="font-black text-[#F5F0E8] uppercase tracking-[-0.04em] leading-none mb-4"
+          style={{ fontSize: 'clamp(56px, 8vw, 96px)' }}
+        >
+          El Sistema.
+        </h2>
+        <p className="text-white/30 font-extralight text-[17px] mb-16">
+          Tu comisión sube sola. Sin formularios. Sin aprobaciones.
+        </p>
+
+        {/* Table header */}
+        <div className="grid grid-cols-4 border-b border-white/8 pb-4 mb-4">
+          {['Categoría', 'Volumen', 'Comisión', 'Acceso'].map(h => (
+            <div key={h} className={`text-[9px] font-black uppercase tracking-[0.2em] text-white/25 ${h === 'Comisión' ? 'text-center' : h === 'Acceso' ? 'text-right' : ''}`}>
+              {h}
+            </div>
           ))}
         </div>
 
-        <Reveal delay={400}>
-          <p className="mt-12 text-center text-[13px] font-medium text-[#12161F]/40">
-            El nivel sube automáticamente según tus trámites firmados cada mes. Sin formularios, sin aprobaciones de ejecutivos. Todo desde tu dashboard.
-          </p>
-        </Reveal>
+        {/* Rows */}
+        {ROWS.map((row) => (
+          row.featured ? (
+            /* Featured terracotta row */
+            <div
+              key={row.level}
+              className="grid grid-cols-4 items-center bg-[#D47151] -mx-10 lg:-mx-16 px-10 lg:px-16 my-3 relative overflow-hidden"
+              style={{ minHeight: '180px' }}
+            >
+              {/* Decorative ghost text */}
+              <span className="absolute right-8 bottom-0 font-black text-[120px] leading-none text-black/10 select-none pointer-events-none">
+                PRO
+              </span>
+
+              <div className="relative z-10">
+                <div className="font-black text-[22px] uppercase tracking-tight text-[#0A0A0A]">
+                  {row.level}
+                </div>
+                <div className="text-[11px] font-black uppercase tracking-widest text-[#0A0A0A]/50 mt-1">
+                  ★ Popular
+                </div>
+                <div className="text-[12px] font-light text-[#0A0A0A]/60 mt-2">
+                  {row.range}
+                </div>
+              </div>
+
+              <div className="text-center relative z-10">
+                <span
+                  className="font-black text-[#0A0A0A] tracking-[-0.05em] leading-none tabular-nums"
+                  style={{ fontSize: 'clamp(72px, 9vw, 112px)' }}
+                >
+                  {row.pct}
+                </span>
+              </div>
+
+              <div className="text-[12px] font-light text-[#0A0A0A]/60 relative z-10">
+                {row.benefits}
+              </div>
+
+              <div className="text-right relative z-10">
+                <Link
+                  href="/register"
+                  className="inline-block bg-[#0A0A0A] text-white rounded-full px-6 py-3 text-[11px] font-black uppercase tracking-widest hover:bg-[#1a1a1a] transition-colors"
+                >
+                  {row.cta}
+                </Link>
+              </div>
+            </div>
+          ) : (
+            /* Normal cream row */
+            <div
+              key={row.level}
+              className="grid grid-cols-4 items-center border-b border-white/5 py-7 opacity-60 hover:opacity-100 transition-opacity"
+            >
+              <div>
+                <div className="font-black text-[18px] uppercase tracking-tight text-[#F5F0E8]">
+                  {row.level}
+                </div>
+                <div className="text-[11px] font-light text-white/35 mt-1">{row.range}</div>
+              </div>
+
+              <div className="text-center">
+                <span className="font-extralight text-[32px] text-[#F5F0E8] tabular-nums">
+                  {row.pct}
+                </span>
+              </div>
+
+              <div className="text-[12px] font-light text-white/40">
+                {row.benefits}
+              </div>
+
+              <div className="text-right">
+                <Link
+                  href="/register"
+                  className="text-[11px] font-black uppercase tracking-widest text-white/40 hover:text-[#D47151] transition-colors"
+                >
+                  {row.cta}
+                </Link>
+              </div>
+            </div>
+          )
+        ))}
+
+        <p className="text-center text-[11px] font-light text-white/20 mt-10 tracking-wide">
+          El nivel sube automáticamente según tus trámites firmados cada mes. Sin formularios, sin aprobaciones.
+        </p>
       </div>
     </section>
   )

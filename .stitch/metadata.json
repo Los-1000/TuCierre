@@ -1,0 +1,22 @@
+{
+  "name": "projects/15038735186998197970",
+  "projectId": "15038735186998197970",
+  "title": "TU CIERRA LANDING FINAL",
+  "visibility": "PRIVATE",
+  "projectType": "PROJECT_DESIGN",
+  "origin": "STITCH",
+  "deviceType": "DESKTOP",
+  "screens": {
+    "landing-creative": {
+      "id": "21efba47dc9a4f10a2faad758d4f6a4b",
+      "sourceScreen": "projects/15038735186998197970/screens/21efba47dc9a4f10a2faad758d4f6a4b",
+      "x": 0,
+      "y": 0,
+      "width": 2560,
+      "height": 11718
+    }
+  },
+  "metadata": {
+    "userRole": "OWNER"
+  }
+}

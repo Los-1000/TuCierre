@@ -46,32 +46,21 @@
 }
 
 @layer components {
-  .noise-overlay { position: relative; overflow: hidden; }
-  .noise-overlay::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
-    background-size: 200px;
-    opacity: 0.035;
-    pointer-events: none;
-    z-index: 1;
-    mix-blend-mode: overlay;
-  }
+  /* noise-overlay fue eliminado por alto consumo de GPU */
 
   .glass-pill {
-    @apply bg-[#FFFEF5]/80 backdrop-blur-md border border-[#12161F]/10 shadow-[0_8px_32px_rgba(0,0,0,0.06)];
+    @apply bg-[#F9F9F8]/80 backdrop-blur-md border border-[#18181B]/10 shadow-[0_8px_32px_rgba(0,0,0,0.06)];
   }
   .glass-pill-dark {
-    @apply bg-[#12161F]/80 backdrop-blur-md border border-white/10 shadow-[0_8px_32px_rgba(0,0,0,0.2)];
+    @apply bg-[#18181B]/80 backdrop-blur-md border border-white/10 shadow-[0_8px_32px_rgba(0,0,0,0.2)];
   }
 
   ::selection {
-    @apply bg-[#C9880E]/20 text-[#12161F];
+    @apply bg-[#D47151]/20 text-[#18181B];
   }
 
   .text-gold-gradient {
-    background: linear-gradient(135deg, #E8A21A 0%, #C9880E 60%, #A06A08 100%);
+    background: linear-gradient(135deg, #CB7A5D 0%, #D47151 60%, #A6553A 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -141,7 +130,7 @@
   width: 22px;
   height: 22px;
   border-radius: 50%;
-  background: #12161F;
+  background: #18181B;
   cursor: pointer;
   border: 3px solid #fff;
   box-shadow: 0 1px 6px rgba(18, 22, 31, 0.25);
@@ -156,10 +145,34 @@
   width: 22px;
   height: 22px;
   border-radius: 50%;
-  background: #12161F;
+  background: #18181B;
   cursor: pointer;
   border: 3px solid #fff;
   box-shadow: 0 1px 6px rgba(18, 22, 31, 0.25);
 }
 
 /* content-visibility removed — it applies contain:layout which breaks IntersectionObserver in Reveal components */
+
+/* ── Editorial mode — strips border-radius inside sharp containers ─────── */
+.editorial-wrapper .rounded-3xl,
+.editorial-wrapper .rounded-2xl,
+.editorial-wrapper .rounded-xl,
+.editorial-wrapper .rounded-lg,
+.editorial-wrapper .rounded-md,
+.editorial-wrapper .rounded {
+  border-radius: 0 !important;
+}
+.editorial-wrapper .rounded-full {
+  border-radius: 9999px !important;
+}
+
+@keyframes ticker {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+@keyframes ticker-reverse {
+  0%   { transform: translateX(-50%); }
+  100% { transform: translateX(0); }
+}
+.animate-ticker         { animation: ticker 25s linear infinite; will-change: transform; }
+.animate-ticker-reverse { animation: ticker-reverse 30s linear infinite; will-change: transform; }

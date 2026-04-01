@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "on-primary": "#5d1801",
+              "on-background": "#e5e2e1",
+              "error": "#ffb4ab",
+              "on-secondary-fixed-variant": "#494741",
+              "on-secondary": "#32302b",
+              "on-surface": "#e5e2e1",
+              "inverse-surface": "#e5e2e1",
+              "surface-container": "#201f1f",
+              "outline-variant": "#55433d",
+              "surface-container-high": "#2a2a2a",
+              "secondary-fixed-dim": "#cac6be",
+              "surface-dim": "#131313",
+              "primary-fixed": "#ffdbd0",
+              "primary-container": "#d97555",
+              "inverse-on-surface": "#313030",
+              "surface-tint": "#ffb59e",
+              "on-primary-fixed-variant": "#7b2e13",
+              "tertiary-fixed": "#e2e2e2",
+              "on-tertiary": "#2f3131",
+              "on-primary-fixed": "#3a0b00",
+              "on-tertiary-container": "#282a2a",
+              "on-secondary-container": "#b9b5ad",
+              "primary-fixed-dim": "#ffb59e",
+              "surface-container-highest": "#353534",
+              "on-tertiary-fixed-variant": "#454747",
+              "on-surface-variant": "#dbc1b9",
+              "on-secondary-fixed": "#1d1c17",
+              "secondary-container": "#494741",
+              "surface-container-lowest": "#0e0e0e",
+              "outline": "#a38c85",
+              "inverse-primary": "#9a4528",
+              "surface": "#131313",
+              "surface-bright": "#3a3939",
+              "secondary-fixed": "#e7e2da",
+              "on-tertiary-fixed": "#1a1c1c",
+              "on-error-container": "#ffdad6",
+              "surface-variant": "#353534",
+              "secondary": "#cac6be",
+              "on-error": "#690005",
+              "tertiary-container": "#909191",
+              "background": "#131313",
+              "tertiary": "#c6c6c7",
+              "error-container": "#93000a",
+              "surface-container-low": "#1c1b1b",
+              "primary": "#ffb59e",
+              "on-primary-container": "#521300",
+              "tertiary-fixed-dim": "#c6c6c7"
+            },
+            fontFamily: {
+              "headline": ["Inter", "sans-serif"],
+              "body": ["Inter", "sans-serif"],
+              "label": ["Inter", "sans-serif"]
+            },
+            borderRadius: {"DEFAULT": "0px", "lg": "0px", "xl": "0px", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+        .text-terracotta { color: #D47151; }
+        .bg-terracotta { background-color: #D47151; }
+        .border-terracotta { border-color: #D47151; }
+        .mix-difference { mix-blend-mode: difference; }
+        body { background-color: #0A0A0A; }
+    </style>
+</head>
+<body class="font-body text-on-background selection:bg-primary-container selection:text-on-primary-container">
+<!-- TopAppBar -->
+<nav class="fixed top-0 left-0 w-full z-50 flex justify-between items-center px-12 py-6 bg-[#0A0A0A]/80 backdrop-blur-xl dark:bg-[#0A0A0A]/80 border-b border-[#D47151]/15">
+<div class="text-2xl font-black text-[#F5F0E8] dark:text-[#F5F0E8] tracking-[-0.05em] font-['Inter'] uppercase mix-blend-difference">
+            TC
+        </div>
+<div class="hidden md:flex gap-12">
+<a class="text-[#D47151] font-black border-b-2 border-[#D47151] pb-1 font-['Inter'] uppercase tracking-tighter text-xs" href="#">Platform</a>
+<a class="text-[#F5F0E8] font-extralight hover:text-[#D47151] transition-colors font-['Inter'] uppercase tracking-tighter text-xs" href="#">Ledger</a>
+<a class="text-[#F5F0E8] font-extralight hover:text-[#D47151] transition-colors font-['Inter'] uppercase tracking-tighter text-xs" href="#">Archive</a>
+<a class="text-[#F5F0E8] font-extralight hover:text-[#D47151] transition-colors font-['Inter'] uppercase tracking-tighter text-xs" href="#">Pricing</a>
+</div>
+<div class="text-[#D47151] font-black uppercase tracking-tighter text-xs font-['Inter']">
+            EST. 2024 · LIMA
+        </div>
+</nav>
+<main>
+<!-- SECTION 1: Hero 60/40 Split -->
+<section class="min-h-screen flex flex-col md:flex-row pt-24">
+<!-- Left: Black (60%) -->
+<div class="w-full md:w-[60%] bg-[#0A0A0A] flex flex-col justify-center px-12 py-20">
+<h1 class="text-[clamp(4rem,10vw,8rem)] leading-[0.85] font-black text-[#FFFFFF] tracking-[-0.05em] uppercase flex flex-col">
+<span>VENDE.</span>
+<span>COBRA.</span>
+<span class="text-terracotta">RECOGE.</span>
+</h1>
+<p class="text-[50px] font-extralight italic text-white/50 tracking-tighter mt-8 leading-none">
+                    Cierra con nosotros.
+                </p>
+</div>
+<!-- Right: Cream (40%) -->
+<div class="w-full md:w-[40%] bg-[#F5F0E8] flex items-center justify-center p-12">
+<div class="w-full max-w-sm bg-white p-12 border border-black/5 shadow-2xl">
+<div class="flex justify-between items-start mb-20">
+<span class="font-black text-black text-xs tracking-widest uppercase">TuCierre Pro</span>
+<span class="font-black text-terracotta text-8xl leading-none tracking-tighter">05</span>
+</div>
+<div class="space-y-12">
+<div>
+<label class="block text-[10px] font-black uppercase tracking-[0.2em] text-black/40 mb-2">Comisión de Venta</label>
+<div class="w-full h-px bg-black/10 relative">
+<div class="absolute top-0 left-0 h-[2px] w-3/4 bg-terracotta"></div>
+</div>
+</div>
+<div class="flex justify-between items-end">
+<div>
+<span class="block text-[10px] font-black uppercase tracking-[0.2em] text-black/40">Status</span>
+<span class="font-black text-2xl text-black">Ledger Active</span>
+</div>
+<button class="bg-[#F5F0E8] text-on-secondary px-8 py-4 rounded-full font-black text-xs uppercase tracking-widest hover:scale-105 transition-transform">
+                                Calcular
+                            </button>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- SECTION 2: Scrolling Ticker -->
+<section class="bg-[#0A0A0A] py-10 overflow-hidden border-y border-white/5">
+<div class="flex whitespace-nowrap gap-20 animate-pulse">
+<div class="text-terracotta font-black text-4xl uppercase tracking-tighter">EDITORIAL LEDGER V1.0</div>
+<div class="text-white/25 font-extralight text-4xl uppercase tracking-tighter italic">TRANSPARENCIA TOTAL</div>
+<div class="text-terracotta font-black text-4xl uppercase tracking-tighter">EDITORIAL LEDGER V1.0</div>
+<div class="text-white/25 font-extralight text-4xl uppercase tracking-tighter italic">TRANSPARENCIA TOTAL</div>
+<div class="text-terracotta font-black text-4xl uppercase tracking-tighter">EDITORIAL LEDGER V1.0</div>
+<div class="text-white/25 font-extralight text-4xl uppercase tracking-tighter italic">TRANSPARENCIA TOTAL</div>
+</div>
+</section>
+<!-- SECTION 3: The Ledger Stats -->
+<section class="bg-surface-dim px-12 py-32 grid grid-cols-1 md:grid-cols-4 border-b border-white/5">
+<div class="p-8 md:border-r border-white/10 flex flex-col gap-4">
+<span class="text-white/40 font-black text-xs uppercase tracking-widest">Contratos</span>
+<span class="text-6xl font-black tracking-tighter">1,000+</span>
+</div>
+<div class="p-8 md:border-r border-white/10 flex flex-col gap-4">
+<span class="text-white/40 font-black text-xs uppercase tracking-widest">Liquidación</span>
+<span class="text-6xl font-black tracking-tighter text-terracotta">7 DÍAS</span>
+</div>
+<div class="p-8 md:border-r border-white/10 flex flex-col gap-4">
+<span class="text-white/40 font-black text-xs uppercase tracking-widest">Notarías</span>
+<span class="text-6xl font-black tracking-tighter">16+</span>
+</div>
+<div class="p-8 flex flex-col gap-4">
+<span class="text-white/40 font-black text-xs uppercase tracking-widest">Fee Promedio</span>
+<span class="text-6xl font-black tracking-tighter">8%</span>
+</div>
+</section>
+<!-- SECTION 4: The Staircase -->
+<section class="bg-[#0A0A0A] px-12 py-40">
+<h2 class="text-white font-black text-5xl uppercase tracking-tighter mb-32">Proceso de <span class="font-extralight italic text-white/40">Estructura</span></h2>
+<div class="flex flex-col gap-12">
+<!-- Step 1 -->
+<div class="flex items-start gap-12 group">
+<span class="text-8xl font-black text-white/5 group-hover:text-terracotta transition-colors">01</span>
+<div class="bg-surface-container-low p-12 w-full md:w-2/3 mt-8">
+<h3 class="font-black text-2xl uppercase tracking-widest mb-4">Registro Notarial</h3>
+<p class="text-white/60 font-extralight leading-relaxed max-w-md">Indexamos cada documento bajo estándares de seguridad editorial de alta gama.</p>
+</div>
+</div>
+<!-- Step 2 -->
+<div class="flex items-start gap-12 group md:ml-32">
+<span class="text-8xl font-black text-white/5 group-hover:text-terracotta transition-colors">02</span>
+<div class="bg-surface-container-low p-12 w-full md:w-2/3 mt-8">
+<h3 class="font-black text-2xl uppercase tracking-widest mb-4 text-terracotta">Verificación Digital</h3>
+<p class="text-white/60 font-extralight leading-relaxed max-w-md">Protocolo de validación instantánea para asegurar la legitimidad del cobro.</p>
+</div>
+</div>
+<!-- Step 3 -->
+<div class="flex items-start gap-12 group md:ml-64">
+<span class="text-8xl font-black text-white/5 group-hover:text-terracotta transition-colors">03</span>
+<div class="bg-surface-container-low p-12 w-full md:w-2/3 mt-8">
+<h3 class="font-black text-2xl uppercase tracking-widest mb-4">Cierre y Pago</h3>
+<p class="text-white/60 font-extralight leading-relaxed max-w-md">Transferencia final directa a su cuenta. Sin intermediarios, sin esperas.</p>
+</div>
+</div>
+</div>
+</section>
+<!-- SECTION 5: Triptych Panels -->
+<section class="flex flex-col md:flex-row min-h-screen">
+<!-- Panel 1: Cream -->
+<div class="flex-1 bg-[#F5F0E8] p-16 flex flex-col justify-between">
+<div>
+<span class="text-[10px] font-black uppercase tracking-[0.3em] text-black/30 block mb-12">Capítulo I</span>
+<h2 class="text-black leading-tight">
+<span class="block text-6xl font-black uppercase tracking-tighter">Precio</span>
+<span class="block text-6xl font-extralight italic tracking-tighter">exacto.</span>
+</h2>
+</div>
+<p class="text-black/60 font-light max-w-[240px]">Transparencia absoluta en cada decimal de su transacción.</p>
+</div>
+<!-- Panel 2: Black -->
+<div class="flex-1 bg-[#0A0A0A] p-16 flex flex-col justify-between border-x border-white/5">
+<div>
+<span class="text-[10px] font-black uppercase tracking-[0.3em] text-white/30 block mb-12">Capítulo II</span>
+<h2 class="text-white leading-tight">
+<span class="block text-6xl font-black uppercase tracking-tighter text-terracotta">Nunca</span>
+<span class="block text-6xl font-extralight italic tracking-tighter">más "¿Cuándo sale?"</span>
+</h2>
+</div>
+<p class="text-white/60 font-light max-w-[240px]">Cronograma de pagos garantizado bajo contrato editorial.</p>
+</div>
+<!-- Panel 3: Cream -->
+<div class="flex-1 bg-[#F5F0E8] p-16 flex flex-col justify-between">
+<div>
+<span class="text-[10px] font-black uppercase tracking-[0.3em] text-black/30 block mb-12">Capítulo III</span>
+<h2 class="text-black leading-tight">
+<span class="block text-6xl font-black uppercase tracking-tighter">Tu pago,</span>
+<span class="block text-6xl font-extralight italic tracking-tighter">sin perseguir.</span>
+</h2>
+</div>
+<p class="text-black/60 font-light max-w-[240px]">Nosotros gestionamos la cobranza. Usted solo recibe.</p>
+</div>
+</section>
+<!-- SECTION 6: Bloomberg-style Pricing -->
+<section class="bg-surface-dim px-12 py-40 overflow-x-auto">
+<div class="min-w-[800px]">
+<div class="grid grid-cols-4 border-b border-white/10 pb-8 mb-8">
+<div class="text-[10px] font-black uppercase tracking-widest text-white/30">Categoría</div>
+<div class="text-[10px] font-black uppercase tracking-widest text-white/30 text-center">Base Fee</div>
+<div class="text-[10px] font-black uppercase tracking-widest text-white/30 text-center">Liquidez</div>
+<div class="text-[10px] font-black uppercase tracking-widest text-white/30 text-right">Acceso</div>
+</div>
+<!-- Row 1 -->
+<div class="grid grid-cols-4 py-8 items-center border-b border-white/5 opacity-50">
+<div class="font-black uppercase tracking-tighter text-xl">Nivel 1</div>
+<div class="text-center font-extralight text-3xl">3%</div>
+<div class="text-center font-extralight text-sm uppercase">15 Días</div>
+<div class="text-right"><span class="material-symbols-outlined text-white/20">lock</span></div>
+</div>
+<!-- Row 2: The Star -->
+<div class="grid grid-cols-4 h-[200px] items-center bg-terracotta px-8 -mx-8 my-4 shadow-2xl relative overflow-hidden">
+<div class="font-black uppercase tracking-tighter text-4xl text-on-primary">Nivel 2</div>
+<div class="text-center font-black text-9xl text-on-primary tracking-tighter">5%</div>
+<div class="text-center font-black text-xl uppercase text-on-primary">Inmediato</div>
+<div class="text-right">
+<div class="inline-block bg-on-primary text-terracotta px-8 py-3 rounded-full font-black text-xs uppercase tracking-widest">
+                            Seleccionado
+                        </div>
+</div>
+<!-- Decorative Graphic -->
+<div class="absolute right-0 bottom-0 opacity-10 pointer-events-none">
+<span class="text-[12rem] font-black leading-none translate-y-1/3">PRO</span>
+</div>
+</div>
+<!-- Row 3 -->
+<div class="grid grid-cols-4 py-8 items-center border-b border-white/5 opacity-50">
+<div class="font-black uppercase tracking-tighter text-xl">Nivel 3</div>
+<div class="text-center font-extralight text-3xl">8%</div>
+<div class="text-center font-extralight text-sm uppercase">Personalizado</div>
+<div class="text-right"><span class="material-symbols-outlined text-white/20">lock</span></div>
+</div>
+</div>
+</section>
+<!-- SECTION 7: Close CTA -->
+<section class="bg-[#0A0A0A] py-60 px-12 text-center">
+<h2 class="mb-16">
+<span class="block text-6xl md:text-8xl font-black uppercase tracking-tighter">¿LISTO PARA</span>
+<span class="block text-6xl md:text-8xl font-extralight italic tracking-tighter text-terracotta">cerrar?</span>
+</h2>
+<button class="bg-terracotta text-on-primary px-16 py-6 rounded-full font-black text-xl uppercase tracking-widest hover:scale-110 transition-transform duration-300">
+                Empezar gratis
+            </button>
+</section>
+</main>
+<!-- Footer -->
+<footer class="bg-[#0A0A0A] w-full pt-20 border-t border-[#D47151]">
+<div class="px-12 flex flex-col items-center gap-12 pb-20">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 bg-terracotta flex items-center justify-center" style="clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);">
+<span class="text-on-primary font-black text-lg">TC</span>
+</div>
+<span class="text-3xl font-black text-white tracking-tighter uppercase">TuCierre</span>
+</div>
+<div class="flex flex-wrap justify-center gap-10">
+<a class="font-['Inter'] font-extralight text-[10px] tracking-[0.2em] uppercase opacity-60 hover:opacity-100 hover:text-[#D47151] transition-all" href="#">Legal Terms</a>
+<a class="font-['Inter'] font-extralight text-[10px] tracking-[0.2em] uppercase opacity-60 hover:opacity-100 hover:text-[#D47151] transition-all underline decoration-[#D47151]" href="#">Privacy Ledger</a>
+<a class="font-['Inter'] font-extralight text-[10px] tracking-[0.2em] uppercase opacity-60 hover:opacity-100 hover:text-[#D47151] transition-all" href="#">API Docs</a>
+<a class="font-['Inter'] font-extralight text-[10px] tracking-[0.2em] uppercase opacity-60 hover:opacity-100 hover:text-[#D47151] transition-all" href="#">Contact Authority</a>
+</div>
+<p class="font-['Inter'] font-extralight text-[10px] tracking-[0.2em] uppercase text-white/30 text-center max-w-lg">
+                © 2024 TuCierre. All Rights Reserved. Brutalist Structuralism applied. Built for editorial precision.
+            </p>
+</div>
+<div class="h-1 bg-terracotta/20 w-full"></div>
+</footer>
+</body></html>
