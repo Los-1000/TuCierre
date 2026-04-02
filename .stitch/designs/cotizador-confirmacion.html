@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+
+<html class="light" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "surface-container-low": "#f3f4f3",
+              "secondary-fixed-dim": "#c8c5ca",
+              "secondary-fixed": "#e4e1e6",
+              "on-secondary": "#ffffff",
+              "on-surface-variant": "#55433d",
+              "background": "#f9f9f8",
+              "on-surface": "#1a1c1c",
+              "secondary": "#5f5e61",
+              "surface-tint": "#9a4528",
+              "tertiary-fixed-dim": "#61d9cc",
+              "on-tertiary": "#ffffff",
+              "on-primary-container": "#fffbff",
+              "inverse-surface": "#2f3130",
+              "on-tertiary-container": "#f4fffc",
+              "tertiary": "#00685f",
+              "surface-variant": "#e2e2e2",
+              "primary-fixed": "#ffdbd0",
+              "on-error-container": "#93000a",
+              "on-secondary-container": "#656467",
+              "primary-fixed-dim": "#ffb59e",
+              "on-error": "#ffffff",
+              "surface-container": "#eeeeed",
+              "on-tertiary-fixed": "#00201d",
+              "inverse-primary": "#ffb59e",
+              "outline": "#88726c",
+              "on-background": "#1a1c1c",
+              "surface-container-lowest": "#ffffff",
+              "tertiary-container": "#008379",
+              "surface-bright": "#f9f9f8",
+              "secondary-container": "#e4e1e6",
+              "surface-dim": "#dadad9",
+              "on-secondary-fixed": "#1b1b1e",
+              "primary-container": "#b65a3c",
+              "outline-variant": "#dbc1b9",
+              "on-primary-fixed": "#3a0b00",
+              "on-primary": "#ffffff",
+              "on-secondary-fixed-variant": "#47464a",
+              "primary": "#974226",
+              "inverse-on-surface": "#f1f1f0",
+              "tertiary-fixed": "#80f6e8",
+              "surface-container-high": "#e8e8e7",
+              "on-tertiary-fixed-variant": "#00504a",
+              "surface-container-highest": "#e2e2e2",
+              "on-primary-fixed-variant": "#7b2e13",
+              "surface": "#f9f9f8",
+              "error": "#ba1a1a",
+              "error-container": "#ffdad6"
+            },
+            fontFamily: {
+              "headline": ["Inter"],
+              "body": ["Inter"],
+              "label": ["Inter"]
+            },
+            borderRadius: {"DEFAULT": "1rem", "lg": "2rem", "xl": "3rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+        body { font-family: 'Inter', sans-serif; }
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+        .tonal-layering-surface-low { background-color: #f3f4f3; }
+        .tonal-layering-no-line { border-bottom: none !important; }
+        .flat-no-shadows { box-shadow: none !important; }
+    </style>
+</head>
+<body class="bg-surface text-on-surface antialiased min-h-screen">
+<!-- Sidebar (Shared Component Anchor) -->
+<aside class="fixed left-0 top-0 bottom-0 flex flex-col p-6 w-[240px] h-screen border-r border-zinc-100 dark:border-zinc-800 bg-white dark:bg-zinc-900 font-inter text-sm antialiased font-medium z-50">
+<div class="mb-10 flex items-center gap-3">
+<div class="w-10 h-10 bg-primary rounded-xl flex items-center justify-center text-white">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">account_balance</span>
+</div>
+<div>
+<h1 class="text-2xl font-bold text-zinc-900 dark:text-zinc-50 leading-none">TuCierre</h1>
+<p class="text-[10px] uppercase tracking-widest text-zinc-400 mt-1">Broker Portal</p>
+</div>
+</div>
+<nav class="flex-1 space-y-1">
+<a class="flex items-center gap-3 px-4 py-3 text-zinc-500 dark:text-zinc-400 hover:text-zinc-900 hover:bg-zinc-50 dark:hover:bg-zinc-800 transition-colors rounded-xl group" href="#">
+<span class="material-symbols-outlined transition-transform group-active:scale-95">home</span>
+<span>Inicio</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-orange-700 dark:text-orange-400 font-semibold bg-zinc-50 dark:bg-zinc-800/50 rounded-xl transition-all duration-150 ease-in-out" href="#">
+<span class="material-symbols-outlined">calculate</span>
+<span>Cotizar</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-zinc-500 dark:text-zinc-400 hover:text-zinc-900 hover:bg-zinc-50 dark:hover:bg-zinc-800 transition-colors rounded-xl group" href="#">
+<span class="material-symbols-outlined">description</span>
+<span>Mis Trámites</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-zinc-500 dark:text-zinc-400 hover:text-zinc-900 hover:bg-zinc-50 dark:hover:bg-zinc-800 transition-colors rounded-xl group" href="#">
+<span class="material-symbols-outlined">military_tech</span>
+<span>Recompensas</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-zinc-500 dark:text-zinc-400 hover:text-zinc-900 hover:bg-zinc-50 dark:hover:bg-zinc-800 transition-colors rounded-xl group" href="#">
+<span class="material-symbols-outlined">compare_arrows</span>
+<span>Price Matching</span>
+</a>
+</nav>
+<div class="pt-6 border-t border-zinc-100 dark:border-zinc-800 space-y-1">
+<a class="flex items-center gap-3 px-4 py-3 text-zinc-500 hover:text-zinc-900 transition-colors rounded-xl" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span>Configuración</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-zinc-500 hover:text-zinc-900 transition-colors rounded-xl" href="#">
+<span class="material-symbols-outlined">logout</span>
+<span>Cerrar sesión</span>
+</a>
+</div>
+</aside>
+<!-- Main Canvas -->
+<main class="ml-[240px] min-h-screen flex flex-col">
+<!-- TopAppBar (Shared Component Anchor) -->
+<header class="sticky top-0 z-40 flex items-center justify-between px-8 h-16 w-full bg-white/80 dark:bg-zinc-900/80 backdrop-blur-xl border-b border-zinc-100 dark:border-zinc-800 tonal-layering-no-line flat-no-shadows">
+<div class="flex items-center gap-4">
+<h2 class="font-inter headline-sm text-zinc-900 dark:text-zinc-50 font-bold tracking-tight">Cotizador</h2>
+</div>
+<div class="flex items-center gap-6">
+<button class="text-zinc-500 hover:text-zinc-900 transition-all">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<div class="flex items-center gap-3 pl-4 border-l border-zinc-100">
+<span class="text-sm font-semibold text-zinc-900">Marco</span>
+<img alt="User Avatar Marco" class="w-8 h-8 rounded-full object-cover border-2 border-surface-container-high" data-alt="professional headshot of a smiling man in a business casual attire with soft studio lighting and neutral background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDV36EOSJELn1MjUTn4FTM5wP5A_QWyKesE4fItq5zT9nN2Qg4p2EGZS5hrNejUgRUOfQ-otx-wSdQFtIiDm4OUepckuKDmfM1-qhNJO3MCm3x-ur5docfBSLIvATQfgSERXfUyVQ4BQlO3-nb98yMWRR0g37iO8GxTstA5NXVLiswZutDacMG2k1X8KU4OX3wVbZAwHCHy_ohOb57sN1jMaFy12_M7Of8IKbyloCu8AjJhpX1A0Et1bpwFfRu5ri_PMVO-VEd_pQbN"/>
+</div>
+</div>
+</header>
+<!-- Content Area -->
+<div class="p-10 max-w-6xl mx-auto w-full">
+<!-- Step Indicator -->
+<div class="flex items-center justify-center mb-12 gap-4">
+<div class="flex items-center gap-2">
+<div class="w-8 h-8 rounded-full bg-zinc-900 text-white flex items-center justify-center">
+<span class="material-symbols-outlined text-sm">check</span>
+</div>
+<span class="text-xs font-bold uppercase tracking-wider text-zinc-400">Tipo</span>
+</div>
+<div class="w-12 h-[1px] bg-zinc-200"></div>
+<div class="flex items-center gap-2">
+<div class="w-8 h-8 rounded-full bg-zinc-900 text-white flex items-center justify-center">
+<span class="material-symbols-outlined text-sm">check</span>
+</div>
+<span class="text-xs font-bold uppercase tracking-wider text-zinc-400">Detalles</span>
+</div>
+<div class="w-12 h-[1px] bg-zinc-200"></div>
+<div class="flex items-center gap-2">
+<div class="w-8 h-8 rounded-full bg-primary text-white flex items-center justify-center">
+<span class="text-xs font-bold">3</span>
+</div>
+<span class="text-xs font-bold uppercase tracking-wider text-on-surface">Confirmación</span>
+</div>
+</div>
+<!-- Asymmetric Grid Layout -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+<!-- LEFT: Resumen Card -->
+<section class="lg:col-span-7 bg-surface-container-lowest rounded-3xl p-8 shadow-sm">
+<header class="flex justify-between items-start mb-8">
+<div>
+<span class="text-[10px] font-bold uppercase tracking-widest text-primary mb-1 block">Resumen del Trámite</span>
+<h3 class="text-3xl font-bold tracking-tight text-on-surface">Compraventa</h3>
+</div>
+<div class="flex -space-x-2">
+<img alt="Comprador" class="w-10 h-10 rounded-full border-4 border-white object-cover" data-alt="portrait of a professional woman with a friendly expression in natural daylight" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA7uizVnzpMLdz8ouyG2eCpFl2vqGeOCuL1-B7YBYEXBowXD2BgUqgc9qsIBCprgP7FgH2FY5CN2_g7PKlcyBNYpRGSnLBHGHtTPv_SVdzp86QWuKz0JZ3Nm30_azltOrq2UYuZ2G64iFAc8wnBbaI4AIJ6HW2-Vpu6grkn9IGh-PkIXL3XPTBUYYcNxKRoO7gv8zbd7lbe4qJ6F-ldxeOtWD6Uu5DEFiaIP5OVBFU4dT6v9C_AvtJdWrfz6NIuw1lm_pi1T-VBxH9x"/>
+<img alt="Vendedor" class="w-10 h-10 rounded-full border-4 border-white object-cover" data-alt="portrait of a man with spectacles and a soft smile in an office environment" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDn6Yjnxpr7CkvAdNhyQy5AX-Tc1SnxrfCgfxDjXq1tHokSc1e2B8r9tT-GnKV37olIKF0QTwFBIk_GnSwijvQEWqVLgyfP0Oq8qyOm34ZCOHuNslkB7eQKGNsOVP5l1mKOHEBaNVi1Yr6TqTILOXiUapwg_br3L-mYwgjImNxaa2bQ1zNj3mD5eVkmAHj7HhvRkfKyDQCwAdFh0L7KQ0H4s0VNDryHQyMvpGWE3mNJArviWjk1XBawPTMCPGE8HYL8uMx-j1aHZ2MQ"/>
+<div class="w-10 h-10 rounded-full border-4 border-white bg-surface-container-high flex items-center justify-center text-[10px] font-bold">+2</div>
+</div>
+</header>
+<div class="space-y-6">
+<div class="flex items-start gap-4">
+<span class="material-symbols-outlined text-zinc-400">location_on</span>
+<div>
+<p class="text-sm font-medium text-zinc-500">Dirección del Inmueble</p>
+<p class="text-lg font-semibold text-on-surface">Jr. Las Flores 342, Santiago de Surco</p>
+</div>
+</div>
+<div class="p-6 bg-surface-container-low rounded-2xl flex items-center justify-between border-l-4 border-primary">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-xl bg-white flex items-center justify-center text-primary shadow-sm">
+<span class="material-symbols-outlined">auto_awesome</span>
+</div>
+<div>
+<p class="text-sm font-medium text-zinc-500">Notaría</p>
+<p class="text-lg font-bold text-on-surface">Asignación automática</p>
+<p class="text-xs text-zinc-400">Buscamos la notaría más rápida y económica por ti.</p>
+</div>
+</div>
+</div>
+<div class="grid grid-cols-2 gap-4">
+<div class="p-4 border border-outline-variant/30 rounded-2xl">
+<p class="text-xs font-bold text-zinc-400 uppercase tracking-tighter mb-1">Partes Involucradas</p>
+<p class="text-sm font-medium">4 Personas</p>
+</div>
+<div class="p-4 border border-outline-variant/30 rounded-2xl">
+<p class="text-xs font-bold text-zinc-400 uppercase tracking-tighter mb-1">Tiempo Estimado</p>
+<p class="text-sm font-medium">12-15 días hábiles</p>
+</div>
+</div>
+</div>
+</section>
+<!-- RIGHT: Price Card -->
+<section class="lg:col-span-5 bg-zinc-900 text-white rounded-3xl p-8 shadow-2xl relative overflow-hidden">
+<!-- Subtle pattern background -->
+<div class="absolute inset-0 opacity-10 pointer-events-none">
+<svg class="h-full w-full" preserveaspectratio="none" viewbox="0 0 100 100">
+<path d="M0 100 L100 0 L100 100 Z" fill="white"></path>
+</svg>
+</div>
+<div class="relative z-10">
+<h4 class="text-xs font-bold uppercase tracking-[0.2em] text-zinc-500 mb-6">Cotización Final</h4>
+<div class="space-y-4 mb-8 pb-8 border-b border-white/10">
+<div class="flex justify-between items-center">
+<span class="text-zinc-400">Gastos Notariales</span>
+<span class="font-medium">S/. 8,240</span>
+</div>
+<div class="flex justify-between items-center">
+<span class="text-zinc-400">Derechos Registrales</span>
+<span class="font-medium">S/. 880</span>
+</div>
+<div class="flex justify-between items-center text-primary-fixed-dim">
+<span class="font-medium">Comisión TuCierre</span>
+<span class="font-bold">S/. 456</span>
+</div>
+</div>
+<div class="mb-10">
+<p class="text-zinc-500 text-sm mb-1">Total a pagar</p>
+<p class="text-5xl font-black tracking-tighter">S/. 9,120</p>
+</div>
+<button class="w-full py-5 bg-gradient-to-br from-primary to-primary-container text-white rounded-full font-bold text-lg shadow-lg hover:scale-[1.02] transition-transform active:scale-95 flex items-center justify-center gap-3">
+                            Solicitar trámite
+                            <span class="material-symbols-outlined">arrow_forward</span>
+</button>
+<button class="w-full mt-6 text-zinc-400 text-sm font-medium hover:text-white transition-colors underline decoration-zinc-700 underline-offset-8 decoration-2">
+                            Tengo una cotización más baja
+                        </button>
+</div>
+</section>
+</div>
+</div>
+</main>
+<!-- MODAL OVERLAY (Price Match) -->
+<!-- Note: Fixed visibility for the purpose of the screen generation as requested -->
+<div class="fixed inset-0 z-[100] flex items-center justify-center px-4">
+<!-- Backdrop -->
+<div class="absolute inset-0 bg-[#18181B]/40 backdrop-blur-md"></div>
+<!-- Dialog -->
+<div class="relative bg-white rounded-3xl w-full max-w-lg shadow-2xl overflow-hidden animate-in fade-in zoom-in duration-300">
+<div class="p-8">
+<header class="mb-8">
+<div class="w-14 h-14 bg-surface-container-low rounded-2xl flex items-center justify-center text-primary mb-4">
+<span class="material-symbols-outlined text-3xl">local_offer</span>
+</div>
+<h3 class="text-2xl font-bold text-on-surface">¿Tienes una cotización más baja?</h3>
+<p class="text-on-surface-variant mt-2">Sube tu cotización actual y haremos lo posible por mejorarla o igualarla.</p>
+</header>
+<form class="space-y-6">
+<div class="space-y-4">
+<div>
+<label class="block text-[10px] font-bold uppercase tracking-widest text-zinc-500 mb-2 px-1">Notaría competidora</label>
+<input class="w-full bg-surface-container-low border-none rounded-2xl px-5 h-12 focus:ring-2 focus:ring-primary/20 transition-all placeholder:text-zinc-400" placeholder="Ej. Notaría Fernandini" type="text"/>
+</div>
+<div>
+<label class="block text-[10px] font-bold uppercase tracking-widest text-zinc-500 mb-2 px-1">Precio ofertado (S/.)</label>
+<input class="w-full bg-surface-container-low border-none rounded-2xl px-5 h-12 focus:ring-2 focus:ring-primary/20 transition-all placeholder:text-zinc-400" placeholder="0.00" type="number"/>
+</div>
+</div>
+<!-- Drag-drop evidence zone -->
+<div class="border-2 border-dashed border-outline-variant/50 rounded-3xl p-8 flex flex-col items-center justify-center text-center group hover:border-primary/50 transition-colors cursor-pointer bg-surface/50">
+<div class="w-12 h-12 rounded-full bg-surface-container flex items-center justify-center mb-3 group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-zinc-500">upload_file</span>
+</div>
+<p class="text-sm font-bold text-on-surface">Carga tu evidencia</p>
+<p class="text-xs text-zinc-400 mt-1">Sube un PDF o foto de la cotización original</p>
+</div>
+<div class="flex items-center gap-4 pt-4">
+<button class="flex-1 py-4 text-on-surface font-bold text-sm hover:bg-surface-container rounded-full transition-colors" type="button">
+                            Cancelar
+                        </button>
+<button class="flex-[2] py-4 bg-zinc-900 text-white font-bold text-sm rounded-full shadow-lg shadow-black/10 flex items-center justify-center gap-2 hover:bg-black transition-all" type="submit">
+                            Enviar solicitud
+                            <span class="material-symbols-outlined text-sm">send</span>
+</button>
+</div>
+</form>
+</div>
+<!-- Bottom tier accent -->
+<div class="h-1 w-full bg-gradient-to-r from-orange-300 via-orange-600 to-orange-300 opacity-50"></div>
+</div>
+</div>
+</body></html>

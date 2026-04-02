@@ -15,7 +15,7 @@ export default function AppShell({ broker, children }: AppShellProps) {
   const [sidebarOpen, setSidebarOpen] = useState(false)
 
   return (
-    <div className="flex min-h-screen bg-parchment">
+    <div className="flex min-h-screen bg-[#F9F9F8]">
       {/* Desktop Sidebar */}
       <Sidebar broker={broker} />
 

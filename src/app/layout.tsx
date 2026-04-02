@@ -51,8 +51,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           toastOptions={{
             classNames: {
               toast: 'rounded-lg border shadow-lg font-sans text-sm',
-              success: 'bg-white text-ink border-emerald-200',
-              error: 'bg-white text-ink border-red-200',
+              success: 'bg-white text-[#18181B] border-emerald-200',
+              error: 'bg-white text-[#18181B] border-red-200',
             },
           }}
         />

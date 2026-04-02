@@ -2,8 +2,7 @@
 
 import { useState, useMemo } from 'react'
 import Link from 'next/link'
-import { Search, Plus, FileText } from 'lucide-react'
-import { Button } from '@/components/ui/button'
+import { Search, Plus, FileText, Download, ArrowRight } from 'lucide-react'
 import { Input } from '@/components/ui/input'
 import {
   Select,
@@ -13,9 +12,10 @@ import {
   SelectValue,
 } from '@/components/ui/select'
 import { TRAMITE_STATUS_CONFIG } from '@/lib/constants'
-import TramiteCard from '@/components/tramites/TramiteCard'
+import StatusBadge from '@/components/tramites/StatusBadge'
 import EmptyState from '@/components/shared/EmptyState'
 import type { Tramite, TramiteStatus } from '@/types/database'
+import { formatPrice, formatDate } from '@/lib/utils'
 
 type DateRange = 'todos' | 'esta_semana' | 'este_mes'
 
@@ -62,97 +62,168 @@ export default function TramitesClient({ initialTramites }: TramitesClientProps)
     })
   }, [initialTramites, statusFilter, dateRange, search])
 
+  const handleClearFilters = () => {
+    setSearch('')
+    setStatusFilter('all')
+    setDateRange('todos')
+  }
+
+  const hasActiveFilters = search || statusFilter !== 'all' || dateRange !== 'todos'
+
   return (
     <div className="space-y-6">
       {/* Header */}
       <div className="flex items-center justify-between gap-4 flex-wrap">
         <div className="flex items-center gap-3">
-          <h1 className="text-2xl font-bold text-slate-900">Mis Trámites</h1>
-          <span className="inline-flex items-center justify-center min-w-[1.5rem] h-6 px-2 rounded-full bg-slate-100 text-slate-600 text-xs font-semibold">
+          <h1 className="text-3xl font-semibold text-[#18181B] tracking-tight">Mis Trámites</h1>
+          <span className="inline-flex items-center justify-center px-3 py-1 rounded-full bg-[#D47151]/10 text-[#D47151] text-sm font-bold">
             {filtered.length}
           </span>
         </div>
-        <Button asChild>
-          <Link href="/cotizar">
-            <Plus size={16} />
+        <div className="flex items-center gap-3">
+          <button className="flex items-center gap-2 border border-[#18181B]/15 text-[#18181B] rounded-full px-5 py-2 text-sm font-semibold bg-transparent hover:bg-[#18181B]/5 transition-colors">
+            <Download size={15} />
+            Exportar CSV
+          </button>
+          <Link
+            href="/cotizar"
+            className="flex items-center gap-2 bg-[#D47151] hover:bg-[#A6553A] text-white rounded-full px-6 py-2.5 font-semibold text-sm transition-all shadow-lg shadow-[#D47151]/20"
+          >
+            <Plus size={15} />
             Nueva cotización
           </Link>
-        </Button>
+        </div>
       </div>
 
       {/* Filter bar */}
-      <div className="flex flex-col sm:flex-row gap-3">
-        {/* Search */}
-        <div className="relative flex-1">
-          <Search
-            size={16}
-            className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none"
-          />
-          <Input
-            type="text"
-            placeholder="Buscar por código, tipo o parte..."
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            className="pl-9"
-          />
+      <div className="bg-white rounded-3xl border border-[#18181B]/8 shadow-[0_4px_24px_rgba(18,18,27,0.06)] p-4">
+        <div className="flex flex-col sm:flex-row gap-3">
+          {/* Search */}
+          <div className="relative flex-1">
+            <Search
+              size={16}
+              className="absolute left-4 top-1/2 -translate-y-1/2 text-[#18181B]/40 pointer-events-none"
+            />
+            <input
+              type="text"
+              placeholder="Buscar por código, tipo o parte..."
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              className="w-full h-11 pl-11 pr-4 rounded-2xl border border-[#18181B]/15 bg-white text-sm text-[#18181B] placeholder:text-[#18181B]/40 focus:outline-none focus:ring-2 focus:ring-[#D47151]/30 focus:border-[#D47151] transition-colors"
+            />
+          </div>
+
+          {/* Status select */}
+          <Select
+            value={statusFilter}
+            onValueChange={(v) => setStatusFilter(v as 'all' | TramiteStatus)}
+          >
+            <SelectTrigger className="w-full sm:w-48 h-11 rounded-2xl border-[#18181B]/15 text-sm">
+              <SelectValue placeholder="Estado" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="all">Todos los estados</SelectItem>
+              {(Object.keys(TRAMITE_STATUS_CONFIG) as TramiteStatus[]).map((status) => (
+                <SelectItem key={status} value={status}>
+                  {TRAMITE_STATUS_CONFIG[status].label}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+
+          {/* Date range select */}
+          <Select
+            value={dateRange}
+            onValueChange={(v) => setDateRange(v as DateRange)}
+          >
+            <SelectTrigger className="w-full sm:w-44 h-11 rounded-2xl border-[#18181B]/15 text-sm">
+              <SelectValue placeholder="Período" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="todos">Todos</SelectItem>
+              <SelectItem value="esta_semana">Esta semana</SelectItem>
+              <SelectItem value="este_mes">Este mes</SelectItem>
+            </SelectContent>
+          </Select>
+
+          {/* Clear filters */}
+          {hasActiveFilters && (
+            <button
+              onClick={handleClearFilters}
+              className="text-[#D47151] text-sm font-semibold hover:underline underline-offset-4 px-2 whitespace-nowrap"
+            >
+              Limpiar
+            </button>
+          )}
         </div>
-
-        {/* Status select */}
-        <Select
-          value={statusFilter}
-          onValueChange={(v) => setStatusFilter(v as 'all' | TramiteStatus)}
-        >
-          <SelectTrigger className="w-full sm:w-48">
-            <SelectValue placeholder="Estado" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="all">Todos los estados</SelectItem>
-            {(Object.keys(TRAMITE_STATUS_CONFIG) as TramiteStatus[]).map((status) => (
-              <SelectItem key={status} value={status}>
-                {TRAMITE_STATUS_CONFIG[status].label}
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
-
-        {/* Date range select */}
-        <Select
-          value={dateRange}
-          onValueChange={(v) => setDateRange(v as DateRange)}
-        >
-          <SelectTrigger className="w-full sm:w-44">
-            <SelectValue placeholder="Período" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="todos">Todos</SelectItem>
-            <SelectItem value="esta_semana">Esta semana</SelectItem>
-            <SelectItem value="este_mes">Este mes</SelectItem>
-          </SelectContent>
-        </Select>
       </div>
 
-      {/* Content */}
+      {/* Table / Empty state */}
       {filtered.length === 0 ? (
-        <EmptyState
-          icon={<FileText size={28} className="text-slate-400" />}
-          title={
-            search || statusFilter !== 'all' || dateRange !== 'todos'
-              ? 'Sin resultados'
-              : 'Aún no tienes trámites'
-          }
-          description={
-            search || statusFilter !== 'all' || dateRange !== 'todos'
-              ? 'Intenta ajustar los filtros para encontrar lo que buscas.'
-              : 'Empieza cotizando tu primer trámite notarial en minutos.'
-          }
-          actionLabel="Cotizar ahora"
-          actionHref="/cotizar"
-        />
+        <div className="bg-white rounded-3xl border border-[#18181B]/8 shadow-[0_4px_24px_rgba(18,18,27,0.06)] p-10">
+          <EmptyState
+            icon={<FileText size={28} className="text-[#18181B]/30" />}
+            title={
+              hasActiveFilters
+                ? 'Sin resultados'
+                : 'Aún no tienes trámites'
+            }
+            description={
+              hasActiveFilters
+                ? 'Intenta ajustar los filtros para encontrar lo que buscas.'
+                : 'Empieza cotizando tu primer trámite notarial en minutos.'
+            }
+            actionLabel="Cotizar ahora"
+            actionHref="/cotizar"
+          />
+        </div>
       ) : (
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {filtered.map((tramite) => (
-            <TramiteCard key={tramite.id} tramite={tramite} />
-          ))}
+        <div className="bg-white rounded-3xl border border-[#18181B]/8 shadow-[0_4px_24px_rgba(18,18,27,0.06)] overflow-hidden">
+          <div className="overflow-x-auto">
+            <table className="w-full text-left border-collapse">
+              <thead>
+                <tr className="bg-[#F9F9F8] border-b border-[#18181B]/6">
+                  <th className="px-6 py-4 text-[11px] font-bold uppercase tracking-widest text-[#18181B]/40">Código</th>
+                  <th className="px-6 py-4 text-[11px] font-bold uppercase tracking-widest text-[#18181B]/40">Tipo</th>
+                  <th className="px-6 py-4 text-[11px] font-bold uppercase tracking-widest text-[#18181B]/40">Estado</th>
+                  <th className="px-6 py-4 text-[11px] font-bold uppercase tracking-widest text-[#18181B]/40 hidden md:table-cell">Fecha</th>
+                  <th className="px-6 py-4 text-[11px] font-bold uppercase tracking-widest text-[#18181B]/40 text-right hidden sm:table-cell">Monto</th>
+                  <th className="px-6 py-4 text-[11px] font-bold uppercase tracking-widest text-[#18181B]/40 text-right">Acción</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-[#18181B]/5">
+                {filtered.map((tramite) => (
+                  <tr key={tramite.id} className="hover:bg-[#F9F9F8]/60 transition-colors group">
+                    <td className="px-6 py-4">
+                      <code className="font-mono text-xs bg-[#18181B]/6 text-[#18181B]/70 px-2.5 py-1 rounded-full font-semibold">
+                        {tramite.reference_code}
+                      </code>
+                    </td>
+                    <td className="px-6 py-4 text-sm text-[#18181B]/70 font-medium">
+                      {tramite.tramite_types?.display_name ?? 'Trámite notarial'}
+                    </td>
+                    <td className="px-6 py-4">
+                      <StatusBadge status={tramite.status} size="sm" />
+                    </td>
+                    <td className="px-6 py-4 text-xs text-[#18181B]/40 hidden md:table-cell">
+                      {formatDate(tramite.created_at)}
+                    </td>
+                    <td className="px-6 py-4 text-right font-semibold text-[#18181B] text-sm tabular-nums hidden sm:table-cell">
+                      {formatPrice(tramite.final_price)}
+                    </td>
+                    <td className="px-6 py-4 text-right">
+                      <Link
+                        href={`/tramites/${tramite.id}`}
+                        className="inline-flex items-center gap-1.5 text-[#18181B]/60 border border-[#18181B]/15 rounded-full px-3.5 py-1.5 text-xs font-semibold hover:border-[#D47151]/30 hover:text-[#D47151] transition-all group-hover:translate-x-0.5"
+                      >
+                        Ver <ArrowRight size={12} />
+                      </Link>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         </div>
       )}
     </div>

@@ -71,7 +71,7 @@ export default async function SuperAdminTramitesPage({
             }
             className={`text-xs px-3 py-1.5 rounded-full border font-medium transition-colors ${
               currentStatus === s
-                ? 'bg-brand-navy text-white border-brand-navy'
+                ? 'bg-[#18181B] text-white border-[#18181B]'
                 : 'bg-white text-slate-600 border-slate-200 hover:border-slate-400'
             }`}
           >

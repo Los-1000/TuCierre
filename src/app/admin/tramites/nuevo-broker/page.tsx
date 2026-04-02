@@ -206,7 +206,7 @@ export default function NuevoBrokerPage() {
 
             <Button
               type="submit"
-              className="w-full bg-brand-navy text-parchment hover:bg-brand-navy-light"
+              className="w-full bg-[#18181B] text-white hover:bg-[#2D2D30]"
               disabled={submitting || !foundBroker}
             >
               {submitting ? 'Registrando...' : 'Registrar trámite'}

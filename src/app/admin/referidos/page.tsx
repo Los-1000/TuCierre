@@ -173,7 +173,7 @@ export default function AdminReferidosPage() {
                   </TableCell>
                   <TableCell>
                     {b.referral_code ? (
-                      <code className="text-xs font-mono font-semibold bg-gray-100 px-2 py-0.5 rounded text-brand-navy tracking-wider">
+                      <code className="text-xs font-mono font-semibold bg-gray-100 px-2 py-0.5 rounded text-[#18181B] tracking-wider">
                         {b.referral_code}
                       </code>
                     ) : (

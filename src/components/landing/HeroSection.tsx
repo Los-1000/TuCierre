@@ -1,114 +1,70 @@
-'use client'
-
 import Link from 'next/link'
-import dynamic from 'next/dynamic'
-
-const CommissionCalculator = dynamic(
-  () => import('@/components/landing/CommissionCalculator'),
-  { ssr: false, loading: () => <div className="h-[500px] bg-white/5 animate-pulse" /> }
-)
 
 export default function HeroSection() {
   return (
-    <section className="min-h-screen flex flex-col md:flex-row pt-[60px]">
+    <header className="relative overflow-hidden pt-[64px]" style={{ background: '#0a1f44' }}>
+      {/* Subtle architectural texture overlay */}
+      <div className="absolute inset-0 opacity-10 pointer-events-none bg-gradient-to-br from-white/5 via-transparent to-[#d06d0d]/10" />
 
-      {/* LEFT — Black 60% */}
-      <div
-        className="w-full md:w-[60%] bg-[#0A0A0A] flex flex-col justify-between px-12 lg:px-16 py-16 lg:py-20 min-h-[60vh] md:min-h-screen"
-      >
-        {/* Masthead stamp */}
-        <div className="flex items-center justify-between">
-          <div>
-            <span className="text-[11px] font-black tracking-[0.25em] uppercase text-white/25">TuCierre</span>
-            <span className="text-[11px] font-light tracking-[0.15em] uppercase text-[#D47151]/60 ml-3">· Notaría Digital</span>
-          </div>
-          <span className="text-[10px] font-light tracking-[0.2em] uppercase text-white/15">Est. 2024 · Lima</span>
-        </div>
+      <div className="max-w-screen-2xl mx-auto px-6 md:px-12 py-28 md:py-44 relative z-10 flex flex-col items-center text-center">
+        <div className="space-y-10 max-w-4xl flex flex-col items-center">
 
-        {/* Giant headline */}
-        <div className="flex-1 flex flex-col justify-center py-10">
-          {/* Category pill */}
-          <div className="inline-flex items-center gap-2 mb-8 self-start">
-            <div className="w-1.5 h-1.5 rounded-full bg-[#D47151]" />
-            <span className="text-[11px] font-black tracking-[0.2em] uppercase text-white/40">
-              Para brokers inmobiliarios
+          {/* Eyebrow pill */}
+          <div className="inline-flex items-center px-4 py-1.5 rounded-full bg-white/10 border border-white/20">
+            <span className="text-white text-xs font-bold tracking-widest uppercase">
+              Red de Brokers · Lima, Perú
             </span>
           </div>
 
-          <h1
-            className="font-black text-white uppercase leading-[0.88] tracking-[-0.04em] select-none"
-            style={{ fontSize: 'clamp(72px, 10.5vw, 160px)' }}
-          >
-            <span className="block">CIERRA.</span>
-            <span className="block">COBRA.</span>
-            <span className="block" style={{ color: '#D47151' }}>REPITE.</span>
+          {/* Headline */}
+          <h1 className="text-5xl md:text-8xl font-black text-white tracking-tighter leading-[0.95]">
+            Cierres{' '}
+            <span style={{ color: '#d06d0d' }}>Impecables</span>.{' '}
+            Gestión Institucional.
           </h1>
 
-          {/* Terracotta rule */}
-          <div className="h-px bg-[#D47151] w-full my-8 lg:my-10" />
-
-          {/* Light contrast subtitle */}
-          <p
-            className="font-extralight italic text-white/50 leading-none tracking-[-0.02em] mb-6"
-            style={{ fontSize: 'clamp(30px, 3.8vw, 52px)', fontWeight: 200 }}
-          >
-            Sin papeleos. Sin esperas.
+          {/* Subtitle */}
+          <p className="text-lg md:text-2xl max-w-2xl leading-relaxed font-medium" style={{ color: '#7f9fc2' }}>
+            Tu Cierre eleva tu estándar profesional. Brinda a tus clientes la transparencia,
+            seguridad y velocidad que solo una red digitalizada puede ofrecer.
           </p>
 
-          {/* Value prop — small, understated */}
-          <p className="text-[14px] font-light text-white/35 leading-relaxed max-w-sm">
-            Conectamos brokers con notarías de Lima.
-            Registra el trámite, sube los documentos —
-            <span className="text-white/55"> nosotros lo cerramos.</span>
-          </p>
-        </div>
-
-        {/* Bottom corner stamp */}
-        <div className="text-[9px] font-light tracking-[0.25em] uppercase text-white/15">
-          Lima, Perú · 2026
-        </div>
-      </div>
-
-      {/* RIGHT — Cream 40% */}
-      <div
-        className="w-full md:w-[40%] bg-[#F5F0E8] flex flex-col justify-between px-10 lg:px-14 py-16 lg:py-20"
-      >
-        {/* Label */}
-        <div className="flex items-start justify-between">
-          <div>
-            <p className="text-[10px] font-black tracking-[0.22em] uppercase text-[#D47151] mb-1">
-              Calculadora de comisiones
-            </p>
-            <p className="text-[11px] font-light text-[#0A0A0A]/40">
-              Descubre cuánto ganas al mes según tus trámites
-            </p>
+          {/* Price Match guarantee badge */}
+          <div className="inline-flex items-center gap-3 px-5 py-3 rounded-xl border border-[#d06d0d]/30 bg-white/5">
+            <svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none">
+              <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" stroke="#d06d0d" strokeWidth="2" strokeLinejoin="round" fill="#d06d0d" fillOpacity="0.15"/>
+            </svg>
+            <span className="text-sm font-semibold text-white/80">
+              Garantía Price Match — <span style={{ color: '#d06d0d' }}>mejor precio, siempre</span>
+            </span>
           </div>
-          <span className="text-[9px] font-light tracking-[0.15em] uppercase text-[#0A0A0A]/25">
-            Gratis
-          </span>
-        </div>
 
-        {/* Calculator — editorial: sharp corners via wrapper */}
-        <div className="flex-1 flex flex-col justify-center py-6">
-          <div className="editorial-wrapper">
-            <CommissionCalculator />
+          {/* CTAs */}
+          <div className="flex flex-col sm:flex-row gap-5 pt-4 w-full sm:w-auto">
+            <Link
+              href="/register"
+              className="px-10 py-5 text-white rounded-xl font-bold text-lg hover:brightness-110 transition-all shadow-2xl flex items-center justify-center gap-2"
+              style={{ background: '#d06d0d' }}
+            >
+              Registrarme como Broker
+              <svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none">
+                <path d="M9 18l6-6-6-6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
+            </Link>
+            <Link
+              href="/login"
+              className="px-10 py-5 bg-white/10 text-white rounded-xl font-bold text-lg backdrop-blur hover:bg-white/20 transition-all border border-white/20 flex items-center justify-center"
+            >
+              Ingresar
+            </Link>
           </div>
-        </div>
 
-        {/* CTA + social proof */}
-        <div className="space-y-3">
-          <Link
-            href="/register"
-            className="inline-flex items-center justify-center w-full gap-2 rounded-full bg-[#D47151] text-white px-8 py-4 text-[13px] font-black uppercase tracking-widest hover:bg-[#A6553A] transition-colors"
-          >
-            Empezar gratis →
-          </Link>
-          <p className="text-[10px] text-[#0A0A0A]/35 font-medium tracking-wide text-center">
+          {/* Social proof */}
+          <p className="text-xs text-white/30 font-medium tracking-widest uppercase">
             120+ brokers activos · Lima, Perú · Gratis · Sin tarjeta
           </p>
         </div>
       </div>
-
-    </section>
+    </header>
   )
 }

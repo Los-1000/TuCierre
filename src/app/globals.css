@@ -56,7 +56,8 @@
   }
 
   ::selection {
-    @apply bg-[#D47151]/20 text-[#18181B];
+    background: rgba(208, 109, 13, 0.2);
+    color: #00081e;
   }
 
   .text-gold-gradient {
@@ -130,25 +131,25 @@
   width: 22px;
   height: 22px;
   border-radius: 50%;
-  background: #18181B;
+  background: #0a1f44;
   cursor: pointer;
   border: 3px solid #fff;
-  box-shadow: 0 1px 6px rgba(18, 22, 31, 0.25);
+  box-shadow: 0 1px 6px rgba(10, 31, 68, 0.35);
   transition: box-shadow 150ms ease, transform 150ms ease;
 }
 .commission-range::-webkit-slider-thumb:hover,
 .commission-range:focus-visible::-webkit-slider-thumb {
-  box-shadow: 0 2px 12px rgba(18, 22, 31, 0.35);
+  box-shadow: 0 2px 12px rgba(10, 31, 68, 0.5);
   transform: scale(1.1);
 }
 .commission-range::-moz-range-thumb {
   width: 22px;
   height: 22px;
   border-radius: 50%;
-  background: #18181B;
+  background: #0a1f44;
   cursor: pointer;
   border: 3px solid #fff;
-  box-shadow: 0 1px 6px rgba(18, 22, 31, 0.25);
+  box-shadow: 0 1px 6px rgba(10, 31, 68, 0.35);
 }
 
 /* content-visibility removed — it applies contain:layout which breaks IntersectionObserver in Reveal components */

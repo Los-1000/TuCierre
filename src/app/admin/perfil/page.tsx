@@ -82,7 +82,7 @@ export default function AdminPerfilPage() {
   if (loading) {
     return (
       <div className="flex items-center justify-center py-20">
-        <Loader2 size={28} className="animate-spin text-brand-navy" />
+        <Loader2 size={28} className="animate-spin text-[#18181B]" />
       </div>
     )
   }

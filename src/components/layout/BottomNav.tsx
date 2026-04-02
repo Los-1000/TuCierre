@@ -17,7 +17,7 @@ export default function BottomNav() {
   const pathname = usePathname()
 
   return (
-    <nav className="lg:hidden fixed bottom-0 left-0 right-0 z-30 bg-white/95 backdrop-blur-sm border-t border-border pb-safe">
+    <nav className="lg:hidden fixed bottom-0 left-0 right-0 z-30 bg-white/95 backdrop-blur-sm border-t border-[#18181B]/8 pb-safe">
       <div className="flex items-stretch h-16">
         {navItems.map(item => {
           const isActive = pathname === item.href || (item.href !== '/dashboard' && pathname.startsWith(item.href + '/'))
@@ -28,7 +28,7 @@ export default function BottomNav() {
                 href={item.href}
                 className="flex-1 flex flex-col items-center justify-center group"
               >
-                <div className="w-12 h-12 -mt-4 rounded-2xl bg-brand-gold shadow-[0_4px_16px_rgba(201,136,14,0.4)] flex items-center justify-center group-active:scale-95 transition-transform">
+                <div className="w-12 h-12 -mt-4 rounded-2xl bg-[#D47151] shadow-[0_4px_16px_rgba(212,113,81,0.35)] flex items-center justify-center group-active:scale-95 transition-transform">
                   <item.icon size={20} className="text-white" />
                 </div>
               </Link>
@@ -40,13 +40,13 @@ export default function BottomNav() {
               href={item.href}
               className={cn(
                 'flex-1 flex flex-col items-center justify-center gap-1 transition-colors',
-                isActive ? 'text-brand-navy' : 'text-muted-foreground'
+                isActive ? 'text-[#18181B]' : 'text-[#18181B]/40'
               )}
             >
               <item.icon size={19} />
               <span className="text-[10px] font-medium">{item.label}</span>
               {isActive && (
-                <div className="absolute bottom-1 w-1 h-1 rounded-full bg-brand-gold" />
+                <div className="absolute bottom-1 w-1 h-1 rounded-full bg-[#D47151]" />
               )}
             </Link>
           )

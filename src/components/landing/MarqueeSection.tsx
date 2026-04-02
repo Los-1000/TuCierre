@@ -3,12 +3,12 @@ const TICKER_B = 'HIPOTECA  ◆  PODER NOTARIAL  ◆  SUCESIÓN  ◆  DONACIÓN 
 
 export default function MarqueeSection() {
   return (
-    <section className="bg-[#0A0A0A] border-y border-white/5 overflow-hidden">
-      {/* Row 1: left → right, terracotta */}
+    <section className="border-y border-white/5 overflow-hidden" style={{ background: '#00081e' }}>
+      {/* Row 1: left → right, orange */}
       <div className="py-3 border-b border-white/5">
         <div className="flex whitespace-nowrap animate-ticker">
           {[...Array(4)].map((_, i) => (
-            <span key={i} className="shrink-0 text-[11px] font-black uppercase tracking-[0.18em] text-[#D47151]">
+            <span key={i} className="shrink-0 text-[11px] font-black uppercase tracking-[0.18em]" style={{ color: '#d06d0d' }}>
               {TICKER_A}
             </span>
           ))}

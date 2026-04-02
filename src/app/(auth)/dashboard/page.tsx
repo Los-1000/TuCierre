@@ -1,9 +1,7 @@
 import { createClient } from '@/lib/supabase/server'
 import { redirect } from 'next/navigation'
 import Link from 'next/link'
-import { Calculator, FileText, TrendingUp, CheckCircle, Clock, Wallet, PiggyBank, ArrowRight, ChevronRight, UserPlus } from 'lucide-react'
-import { Card, CardContent } from '@/components/ui/card'
-import { Button } from '@/components/ui/button'
+import { Calculator, FileText, Clock, CheckCircle, Wallet, PiggyBank, ArrowRight, ChevronRight, Plus, UserPlus } from 'lucide-react'
 import { TIER_CONFIG } from '@/lib/constants'
 import { calculateMonthlyCommission, COMMISSION_TIER_CONFIG } from '@/lib/commission'
 import { formatPrice, formatDate, cn } from '@/lib/utils'
@@ -100,11 +98,14 @@ export default async function DashboardPage() {
 
   const firstName = broker?.full_name?.split(' ')[0] ?? 'Broker'
 
+  const getHour = () => new Date().getHours()
+  const greeting = getHour() < 12 ? 'Buenos días' : getHour() < 19 ? 'Buenas tardes' : 'Buenas noches'
+
   const stats = [
-    { label: 'Trámites activos', value: activeCount.toString(), icon: Clock, accent: 'text-blue-600', bg: 'bg-blue-50' },
-    { label: 'Completados / mes', value: completedThisMonth.toString(), icon: CheckCircle, accent: 'text-brand-emerald', bg: 'bg-emerald-50' },
-    { label: 'Monto gestionado', value: formatPrice(totalAmount), icon: Wallet, accent: 'text-brand-navy', bg: 'bg-brand-navy/5', isPrice: true },
-    { label: 'Ahorro acumulado', value: formatPrice(totalSavings), icon: PiggyBank, accent: 'text-brand-gold', bg: 'bg-brand-gold/8', isPrice: true },
+    { label: 'Trámites activos', value: activeCount.toString(), icon: Clock, iconBg: 'bg-blue-50', iconColor: 'text-blue-600' },
+    { label: 'Completados / mes', value: completedThisMonth.toString(), icon: CheckCircle, iconBg: 'bg-emerald-50', iconColor: 'text-emerald-600' },
+    { label: 'Monto gestionado', value: formatPrice(totalAmount), icon: Wallet, iconBg: 'bg-[#D47151]/8', iconColor: 'text-[#D47151]', isPrice: true },
+    { label: 'Ahorro acumulado', value: formatPrice(totalSavings), icon: PiggyBank, iconBg: 'bg-[#D69E2E]/10', iconColor: 'text-[#D69E2E]', isPrice: true },
   ]
 
   return (
@@ -112,130 +113,100 @@ export default async function DashboardPage() {
       {/* Header */}
       <div className="flex items-start justify-between">
         <div>
-          <h1 className="font-display text-3xl font-semibold text-ink">
-            Hola, {firstName}
+          <h1 className="text-3xl font-semibold text-[#18181B] tracking-tight">
+            {greeting}, {firstName}
           </h1>
-          <p className="text-muted-foreground text-sm mt-1">
+          <p className="text-[#18181B]/60 text-sm mt-1">
             {new Date().toLocaleDateString('es-PE', { weekday: 'long', day: 'numeric', month: 'long' })}
           </p>
         </div>
-        <Button asChild className="hidden sm:flex gap-2 bg-brand-navy hover:bg-brand-navy-light text-parchment">
-          <Link href="/clientes/nuevo">
-            <UserPlus size={15} />
-            Nuevo cliente
-          </Link>
-        </Button>
+        <Link
+          href="/cotizar"
+          className="hidden sm:flex items-center gap-2 bg-[#D47151] hover:bg-[#A6553A] text-white rounded-full px-6 py-2.5 font-semibold text-sm transition-all shadow-lg shadow-[#D47151]/20"
+        >
+          <Plus size={16} />
+          Nueva cotización
+        </Link>
       </div>
 
-      {/* Stats */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
+      {/* Stats row */}
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
         {stats.map((stat) => (
-          <Card key={stat.label} className="bg-white border-border shadow-none">
-            <CardContent className="p-4">
-              <div className={cn('w-8 h-8 rounded-lg flex items-center justify-center mb-3', stat.bg)}>
-                <stat.icon size={16} className={stat.accent} />
+          <div
+            key={stat.label}
+            className="bg-white rounded-3xl border border-[#18181B]/8 shadow-[0_4px_24px_rgba(18,18,27,0.06)] p-6"
+          >
+            <div className="flex justify-between items-start mb-4">
+              <span className="text-[11px] font-bold uppercase tracking-widest text-[#18181B]/40">
+                {stat.label}
+              </span>
+              <div className={cn('p-2 rounded-xl', stat.iconBg)}>
+                <stat.icon size={18} className={stat.iconColor} />
               </div>
-              <div className={cn('font-display font-semibold text-ink leading-none', stat.isPrice ? 'text-xl' : 'text-3xl')}>
-                {stat.value}
-              </div>
-              <div className="text-xs text-muted-foreground mt-1.5">{stat.label}</div>
-            </CardContent>
-          </Card>
+            </div>
+            <div className={cn('font-bold text-[#18181B] leading-none', stat.isPrice ? 'text-xl' : 'text-4xl')}>
+              {stat.value}
+            </div>
+          </div>
         ))}
       </div>
 
-      {/* Commission card */}
-      <Card className="bg-white border-border shadow-none overflow-hidden">
-        <CardContent className="p-5">
-          <div className="flex items-start justify-between gap-4">
-            <div>
-              <div className="text-xs font-semibold text-muted-foreground uppercase tracking-widest mb-2">
-                Comisiones del mes
-              </div>
-              {commissionResult.count > 0 ? (
-                <div className="flex items-center gap-2 mb-1">
-                  <span className="text-xl">{commissionTierConfig.icon}</span>
-                  <span className="font-semibold text-sm text-ink">{commissionTierConfig.label}</span>
-                  <span className="text-xs text-muted-foreground">· {commissionTierConfig.ratePercent}%</span>
-                </div>
-              ) : (
-                <div className="text-sm text-muted-foreground mb-1">Sin actividad este mes</div>
-              )}
-              <div className="text-xs text-muted-foreground">
-                {commissionResult.count} cliente{commissionResult.count !== 1 ? 's' : ''} cerrado{commissionResult.count !== 1 ? 's' : ''} este mes
-              </div>
-            </div>
-            <div className="text-right">
-              <div className="font-display font-semibold text-xl text-brand-emerald tabular-nums">
-                {formatPrice(commissionResult.amount)}
-              </div>
-              <div className="text-xs text-muted-foreground mt-0.5">comisión estimada</div>
-            </div>
-          </div>
-          {clientsToNextCommissionTier > 0 && nextCommissionTier && (
-            <p className="text-xs text-muted-foreground mt-3 pt-3 border-t border-border">
-              <span className="font-semibold text-ink">{clientsToNextCommissionTier} cliente{clientsToNextCommissionTier !== 1 ? 's' : ''} más</span>
-              {' '}para {nextCommissionTier.label} ({nextCommissionTier.ratePercent}%)
+      {/* Tier progress card */}
+      <div className="bg-white rounded-3xl border border-[#18181B]/8 shadow-[0_4px_24px_rgba(18,18,27,0.06)] p-6">
+        <div className="flex flex-col md:flex-row md:items-center justify-between mb-5 gap-3">
+          <div>
+            <h3 className="text-base font-semibold text-[#18181B]">
+              {monthCount} trámite{monthCount !== 1 ? 's' : ''} completado{monthCount !== 1 ? 's' : ''} este mes
+            </h3>
+            <p className="text-[#18181B]/60 text-sm mt-0.5">
+              {tier !== 'oro'
+                ? `Te faltan ${tramitesToNext} trámite${tramitesToNext !== 1 ? 's' : ''} para nivel ${nextTierLabel}`
+                : 'Nivel máximo alcanzado'}
             </p>
-          )}
-        </CardContent>
-      </Card>
-
-      {/* Tier progress */}
-      <Card className="bg-white border-border shadow-none overflow-hidden">
-        <CardContent className="p-0">
-          <div className="flex items-stretch">
-            {/* Gold left accent */}
-            <div className="w-1 bg-gradient-to-b from-brand-gold to-brand-gold-dark shrink-0" />
-            <div className="flex-1 p-5">
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-3">
-                  <span className="text-3xl">{tierConfig.icon}</span>
-                  <div>
-                    <div className={cn('font-semibold text-sm', tierConfig.color)}>
-                      Nivel {tierConfig.label}
-                    </div>
-                    <div className="text-xs text-muted-foreground">{monthCount} trámites este mes</div>
-                  </div>
-                </div>
-              </div>
-
-              {tier !== 'oro' && (
-                <div className="mt-4">
-                  <div className="h-1.5 bg-muted rounded-full overflow-hidden">
-                    <div
-                      className="h-full bg-gradient-to-r from-brand-gold to-brand-gold-light rounded-full transition-all duration-500"
-                      style={{ width: `${progressPercent}%` }}
-                    />
-                  </div>
-                  <p className="text-xs text-muted-foreground mt-2">
-                    {tramitesToNext > 0
-                      ? <><span className="font-semibold text-ink">{tramitesToNext} trámite{tramitesToNext !== 1 ? 's' : ''} más</span> para llegar a {nextTierLabel}</>
-                      : <span className="text-brand-emerald font-medium">¡A punto de subir a {nextTierLabel}!</span>
-                    }
-                  </p>
-                </div>
-              )}
-            </div>
           </div>
-        </CardContent>
-      </Card>
+          {tier !== 'oro' && (
+            <div className="flex items-center gap-2 text-[#D47151] font-bold text-sm bg-[#D47151]/5 px-4 py-2 rounded-full border border-[#D47151]/10">
+              <span>{tramitesToNext} trámites más</span>
+              <ArrowRight size={14} />
+              <span className="font-black">Nivel {nextTierLabel}</span>
+            </div>
+          )}
+        </div>
+        <div className="relative w-full h-2.5 bg-[#18181B]/8 rounded-full overflow-hidden">
+          <div
+            className="absolute top-0 left-0 h-full bg-[#D47151] rounded-full transition-all duration-700"
+            style={{ width: `${progressPercent}%` }}
+          />
+        </div>
+        <div className="mt-3 flex justify-between text-[11px] font-bold text-[#18181B]/40 uppercase tracking-widest">
+          <span>0 Trámites</span>
+          <span>{Math.round(progressPercent)}% del objetivo</span>
+          <span>{tier === 'bronce' ? '4' : '8'} trámites ({nextTierLabel || 'Oro'})</span>
+        </div>
+      </div>
 
       {/* Quick actions */}
       <div>
-        <h2 className="text-xs font-semibold text-muted-foreground uppercase tracking-widest mb-3">Acciones rápidas</h2>
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
+        <h2 className="text-xs font-bold text-[#18181B]/40 uppercase tracking-widest mb-3">Acciones rápidas</h2>
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
           {[
-            { href: '/clientes/nuevo', label: 'Nuevo cliente', desc: 'Registra un cliente ahora', icon: UserPlus, accent: 'bg-brand-navy text-parchment' },
-            { href: '/tramites', label: 'Mis trámites', desc: `${activeCount} en proceso`, icon: FileText, accent: 'bg-white border border-border text-ink' },
-            { href: '/cotizar', label: 'Cotizar', desc: 'Precio al instante', icon: Calculator, accent: 'bg-white border border-border text-ink' },
+            { href: '/clientes/nuevo', label: 'Nuevo cliente', desc: 'Registra un cliente ahora', icon: UserPlus, primary: true },
+            { href: '/tramites', label: 'Mis trámites', desc: `${activeCount} en proceso`, icon: FileText, primary: false },
+            { href: '/cotizar', label: 'Cotizar', desc: 'Precio al instante', icon: Calculator, primary: false },
           ].map(action => (
             <Link key={action.href} href={action.href}>
-              <div className={cn('flex items-center gap-3 px-4 py-3.5 rounded-xl transition-all hover:shadow-sm', action.accent)}>
+              <div className={cn(
+                'flex items-center gap-3 px-4 py-3.5 rounded-2xl transition-all hover:shadow-sm border',
+                action.primary
+                  ? 'bg-[#18181B] text-white border-[#18181B]'
+                  : 'bg-white text-[#18181B] border-[#18181B]/8 hover:border-[#D47151]/30'
+              )}>
                 <action.icon size={17} className="shrink-0" />
                 <div className="flex-1 min-w-0">
-                  <div className="text-sm font-medium leading-none">{action.label}</div>
-                  <div className="text-xs opacity-60 mt-1 leading-none">{action.desc}</div>
+                  <div className="text-sm font-semibold leading-none">{action.label}</div>
+                  <div className={cn('text-xs mt-1 leading-none', action.primary ? 'opacity-60' : 'text-[#18181B]/50')}>
+                    {action.desc}
+                  </div>
                 </div>
                 <ArrowRight size={14} className="opacity-40 shrink-0" />
               </div>
@@ -245,52 +216,83 @@ export default async function DashboardPage() {
       </div>
 
       {/* Recent tramites */}
-      <div>
-        <div className="flex items-center justify-between mb-4">
-          <h2 className="font-display text-lg font-semibold text-ink">Actividad reciente</h2>
-          <Link href="/tramites" className="text-xs text-brand-gold hover:text-brand-gold-light transition-colors flex items-center gap-1 font-medium">
-            Ver todos <ChevronRight size={13} />
+      <div className="bg-white rounded-3xl border border-[#18181B]/8 shadow-[0_4px_24px_rgba(18,18,27,0.06)] overflow-hidden">
+        <div className="px-6 py-5 border-b border-[#18181B]/8 flex items-center justify-between">
+          <h2 className="font-semibold text-[#18181B]">Trámites Recientes</h2>
+          <Link
+            href="/tramites"
+            className="text-xs font-bold text-[#D47151] hover:underline uppercase tracking-wider"
+          >
+            Ver todos
           </Link>
         </div>
 
         {recentTramites.length === 0 ? (
-          <EmptyState
-            title="Aún no tienes trámites"
-            description="Empieza cotizando tu primer trámite notarial en minutos."
-            actionLabel="Cotizar ahora"
-            actionHref="/cotizar"
-          />
+          <div className="p-8">
+            <EmptyState
+              title="Aún no tienes trámites"
+              description="Empieza cotizando tu primer trámite notarial en minutos."
+              actionLabel="Cotizar ahora"
+              actionHref="/cotizar"
+            />
+          </div>
         ) : (
-          <div className="space-y-2">
-            {recentTramites.map((tramite) => (
-              <Link
-                key={tramite.id}
-                href={`/tramites/${tramite.id}`}
-                className="flex items-center gap-4 p-4 bg-white rounded-xl border border-border hover:border-brand-gold/30 hover:shadow-sm transition-all group"
-              >
-                <div className="flex-1 min-w-0">
-                  <div className="flex items-center gap-2 mb-0.5">
-                    <code className="text-[11px] font-mono text-muted-foreground bg-muted px-1.5 py-0.5 rounded">
-                      {tramite.reference_code}
-                    </code>
-                  </div>
-                  <div className="font-medium text-ink text-sm truncate">
-                    {(tramite as any).tramite_types?.display_name ?? 'Trámite notarial'}
-                  </div>
-                  <div className="text-xs text-muted-foreground mt-0.5">{formatDate(tramite.created_at)}</div>
-                </div>
-                <div className="flex items-center gap-3 ml-2 shrink-0">
-                  <StatusBadge status={tramite.status} size="sm" />
-                  <span className="text-sm font-semibold text-ink tabular-nums hidden sm:block font-display">
-                    {formatPrice(tramite.final_price)}
-                  </span>
-                  <ChevronRight size={15} className="text-muted-foreground group-hover:text-brand-gold transition-colors" />
-                </div>
-              </Link>
-            ))}
+          <div className="overflow-x-auto">
+            <table className="w-full text-left border-collapse">
+              <thead>
+                <tr className="text-[11px] font-bold text-[#18181B]/40 uppercase tracking-widest bg-[#F9F9F8]">
+                  <th className="px-6 py-4">Código</th>
+                  <th className="px-4 py-4">Tipo</th>
+                  <th className="px-4 py-4">Estado</th>
+                  <th className="px-4 py-4 hidden sm:table-cell">Fecha</th>
+                  <th className="px-6 py-4 text-right">Monto</th>
+                  <th className="px-6 py-4 text-right">Acción</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-[#18181B]/5">
+                {recentTramites.map((tramite) => (
+                  <tr key={tramite.id} className="hover:bg-[#F9F9F8]/80 transition-colors group">
+                    <td className="px-6 py-4">
+                      <code className="font-mono text-xs bg-[#18181B]/5 text-[#18181B]/60 px-2 py-1 rounded-md font-semibold">
+                        {tramite.reference_code}
+                      </code>
+                    </td>
+                    <td className="px-4 py-4 text-[#18181B]/60 text-sm">
+                      {(tramite as any).tramite_types?.display_name ?? 'Trámite notarial'}
+                    </td>
+                    <td className="px-4 py-4">
+                      <StatusBadge status={tramite.status} size="sm" />
+                    </td>
+                    <td className="px-4 py-4 text-[#18181B]/40 text-xs hidden sm:table-cell">
+                      {formatDate(tramite.created_at)}
+                    </td>
+                    <td className="px-6 py-4 text-right font-semibold text-[#18181B] text-sm tabular-nums">
+                      {formatPrice(tramite.final_price)}
+                    </td>
+                    <td className="px-6 py-4 text-right">
+                      <Link
+                        href={`/tramites/${tramite.id}`}
+                        className="inline-flex items-center gap-1 text-[#D47151] font-bold text-sm group-hover:translate-x-1 transition-transform"
+                      >
+                        Ver <ChevronRight size={14} />
+                      </Link>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
           </div>
         )}
       </div>
+
+      {/* FAB for mobile */}
+      <Link
+        href="/cotizar"
+        className="fixed bottom-20 right-5 lg:hidden flex items-center gap-2 bg-[#D47151] text-white pl-4 pr-5 py-3.5 rounded-full shadow-2xl shadow-[#D47151]/40 hover:bg-[#A6553A] transition-all z-50 font-semibold"
+      >
+        <Plus size={18} />
+        Nueva cotización
+      </Link>
     </div>
   )
 }

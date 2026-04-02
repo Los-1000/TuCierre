@@ -156,7 +156,7 @@ export default function NuevoClientePage() {
   return (
     <div className="max-w-lg mx-auto space-y-6">
       <div>
-        <h1 className="text-2xl font-bold text-ink flex items-center gap-2">
+        <h1 className="text-2xl font-bold text-[#18181B] flex items-center gap-2">
           <UserPlus size={22} /> Registrar cliente
         </h1>
         <p className="text-sm text-muted-foreground mt-1">
@@ -243,7 +243,7 @@ export default function NuevoClientePage() {
                 <button
                   type="button"
                   onClick={() => fileInputRef.current?.click()}
-                  className="flex items-center gap-1.5 text-xs text-brand-navy hover:text-brand-navy-light font-medium transition-colors"
+                  className="flex items-center gap-1.5 text-xs text-[#18181B] hover:text-[#2D2D30] font-medium transition-colors"
                 >
                   <Paperclip size={13} />
                   Adjuntar
@@ -264,7 +264,7 @@ export default function NuevoClientePage() {
                   {files.map((file, i) => (
                     <li key={i} className="flex items-center gap-2 bg-muted/50 border border-border rounded-lg px-3 py-2">
                       <FileText size={14} className="text-muted-foreground shrink-0" />
-                      <span className="text-sm text-ink truncate flex-1">{file.name}</span>
+                      <span className="text-sm text-[#18181B] truncate flex-1">{file.name}</span>
                       <span className="text-xs text-muted-foreground shrink-0">
                         {(file.size / 1024 / 1024).toFixed(1)} MB
                       </span>
@@ -283,14 +283,14 @@ export default function NuevoClientePage() {
                 <button
                   type="button"
                   onClick={() => fileInputRef.current?.click()}
-                  className="w-full border border-dashed border-border rounded-lg py-4 text-sm text-muted-foreground hover:border-brand-navy/40 hover:text-ink transition-colors"
+                  className="w-full border border-dashed border-border rounded-lg py-4 text-sm text-muted-foreground hover:border-[#18181B]/40 hover:text-[#18181B] transition-colors"
                 >
                   Haz clic para adjuntar documentos
                 </button>
               )}
             </div>
 
-            <Button type="submit" className="w-full bg-brand-navy text-parchment hover:bg-brand-navy-light" disabled={loading}>
+            <Button type="submit" className="w-full bg-[#18181B] text-white hover:bg-[#2D2D30]" disabled={loading}>
               {loading && <Loader2 size={14} className="animate-spin mr-2" />}
               {loading ? 'Registrando...' : 'Registrar cliente'}
             </Button>

@@ -155,7 +155,7 @@ export default function CashoutsClient({
             className={cn(
               'px-4 py-2 text-sm font-medium border-b-2 -mb-px transition-colors',
               activeTab === tab
-                ? 'border-brand-navy text-brand-navy'
+                ? 'border-[#18181B] text-[#18181B]'
                 : 'border-transparent text-slate-500 hover:text-slate-700'
             )}
           >
@@ -180,7 +180,7 @@ export default function CashoutsClient({
                 className={cn(
                   'p-3 rounded-xl border-2 text-left transition-all',
                   filterStatus === s
-                    ? 'border-brand-navy bg-brand-navy/5'
+                    ? 'border-[#18181B] bg-[#18181B]/5'
                     : 'border-slate-200 bg-white hover:border-slate-300'
                 )}
               >
@@ -322,7 +322,7 @@ export default function CashoutsClient({
                             size="sm"
                             disabled={isLoading}
                             onClick={() => handleComplete(c.id)}
-                            className="bg-brand-navy hover:bg-brand-navy-light text-white gap-1.5 h-8 text-xs"
+                            className="bg-[#18181B] hover:bg-[#2D2D30] text-white gap-1.5 h-8 text-xs"
                           >
                             <Banknote size={13} />
                             {isLoading ? 'Procesando...' : 'Marcar como pagado'}
@@ -354,7 +354,7 @@ export default function CashoutsClient({
               <Button
                 onClick={handleGenerateCommissions}
                 disabled={generating}
-                className="bg-brand-navy hover:bg-brand-navy-light text-parchment gap-2"
+                className="bg-[#18181B] hover:bg-[#2D2D30] text-white gap-2"
               >
                 <Calendar size={15} />
                 {generating ? 'Generando...' : 'Generar pagos del mes'}

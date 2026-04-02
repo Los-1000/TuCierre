@@ -5,10 +5,7 @@ import { useRouter } from 'next/navigation'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
-import { ArrowLeft, ArrowRight, Loader2, Building2, MapPin, CheckCircle2 } from 'lucide-react'
-import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
-import { Label } from '@/components/ui/label'
+import { ArrowLeft, ArrowRight, Loader2, Building2, MapPin, Check } from 'lucide-react'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { createClient } from '@/lib/supabase/client'
 import { PERU_DISTRICTS, TIER_CONFIG } from '@/lib/constants'
@@ -35,7 +32,7 @@ const datosSchema = z.object({
 
 type DatosInput = z.infer<typeof datosSchema>
 
-// ─── Step indicator ───────────────────────────────────────────────────────────
+// ─── Step bar ───────────────────────────────────────────────────────────────
 
 const STEPS = [
   { number: 1, label: 'Notaría' },
@@ -46,32 +43,36 @@ const STEPS = [
 function StepBar({ current }: { current: number }) {
   return (
     <div className="flex items-center gap-0 mb-8">
-      {STEPS.map((s, i) => (
-        <div key={s.number} className="flex items-center flex-1 last:flex-none">
-          <div className="flex flex-col items-center gap-1 flex-shrink-0">
-            <div className={cn(
-              'w-8 h-8 rounded-full flex items-center justify-center text-sm font-semibold transition-all',
-              current === s.number && 'bg-brand-navy text-parchment',
-              current > s.number && 'bg-brand-emerald text-white',
-              current < s.number && 'bg-muted text-muted-foreground',
-            )}>
-              {current > s.number ? <CheckCircle2 size={16} /> : s.number}
+      {STEPS.map((s, i) => {
+        const isCompleted = current > s.number
+        const isActive = current === s.number
+        return (
+          <div key={s.number} className="flex items-center flex-1 last:flex-none">
+            <div className="flex flex-col items-center gap-1.5 flex-shrink-0">
+              <div className={cn(
+                'w-9 h-9 rounded-full flex items-center justify-center text-sm font-semibold transition-all',
+                isCompleted && 'bg-[#D47151] text-white',
+                isActive && 'bg-[#18181B] text-white ring-4 ring-[#18181B]/10',
+                !isCompleted && !isActive && 'bg-white border-2 border-[#18181B]/20 text-[#18181B]/40',
+              )}>
+                {isCompleted ? <Check size={15} /> : s.number}
+              </div>
+              <span className={cn(
+                'text-xs font-semibold whitespace-nowrap',
+                isActive ? 'text-[#18181B]' : isCompleted ? 'text-[#D47151]' : 'text-[#18181B]/30',
+              )}>
+                {s.label}
+              </span>
             </div>
-            <span className={cn(
-              'text-xs font-medium whitespace-nowrap',
-              current === s.number ? 'text-ink' : 'text-muted-foreground',
-            )}>
-              {s.label}
-            </span>
+            {i < STEPS.length - 1 && (
+              <div className={cn(
+                'h-[2px] flex-1 mx-3 mb-5 transition-colors rounded-full',
+                current > s.number ? 'bg-[#D47151]' : 'bg-[#18181B]/10',
+              )} />
+            )}
           </div>
-          {i < STEPS.length - 1 && (
-            <div className={cn(
-              'h-px flex-1 mx-2 mb-5 transition-colors',
-              current > s.number ? 'bg-brand-emerald' : 'bg-muted',
-            )} />
-          )}
-        </div>
-      ))}
+        )
+      })}
     </div>
   )
 }
@@ -179,7 +180,7 @@ export default function CotizarPage() {
   if (loading) {
     return (
       <div className="flex items-center justify-center py-20">
-        <Loader2 size={32} className="animate-spin text-brand-navy" />
+        <Loader2 size={32} className="animate-spin text-[#D47151]" />
       </div>
     )
   }
@@ -187,8 +188,8 @@ export default function CotizarPage() {
   return (
     <div className="max-w-2xl mx-auto">
       <div className="mb-6">
-        <h1 className="font-display text-2xl font-semibold text-ink">Nueva cotización</h1>
-        <p className="text-muted-foreground text-sm mt-1">Solicita tu trámite notarial en 3 pasos.</p>
+        <h1 className="text-2xl font-semibold text-[#18181B] tracking-tight">Nueva cotización</h1>
+        <p className="text-[#18181B]/60 text-sm mt-1">Solicita tu trámite notarial en 3 pasos.</p>
       </div>
 
       <StepBar current={step} />
@@ -196,12 +197,12 @@ export default function CotizarPage() {
       {/* ── STEP 1: Select notaria ── */}
       {step === 1 && (
         <div className="space-y-4">
-          <h2 className="font-semibold text-ink">¿Con qué notaría quieres trabajar?</h2>
+          <h2 className="font-semibold text-[#18181B]">¿Con qué notaría quieres trabajar?</h2>
 
           {notarias.length === 0 ? (
-            <div className="bg-white border border-border rounded-xl p-8 text-center">
-              <Building2 size={32} className="mx-auto text-muted-foreground mb-3" />
-              <p className="text-sm text-muted-foreground">
+            <div className="bg-white border border-[#18181B]/10 rounded-2xl p-8 text-center">
+              <Building2 size={32} className="mx-auto text-[#18181B]/30 mb-3" />
+              <p className="text-sm text-[#18181B]/50">
                 No hay notarías disponibles en este momento.
               </p>
             </div>
@@ -213,34 +214,39 @@ export default function CotizarPage() {
                   type="button"
                   onClick={() => setSelectedNotaria(n)}
                   className={cn(
-                    'w-full text-left bg-white border rounded-xl p-4 transition-all hover:shadow-sm',
+                    'w-full text-left border-2 rounded-2xl p-4 transition-all',
                     selectedNotaria?.id === n.id
-                      ? 'border-brand-navy ring-1 ring-brand-navy/20'
-                      : 'border-border hover:border-brand-gold/40',
+                      ? 'border-[#D47151] bg-[#D47151]/5 shadow-md'
+                      : 'border-[#18181B]/10 hover:border-[#D47151]/40 bg-white hover:bg-white',
                   )}
                 >
                   <div className="flex items-start gap-3">
                     <div className={cn(
-                      'w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0',
+                      'w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0 transition-colors',
                       selectedNotaria?.id === n.id
-                        ? 'bg-brand-navy text-parchment'
-                        : 'bg-muted text-muted-foreground',
+                        ? 'bg-[#D47151] text-white'
+                        : 'bg-[#18181B]/6 text-[#18181B]/50',
                     )}>
                       <Building2 size={18} />
                     </div>
                     <div className="flex-1 min-w-0">
-                      <div className="font-semibold text-ink text-sm">
+                      <div className={cn(
+                        'font-semibold text-sm transition-colors',
+                        selectedNotaria?.id === n.id ? 'text-[#18181B]' : 'text-[#18181B]',
+                      )}>
                         {n.notaria_name ?? n.full_name}
                       </div>
                       {n.notaria_address && (
-                        <div className="text-xs text-muted-foreground mt-0.5 flex items-center gap-1">
+                        <div className="text-xs text-[#18181B]/50 mt-0.5 flex items-center gap-1">
                           <MapPin size={11} />
                           {n.notaria_address}
                         </div>
                       )}
                     </div>
                     {selectedNotaria?.id === n.id && (
-                      <CheckCircle2 size={18} className="text-brand-navy flex-shrink-0 mt-0.5" />
+                      <div className="w-5 h-5 rounded-full bg-[#D47151] flex items-center justify-center flex-shrink-0 mt-0.5">
+                        <Check size={12} className="text-white" />
+                      </div>
                     )}
                   </div>
                 </button>
@@ -249,16 +255,15 @@ export default function CotizarPage() {
           )}
 
           <div className="pt-2">
-            <Button
+            <button
               onClick={() => {
                 if (!selectedNotaria) { toast.error('Selecciona una notaría'); return }
                 setStep(2)
               }}
-              disabled={!selectedNotaria}
-              className="w-full sm:w-auto"
+              className="flex items-center gap-2 bg-[#18181B] text-white rounded-full px-6 py-2.5 font-semibold text-sm hover:bg-[#18181B]/90 transition-colors disabled:opacity-50"
             >
-              Continuar <ArrowRight size={16} />
-            </Button>
+              Continuar <ArrowRight size={15} />
+            </button>
           </div>
         </div>
       )}
@@ -274,7 +279,7 @@ export default function CotizarPage() {
         >
           {/* Type selection */}
           <div>
-            <h2 className="font-semibold text-ink mb-3">¿Qué trámite necesitas?</h2>
+            <h2 className="font-semibold text-[#18181B] mb-3">¿Qué trámite necesitas?</h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
               {tramiteTypes.map(type => (
                 <button
@@ -282,42 +287,59 @@ export default function CotizarPage() {
                   type="button"
                   onClick={() => setSelectedType(type)}
                   className={cn(
-                    'text-left bg-white border rounded-xl p-3.5 transition-all hover:shadow-sm',
+                    'text-left border-2 rounded-2xl p-4 transition-all',
                     selectedType?.id === type.id
-                      ? 'border-brand-navy ring-1 ring-brand-navy/20'
-                      : 'border-border hover:border-brand-gold/40',
+                      ? 'border-[#D47151] bg-[#D47151]/5 shadow-md'
+                      : 'border-[#18181B]/10 hover:border-[#D47151]/40 bg-white',
                   )}
                 >
-                  <div className="flex items-center justify-between gap-2">
-                    <div className="font-medium text-ink text-sm leading-snug">{type.display_name}</div>
+                  <div className="flex items-center justify-between gap-2 mb-1">
+                    <div className={cn(
+                      'font-semibold text-[#18181B] text-sm leading-snug',
+                      selectedType?.id === type.id && 'text-[#18181B]',
+                    )}>
+                      {type.display_name}
+                    </div>
                     {selectedType?.id === type.id && (
-                      <CheckCircle2 size={15} className="text-brand-navy flex-shrink-0" />
+                      <div className="w-5 h-5 rounded-full bg-[#D47151] flex items-center justify-center flex-shrink-0">
+                        <Check size={12} className="text-white" />
+                      </div>
                     )}
                   </div>
-                  <div className="text-xs text-muted-foreground mt-1">
+                  <div className="text-xs text-[#18181B]/50">
                     {formatPrice(type.base_price)} · {type.estimated_days} días
                   </div>
                 </button>
               ))}
             </div>
+
+            {/* Price preview bar */}
+            {selectedType && (
+              <div className="mt-4 bg-[#D47151]/6 border border-[#D47151]/20 rounded-2xl p-4 flex items-center justify-between">
+                <span className="text-sm font-semibold text-[#D47151]">
+                  Precio estimado con tu descuento:
+                </span>
+                <span className="text-lg font-bold text-[#D47151] tabular-nums">
+                  {formatPrice(calculateFinalPrice(selectedType.base_price, brokerTier).final)}
+                </span>
+              </div>
+            )}
           </div>
 
           {/* Property data */}
           <div className="space-y-4">
-            <h2 className="font-semibold text-ink">Datos del inmueble</h2>
-
+            <h2 className="font-semibold text-[#18181B]">Datos del inmueble</h2>
             <div>
-              <Label htmlFor="property_address">
+              <label className="text-[11px] font-bold uppercase tracking-widest text-[#18181B]/50 block mb-1.5">
                 Dirección <span className="text-red-500">*</span>
-              </Label>
-              <Input
-                id="property_address"
+              </label>
+              <input
                 placeholder="Av. Javier Prado 1234, Piso 5"
-                className="mt-1.5 bg-white border-border focus:border-brand-gold h-11"
+                className="w-full h-11 px-4 rounded-2xl border border-[#18181B]/15 bg-white text-sm text-[#18181B] focus:outline-none focus:ring-2 focus:ring-[#D47151]/30 focus:border-[#D47151] transition-colors placeholder:text-[#18181B]/30"
                 {...form.register('property_address')}
               />
               {form.formState.errors.property_address && (
-                <p className="text-destructive text-xs mt-1">
+                <p className="text-red-500 text-xs mt-1">
                   {form.formState.errors.property_address.message}
                 </p>
               )}
@@ -325,14 +347,14 @@ export default function CotizarPage() {
 
             <div className="grid grid-cols-2 gap-4">
               <div>
-                <Label htmlFor="property_district">
+                <label className="text-[11px] font-bold uppercase tracking-widest text-[#18181B]/50 block mb-1.5">
                   Distrito <span className="text-red-500">*</span>
-                </Label>
+                </label>
                 <Select
                   value={form.watch('property_district')}
                   onValueChange={(val) => form.setValue('property_district', val)}
                 >
-                  <SelectTrigger className="mt-1.5 bg-white border-border h-11">
+                  <SelectTrigger className="h-11 rounded-2xl border-[#18181B]/15">
                     <SelectValue placeholder="Seleccionar" />
                   </SelectTrigger>
                   <SelectContent>
@@ -342,21 +364,22 @@ export default function CotizarPage() {
                   </SelectContent>
                 </Select>
                 {form.formState.errors.property_district && (
-                  <p className="text-destructive text-xs mt-1">
+                  <p className="text-red-500 text-xs mt-1">
                     {form.formState.errors.property_district.message}
                   </p>
                 )}
               </div>
 
               <div>
-                <Label htmlFor="property_value">Valor del inmueble (S/.)</Label>
-                <Input
-                  id="property_value"
+                <label className="text-[11px] font-bold uppercase tracking-widest text-[#18181B]/50 block mb-1.5">
+                  Valor del inmueble (S/.)
+                </label>
+                <input
                   type="number"
                   placeholder="350,000"
                   min="0"
                   step="1000"
-                  className="mt-1.5 bg-white border-border h-11"
+                  className="w-full h-11 px-4 rounded-2xl border border-[#18181B]/15 bg-white text-sm text-[#18181B] focus:outline-none focus:ring-2 focus:ring-[#D47151]/30 focus:border-[#D47151] transition-colors placeholder:text-[#18181B]/30"
                   {...form.register('property_value', { valueAsNumber: true })}
                 />
               </div>
@@ -364,12 +387,20 @@ export default function CotizarPage() {
           </div>
 
           <div className="flex gap-3 pt-2">
-            <Button type="button" variant="outline" onClick={() => setStep(1)}>
-              <ArrowLeft size={16} /> Anterior
-            </Button>
-            <Button type="submit" disabled={!selectedType}>
-              Continuar <ArrowRight size={16} />
-            </Button>
+            <button
+              type="button"
+              onClick={() => setStep(1)}
+              className="flex items-center gap-2 border border-[#18181B]/15 text-[#18181B] rounded-full px-5 py-2.5 font-semibold text-sm hover:bg-[#18181B]/5 transition-colors"
+            >
+              <ArrowLeft size={15} /> Anterior
+            </button>
+            <button
+              type="submit"
+              disabled={!selectedType}
+              className="flex items-center gap-2 bg-[#18181B] text-white rounded-full px-6 py-2.5 font-semibold text-sm hover:bg-[#18181B]/90 transition-colors disabled:opacity-40"
+            >
+              Continuar <ArrowRight size={15} />
+            </button>
           </div>
         </form>
       )}
@@ -377,21 +408,21 @@ export default function CotizarPage() {
       {/* ── STEP 3: Summary & submit ── */}
       {step === 3 && selectedType && selectedNotaria && (
         <div className="space-y-4">
-          <h2 className="font-semibold text-ink">Resumen del trámite</h2>
+          <h2 className="font-semibold text-[#18181B]">Resumen del trámite</h2>
 
           {/* Notaria */}
-          <div className="bg-white rounded-xl border border-border p-4">
-            <div className="text-xs text-muted-foreground mb-1.5">Notaría seleccionada</div>
+          <div className="bg-white border border-[#18181B]/10 rounded-2xl p-4">
+            <div className="text-[11px] font-bold uppercase tracking-widest text-[#18181B]/40 mb-2">Notaría seleccionada</div>
             <div className="flex items-center gap-3">
-              <div className="w-9 h-9 rounded-lg bg-brand-navy/10 flex items-center justify-center">
-                <Building2 size={16} className="text-brand-navy" />
+              <div className="w-9 h-9 rounded-xl bg-[#18181B]/6 flex items-center justify-center">
+                <Building2 size={16} className="text-[#18181B]/60" />
               </div>
               <div>
-                <div className="font-semibold text-ink text-sm">
+                <div className="font-semibold text-[#18181B] text-sm">
                   {selectedNotaria.notaria_name ?? selectedNotaria.full_name}
                 </div>
                 {selectedNotaria.notaria_address && (
-                  <div className="text-xs text-muted-foreground flex items-center gap-1 mt-0.5">
+                  <div className="text-xs text-[#18181B]/50 flex items-center gap-1 mt-0.5">
                     <MapPin size={11} />
                     {selectedNotaria.notaria_address}
                   </div>
@@ -401,21 +432,21 @@ export default function CotizarPage() {
           </div>
 
           {/* Type */}
-          <div className="bg-white rounded-xl border border-border p-4">
-            <div className="text-xs text-muted-foreground mb-1">Tipo de trámite</div>
-            <div className="font-semibold text-ink">{selectedType.display_name}</div>
-            <div className="text-sm text-muted-foreground mt-0.5">
+          <div className="bg-white border border-[#18181B]/10 rounded-2xl p-4">
+            <div className="text-[11px] font-bold uppercase tracking-widest text-[#18181B]/40 mb-1">Tipo de trámite</div>
+            <div className="font-semibold text-[#18181B]">{selectedType.display_name}</div>
+            <div className="text-sm text-[#18181B]/50 mt-0.5">
               ~{selectedType.estimated_days} días hábiles
             </div>
           </div>
 
           {/* Property */}
-          <div className="bg-white rounded-xl border border-border p-4">
-            <div className="text-xs text-muted-foreground mb-1">Inmueble</div>
-            <div className="font-medium text-ink">{form.watch('property_address')}</div>
-            <div className="text-sm text-muted-foreground">{form.watch('property_district')}</div>
+          <div className="bg-white border border-[#18181B]/10 rounded-2xl p-4">
+            <div className="text-[11px] font-bold uppercase tracking-widest text-[#18181B]/40 mb-1">Inmueble</div>
+            <div className="font-medium text-[#18181B]">{form.watch('property_address')}</div>
+            <div className="text-sm text-[#18181B]/50">{form.watch('property_district')}</div>
             {form.watch('property_value') ? (
-              <div className="text-sm text-muted-foreground">
+              <div className="text-sm text-[#18181B]/50">
                 Valor: {formatPrice(form.watch('property_value')!)}
               </div>
             ) : null}
@@ -428,18 +459,26 @@ export default function CotizarPage() {
             <button
               type="button"
               onClick={() => setPriceMatchOpen(true)}
-              className="text-sm text-brand-navy underline-offset-2 hover:underline order-2 sm:order-1"
+              className="text-sm text-[#18181B]/50 hover:text-[#D47151] underline-offset-4 hover:underline order-2 sm:order-1 transition-colors"
             >
               Tengo una cotización más baja
             </button>
             <div className="flex gap-3 order-1 sm:order-2 sm:ml-auto">
-              <Button variant="outline" onClick={() => setStep(2)}>
-                <ArrowLeft size={16} /> Anterior
-              </Button>
-              <Button onClick={handleSubmitTramite} disabled={submitting}>
-                {submitting && <Loader2 size={14} className="animate-spin mr-1.5" />}
-                {submitting ? 'Solicitando...' : 'Solicitar trámite'}
-              </Button>
+              <button
+                type="button"
+                onClick={() => setStep(2)}
+                className="flex items-center gap-2 border border-[#18181B]/15 text-[#18181B] rounded-full px-5 py-2.5 font-semibold text-sm hover:bg-[#18181B]/5 transition-colors"
+              >
+                <ArrowLeft size={15} /> Anterior
+              </button>
+              <button
+                onClick={handleSubmitTramite}
+                disabled={submitting}
+                className="flex items-center gap-2 bg-[#D47151] hover:bg-[#A6553A] text-white rounded-full px-6 py-2.5 font-semibold text-sm transition-all disabled:opacity-70"
+              >
+                {submitting && <Loader2 size={14} className="animate-spin" />}
+                {submitting ? 'Solicitando...' : 'Solicitar trámite →'}
+              </button>
             </div>
           </div>
 

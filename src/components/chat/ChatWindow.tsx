@@ -210,8 +210,8 @@ export default function ChatWindow({ tramiteId, senderType }: ChatWindowProps) {
                     className={cn(
                       'block rounded-xl overflow-hidden border',
                       isBroker
-                        ? 'border-primary/20 rounded-tr-sm'
-                        : 'border-slate-200 rounded-tl-sm'
+                        ? 'border-[#18181B]/20 rounded-tr-sm'
+                        : 'border-[#18181B]/10 rounded-tl-sm'
                     )}
                   >
                     {isImage(att.type) ? (
@@ -225,7 +225,7 @@ export default function ChatWindow({ tramiteId, senderType }: ChatWindowProps) {
                       <div
                         className={cn(
                           'flex items-center gap-2 px-3 py-2',
-                          isBroker ? 'bg-primary text-white' : 'bg-gray-100 text-gray-900'
+                          isBroker ? 'bg-[#18181B] text-white' : 'bg-[#18181B]/6 text-[#18181B]'
                         )}
                       >
                         <FileText size={16} className="shrink-0" />
@@ -243,8 +243,8 @@ export default function ChatWindow({ tramiteId, senderType }: ChatWindowProps) {
                     className={cn(
                       'max-w-[75%] px-3.5 py-2 text-sm leading-relaxed',
                       isBroker
-                        ? 'bg-primary text-white rounded-xl rounded-tr-sm'
-                        : 'bg-gray-100 text-gray-900 rounded-xl rounded-tl-sm'
+                        ? 'bg-[#18181B] text-white rounded-xl rounded-tr-sm'
+                        : 'bg-[#18181B]/6 text-[#18181B] rounded-xl rounded-tl-sm'
                     )}
                   >
                     {msg.content}
@@ -315,7 +315,7 @@ export default function ChatWindow({ tramiteId, senderType }: ChatWindowProps) {
           className={cn(
             'flex-1 resize-none rounded-lg border border-slate-200 bg-slate-50 px-3 py-2',
             'text-sm text-slate-900 placeholder:text-slate-400',
-            'focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary/50',
+            'focus:outline-none focus:ring-2 focus:ring-[#18181B]/20 focus:border-[#18181B]/30',
             'disabled:opacity-50 transition-all'
           )}
           style={{ minHeight: '40px', maxHeight: `${4 * 24 + 16}px` }}

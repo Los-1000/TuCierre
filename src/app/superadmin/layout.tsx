@@ -81,33 +81,38 @@ export default async function SuperAdminLayout({
   ]
 
   return (
-    <div className="flex min-h-screen bg-[#f7fafc]">
+    <div className="flex min-h-screen bg-[#F9F9F8]">
       {/* Sidebar */}
-      <aside className="hidden lg:flex w-64 flex-col fixed left-0 top-0 h-full bg-[#0A1930] z-20">
-        <div className="p-6 border-b border-white/10">
-          <div className="flex items-center gap-2 mb-1">
-            <ShieldCheck size={18} className="text-brand-gold" />
-            <span className="text-white font-bold text-lg">TuCierre</span>
+      <aside className="hidden lg:flex w-64 flex-col fixed left-0 top-0 h-full bg-[#18181B] z-20">
+        <div className="px-6 h-16 flex items-center justify-between border-b border-white/8">
+          <div className="flex items-center gap-2">
+            <span className="text-white font-bold text-[18px] tracking-tight">TuCierre</span>
           </div>
-          <div className="text-[10px] font-bold tracking-[0.15em] text-brand-gold/80 uppercase">
-            Super Admin
-          </div>
-          <div className="text-white/40 text-xs mt-2 truncate">{broker.email}</div>
+          <span className="text-[10px] font-bold tracking-[0.12em] text-[#D47151] uppercase bg-[#D47151]/10 px-2 py-0.5 rounded-full">
+            Super
+          </span>
         </div>
 
-        <nav className="flex-1 py-4 px-3 space-y-1">
+        <div className="px-5 py-3 border-b border-white/8">
+          <div className="flex items-center gap-2">
+            <ShieldCheck size={14} className="text-[#D47151] shrink-0" />
+            <span className="text-white/50 text-xs truncate">{broker.email}</span>
+          </div>
+        </div>
+
+        <nav className="flex-1 py-3 px-3 space-y-0.5 overflow-y-auto">
           {navItems.map((item) => (
             <Link
               key={item.href}
               href={item.href}
-              className="flex items-center justify-between px-3 py-2.5 rounded-lg text-white/80 hover:text-white hover:bg-white/10 transition-colors text-sm font-medium"
+              className="flex items-center justify-between px-4 py-2.5 text-sm font-medium transition-all border-l-[3px] border-transparent text-white/60 hover:text-white hover:bg-white/6 rounded-r-xl"
             >
               <div className="flex items-center gap-3">
-                <item.icon size={18} />
+                <item.icon size={16} className="shrink-0" />
                 {item.label}
               </div>
               {item.badge != null && (
-                <span className="bg-red-500 text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full min-w-[18px] text-center">
+                <span className="bg-[#D47151] text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full min-w-[18px] text-center">
                   {item.badge}
                 </span>
               )}
@@ -115,13 +120,13 @@ export default async function SuperAdminLayout({
           ))}
         </nav>
 
-        <div className="p-3 border-t border-white/10">
+        <div className="px-3 pb-3 border-t border-white/8 pt-3">
           <form action={signOutAction}>
             <button
               type="submit"
-              className="flex items-center gap-3 px-3 py-2.5 w-full rounded-lg text-white/70 hover:text-white hover:bg-white/10 transition-colors text-sm"
+              className="flex items-center gap-3 px-4 py-2.5 w-full rounded-xl text-sm font-medium text-white/50 hover:text-red-400 hover:bg-red-500/8 transition-all"
             >
-              <LogOut size={18} />
+              <LogOut size={16} />
               Cerrar sesión
             </button>
           </form>

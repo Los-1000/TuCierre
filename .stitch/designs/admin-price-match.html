@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+
+<html class="light" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>TuCierre Admin - Price Matching</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "surface-container-low": "#f3f4f3",
+              "secondary-fixed-dim": "#c8c5ca",
+              "secondary-fixed": "#e4e1e6",
+              "on-secondary": "#ffffff",
+              "on-surface-variant": "#55433d",
+              "background": "#f9f9f8",
+              "on-surface": "#1a1c1c",
+              "secondary": "#5f5e61",
+              "surface-tint": "#9a4528",
+              "tertiary-fixed-dim": "#61d9cc",
+              "on-tertiary": "#ffffff",
+              "on-primary-container": "#fffbff",
+              "inverse-surface": "#2f3130",
+              "on-tertiary-container": "#f4fffc",
+              "tertiary": "#00685f",
+              "surface-variant": "#e2e2e2",
+              "primary-fixed": "#ffdbd0",
+              "on-error-container": "#93000a",
+              "on-secondary-container": "#656467",
+              "primary-fixed-dim": "#ffb59e",
+              "on-error": "#ffffff",
+              "surface-container": "#eeeeed",
+              "on-tertiary-fixed": "#00201d",
+              "inverse-primary": "#ffb59e",
+              "outline": "#88726c",
+              "on-background": "#1a1c1c",
+              "surface-container-lowest": "#ffffff",
+              "tertiary-container": "#008379",
+              "surface-bright": "#f9f9f8",
+              "secondary-container": "#e4e1e6",
+              "surface-dim": "#dadad9",
+              "on-secondary-fixed": "#1b1b1e",
+              "primary-container": "#b65a3c",
+              "outline-variant": "#dbc1b9",
+              "on-primary-fixed": "#3a0b00",
+              "on-primary": "#ffffff",
+              "on-secondary-fixed-variant": "#47464a",
+              "primary": "#974226",
+              "inverse-on-surface": "#f1f1f0",
+              "tertiary-fixed": "#80f6e8",
+              "surface-container-high": "#e8e8e7",
+              "on-tertiary-fixed-variant": "#00504a",
+              "surface-container-highest": "#e2e2e2",
+              "on-primary-fixed-variant": "#7b2e13",
+              "surface": "#f9f9f8",
+              "error": "#ba1a1a",
+              "error-container": "#ffdad6"
+            },
+            fontFamily: {
+              "headline": ["Inter"],
+              "body": ["Inter"],
+              "label": ["Inter"]
+            },
+            borderRadius: {"DEFAULT": "1rem", "lg": "2rem", "xl": "3rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .active-dot::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            right: 1rem;
+            transform: translateY(-50%);
+            width: 8px;
+            height: 8px;
+            background-color: #ba1a1a;
+            border-radius: 50%;
+        }
+    </style>
+</head>
+<body class="bg-surface font-body text-on-surface antialiased">
+<!-- Admin SideNavBar -->
+<aside class="fixed left-0 top-0 bottom-0 flex flex-col pt-8 w-[240px] h-screen bg-zinc-950 shadow-2xl shadow-black/20 z-50">
+<div class="px-6 mb-10">
+<h1 class="text-xl font-black text-white tracking-tight">TuCierre</h1>
+<span class="text-[10px] font-bold tracking-widest text-orange-600 uppercase">ADMIN</span>
+</div>
+<nav class="flex-1 px-2 space-y-1">
+<a class="flex items-center gap-3 text-zinc-400 hover:text-zinc-100 px-4 py-3 hover:bg-zinc-800 transition-all rounded-lg group" href="#">
+<span class="material-symbols-outlined text-lg">dashboard</span>
+<span class="font-medium text-sm">Dashboard Admin</span>
+</a>
+<a class="flex items-center gap-3 text-zinc-400 hover:text-zinc-100 px-4 py-3 hover:bg-zinc-800 transition-all rounded-lg group" href="#">
+<span class="material-symbols-outlined text-lg">folder_shared</span>
+<span class="font-medium text-sm">Todos los Trámites</span>
+</a>
+<a class="flex items-center gap-3 text-zinc-400 hover:text-zinc-100 px-4 py-3 hover:bg-zinc-800 transition-all rounded-lg group" href="#">
+<span class="material-symbols-outlined text-lg">group</span>
+<span class="font-medium text-sm">Brokers</span>
+</a>
+<a class="flex items-center gap-3 text-zinc-400 hover:text-zinc-100 px-4 py-3 hover:bg-zinc-800 transition-all rounded-lg group" href="#">
+<span class="material-symbols-outlined text-lg">account_balance</span>
+<span class="font-medium text-sm">Notarías</span>
+</a>
+<a class="flex items-center gap-3 text-zinc-400 hover:text-zinc-100 px-4 py-3 hover:bg-zinc-800 transition-all rounded-lg group" href="#">
+<span class="material-symbols-outlined text-lg">list_alt</span>
+<span class="font-medium text-sm">Tipos de Trámite</span>
+</a>
+<a class="relative flex items-center gap-3 bg-zinc-900 text-white border-l-4 border-orange-600 px-4 py-3 active-dot" href="#">
+<span class="material-symbols-outlined text-lg" style="font-variation-settings: 'FILL' 1;">request_quote</span>
+<span class="font-medium text-sm">Price Matching</span>
+</a>
+<a class="flex items-center gap-3 text-zinc-400 hover:text-zinc-100 px-4 py-3 hover:bg-zinc-800 transition-all rounded-lg group" href="#">
+<span class="material-symbols-outlined text-lg">analytics</span>
+<span class="font-medium text-sm">Reportes</span>
+</a>
+</nav>
+<div class="p-4 mt-auto">
+<button class="w-full flex items-center gap-3 text-zinc-400 hover:text-zinc-100 px-4 py-3 hover:bg-zinc-800 transition-all rounded-lg">
+<span class="material-symbols-outlined text-lg">logout</span>
+<span class="font-medium text-sm">Cerrar sesión</span>
+</button>
+</div>
+</aside>
+<!-- Main Content Canvas -->
+<main class="ml-[240px] min-h-screen p-8 lg:p-12">
+<!-- Header Section -->
+<header class="mb-12">
+<div class="flex items-end gap-4 mb-2">
+<h2 class="text-4xl font-extrabold tracking-tight text-on-surface">Price Matching</h2>
+<span class="mb-1.5 px-3 py-0.5 rounded-full bg-error/10 text-error text-xs font-bold uppercase tracking-wider">3 pendientes</span>
+</div>
+<p class="text-secondary body-lg max-w-2xl">Gestión de solicitudes para igualación de precios de mercado. Revisa la documentación adjunta y aprueba los nuevos montos.</p>
+</header>
+<!-- Tabs Navigation -->
+<div class="flex items-center gap-8 border-b border-surface-container-high mb-10">
+<button class="pb-4 text-sm font-bold uppercase tracking-widest text-on-surface border-b-2 border-error">
+                Pendientes (3)
+            </button>
+<button class="pb-4 text-sm font-bold uppercase tracking-widest text-secondary hover:text-on-surface transition-colors">
+                Aprobados
+            </button>
+<button class="pb-4 text-sm font-bold uppercase tracking-widest text-secondary hover:text-on-surface transition-colors">
+                Rechazados
+            </button>
+</div>
+<!-- Pending Cards Grid -->
+<div class="grid grid-cols-1 gap-6">
+<!-- Card 1 -->
+<div class="group relative bg-surface-container-lowest rounded-3xl overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 border-l-[4px] border-[#D69E2E] flex flex-col md:flex-row md:items-center p-6 gap-8">
+<div class="flex-1 space-y-4">
+<div class="flex items-start justify-between">
+<div>
+<h3 class="text-xl font-bold text-on-surface">Marco García</h3>
+<div class="flex items-center gap-3 mt-1">
+<span class="text-xs font-bold text-secondary uppercase tracking-tighter bg-surface-container px-2 py-0.5 rounded">TC-0048</span>
+<span class="text-sm font-medium text-primary">Hipoteca</span>
+</div>
+</div>
+<button class="flex items-center gap-2 px-4 py-2 rounded-full border border-outline-variant text-on-surface-variant text-xs font-bold uppercase tracking-wider hover:bg-surface-container transition-colors">
+<span class="material-symbols-outlined text-sm">description</span>
+                            Ver PDF
+                        </button>
+</div>
+<div class="grid grid-cols-3 gap-4 bg-surface-container-low p-4 rounded-2xl">
+<div>
+<p class="text-[10px] font-bold text-secondary uppercase mb-1">Competidor</p>
+<p class="text-lg font-bold text-on-surface">S/. 1,000</p>
+</div>
+<div>
+<p class="text-[10px] font-bold text-secondary uppercase mb-1">Nuestro</p>
+<p class="text-lg font-bold text-on-surface">S/. 1,200</p>
+</div>
+<div>
+<p class="text-[10px] font-bold text-secondary uppercase mb-1">Diferencia</p>
+<p class="text-lg font-black text-error">S/. 200</p>
+</div>
+</div>
+</div>
+<div class="w-px h-24 bg-surface-container hidden md:block"></div>
+<div class="flex flex-col gap-4 min-w-[280px]">
+<div class="relative">
+<label class="absolute -top-2 left-4 px-1 bg-surface-container-lowest text-[10px] font-bold text-secondary uppercase">Precio a igualar</label>
+<input class="w-full h-12 px-4 rounded-2xl border border-outline-variant focus:ring-2 focus:ring-primary focus:border-transparent bg-transparent font-semibold" type="text" value="S/. 1,000"/>
+</div>
+<div class="flex gap-3">
+<button class="flex-1 py-3 rounded-full text-xs font-bold uppercase tracking-widest text-error hover:bg-error/5 border border-error/20 transition-all">
+                            Rechazar
+                        </button>
+<button class="flex-[1.5] py-3 rounded-full bg-zinc-900 text-white text-xs font-bold uppercase tracking-widest hover:bg-zinc-800 flex items-center justify-center gap-2 transition-all">
+                            Aprobar
+                            <span class="material-symbols-outlined text-sm">arrow_forward</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Card 2 -->
+<div class="group relative bg-surface-container-lowest rounded-3xl overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 border-l-[4px] border-[#D69E2E] flex flex-col md:flex-row md:items-center p-6 gap-8">
+<div class="flex-1 space-y-4">
+<div class="flex items-start justify-between">
+<div>
+<h3 class="text-xl font-bold text-on-surface">Sofía Quispe</h3>
+<div class="flex items-center gap-3 mt-1">
+<span class="text-xs font-bold text-secondary uppercase tracking-tighter bg-surface-container px-2 py-0.5 rounded">TC-0112</span>
+<span class="text-sm font-medium text-primary">Compra Venta</span>
+</div>
+</div>
+<button class="flex items-center gap-2 px-4 py-2 rounded-full border border-outline-variant text-on-surface-variant text-xs font-bold uppercase tracking-wider hover:bg-surface-container transition-colors">
+<span class="material-symbols-outlined text-sm">description</span>
+                            Ver PDF
+                        </button>
+</div>
+<div class="grid grid-cols-3 gap-4 bg-surface-container-low p-4 rounded-2xl">
+<div>
+<p class="text-[10px] font-bold text-secondary uppercase mb-1">Competidor</p>
+<p class="text-lg font-bold text-on-surface">S/. 850</p>
+</div>
+<div>
+<p class="text-[10px] font-bold text-secondary uppercase mb-1">Nuestro</p>
+<p class="text-lg font-bold text-on-surface">S/. 990</p>
+</div>
+<div>
+<p class="text-[10px] font-bold text-secondary uppercase mb-1">Diferencia</p>
+<p class="text-lg font-black text-error">S/. 140</p>
+</div>
+</div>
+</div>
+<div class="w-px h-24 bg-surface-container hidden md:block"></div>
+<div class="flex flex-col gap-4 min-w-[280px]">
+<div class="relative">
+<label class="absolute -top-2 left-4 px-1 bg-surface-container-lowest text-[10px] font-bold text-secondary uppercase">Precio a igualar</label>
+<input class="w-full h-12 px-4 rounded-2xl border border-outline-variant focus:ring-2 focus:ring-primary focus:border-transparent bg-transparent font-semibold" type="text" value="S/. 850"/>
+</div>
+<div class="flex gap-3">
+<button class="flex-1 py-3 rounded-full text-xs font-bold uppercase tracking-widest text-error hover:bg-error/5 border border-error/20 transition-all">
+                            Rechazar
+                        </button>
+<button class="flex-[1.5] py-3 rounded-full bg-zinc-900 text-white text-xs font-bold uppercase tracking-widest hover:bg-zinc-800 flex items-center justify-center gap-2 transition-all">
+                            Aprobar
+                            <span class="material-symbols-outlined text-sm">arrow_forward</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Card 3 -->
+<div class="group relative bg-surface-container-lowest rounded-3xl overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 border-l-[4px] border-[#D69E2E] flex flex-col md:flex-row md:items-center p-6 gap-8">
+<div class="flex-1 space-y-4">
+<div class="flex items-start justify-between">
+<div>
+<h3 class="text-xl font-bold text-on-surface">Ana Huanca</h3>
+<div class="flex items-center gap-3 mt-1">
+<span class="text-xs font-bold text-secondary uppercase tracking-tighter bg-surface-container px-2 py-0.5 rounded">TC-0095</span>
+<span class="text-sm font-medium text-primary">Testamento</span>
+</div>
+</div>
+<button class="flex items-center gap-2 px-4 py-2 rounded-full border border-outline-variant text-on-surface-variant text-xs font-bold uppercase tracking-wider hover:bg-surface-container transition-colors">
+<span class="material-symbols-outlined text-sm">description</span>
+                            Ver PDF
+                        </button>
+</div>
+<div class="grid grid-cols-3 gap-4 bg-surface-container-low p-4 rounded-2xl">
+<div>
+<p class="text-[10px] font-bold text-secondary uppercase mb-1">Competidor</p>
+<p class="text-lg font-bold text-on-surface">S/. 1,500</p>
+</div>
+<div>
+<p class="text-[10px] font-bold text-secondary uppercase mb-1">Nuestro</p>
+<p class="text-lg font-bold text-on-surface">S/. 1,850</p>
+</div>
+<div>
+<p class="text-[10px] font-bold text-secondary uppercase mb-1">Diferencia</p>
+<p class="text-lg font-black text-error">S/. 350</p>
+</div>
+</div>
+</div>
+<div class="w-px h-24 bg-surface-container hidden md:block"></div>
+<div class="flex flex-col gap-4 min-w-[280px]">
+<div class="relative">
+<label class="absolute -top-2 left-4 px-1 bg-surface-container-lowest text-[10px] font-bold text-secondary uppercase">Precio a igualar</label>
+<input class="w-full h-12 px-4 rounded-2xl border border-outline-variant focus:ring-2 focus:ring-primary focus:border-transparent bg-transparent font-semibold" type="text" value="S/. 1,500"/>
+</div>
+<div class="flex gap-3">
+<button class="flex-1 py-3 rounded-full text-xs font-bold uppercase tracking-widest text-error hover:bg-error/5 border border-error/20 transition-all">
+                            Rechazar
+                        </button>
+<button class="flex-[1.5] py-3 rounded-full bg-zinc-900 text-white text-xs font-bold uppercase tracking-widest hover:bg-zinc-800 flex items-center justify-center gap-2 transition-all">
+                            Aprobar
+                            <span class="material-symbols-outlined text-sm">arrow_forward</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Floating Insight Card (Editorial touch) -->
+<div class="mt-16 p-8 bg-zinc-900 rounded-[2.5rem] text-white flex flex-col md:flex-row items-center gap-8 overflow-hidden relative">
+<div class="flex-1 z-10">
+<span class="text-orange-500 text-[10px] font-black uppercase tracking-[0.2em] mb-2 block">Resumen del Mes</span>
+<h4 class="text-3xl font-bold tracking-tight mb-4 leading-tight">Estás ahorrando un promedio de <span class="text-orange-500">12%</span> por cierre igualado.</h4>
+<div class="flex gap-6">
+<div>
+<p class="text-zinc-400 text-xs font-medium uppercase tracking-wider mb-1">Total Igualados</p>
+<p class="text-2xl font-bold">42</p>
+</div>
+<div>
+<p class="text-zinc-400 text-xs font-medium uppercase tracking-wider mb-1">Margen Recuperado</p>
+<p class="text-2xl font-bold">S/. 14,200</p>
+</div>
+</div>
+</div>
+<div class="relative w-48 h-48 flex-shrink-0 opacity-20 md:opacity-100">
+<div class="absolute inset-0 bg-orange-600 rounded-full blur-3xl opacity-30 animate-pulse"></div>
+<span class="material-symbols-outlined text-[160px] text-orange-600 absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2" style="font-variation-settings: 'FILL' 1;">insights</span>
+</div>
+</div>
+</main>
+</body></html>

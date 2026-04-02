@@ -95,7 +95,7 @@ export default function CashoutDialog({
       <DialogTrigger asChild>
         <Button
           disabled={availableBalance <= 0}
-          className="bg-brand-navy hover:bg-brand-navy-light text-white gap-2"
+          className="bg-[#18181B] hover:bg-[#2D2D30] text-white gap-2"
         >
           <Banknote size={16} />
           Solicitar retiro
@@ -265,7 +265,7 @@ export default function CashoutDialog({
             <Button
               type="submit"
               disabled={isSubmitting || !method}
-              className="bg-brand-navy hover:bg-brand-navy-light text-white"
+              className="bg-[#18181B] hover:bg-[#2D2D30] text-white"
             >
               {isSubmitting ? 'Enviando...' : 'Confirmar solicitud'}
             </Button>

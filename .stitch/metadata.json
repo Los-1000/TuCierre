@@ -1,19 +1,19 @@
 {
-  "name": "projects/15038735186998197970",
-  "projectId": "15038735186998197970",
-  "title": "TU CIERRA LANDING FINAL",
+  "name": "projects/18313506131369373650",
+  "projectId": "18313506131369373650",
+  "title": "TU CIERRE LANDING NAVY",
   "visibility": "PRIVATE",
   "projectType": "PROJECT_DESIGN",
   "origin": "STITCH",
   "deviceType": "DESKTOP",
   "screens": {
-    "landing-creative": {
-      "id": "21efba47dc9a4f10a2faad758d4f6a4b",
-      "sourceScreen": "projects/15038735186998197970/screens/21efba47dc9a4f10a2faad758d4f6a4b",
+    "landing-navy": {
+      "id": "63cd7b660dbd4c00a98cc26c9276484d",
+      "sourceScreen": "projects/18313506131369373650/screens/63cd7b660dbd4c00a98cc26c9276484d",
       "x": 0,
       "y": 0,
       "width": 2560,
-      "height": 11718
+      "height": 11150
     }
   },
   "metadata": {

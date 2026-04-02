@@ -8,10 +8,7 @@ export default function PrivacidadPage() {
       <header className="bg-white border-b border-slate-200">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
           <Link href="/" className="flex items-center gap-2">
-            <div className="w-8 h-8 bg-brand-navy rounded-lg flex items-center justify-center">
-              <Shield size={16} className="text-white" />
-            </div>
-            <span className="font-bold text-brand-navy text-lg">TuCierre</span>
+            <span className="font-semibold text-[#18181B] text-lg tracking-tight">TuCierre</span>
           </Link>
           <Link href="/" className="text-sm text-slate-500 hover:text-slate-900">← Volver al inicio</Link>
         </div>
@@ -81,7 +78,7 @@ export default function PrivacidadPage() {
               <li><strong>Cancelación:</strong> solicitar la eliminación de tus datos</li>
               <li><strong>Oposición:</strong> oponerte al tratamiento de tus datos</li>
             </ul>
-            <p>Para ejercer estos derechos escríbenos a <a href="mailto:privacidad@tucierre.pe" className="text-brand-navy hover:underline">privacidad@tucierre.pe</a>.</p>
+            <p>Para ejercer estos derechos escríbenos a <a href="mailto:privacidad@tucierre.pe" className="text-[#D47151] hover:underline">privacidad@tucierre.pe</a>.</p>
           </section>
 
           <section className="space-y-3">
@@ -101,7 +98,7 @@ export default function PrivacidadPage() {
           <section className="space-y-3">
             <h2 className="text-lg font-semibold text-slate-900">9. Contacto</h2>
             <p>
-              Para consultas sobre privacidad escríbenos a <a href="mailto:privacidad@tucierre.pe" className="text-brand-navy hover:underline">privacidad@tucierre.pe</a>.
+              Para consultas sobre privacidad escríbenos a <a href="mailto:privacidad@tucierre.pe" className="text-[#D47151] hover:underline">privacidad@tucierre.pe</a>.
             </p>
           </section>
         </div>

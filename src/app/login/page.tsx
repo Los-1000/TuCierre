@@ -5,8 +5,7 @@ import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { Eye, EyeOff, Loader2, ArrowRight, Shield, Check } from 'lucide-react'
-import { Button } from '@/components/ui/button'
+import { Eye, EyeOff, Loader2, ArrowRight } from 'lucide-react'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { createClient } from '@/lib/supabase/client'
@@ -64,155 +63,153 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="min-h-screen flex font-sans">
-      {/* Left panel — brand */}
-      <div className="hidden lg:flex w-[42%] flex-col bg-brand-navy noise-overlay relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-brand-navy via-brand-navy-mid to-[#0A1930]" />
-        {/* Grid pattern */}
-        <div
-          className="absolute inset-0 opacity-[0.04]"
-          style={{
-            backgroundImage: 'linear-gradient(rgba(201,136,14,0.5) 1px, transparent 1px), linear-gradient(90deg, rgba(201,136,14,0.5) 1px, transparent 1px)',
-            backgroundSize: '48px 48px',
-          }}
-        />
-        {/* Gold glow */}
-        <div className="absolute bottom-1/3 left-1/4 w-72 h-72 bg-brand-gold/10 rounded-full blur-3xl pointer-events-none" />
+    <div className="min-h-screen flex font-sans overflow-hidden">
+      {/* Left panel — dark brand */}
+      <section className="hidden lg:flex flex-col justify-between w-1/2 bg-[#18181B] p-16 relative overflow-hidden">
+        {/* Ambient glow */}
+        <div className="absolute top-[-10%] right-[-10%] w-[500px] h-[500px] bg-[#D47151] blur-[120px] rounded-full opacity-10 pointer-events-none" />
 
-        <div className="relative z-10 flex flex-col h-full p-10">
-          {/* Logo */}
-          <Link href="/" className="flex items-center gap-2.5">
-            <div className="w-9 h-9 bg-brand-gold rounded-xl flex items-center justify-center">
-              <Shield size={17} className="text-white" />
-            </div>
-            <span className="font-display font-semibold text-xl text-[#EDE8DF]">TuCierre</span>
-          </Link>
-
-          {/* Center content */}
-          <div className="flex-1 flex flex-col justify-center">
-            <h1 className="font-display text-4xl font-light text-[#EDE8DF] leading-[1.15] mb-5">
-              Gestiona tus<br />
-              <em className="text-gold-gradient not-italic font-semibold">trámites notariales</em><br />
-              sin caos.
-            </h1>
-            <p className="text-[#EDE8DF]/50 text-sm leading-relaxed mb-10 max-w-xs">
-              La plataforma de los brokers inmobiliarios más productivos de Lima.
-            </p>
-
-            {/* Proof points */}
-            <div className="space-y-3">
-              {[
-                'Cotiza en segundos, no días',
-                'Price Match contra cualquier notaría',
-                'Hasta 10% de descuento por volumen',
-              ].map(p => (
-                <div key={p} className="flex items-center gap-3">
-                  <div className="w-5 h-5 rounded-full bg-brand-gold/20 border border-brand-gold/30 flex items-center justify-center shrink-0">
-                    <Check size={10} className="text-brand-gold" />
-                  </div>
-                  <span className="text-sm text-[#EDE8DF]/55">{p}</span>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* Bottom */}
-          <div className="flex items-center gap-2.5">
-            <div className="flex -space-x-2">
-              {['C', 'M', 'A', 'R'].map((l, i) => (
-                <div
-                  key={i}
-                  className="w-7 h-7 rounded-full border-2 border-brand-navy-mid flex items-center justify-center text-[9px] font-bold text-white"
-                  style={{ background: ['#1E3A5F','#2A5298','#1A7A54','#8B4513'][i] }}
-                >
-                  {l}
-                </div>
-              ))}
-            </div>
-            <span className="text-xs text-[#EDE8DF]/40">+2,400 brokers activos</span>
-          </div>
+        {/* Top — wordmark */}
+        <div className="flex items-center gap-3 z-10">
+          <h1 className="text-white text-[22px] font-semibold tracking-tight">TuCierre</h1>
+          <span className="bg-white/10 text-white/60 px-3 py-1 rounded-full text-[10px] font-bold tracking-widest uppercase border border-white/10">
+            BETA
+          </span>
         </div>
-      </div>
+
+        {/* Center — editorial tagline */}
+        <div className="z-10 max-w-xl">
+          <h2 className="text-white text-[52px] font-semibold leading-[1.1] tracking-tight mb-4">
+            No persigas a nadie.
+          </h2>
+          <p className="text-white/50 text-[36px] italic font-medium leading-tight mb-8">
+            Solo cierra.
+          </p>
+          <div className="w-32 h-[1px] bg-[#D47151]" />
+        </div>
+
+        {/* Bottom — trust pills */}
+        <div className="flex flex-wrap gap-3 z-10">
+          {[
+            { icon: '✓', text: '1,000+ trámites cerrados' },
+            { icon: '♥', text: 'Gratis para brokers' },
+            { icon: '♟', text: '120+ brokers activos' },
+          ].map((pill) => (
+            <div
+              key={pill.text}
+              className="flex items-center gap-2 bg-white/5 border border-white/10 px-4 py-2 rounded-full"
+            >
+              <span className="text-[#D47151] text-sm">{pill.icon}</span>
+              <span className="text-white/80 text-sm font-medium">{pill.text}</span>
+            </div>
+          ))}
+        </div>
+      </section>
 
       {/* Right panel — form */}
-      <div className="flex-1 flex flex-col items-center justify-center bg-parchment px-6 py-12">
-        {/* Mobile logo */}
-        <Link href="/" className="flex items-center gap-2 mb-8 lg:hidden">
-          <div className="w-8 h-8 bg-brand-navy rounded-lg flex items-center justify-center">
-            <Shield size={15} className="text-white" />
-          </div>
-          <span className="font-display font-semibold text-lg text-ink">TuCierre</span>
-        </Link>
-
-        <div className="w-full max-w-sm">
-          <div className="mb-8">
-            <h2 className="font-display text-3xl font-semibold text-ink">Bienvenido de vuelta</h2>
-            <p className="text-muted-foreground text-sm mt-1.5">Ingresa a tu cuenta para continuar</p>
+      <section className="w-full lg:w-1/2 flex items-center justify-center p-6 bg-[#F9F9F8]">
+        <div className="w-full max-w-[400px]">
+          {/* Mobile wordmark */}
+          <div className="mb-10 lg:hidden text-center">
+            <h1 className="text-[#18181B] text-[24px] font-bold tracking-tight">TuCierre</h1>
           </div>
 
-          <form onSubmit={handleSubmit(onSubmit)} noValidate className="space-y-5">
-            <div>
-              <Label htmlFor="email" className="text-sm font-medium text-ink/80">Email</Label>
-              <Input
-                id="email"
-                type="email"
-                placeholder="tu@email.com"
-                autoComplete="email"
-                className="mt-1.5 bg-white border-border focus:border-brand-gold focus:ring-brand-gold/20 h-11"
-                {...register('email')}
-              />
-              {errors.email && <p className="text-destructive text-xs mt-1.5">{errors.email.message}</p>}
+          {/* Card */}
+          <div className="bg-white rounded-3xl p-10 shadow-[0_40px_80px_-15px_rgba(24,24,27,0.06)] border border-[#18181B]/5">
+            <div className="mb-8">
+              <h3 className="text-[28px] font-semibold text-[#18181B] tracking-tight">Bienvenido</h3>
+              <p className="text-[#18181B]/60 text-sm mt-1">Ingresa a tu cuenta para continuar.</p>
             </div>
 
-            <div>
-              <div className="flex items-center justify-between mb-1.5">
-                <Label htmlFor="password" className="text-sm font-medium text-ink/80">Contraseña</Label>
-                <Link href="/forgot-password" className="text-xs text-brand-gold hover:text-brand-gold-light transition-colors">
-                  ¿Olvidaste tu contraseña?
-                </Link>
-              </div>
-              <div className="relative">
+            <form onSubmit={handleSubmit(onSubmit)} noValidate className="space-y-5">
+              {/* Email */}
+              <div className="space-y-2">
+                <label className="text-[11px] font-bold uppercase tracking-wider text-[#18181B]/60 block ml-1" htmlFor="email">
+                  Correo electrónico
+                </label>
                 <Input
-                  id="password"
-                  type={showPassword ? 'text' : 'password'}
-                  placeholder="••••••••"
-                  autoComplete="current-password"
-                  className="bg-white border-border focus:border-brand-gold focus:ring-brand-gold/20 h-11 pr-10"
-                  {...register('password')}
+                  id="email"
+                  type="email"
+                  placeholder="tu@email.com"
+                  autoComplete="email"
+                  className="h-[48px] px-5 rounded-2xl bg-[#F3F4F3] border-transparent focus:border-[#D47151] focus:ring-[#D47151]/30 text-[#18181B] placeholder:text-[#18181B]/30"
+                  {...register('email')}
                 />
-                <button
-                  type="button"
-                  onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-ink transition-colors"
-                >
-                  {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
-                </button>
+                {errors.email && <p className="text-red-500 text-xs mt-1">{errors.email.message}</p>}
               </div>
-              {errors.password && <p className="text-destructive text-xs mt-1.5">{errors.password.message}</p>}
+
+              {/* Password */}
+              <div className="space-y-2">
+                <div className="flex justify-between items-center ml-1">
+                  <label className="text-[11px] font-bold uppercase tracking-wider text-[#18181B]/60 block" htmlFor="password">
+                    Contraseña
+                  </label>
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword(!showPassword)}
+                    className="text-[11px] font-bold uppercase tracking-wider text-[#D47151] hover:opacity-80 transition-opacity"
+                  >
+                    {showPassword ? 'Ocultar' : 'Mostrar'}
+                  </button>
+                </div>
+                <div className="relative">
+                  <Input
+                    id="password"
+                    type={showPassword ? 'text' : 'password'}
+                    placeholder="••••••••"
+                    autoComplete="current-password"
+                    className="h-[48px] px-5 rounded-2xl bg-[#F3F4F3] border-transparent focus:border-[#D47151] focus:ring-[#D47151]/30 text-[#18181B] placeholder:text-[#18181B]/30"
+                    {...register('password')}
+                  />
+                </div>
+                {errors.password && <p className="text-red-500 text-xs mt-1">{errors.password.message}</p>}
+                <div className="flex justify-end pt-1">
+                  <Link
+                    href="/forgot-password"
+                    className="text-[13px] font-medium text-[#D47151] hover:underline underline-offset-4 decoration-[#D47151]/30"
+                  >
+                    Olvidé mi contraseña
+                  </Link>
+                </div>
+              </div>
+
+              {/* Submit */}
+              <button
+                type="submit"
+                disabled={loading}
+                className="w-full h-[52px] bg-[#D47151] hover:bg-[#A6553A] text-white font-semibold rounded-full flex items-center justify-center gap-2 transition-all shadow-lg shadow-[#D47151]/20 mt-6 disabled:opacity-70"
+              >
+                {loading ? (
+                  <><Loader2 size={18} className="animate-spin" />Ingresando...</>
+                ) : (
+                  <>Ingresar <ArrowRight size={18} /></>
+                )}
+              </button>
+            </form>
+
+            {/* Divider */}
+            <div className="relative my-8">
+              <div className="absolute inset-0 flex items-center">
+                <div className="w-full border-t border-[#18181B]/8" />
+              </div>
+              <div className="relative flex justify-center">
+                <span className="bg-white px-4 text-[#18181B]/30 text-xs font-medium uppercase tracking-widest">o</span>
+              </div>
             </div>
 
-            <Button
-              type="submit"
-              disabled={loading}
-              className="w-full h-11 bg-brand-navy hover:bg-brand-navy-light text-parchment font-medium gap-2 transition-all"
-            >
-              {loading
-                ? <><Loader2 size={15} className="animate-spin" />Ingresando...</>
-                : <><span>Ingresar</span><ArrowRight size={15} /></>
-              }
-            </Button>
-          </form>
-
-          <div className="mt-6 text-center">
-            <p className="text-sm text-muted-foreground">
-              ¿No tienes cuenta?{' '}
-              <Link href="/register" className="text-brand-gold font-medium hover:text-brand-gold-light transition-colors">
-                Regístrate gratis
+            {/* Register link */}
+            <div className="text-center">
+              <Link
+                href="/register"
+                className="text-sm font-medium text-[#18181B]/60 hover:text-[#18181B] transition-colors"
+              >
+                ¿No tienes cuenta?{' '}
+                <span className="text-[#D47151] font-semibold">Regístrate gratis</span>
               </Link>
-            </p>
+            </div>
           </div>
         </div>
-      </div>
+      </section>
     </div>
   )
 }

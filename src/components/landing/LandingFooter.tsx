@@ -1,51 +1,84 @@
 import Link from 'next/link'
 
+const COLS = [
+  {
+    heading: 'Empresa',
+    links: [['Contacto', '#'], ['Nosotros', '#'], ['Blog Notarial', '#']],
+  },
+  {
+    heading: 'Legal',
+    links: [['Privacidad', '/privacidad'], ['Términos', '/terminos'], ['Seguridad', '#']],
+  },
+  {
+    heading: 'Recursos',
+    links: [['Soporte', '#'], ['Cómo funciona', '#como-funciona'], ['Precios', '#precios']],
+  },
+]
+
 export default function LandingFooter() {
   return (
-    <footer className="bg-[#0A0A0A] border-t border-[#D47151]">
-      <div className="px-10 lg:px-16 py-10 flex flex-col md:flex-row items-center justify-between gap-6">
-
-        {/* Logo */}
-        <div className="flex items-center gap-3">
+    <footer className="w-full py-20 px-6 md:px-16 border-t border-white/10" style={{ background: '#00081e' }}>
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-12 max-w-screen-2xl mx-auto">
+        {/* Brand col */}
+        <div className="space-y-6">
+          <Link href="/" className="text-3xl font-black text-white block tracking-tighter">
+            Tu Cierre
+          </Link>
+          <p className="text-lg" style={{ color: '#7f9fc2' }}>
+            Líder en infraestructura digital para transacciones inmobiliarias de alto valor en Lima.
+          </p>
+          {/* Price Match badge */}
           <div
-            className="w-9 h-9 bg-[#D47151] flex items-center justify-center text-white"
-            style={{ clipPath: 'polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%)' }}
+            className="inline-flex items-center gap-2 px-3 py-2 rounded-lg border text-sm font-semibold"
+            style={{ background: '#0a1f44', borderColor: '#d06d0d30', color: '#d06d0d' }}
           >
-            <span className="text-[11px] font-black">TC</span>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
+              <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" stroke="#d06d0d" strokeWidth="2" strokeLinejoin="round"/>
+            </svg>
+            Garantía Price Match
           </div>
-          <span className="text-[22px] font-black text-white tracking-tight uppercase">TuCierre</span>
         </div>
 
-        {/* Center */}
-        <p className="text-[10px] font-light tracking-[0.25em] uppercase text-white/20">
-          Lima, Perú · 2026
-        </p>
-
-        {/* Links */}
-        <div className="flex items-center gap-8">
-          {[
-            ['Cómo funciona', '#como-funciona'],
-            ['Precios', '#precios'],
-            ['Ingresar', '/login'],
-            ['Crear cuenta', '/register'],
-          ].map(([label, href]) => (
-            <Link
-              key={label}
-              href={href}
-              className="text-[10px] font-light tracking-[0.15em] uppercase text-white/25 hover:text-[#D47151] transition-colors"
-            >
-              {label}
-            </Link>
-          ))}
-        </div>
+        {/* Link cols */}
+        {COLS.map(col => (
+          <div key={col.heading} className="space-y-6">
+            <h4 className="font-black uppercase tracking-widest text-xs" style={{ color: '#d06d0d' }}>
+              {col.heading}
+            </h4>
+            <div className="flex flex-col gap-4">
+              {col.links.map(([label, href]) => (
+                <Link
+                  key={label}
+                  href={href}
+                  className="text-lg transition-colors hover:text-white"
+                  style={{ color: '#64748b' }}
+                >
+                  {label}
+                </Link>
+              ))}
+            </div>
+          </div>
+        ))}
       </div>
 
       {/* Bottom bar */}
-      <div className="h-px bg-[#D47151]/15 mx-10 lg:mx-16" />
-      <div className="px-10 lg:px-16 py-5">
-        <p className="text-[9px] font-light tracking-[0.2em] uppercase text-white/15 text-center">
-          © 2026 TuCierre · Plataforma notarial para brokers inmobiliarios en Perú
+      <div className="max-w-screen-2xl mx-auto mt-20 pt-10 border-t border-white/10 flex flex-col md:flex-row justify-between items-center gap-6">
+        <p className="text-sm font-medium" style={{ color: '#44464e' }}>
+          © 2026 Tu Cierre · Plataforma notarial para brokers inmobiliarios en Perú
         </p>
+        <div className="flex items-center gap-3">
+          <svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#44464e" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+            <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+          </svg>
+          <svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#44464e" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+          </svg>
+          <svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#44464e" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+            <polyline points="22 4 12 14.01 9 11.01"/>
+          </svg>
+        </div>
       </div>
     </footer>
   )

@@ -28,17 +28,17 @@ export default function TramiteTypeCard({ tramiteType, selected, onSelect }: Tra
       role="radio"
       aria-checked={selected}
       className={cn(
-        'w-full text-left rounded-xl border-2 p-4 transition-all duration-150 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-navy/30',
+        'w-full text-left rounded-xl border-2 p-4 transition-all duration-150 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#18181B]/30',
         selected
-          ? 'border-brand-navy bg-brand-navy/5 shadow-md'
-          : 'border-slate-200 bg-white hover:border-brand-navy/40 hover:shadow-sm'
+          ? 'border-[#18181B] bg-[#18181B]/5 shadow-md'
+          : 'border-slate-200 bg-white hover:border-[#18181B]/40 hover:shadow-sm'
       )}
     >
       <div className="flex items-start justify-between mb-3">
         <div
           className={cn(
             'w-10 h-10 rounded-xl flex items-center justify-center',
-            selected ? 'bg-brand-navy text-white' : 'bg-slate-100 text-slate-600'
+            selected ? 'bg-[#18181B] text-white' : 'bg-slate-100 text-slate-600'
           )}
         >
           <Icon size={20} />
@@ -49,7 +49,7 @@ export default function TramiteTypeCard({ tramiteType, selected, onSelect }: Tra
           </div>
         )}
       </div>
-      <h3 className={cn('font-semibold text-sm mb-1', selected ? 'text-brand-navy' : 'text-slate-900')}>
+      <h3 className={cn('font-semibold text-sm mb-1', selected ? 'text-[#18181B]' : 'text-slate-900')}>
         {tramiteType.display_name}
       </h3>
       {tramiteType.description && (

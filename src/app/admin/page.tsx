@@ -1,8 +1,6 @@
 import { createClient } from '@/lib/supabase/server'
 import { redirect } from 'next/navigation'
 import Link from 'next/link'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import StatusBadge from '@/components/tramites/StatusBadge'
 import { formatPrice, formatDate } from '@/lib/utils'
@@ -13,9 +11,8 @@ import {
   DollarSign,
   Users,
   GitCompare,
+  AlertTriangle,
   ArrowRight,
-  Clock,
-  FileCheck,
   AlertCircle,
 } from 'lucide-react'
 
@@ -92,190 +89,206 @@ export default async function AdminDashboardPage() {
     (byStatus['en_firma'] || 0) +
     (byStatus['en_registro'] || 0)
 
-  const kpis = [
-    {
-      title: 'Trámites activos',
-      value: activeCount.toString(),
-      icon: FileText,
-      iconColor: 'text-blue-600',
-      iconBg: 'bg-blue-50',
-      sub: 'En proceso actualmente',
-    },
-    {
-      title: 'Ingresos del mes',
-      value: formatPrice(incomeThisMonth),
-      icon: DollarSign,
-      iconColor: 'text-emerald-600',
-      iconBg: 'bg-emerald-50',
-      sub: 'Trámites completados este mes',
-    },
-    {
-      title: 'Brokers activos',
-      value: activeBrokers.toString(),
-      icon: Users,
-      iconColor: 'text-purple-600',
-      iconBg: 'bg-purple-50',
-      sub: 'Con trámites este mes',
-    },
-    {
-      title: 'Price Match pendientes',
-      value: pendingPriceMatch.toString(),
-      icon: GitCompare,
-      iconColor: pendingPriceMatch > 0 ? 'text-red-600' : 'text-gray-500',
-      iconBg: pendingPriceMatch > 0 ? 'bg-red-50' : 'bg-gray-50',
-      sub: 'Solicitudes por revisar',
-      badge: pendingPriceMatch > 0 ? pendingPriceMatch : null,
-    },
-  ]
+  const completedCount = byStatus['completado'] || 0
+  const totalCount = Object.values(byStatus).reduce((a, b) => a + b, 0)
+
+  // sin notaria = solicitado (unassigned proxy)
+  const sinAsignar = byStatus['solicitado'] || 0
 
   return (
     <div className="space-y-8">
-      {/* Header */}
-      <div>
-        <h1 className="text-2xl font-bold text-gray-900">Dashboard</h1>
-        <p className="text-sm text-gray-500 mt-1">Resumen de operaciones de la notaría</p>
-      </div>
-
-      {/* KPI Cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        {kpis.map((kpi) => (
-          <Card key={kpi.title} className="border border-gray-200 shadow-sm">
-            <CardContent className="p-5">
-              <div className="flex items-start justify-between">
-                <div className={`p-2 rounded-lg ${kpi.iconBg}`}>
-                  <kpi.icon size={20} className={kpi.iconColor} />
-                </div>
-                {kpi.badge != null && (
-                  <Badge variant="destructive" className="text-xs font-semibold">
-                    {kpi.badge}
-                  </Badge>
-                )}
-              </div>
-              <div className="mt-3">
-                <p className="text-xs text-gray-500 font-medium uppercase tracking-wide">{kpi.title}</p>
-                <p className="text-2xl font-bold text-gray-900 mt-1">{kpi.value}</p>
-                <p className="text-xs text-gray-400 mt-1">{kpi.sub}</p>
-              </div>
-            </CardContent>
-          </Card>
-        ))}
-      </div>
-
-      {/* Status breakdown */}
-      <Card className="border border-gray-200 shadow-sm">
-        <CardHeader className="pb-3">
-          <CardTitle className="text-sm font-semibold text-gray-700">Trámites por estado</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="flex flex-wrap gap-3">
-            {(Object.keys(TRAMITE_STATUS_CONFIG) as TramiteStatus[]).map((status) => (
-              <div key={status} className="flex items-center gap-2">
-                <StatusBadge status={status} size="sm" />
-                <span className="text-sm font-semibold text-gray-700">
-                  {byStatus[status] || 0}
-                </span>
-              </div>
-            ))}
-          </div>
-        </CardContent>
-      </Card>
-
-      {/* Quick Actions */}
-      <div>
-        <h2 className="text-base font-semibold text-gray-800 mb-3">Acciones rápidas</h2>
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-          <Link href="/admin/tramites?status=solicitado">
-            <Card className="border border-gray-200 shadow-sm hover:border-blue-300 hover:shadow-md transition-all cursor-pointer group">
-              <CardContent className="p-4 flex items-center gap-3">
-                <div className="p-2 bg-purple-50 rounded-lg">
-                  <Clock size={18} className="text-purple-600" />
-                </div>
-                <div className="flex-1 min-w-0">
-                  <p className="text-sm font-medium text-gray-900">Nuevas solicitudes</p>
-                  <p className="text-xs text-gray-500">
-                    {byStatus['solicitado'] || 0} trámites solicitados
-                  </p>
-                </div>
-                <ArrowRight size={16} className="text-gray-400 group-hover:text-blue-500 transition-colors shrink-0" />
-              </CardContent>
-            </Card>
-          </Link>
-
-          <Link href="/admin/price-match">
-            <Card className="border border-gray-200 shadow-sm hover:border-blue-300 hover:shadow-md transition-all cursor-pointer group">
-              <CardContent className="p-4 flex items-center gap-3">
-                <div className="p-2 bg-red-50 rounded-lg">
-                  <GitCompare size={18} className="text-red-600" />
-                </div>
-                <div className="flex-1 min-w-0">
-                  <p className="text-sm font-medium text-gray-900">Price Match</p>
-                  <p className="text-xs text-gray-500">
-                    {pendingPriceMatch} solicitudes pendientes
-                  </p>
-                </div>
-                <ArrowRight size={16} className="text-gray-400 group-hover:text-blue-500 transition-colors shrink-0" />
-              </CardContent>
-            </Card>
-          </Link>
-
-          <Link href="/admin/tramites?status=documentos_pendientes">
-            <Card className="border border-gray-200 shadow-sm hover:border-blue-300 hover:shadow-md transition-all cursor-pointer group">
-              <CardContent className="p-4 flex items-center gap-3">
-                <div className="p-2 bg-yellow-50 rounded-lg">
-                  <FileCheck size={18} className="text-yellow-600" />
-                </div>
-                <div className="flex-1 min-w-0">
-                  <p className="text-sm font-medium text-gray-900">Docs. pendientes</p>
-                  <p className="text-xs text-gray-500">
-                    {byStatus['documentos_pendientes'] || 0} trámites esperando
-                  </p>
-                </div>
-                <ArrowRight size={16} className="text-gray-400 group-hover:text-blue-500 transition-colors shrink-0" />
-              </CardContent>
-            </Card>
-          </Link>
+      {/* Page Header */}
+      <div className="flex items-end justify-between">
+        <div>
+          <p className="text-[11px] font-bold uppercase tracking-[0.1em] text-[#18181B]/40 mb-1">
+            Resumen Administrativo
+          </p>
+          <h1 className="text-4xl font-extrabold tracking-tight text-[#18181B]">Dashboard</h1>
         </div>
       </div>
 
-      {/* Recent Activity */}
-      <div>
-        <h2 className="text-base font-semibold text-gray-800 mb-3">Actividad reciente</h2>
-        <Card className="border border-gray-200 shadow-sm">
-          <CardContent className="p-0">
-            {recentTramites.length === 0 ? (
-              <div className="p-8 text-center text-gray-400 text-sm">
-                <AlertCircle size={24} className="mx-auto mb-2 opacity-40" />
-                Sin actividad reciente
-              </div>
-            ) : (
-              <div className="divide-y divide-gray-100">
-                {recentTramites.map((t) => (
-                  <div key={t.id} className="flex items-center gap-4 px-5 py-3 hover:bg-gray-50 transition-colors">
-                    <div className="shrink-0">
-                      <p className="text-xs font-mono font-semibold text-gray-700">{t.reference_code}</p>
-                    </div>
-                    <div className="flex-1 min-w-0">
-                      <p className="text-sm font-medium text-gray-900 truncate">
-                        {t.brokers?.full_name ?? '—'}
-                      </p>
-                      <p className="text-xs text-gray-400">{t.tramite_types?.display_name ?? '—'}</p>
-                    </div>
-                    <StatusBadge status={t.status} size="sm" />
-                    <div className="shrink-0 text-right hidden sm:block">
-                      <p className="text-sm font-semibold text-gray-800">{formatPrice(t.final_price)}</p>
-                      <p className="text-xs text-gray-400">{formatDate(t.updated_at)}</p>
-                    </div>
-                    <Link href={`/tramites/${t.id}`}>
-                      <Button variant="ghost" size="sm" className="shrink-0 h-7 text-xs">
-                        Ver
-                      </Button>
-                    </Link>
+      {/* Alert Banner */}
+      {sinAsignar > 0 && (
+        <div className="bg-[#D69E2E]/10 border-l-4 border-[#D69E2E] rounded-2xl p-5 flex items-center justify-between gap-4">
+          <div className="flex items-center gap-4">
+            <div className="w-10 h-10 rounded-full bg-[#D69E2E] flex items-center justify-center text-white shrink-0">
+              <AlertTriangle size={18} />
+            </div>
+            <div>
+              <p className="font-bold text-[#D69E2E] tracking-tight">
+                {sinAsignar} trámite{sinAsignar !== 1 ? 's' : ''} sin notaría asignada
+              </p>
+              <p className="text-sm text-[#D69E2E]/80">
+                Es necesario asignar una notaría para continuar con el flujo legal.
+              </p>
+            </div>
+          </div>
+          <Link href="/admin/tramites?status=solicitado">
+            <button className="border border-[#D69E2E]/40 text-[#D69E2E] rounded-full px-6 py-2.5 font-semibold text-sm bg-transparent hover:bg-[#D69E2E]/10 transition-colors shrink-0">
+              Gestionar ahora
+            </button>
+          </Link>
+        </div>
+      )}
+
+      {/* KPI Cards */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-5">
+        {/* Trámites activos */}
+        <div className="bg-white rounded-3xl border border-[#18181B]/8 shadow-[0_4px_24px_rgba(18,18,27,0.06)] p-6 hover:-translate-y-1 transition-transform duration-300">
+          <p className="text-[11px] font-bold uppercase tracking-wider text-[#18181B]/40 mb-1">Trámites activos</p>
+          <div className="flex items-baseline gap-2">
+            <h3 className="text-4xl font-black text-[#18181B]">{activeCount}</h3>
+          </div>
+          <p className="text-xs text-[#18181B]/50 mt-1">En proceso actualmente</p>
+        </div>
+
+        {/* Sin asignar — highlighted */}
+        <div className={`rounded-3xl border p-6 hover:-translate-y-1 transition-transform duration-300 ${sinAsignar > 0 ? 'bg-red-50 border-red-200' : 'bg-white border-[#18181B]/8 shadow-[0_4px_24px_rgba(18,18,27,0.06)]'}`}>
+          <p className={`text-[11px] font-bold uppercase tracking-wider mb-1 ${sinAsignar > 0 ? 'text-red-600/70' : 'text-[#18181B]/40'}`}>Sin asignar</p>
+          <div className="flex items-baseline gap-2">
+            <h3 className={`text-4xl font-black ${sinAsignar > 0 ? 'text-red-700' : 'text-[#18181B]'}`}>{sinAsignar}</h3>
+            {sinAsignar > 0 && <AlertCircle size={18} className="text-red-500 mb-1" />}
+          </div>
+          <p className={`text-xs mt-1 ${sinAsignar > 0 ? 'text-red-500' : 'text-[#18181B]/50'}`}>Requieren acción</p>
+        </div>
+
+        {/* En proceso */}
+        <div className="bg-white rounded-3xl border border-[#18181B]/8 shadow-[0_4px_24px_rgba(18,18,27,0.06)] p-6 hover:-translate-y-1 transition-transform duration-300">
+          <p className="text-[11px] font-bold uppercase tracking-wider text-[#18181B]/40 mb-1">En proceso</p>
+          <h3 className="text-4xl font-black text-[#18181B]">{activeCount}</h3>
+          <p className="text-xs text-[#18181B]/50 mt-1">Brokers activos: {activeBrokers}</p>
+        </div>
+
+        {/* Completados */}
+        <div className="bg-white rounded-3xl border border-[#18181B]/8 shadow-[0_4px_24px_rgba(18,18,27,0.06)] p-6 hover:-translate-y-1 transition-transform duration-300">
+          <p className="text-[11px] font-bold uppercase tracking-wider text-[#18181B]/40 mb-1">Completados</p>
+          <h3 className="text-4xl font-black text-[#18181B]">{completedCount}</h3>
+          <p className="text-xs text-[#18181B]/50 mt-1">de {totalCount} en total</p>
+        </div>
+
+        {/* Ingresos — dark card */}
+        <div className="bg-[#18181B] rounded-3xl shadow-xl p-6 hover:-translate-y-1 transition-transform duration-300">
+          <p className="text-[11px] font-bold uppercase tracking-wider text-zinc-400 mb-1">Ingresos del mes</p>
+          <h3 className="text-3xl font-black text-white tracking-tighter">{formatPrice(incomeThisMonth)}</h3>
+          <p className="text-xs text-zinc-500 mt-1">Trámites completados</p>
+        </div>
+      </div>
+
+      {/* Charts + Activity Row */}
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+        {/* Left: Status breakdown + Quick actions */}
+        <div className="lg:col-span-8 space-y-6">
+          {/* Status breakdown card */}
+          <div className="bg-white rounded-3xl border border-[#18181B]/8 shadow-[0_4px_24px_rgba(18,18,27,0.06)] p-8">
+            <h4 className="text-lg font-bold text-[#18181B] mb-6">Trámites por estado</h4>
+            <div className="flex flex-wrap gap-3">
+              {(Object.keys(TRAMITE_STATUS_CONFIG) as TramiteStatus[]).map((status) => (
+                <div key={status} className="flex items-center gap-2">
+                  <StatusBadge status={status} size="sm" />
+                  <span className="text-sm font-bold text-[#18181B]">
+                    {byStatus[status] || 0}
+                  </span>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Quick Actions */}
+          <div className="bg-white rounded-3xl border border-[#18181B]/8 shadow-[0_4px_24px_rgba(18,18,27,0.06)] p-8">
+            <h4 className="text-lg font-bold text-[#18181B] mb-6">Acciones rápidas</h4>
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+              <Link href="/admin/tramites?status=solicitado" className="group">
+                <div className="flex items-center gap-3 p-4 rounded-2xl border border-[#18181B]/10 hover:border-[#D47151]/40 hover:bg-[#D47151]/5 transition-all cursor-pointer">
+                  <div className="p-2 bg-purple-50 rounded-xl">
+                    <FileText size={18} className="text-purple-600" />
                   </div>
-                ))}
+                  <div className="flex-1 min-w-0">
+                    <p className="text-sm font-semibold text-[#18181B]">Nuevas solicitudes</p>
+                    <p className="text-xs text-[#18181B]/50">{byStatus['solicitado'] || 0} trámites</p>
+                  </div>
+                  <ArrowRight size={16} className="text-[#18181B]/30 group-hover:text-[#D47151] transition-colors shrink-0" />
+                </div>
+              </Link>
+
+              <Link href="/admin/price-match" className="group">
+                <div className="flex items-center gap-3 p-4 rounded-2xl border border-[#18181B]/10 hover:border-[#D47151]/40 hover:bg-[#D47151]/5 transition-all cursor-pointer">
+                  <div className={`p-2 rounded-xl ${pendingPriceMatch > 0 ? 'bg-red-50' : 'bg-gray-50'}`}>
+                    <GitCompare size={18} className={pendingPriceMatch > 0 ? 'text-red-600' : 'text-gray-500'} />
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <p className="text-sm font-semibold text-[#18181B]">Price Match</p>
+                    <p className="text-xs text-[#18181B]/50">{pendingPriceMatch} pendientes</p>
+                  </div>
+                  <ArrowRight size={16} className="text-[#18181B]/30 group-hover:text-[#D47151] transition-colors shrink-0" />
+                </div>
+              </Link>
+
+              <Link href="/admin/brokers" className="group">
+                <div className="flex items-center gap-3 p-4 rounded-2xl border border-[#18181B]/10 hover:border-[#D47151]/40 hover:bg-[#D47151]/5 transition-all cursor-pointer">
+                  <div className="p-2 bg-blue-50 rounded-xl">
+                    <Users size={18} className="text-blue-600" />
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <p className="text-sm font-semibold text-[#18181B]">Brokers activos</p>
+                    <p className="text-xs text-[#18181B]/50">{activeBrokers} este mes</p>
+                  </div>
+                  <ArrowRight size={16} className="text-[#18181B]/30 group-hover:text-[#D47151] transition-colors shrink-0" />
+                </div>
+              </Link>
+            </div>
+          </div>
+        </div>
+
+        {/* Right: Recent Activity */}
+        <div className="lg:col-span-4 bg-white rounded-3xl border border-[#18181B]/8 shadow-[0_4px_24px_rgba(18,18,27,0.06)] p-8">
+          <h4 className="text-lg font-bold text-[#18181B] mb-8">Actividad Reciente</h4>
+
+          {recentTramites.length === 0 ? (
+            <div className="py-8 text-center text-[#18181B]/40 text-sm">
+              <AlertCircle size={24} className="mx-auto mb-2 opacity-40" />
+              Sin actividad reciente
+            </div>
+          ) : (
+            <div className="space-y-0">
+              <div className="relative space-y-6">
+                {/* Vertical connector */}
+                <div className="absolute left-[11px] top-2 bottom-2 w-px bg-[#18181B]/10" />
+
+                {recentTramites.map((t, i) => {
+                  const cfg = TRAMITE_STATUS_CONFIG[t.status as TramiteStatus]
+                  const dotColor = t.status === 'completado'
+                    ? 'bg-emerald-500'
+                    : t.status === 'cancelado'
+                    ? 'bg-red-500'
+                    : t.status === 'solicitado'
+                    ? 'bg-[#D69E2E]'
+                    : 'bg-[#D47151]'
+                  return (
+                    <div key={t.id} className="relative flex gap-4 pl-8">
+                      <div className={`absolute left-0 top-1 w-6 h-6 rounded-full flex items-center justify-center ${cfg ? cfg.bg : 'bg-gray-100'}`}>
+                        <span className={`w-2 h-2 rounded-full ${dotColor}`} />
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <p className="text-sm font-bold leading-tight text-[#18181B]">
+                          {t.reference_code} — {t.brokers?.full_name ?? '—'}
+                        </p>
+                        <p className="text-[11px] text-[#18181B]/50 mt-0.5">
+                          {t.tramite_types?.display_name ?? '—'} · {formatDate(t.updated_at)}
+                        </p>
+                      </div>
+                    </div>
+                  )
+                })}
               </div>
-            )}
-          </CardContent>
-        </Card>
+            </div>
+          )}
+
+          <Link href="/admin/tramites">
+            <button className="w-full mt-8 py-3 text-xs font-bold uppercase tracking-widest text-[#18181B]/40 hover:text-[#D47151] transition-colors border-t border-[#18181B]/8">
+              Ver todo el historial
+            </button>
+          </Link>
+        </div>
       </div>
     </div>
   )
