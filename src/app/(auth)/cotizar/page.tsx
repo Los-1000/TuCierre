@@ -89,6 +89,7 @@ export default function CotizarPage() {
   const [tramiteTypes, setTramiteTypes] = useState<TramiteType[]>([])
   const [selectedType, setSelectedType] = useState<TramiteType | null>(null)
   const [brokerTier, setBrokerTier] = useState<BrokerTier>('bronce')
+  const [approvedPriceMatches, setApprovedPriceMatches] = useState<Record<string, { id: string; our_matched_price: number }>>({})
   const [loading, setLoading] = useState(true)
   const [submitting, setSubmitting] = useState(false)
   const [priceMatchOpen, setPriceMatchOpen] = useState(false)
@@ -115,13 +116,24 @@ export default function CotizarPage() {
       setTramiteTypes(types ?? [])
       setNotarias((admins ?? []) as Notaria[])
       if (user) {
-        const { data: brokerResult } = await supabase
-          .from('brokers')
-          .select('tier')
-          .eq('id', user.id)
-          .single()
+        const [{ data: brokerResult }, { data: priceMatches }] = await Promise.all([
+          supabase.from('brokers').select('tier').eq('id', user.id).single(),
+          supabase
+            .from('price_match_requests')
+            .select('id, tramite_type_id, our_matched_price')
+            .eq('broker_id', user.id)
+            .eq('status', 'approved')
+            .not('our_matched_price', 'is', null),
+        ])
         const broker = brokerResult as { tier: string } | null
         if (broker) setBrokerTier((broker as { tier: string }).tier as BrokerTier)
+        if (priceMatches) {
+          const map: Record<string, { id: string; our_matched_price: number }> = {}
+          for (const pm of priceMatches as { id: string; tramite_type_id: string; our_matched_price: number }[]) {
+            map[pm.tramite_type_id] = { id: pm.id, our_matched_price: pm.our_matched_price }
+          }
+          setApprovedPriceMatches(map)
+        }
       }
       setLoading(false)
     }
@@ -136,8 +148,12 @@ export default function CotizarPage() {
       if (!user) { toast.error('Sesión expirada'); return }
 
       const formData = form.getValues()
+      const activePriceMatch = approvedPriceMatches[selectedType.id]
       const { quoted, discount, final } = calculateFinalPrice(selectedType.base_price, brokerTier)
       const tierConfig = TIER_CONFIG[brokerTier]
+
+      const finalPrice = activePriceMatch ? activePriceMatch.our_matched_price : final
+      const discountApplied = activePriceMatch ? 0 : tierConfig.discount
 
       const documents = selectedType.required_documents.map(doc => ({
         name: doc.name,
@@ -157,8 +173,10 @@ export default function CotizarPage() {
         property_value: formData.property_value ?? null,
         parties: [],
         quoted_price: quoted,
-        discount_applied: tierConfig.discount,
-        final_price: final,
+        discount_applied: discountApplied,
+        final_price: finalPrice,
+        price_matched: activePriceMatch ? true : false,
+        price_match_reference: activePriceMatch ? activePriceMatch.id : null,
         documents,
         estimated_completion: new Date(
           Date.now() + selectedType.estimated_days * 24 * 60 * 60 * 1000
@@ -314,16 +332,22 @@ export default function CotizarPage() {
             </div>
 
             {/* Price preview bar */}
-            {selectedType && (
-              <div className="mt-4 bg-[#D47151]/6 border border-[#D47151]/20 rounded-2xl p-4 flex items-center justify-between">
-                <span className="text-sm font-semibold text-[#D47151]">
-                  Precio estimado con tu descuento:
-                </span>
-                <span className="text-lg font-bold text-[#D47151] tabular-nums">
-                  {formatPrice(calculateFinalPrice(selectedType.base_price, brokerTier).final)}
-                </span>
-              </div>
-            )}
+            {selectedType && (() => {
+              const activePm = approvedPriceMatches[selectedType.id]
+              const displayPrice = activePm
+                ? activePm.our_matched_price
+                : calculateFinalPrice(selectedType.base_price, brokerTier).final
+              return (
+                <div className="mt-4 bg-[#D47151]/6 border border-[#D47151]/20 rounded-2xl p-4 flex items-center justify-between">
+                  <span className="text-sm font-semibold text-[#D47151]">
+                    {activePm ? 'Precio especial aprobado:' : 'Precio estimado con tu descuento:'}
+                  </span>
+                  <span className="text-lg font-bold text-[#D47151] tabular-nums">
+                    {formatPrice(displayPrice)}
+                  </span>
+                </div>
+              )
+            })()}
           </div>
 
           {/* Property data */}
@@ -453,7 +477,11 @@ export default function CotizarPage() {
           </div>
 
           {/* Price */}
-          <PriceBreakdown basePrice={selectedType.base_price} tier={brokerTier} />
+          <PriceBreakdown
+            basePrice={selectedType.base_price}
+            tier={brokerTier}
+            matchedPrice={approvedPriceMatches[selectedType.id]?.our_matched_price}
+          />
 
           <div className="flex flex-col sm:flex-row gap-3 pt-2">
             <button

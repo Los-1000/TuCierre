@@ -91,7 +91,9 @@
       "Bash(wait)",
       "Bash(grep -v \"^--$\")",
       "Bash(sed -i -e 's/hover:text-ink/hover:text-[#18181B]/g' app/register/page.tsx components/ui/button.tsx)",
-      "Bash(sed -i 's/\"text-ink hover:bg-muted hover:text-\\\\[#18181B\\\\]\"/\"text-[#18181B] hover:bg-muted hover:text-[#18181B]\"/g' \"components/ui/button.tsx\")"
+      "Bash(sed -i 's/\"text-ink hover:bg-muted hover:text-\\\\[#18181B\\\\]\"/\"text-[#18181B] hover:bg-muted hover:text-[#18181B]\"/g' \"components/ui/button.tsx\")",
+      "Bash(grep:*)",
+      "Bash(find:*)"
     ]
   }
 }
