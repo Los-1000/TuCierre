@@ -2,7 +2,7 @@
 
 import { useEffect, useState, useCallback } from 'react'
 import { createClient } from '@/lib/supabase/client'
-import type { Tramite, TramiteStatus } from '@/types/database'
+import type { Tramite, TramiteStatus, TramiteStatusHistory } from '@/types/database'
 
 export function useTramites(filters?: { status?: TramiteStatus; limit?: number }) {
   const [tramites, setTramites] = useState<Tramite[]>([])
@@ -31,7 +31,7 @@ export function useTramites(filters?: { status?: TramiteStatus; limit?: number }
 
 export function useTramite(id: string) {
   const [tramite, setTramite] = useState<Tramite | null>(null)
-  const [history, setHistory] = useState<any[]>([])
+  const [history, setHistory] = useState<TramiteStatusHistory[]>([])
   const [loading, setLoading] = useState(true)
   const supabase = createClient()
 
@@ -41,7 +41,7 @@ export function useTramite(id: string) {
       supabase.from('tramite_status_history').select('*').eq('tramite_id', id).order('created_at'),
     ])
     setTramite(tramiteData as unknown as Tramite | null)
-    setHistory(historyData ?? [])
+    setHistory((historyData ?? []) as TramiteStatusHistory[])
     setLoading(false)
   }, [id])
 

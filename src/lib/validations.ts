@@ -40,10 +40,11 @@ export const priceMatchSchema = z.object({
   evidence_url: z.string().url('URL inválida').optional().or(z.literal('')),
 })
 
-export const priceMatchFormSchema = z.object({
+export const priceMatchFormSchema = priceMatchSchema.pick({
+  competitor_name: true,
+  competitor_price: true,
+}).extend({
   tramite_type_id: z.string().uuid('Selecciona un tipo de trámite'),
-  competitor_name: z.string().min(3, 'Nombre de notaría requerido'),
-  competitor_price: z.number().min(1, 'Precio requerido'),
 })
 
 export const messageSchema = z.object({
@@ -82,7 +83,7 @@ export const cashoutFormSchema = z.object({
     if (!data.banco || data.banco.trim().length === 0) {
       ctx.addIssue({ code: z.ZodIssueCode.custom, message: 'Ingresa el banco', path: ['banco'] })
     }
-    if (!data.cci || data.cci.length !== 20) {
+    if (!data.cci || data.cci.length !== 20 || !/^\d+$/.test(data.cci)) {
       ctx.addIssue({ code: z.ZodIssueCode.custom, message: 'El CCI debe tener exactamente 20 dígitos', path: ['cci'] })
     }
     if (!data.tipo_cuenta) {

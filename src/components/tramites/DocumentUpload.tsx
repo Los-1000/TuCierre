@@ -1,7 +1,7 @@
 'use client'
 
 import { useRef, useState } from 'react'
-import { createBrowserClient } from '@supabase/ssr'
+import { createClient } from '@/lib/supabase/client'
 import { toast } from 'sonner'
 import { cn } from '@/lib/utils'
 import { Progress } from '@/components/ui/progress'
@@ -45,10 +45,7 @@ export default function DocumentUpload({
   const [progress, setProgress] = useState(0)
   const [showRejection, setShowRejection] = useState(false)
 
-  const supabase = createBrowserClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-  )
+  const supabase = createClient()
 
   const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0]

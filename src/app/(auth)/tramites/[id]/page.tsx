@@ -3,10 +3,9 @@
 import { useState, useTransition } from 'react'
 import { useParams, useRouter } from 'next/navigation'
 import Link from 'next/link'
-import { createBrowserClient } from '@supabase/ssr'
 import { toast } from 'sonner'
-import { cn } from '@/lib/utils'
-import { formatPrice, generateInitials } from '@/lib/utils'
+import { cn, formatPrice, generateInitials } from '@/lib/utils'
+import { cancelTramite } from './actions'
 import { useTramite } from '@/hooks/useTramites'
 import { useTramiteStatusRealtime } from '@/hooks/useRealtime'
 import { CardSkeleton } from '@/components/shared/SkeletonCard'
@@ -33,7 +32,6 @@ import type { TramiteDocument, TramiteStatus } from '@/types/database'
 export default function TramiteDetailPage() {
   const { id } = useParams<{ id: string }>()
   const router = useRouter()
-  const [cancelling, setCancelling] = useState(false)
   const [isPending, startTransition] = useTransition()
 
   const { tramite, history, loading, refresh } = useTramite(id)
@@ -45,31 +43,16 @@ export default function TramiteDetailPage() {
     refresh()
   })
 
-  const supabase = createBrowserClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-  )
-
   const effectiveStatus = (liveStatus ?? tramite?.status) as TramiteStatus | undefined
 
-  const handleCancelTramite = async () => {
+  const handleCancelTramite = () => {
     if (!tramite) return
-    setCancelling(true)
-    try {
-      const { error } = await supabase
-        .from('tramites')
-        .update({ status: 'cancelado' } as never)
-        .eq('id', tramite.id)
-
-      if (error) throw error
+    startTransition(async () => {
+      const result = await cancelTramite(tramite.id)
+      if (result.error) { toast.error(result.error); return }
       toast.success('Trámite cancelado.')
-      startTransition(() => {
-        router.push('/tramites')
-      })
-    } catch (err: any) {
-      toast.error(err?.message ?? 'No se pudo cancelar el trámite.')
-      setCancelling(false)
-    }
+      router.push('/tramites')
+    })
   }
 
   const handleDocumentUpload = (
@@ -263,7 +246,7 @@ export default function TramiteDetailPage() {
           </div>
         )}
 
-        {tramite.price_matched && tramite.price_match_reference && (
+        {tramite.price_matched && tramite.price_match_reference?.startsWith('https://') && (
           <div className="pt-2">
             <a
               href={tramite.price_match_reference}
@@ -349,10 +332,10 @@ export default function TramiteDetailPage() {
                   <AlertDialogCancel className="rounded-full">Volver</AlertDialogCancel>
                   <AlertDialogAction
                     onClick={handleCancelTramite}
-                    disabled={cancelling || isPending}
+                    disabled={isPending}
                     className="bg-red-600 hover:bg-red-700 rounded-full"
                   >
-                    {(cancelling || isPending) ? <><Loader2 size={14} className="animate-spin mr-1.5" />Cancelando...</> : 'Sí, cancelar'}
+                    {isPending ? <><Loader2 size={14} className="animate-spin mr-1.5" />Cancelando...</> : 'Sí, cancelar'}
                   </AlertDialogAction>
                 </AlertDialogFooter>
               </AlertDialogContent>

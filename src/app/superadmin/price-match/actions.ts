@@ -1,25 +1,8 @@
 'use server'
 
-import { createClient } from '@/lib/supabase/server'
 import { createAdminClient } from '@/lib/supabase/admin'
+import { verifySuperAdmin } from '@/lib/auth-guards'
 import { revalidatePath } from 'next/cache'
-
-async function verifySuperAdmin(): Promise<{ error: string } | { userId: string }> {
-  const supabase = await createClient()
-  const { data: { user } } = await supabase.auth.getUser()
-  if (!user) return { error: 'No autenticado' }
-
-  const { data } = await supabase
-    .from('brokers')
-    .select('is_superadmin')
-    .eq('id', user.id)
-    .single()
-
-  const broker = data as { is_superadmin: boolean } | null
-  if (!broker?.is_superadmin) return { error: 'Sin permisos' }
-
-  return { userId: user.id }
-}
 
 export async function approvePriceMatch(
   id: string,

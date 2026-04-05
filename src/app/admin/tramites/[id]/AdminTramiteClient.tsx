@@ -256,7 +256,7 @@ export default function AdminTramiteClient({
             label="Total"
             value={<span className="text-base font-bold text-[#18181B]">{formatPrice(tramite.final_price)}</span>}
           />
-          {tramite.price_matched && tramite.price_match_reference && (
+          {tramite.price_matched && tramite.price_match_reference?.startsWith('https://') && (
             <div className="pt-2">
               <a href={tramite.price_match_reference} target="_blank" rel="noopener noreferrer"
                 className="inline-flex items-center gap-1 text-xs text-[#D47151] hover:underline">

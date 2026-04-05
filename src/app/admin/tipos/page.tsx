@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useState, useCallback } from 'react'
-import { createBrowserClient } from '@supabase/ssr'
+import { createClient } from '@/lib/supabase/client'
 import { toast } from 'sonner'
 import { useForm, useFieldArray } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -48,10 +48,7 @@ type FormValues = z.infer<typeof tramiteTypeSchema>
 type EditMode = 'create' | 'edit'
 
 export default function AdminTiposPage() {
-  const supabase = createBrowserClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-  )
+  const supabase = createClient()
 
   const [tipoList, setTipoList] = useState<TramiteType[]>([])
   const [loading, setLoading] = useState(true)

@@ -1,26 +1,9 @@
 'use server'
 
-import { createClient } from '@/lib/supabase/server'
 import { createAdminClient } from '@/lib/supabase/admin'
+import { verifySuperAdmin } from '@/lib/auth-guards'
 import { revalidatePath } from 'next/cache'
 import { calculateMonthlyCommission } from '@/lib/commission'
-
-async function verifySuperAdmin(): Promise<{ error: string } | { userId: string }> {
-  const supabase = await createClient()
-  const { data: { user } } = await supabase.auth.getUser()
-  if (!user) return { error: 'No autenticado' }
-
-  const { data } = await supabase
-    .from('brokers')
-    .select('is_superadmin')
-    .eq('id', user.id)
-    .single()
-
-  const broker = data as { is_superadmin: boolean } | null
-  if (!broker?.is_superadmin) return { error: 'Sin permisos' }
-
-  return { userId: user.id }
-}
 
 interface GenerateResult {
   error?: string
@@ -105,14 +88,17 @@ export async function generateMonthlyCommissions(
       continue
     }
 
-    // Update all tramites with commission_cashout_id
+    // Link tramites to the cashout. If this fails, delete the cashout to prevent
+    // an orphaned record that would cause double-payment on the next run.
     const tramiteIds = brokerTramites.map(t => t.id)
     const { error: updateError } = await (adminClient.from('tramites') as any)
       .update({ commission_cashout_id: cashout.id })
       .in('id', tramiteIds)
 
     if (updateError) {
-      console.error('[generateMonthlyCommissions] tramites update error', updateError.message)
+      console.error('[generateMonthlyCommissions] tramites update error for broker', broker.id, updateError.message)
+      // Compensating delete: remove the orphaned cashout so this broker is retried next run
+      await (adminClient.from('cashout_requests') as any).delete().eq('id', cashout.id)
       continue
     }
 

@@ -1,10 +1,9 @@
 'use client'
 
 import { useEffect, useRef, useState, useCallback } from 'react'
-import { createBrowserClient } from '@supabase/ssr'
+import { createClient } from '@/lib/supabase/client'
 import { toast } from 'sonner'
-import { cn } from '@/lib/utils'
-import { formatDateTime } from '@/lib/utils'
+import { cn, formatDateTime } from '@/lib/utils'
 import { useChatRealtime } from '@/hooks/useRealtime'
 import { Button } from '@/components/ui/button'
 import { Paperclip, Send, FileText, Loader2 } from 'lucide-react'
@@ -28,10 +27,7 @@ export default function ChatWindow({ tramiteId, senderType }: ChatWindowProps) {
   const textareaRef = useRef<HTMLTextAreaElement>(null)
   const fileRef = useRef<HTMLInputElement>(null)
 
-  const supabase = createBrowserClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-  )
+  const supabase = createClient()
 
   // Fetch initial messages
   const fetchMessages = useCallback(async () => {

@@ -28,19 +28,30 @@ export async function middleware(request: NextRequest) {
   const isProtectedPage = pathname.startsWith('/dashboard') || pathname.startsWith('/cotizar') ||
     pathname.startsWith('/tramites') || pathname.startsWith('/recompensas') || pathname.startsWith('/price-match')
   const isAdminPage = pathname.startsWith('/admin')
+  const isSuperAdminPage = pathname.startsWith('/superadmin')
 
   if (isProtectedPage && !user) {
     return NextResponse.redirect(new URL('/login', request.url))
   }
 
   if (isAuthPage && user) {
-    // Admin goes to /admin, regular users to /dashboard
-    const isAdminEmail = user.email === 'cefd2350@gmail.com'
-    return NextResponse.redirect(new URL(isAdminEmail ? '/admin' : '/dashboard', request.url))
+    const { data } = await supabase.from('brokers').select('is_admin').eq('id', user.id).single()
+    const isAdmin = (data as { is_admin: boolean } | null)?.is_admin ?? false
+    return NextResponse.redirect(new URL(isAdmin ? '/admin' : '/dashboard', request.url))
   }
 
-  if (isAdminPage && !user) {
-    return NextResponse.redirect(new URL('/login', request.url))
+  if (isAdminPage) {
+    if (!user) return NextResponse.redirect(new URL('/login', request.url))
+    const { data } = await supabase.from('brokers').select('is_admin').eq('id', user.id).single()
+    const isAdmin = (data as { is_admin: boolean } | null)?.is_admin ?? false
+    if (!isAdmin) return NextResponse.redirect(new URL('/dashboard', request.url))
+  }
+
+  if (isSuperAdminPage) {
+    if (!user) return NextResponse.redirect(new URL('/login', request.url))
+    const { data } = await supabase.from('brokers').select('is_superadmin').eq('id', user.id).single()
+    const isSuperAdmin = (data as { is_superadmin: boolean } | null)?.is_superadmin ?? false
+    if (!isSuperAdmin) return NextResponse.redirect(new URL('/dashboard', request.url))
   }
 
   return supabaseResponse

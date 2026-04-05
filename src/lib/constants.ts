@@ -30,7 +30,7 @@ export const TIER_CONFIG: Record<
 
 export const DOCUMENT_STATUS_CONFIG = {
   pending:  { label: 'Pendiente',  icon: 'clock',  color: 'text-gray-500' },
-  uploaded: { label: 'Subido',     icon: 'clock',  color: 'text-amber-600' },
+  uploaded: { label: 'Subido',     icon: 'upload', color: 'text-amber-600' },
   approved: { label: 'Aprobado',   icon: 'check',  color: 'text-green-600' },
   rejected: { label: 'Rechazado',  icon: 'x',      color: 'text-red-600' },
 }

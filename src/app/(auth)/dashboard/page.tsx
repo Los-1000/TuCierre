@@ -79,7 +79,9 @@ export default async function DashboardPage() {
   const recentTramites = tramites.slice(0, 5)
   const tier = (broker?.tier as 'bronce' | 'plata' | 'oro') ?? 'bronce'
   const tierConfig = TIER_CONFIG[tier]
-  const monthCount = broker?.total_tramites_month ?? 0
+  // Use the live completed count rather than the denormalized broker.total_tramites_month field,
+  // which is only updated when update_broker_tier() is explicitly called.
+  const monthCount = completedThisMonth
 
   let progressPercent = 0
   let nextTierLabel = ''

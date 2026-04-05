@@ -1,7 +1,7 @@
 'use server'
 
-import { createClient } from '@/lib/supabase/server'
 import { createAdminClient } from '@/lib/supabase/admin'
+import { verifyAdmin } from '@/lib/auth-guards'
 import { revalidatePath } from 'next/cache'
 import type { TramiteStatus } from '@/types/database'
 
@@ -10,21 +10,9 @@ export async function updateTramiteStatus(
   status: TramiteStatus,
   notes: string | null
 ): Promise<{ error?: string }> {
-  // Verify admin via session client
-  const supabase = await createClient()
-  const { data: { user } } = await supabase.auth.getUser()
-  if (!user) return { error: 'No autenticado' }
+  const check = await verifyAdmin()
+  if ('error' in check) return { error: check.error }
 
-  const { data: brokerResult } = await supabase
-    .from('brokers')
-    .select('is_admin')
-    .eq('id', user.id)
-    .single()
-
-  const broker = brokerResult as { is_admin: boolean } | null
-  if (!broker?.is_admin) return { error: 'Sin permisos' }
-
-  // Use admin client to bypass RLS for writes
   const adminClient = createAdminClient()
 
   const { error: updateError } = await (adminClient.from('tramites') as any)
@@ -37,14 +25,14 @@ export async function updateTramiteStatus(
     .insert(ids.map(id => ({
       tramite_id: id,
       status,
-      changed_by: user.id,
+      changed_by: check.userId,
       notes,
     })))
 
   if (historyError) return { error: historyError.message }
 
   revalidatePath('/admin/tramites')
-  revalidatePath(`/admin/tramites/${ids[0]}`)
+  ids.forEach(id => revalidatePath(`/admin/tramites/${id}`))
   return {}
 }
 
@@ -54,18 +42,8 @@ export async function updateDocumentStatus(
   status: 'approved' | 'rejected',
   rejectionNote?: string
 ): Promise<{ error?: string }> {
-  const supabase = await createClient()
-  const { data: { user } } = await supabase.auth.getUser()
-  if (!user) return { error: 'No autenticado' }
-
-  const { data: brokerResult } = await supabase
-    .from('brokers')
-    .select('is_admin')
-    .eq('id', user.id)
-    .single()
-
-  const broker = brokerResult as { is_admin: boolean } | null
-  if (!broker?.is_admin) return { error: 'Sin permisos' }
+  const check = await verifyAdmin()
+  if ('error' in check) return { error: check.error }
 
   const adminClient = createAdminClient()
 
