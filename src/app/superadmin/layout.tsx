@@ -9,6 +9,7 @@ import {
   FileText,
   ArrowDownCircle,
   GitCompare,
+  Tag,
   LogOut,
   ShieldCheck,
 } from 'lucide-react'
@@ -78,6 +79,7 @@ export default async function SuperAdminLayout({
       icon: GitCompare,
       badge: pendingPriceMatch > 0 ? pendingPriceMatch : null,
     },
+    { href: '/superadmin/tipos', label: 'Tipos de Trámite', icon: Tag, badge: null },
   ]
 
   return (

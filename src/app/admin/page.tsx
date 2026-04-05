@@ -8,9 +8,7 @@ import { TRAMITE_STATUS_CONFIG } from '@/lib/constants'
 import type { TramiteStatus } from '@/types/database'
 import {
   FileText,
-  DollarSign,
   Users,
-  GitCompare,
   AlertTriangle,
   ArrowRight,
   AlertCircle,
@@ -34,9 +32,8 @@ async function fetchDashboard() {
   const now = new Date()
   const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1).toISOString()
 
-  const [tramitesRes, priceMatchRes, monthTramitesRes, recentRes] = await Promise.all([
+  const [tramitesRes, monthTramitesRes, recentRes] = await Promise.all([
     supabase.from('tramites').select('status, final_price, broker_id, updated_at'),
-    supabase.from('price_match_requests').select('id', { count: 'exact' }).eq('status', 'pending'),
     supabase
       .from('tramites')
       .select('broker_id, final_price, status')
@@ -70,16 +67,13 @@ async function fetchDashboard() {
   const activeBrokerIds = new Set(monthTramites.map(t => t.broker_id))
   const activeBrokers = activeBrokerIds.size
 
-  // Pending price match count
-  const pendingPriceMatch = priceMatchRes.count ?? 0
-
   const recentTramites = (recentRes.data ?? []) as unknown as RecentTramite[]
 
-  return { byStatus, incomeThisMonth, activeBrokers, pendingPriceMatch, recentTramites }
+  return { byStatus, incomeThisMonth, activeBrokers, recentTramites }
 }
 
 export default async function AdminDashboardPage() {
-  const { byStatus, incomeThisMonth, activeBrokers, pendingPriceMatch, recentTramites } =
+  const { byStatus, incomeThisMonth, activeBrokers, recentTramites } =
     await fetchDashboard()
 
   const activeCount =
@@ -205,19 +199,6 @@ export default async function AdminDashboardPage() {
                   <div className="flex-1 min-w-0">
                     <p className="text-sm font-semibold text-[#18181B]">Nuevas solicitudes</p>
                     <p className="text-xs text-[#18181B]/50">{byStatus['solicitado'] || 0} trámites</p>
-                  </div>
-                  <ArrowRight size={16} className="text-[#18181B]/30 group-hover:text-[#D47151] transition-colors shrink-0" />
-                </div>
-              </Link>
-
-              <Link href="/admin/price-match" className="group">
-                <div className="flex items-center gap-3 p-4 rounded-2xl border border-[#18181B]/10 hover:border-[#D47151]/40 hover:bg-[#D47151]/5 transition-all cursor-pointer">
-                  <div className={`p-2 rounded-xl ${pendingPriceMatch > 0 ? 'bg-red-50' : 'bg-gray-50'}`}>
-                    <GitCompare size={18} className={pendingPriceMatch > 0 ? 'text-red-600' : 'text-gray-500'} />
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <p className="text-sm font-semibold text-[#18181B]">Price Match</p>
-                    <p className="text-xs text-[#18181B]/50">{pendingPriceMatch} pendientes</p>
                   </div>
                   <ArrowRight size={16} className="text-[#18181B]/30 group-hover:text-[#D47151] transition-colors shrink-0" />
                 </div>

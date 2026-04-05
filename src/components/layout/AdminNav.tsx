@@ -2,15 +2,13 @@
 
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { LayoutDashboard, FileText, Users, Tag, Gift, DollarSign } from 'lucide-react'
+import { LayoutDashboard, FileText, Users, Gift } from 'lucide-react'
 
 const adminNavItems = [
   { href: '/admin', label: 'Dashboard', icon: LayoutDashboard, exact: true },
   { href: '/admin/tramites', label: 'Todos los Trámites', icon: FileText },
   { href: '/admin/brokers', label: 'Brokers', icon: Users },
   { href: '/admin/referidos', label: 'Referidos', icon: Gift },
-  { href: '/admin/tipos', label: 'Tipos de Trámite', icon: Tag },
-  { href: '/admin/price-match', label: 'Price Matching', icon: DollarSign },
 ]
 
 export function AdminNav() {
