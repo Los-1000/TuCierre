@@ -106,7 +106,8 @@ export default function PriceMatchPage() {
     if (evidenceFile) {
       setUploading(true)
       const timestamp = Date.now()
-      const filePath = `${user.id}/${timestamp}-${evidenceFile.name}`
+      const safeName = evidenceFile.name.replace(/[^a-zA-Z0-9._-]/g, '_')
+      const filePath = `${user.id}/${timestamp}-${safeName}`
       const { data: uploadData, error: uploadError } = await supabase.storage
         .from('price-match-evidence')
         .upload(filePath, evidenceFile, { upsert: false })
