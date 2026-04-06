@@ -168,7 +168,7 @@ export default function PriceMatchPage() {
         <p className="text-sm text-[#18181B] font-medium mb-4">
           Encuentra un precio más bajo en otra notaría. Lo igualamos. Envíanos la cotización y
           respondemos en máximo{' '}
-          <span className="font-semibold text-[#D47151]">2 horas</span>.
+          <span className="font-semibold text-[#D47151]">24 horas</span>.
         </p>
         <div className="flex flex-col sm:flex-row items-start sm:items-center gap-2 sm:gap-0">
           {HOW_IT_WORKS_STEPS.map((s, i) => (
@@ -203,7 +203,7 @@ export default function PriceMatchPage() {
               Solicitud enviada
             </h3>
             <p className="text-sm text-[#18181B]/50 max-w-sm mb-6">
-              Responderemos en máximo 2 horas. Recibirás una notificación cuando revisemos tu
+              Responderemos en máximo 24 horas. Recibirás una notificación cuando revisemos tu
               solicitud.
             </p>
             <button
