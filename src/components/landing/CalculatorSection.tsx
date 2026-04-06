@@ -21,10 +21,10 @@ export default function CalculatorSection() {
             </span>
           </div>
           <h2 className="text-4xl md:text-5xl font-black tracking-tight" style={{ color: '#00081e' }}>
-            ¿Cuánto puedes ganar?
+            Calcula cuánto ganas al mes
           </h2>
           <p className="text-xl font-medium" style={{ color: '#44464e' }}>
-            Mueve el slider y ve cuánto puedes ganar según cuántos trámites cierras.
+            Ajusta cuántos trámites cierras por mes y ve tu comisión exacta según tu nivel en la red.
           </p>
         </div>
 
@@ -39,8 +39,8 @@ export default function CalculatorSection() {
             <path d="M12 8v4M12 16h.01" stroke="#d06d0d" strokeWidth="2" strokeLinecap="round"/>
           </svg>
           <p className="text-base leading-snug" style={{ color: '#7f9fc2' }}>
-            Estimado basado en un ticket promedio de <strong className="text-white">S/. 900</strong> por trámite en Lima.
-            Cobra hasta <strong style={{ color: '#d06d0d' }}>8 días antes</strong> que el mercado tradicional.
+            Estimado sobre ticket promedio de <strong className="text-white">S/. 900</strong> por trámite en Lima.
+            Los brokers de Nivel 3 cobran hasta <strong style={{ color: '#d06d0d' }}>8 días antes</strong> que en el mercado tradicional.
           </p>
         </div>
       </div>

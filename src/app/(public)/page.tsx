@@ -23,8 +23,8 @@ export default function LandingPage() {
       <MarqueeSection />
       <FeaturesSection />
       <StepsSection />
-      <PriceMatchSection />
       <CalculatorSection />
+      <PriceMatchSection />
       <StatsSection />
       <PricingSection />
       <CtaSection />

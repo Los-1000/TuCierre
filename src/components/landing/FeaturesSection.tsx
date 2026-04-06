@@ -5,8 +5,8 @@ const CARDS = [
         <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" stroke="#d06d0d" strokeWidth="2" strokeLinejoin="round"/>
       </svg>
     ),
-    title: 'Gana confianza con Precios Transparentes',
-    body: "Protege la inversión de tu cliente. Nuestro sistema Price Match garantiza la tarifa notarial más competitiva del mercado, eliminando sorpresas.",
+    title: 'Precios verificados al instante',
+    body: 'Obtén cotizaciones notariales en segundos. Sin llamadas, sin sorpresas. Lo que ves en pantalla es lo que paga tu cliente.',
   },
   {
     icon: (
@@ -15,8 +15,8 @@ const CARDS = [
         <path d="M12 6v6l4 2" stroke="#d06d0d" strokeWidth="2" strokeLinecap="round"/>
       </svg>
     ),
-    title: 'Proyecta eficiencia con Cierres Acelerados',
-    body: 'Reduce los tiempos de espera hasta en un 40%. Con Tu Cierre, la gestión documental fluye a través de nuestra red exclusiva de notarías digitales.',
+    title: 'Cierras hasta un 40% más rápido',
+    body: 'Gestión documental 100% digital. Tu cliente sube los documentos desde su celular y tú sigues el avance del trámite en tiempo real.',
   },
   {
     icon: (
@@ -24,8 +24,8 @@ const CARDS = [
         <path d="M3 6l9-3 9 3v6c0 5-4 8-9 9-5-1-9-4-9-9V6z" stroke="#d06d0d" strokeWidth="2" strokeLinejoin="round"/>
       </svg>
     ),
-    title: 'Respaldo Total con Seguridad Jurídica',
-    body: 'Evita riesgos legales. Cada trámite es supervisado por expertos bajo los estándares institucionales más rigurosos de Lima.',
+    title: 'Tu reputación, protegida',
+    body: 'Cada trámite es supervisado por expertos notariales en Lima. Sin errores de proceso, sin riesgos legales para ti ni para tu cliente.',
   },
 ]
 
@@ -35,7 +35,7 @@ export default function FeaturesSection() {
       <div className="max-w-screen-2xl mx-auto px-6 md:px-12">
         <div className="mb-20">
           <h2 className="text-4xl md:text-5xl font-black tracking-tight mb-4" style={{ color: '#00081e' }}>
-            Tu cliente, nuestra prioridad
+            Todo lo que necesitas para cerrar sin fricciones
           </h2>
           <div className="h-1.5 w-24 rounded-full" style={{ background: '#d06d0d' }} />
         </div>

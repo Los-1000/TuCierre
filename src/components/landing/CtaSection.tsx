@@ -14,16 +14,15 @@ export default function CtaSection() {
           className="font-black max-w-4xl mx-auto tracking-tighter leading-none"
           style={{ fontSize: 'clamp(44px, 7vw, 84px)', color: '#00081e' }}
         >
-          Únete a la élite de{' '}
+          120 brokers ya cerraron{' '}
           <br />
           <span style={{ color: '#d06d0d', textDecoration: 'underline', textDecorationColor: '#d06d0d', textUnderlineOffset: '8px', textDecorationThickness: '4px' }}>
-            Brokers Modernos
+            su último trámite aquí
           </span>.
         </h2>
 
         <p className="text-xl md:text-2xl max-w-2xl mx-auto font-medium" style={{ color: '#44464e' }}>
-          No arriesgues tus comisiones con procesos lentos. Ofrece hoy la infraestructura
-          notarial que el futuro demanda.
+          Regístrate en 2 minutos. Tu primer trámite puede salir hoy mismo.
         </p>
 
         {/* Trust row */}
@@ -39,7 +38,7 @@ export default function CtaSection() {
             className="px-12 py-6 text-white rounded-2xl font-black text-xl shadow-2xl hover:scale-105 active:scale-95 transition-all"
             style={{ background: '#00081e' }}
           >
-            Registrarme Gratis en Tu Cierre
+            Crear mi cuenta gratis
           </Link>
           <Link
             href="/login"

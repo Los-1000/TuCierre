@@ -18,15 +18,15 @@ export default function HeroSection() {
 
           {/* Headline */}
           <h1 className="text-5xl md:text-8xl font-black text-white tracking-tighter leading-[0.95]">
-            Cierres{' '}
-            <span style={{ color: '#d06d0d' }}>Impecables</span>.{' '}
-            Gestión Institucional.
+            El trámite notarial{' '}
+            <span style={{ color: '#d06d0d' }}>de tu cliente</span>,{' '}
+            resuelto.
           </h1>
 
           {/* Subtitle */}
           <p className="text-lg md:text-2xl max-w-2xl leading-relaxed font-medium" style={{ color: '#7f9fc2' }}>
-            Tu Cierre eleva tu estándar profesional. Brinda a tus clientes la transparencia,
-            seguridad y velocidad que solo una red digitalizada puede ofrecer.
+            Registra la operación, sube los documentos y haz seguimiento en tiempo real.
+            Tu Cierre coordina todo con la notaría — tú solo apareces a firmar.
           </p>
 
           {/* Price Match guarantee badge */}

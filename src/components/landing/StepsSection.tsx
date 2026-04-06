@@ -5,8 +5,8 @@ const BULLETS = [
         <path d="M12 2l3 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" stroke="#d06d0d" strokeWidth="2" strokeLinejoin="round"/>
       </svg>
     ),
-    title: 'Imagen Profesional',
-    body: 'Entrega reportes digitales y procesos claros que elevan tu marca personal ante cada cliente.',
+    title: 'Registra tu operación',
+    body: 'Crea el trámite en minutos. Sube los datos del cliente y el tipo de operación — nosotros asignamos la notaría.',
   },
   {
     icon: (
@@ -16,8 +16,8 @@ const BULLETS = [
         <path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75" stroke="#d06d0d" strokeWidth="2" strokeLinecap="round"/>
       </svg>
     ),
-    title: 'Fidelización Garantizada',
-    body: 'Un cierre sin fricciones es el inicio de una relación a largo plazo con tus clientes y su red.',
+    title: 'Sube los documentos',
+    body: 'Tu cliente carga los documentos directamente desde su teléfono. Sin imprimir, sin ir a la notaría antes de tiempo.',
   },
   {
     icon: (
@@ -26,8 +26,8 @@ const BULLETS = [
         <path d="M9 12l2 2 4-4" stroke="#d06d0d" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
       </svg>
     ),
-    title: 'Price Match Garantizado',
-    body: 'Cierra sin miedo a perder por precio. Si hay una oferta menor, la igualamos — disponible desde Nivel 2.',
+    title: 'Solo apareces a firmar',
+    body: 'Tu Cierre coordina con la notaría, valida los documentos y te avisa cuando es hora. Tú ganas tiempo; tu cliente, tranquilidad.',
   },
 ]
 
@@ -129,16 +129,16 @@ export default function StepsSection() {
         <div className="space-y-8">
           <div>
             <div className="inline-flex items-center px-3 py-1 rounded-full bg-white/10 border border-white/15 mb-6">
-              <span className="text-xs text-white/60 font-bold tracking-widest uppercase">Para Brokers de Élite</span>
+              <span className="text-xs text-white/60 font-bold tracking-widest uppercase">Cómo funciona</span>
             </div>
             <h2 className="text-4xl font-black tracking-tight leading-tight text-white">
-              Posiciónate como un{' '}
-              <span style={{ color: '#d06d0d' }}>Socio de Alto Nivel</span>
+              De la operación a la firma{' '}
+              <span style={{ color: '#d06d0d' }}>en tres pasos</span>
             </h2>
           </div>
           <p className="text-xl leading-relaxed" style={{ color: '#7f9fc2' }}>
-            En el mercado inmobiliario actual, la diferencia entre un vendedor y un asesor de élite
-            es la infraestructura que lo respalda.
+            Sin llamadas a notarías. Sin documentos extraviados. Sin "¿cómo va mi trámite?".
+            Todo en una sola plataforma.
           </p>
 
           <div className="space-y-6">

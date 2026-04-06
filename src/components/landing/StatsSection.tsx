@@ -1,8 +1,8 @@
 const STATS = [
-  { value: '45+',    label: 'Notarías Aliadas',     },
-  { value: '1,200+', label: 'Trámites Cerrados',    },
-  { value: 'S/ 4.2M', label: 'Ahorro Total Clientes' },
-  { value: '98%',    label: 'Satisfacción Broker',  },
+  { value: '45+',    label: 'Notarías Aliadas',           },
+  { value: '1,200+', label: 'Trámites Completados',       },
+  { value: 'S/ 4.2M', label: 'Ahorrados por Clientes'    },
+  { value: '98%',    label: 'Brokers Satisfechos',        },
 ]
 
 export default function StatsSection() {

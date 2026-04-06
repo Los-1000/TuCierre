@@ -30,16 +30,16 @@ export default function PriceMatchSection() {
               </span>
             </div>
             <h2 className="text-4xl md:text-5xl font-black tracking-tight leading-tight" style={{ color: '#00081e' }}>
-              Price Match:{' '}
+              Si encuentras un precio menor,{' '}
               <br />
-              <span style={{ color: '#d06d0d' }}>Garantía de Ahorro Real</span>
+              <span style={{ color: '#d06d0d' }}>lo igualamos</span>
             </h2>
           </div>
 
           <p className="text-xl leading-relaxed" style={{ color: '#44464e' }}>
-            Eliminamos las barreras de costos. Si tu cliente presenta una cotización menor
-            de una notaría calificada, <strong style={{ color: '#00081e' }}>Tu Cierre iguala el precio</strong>{' '}
-            manteniendo la misma calidad institucional.
+            Si tu cliente recibe una cotización más baja de otra notaría en Lima,
+            nosotros la igualamos. <strong style={{ color: '#00081e' }}>Mismo proceso, misma calidad</strong>{' '}
+            — sin pagar un sol más.
           </p>
 
           <ul className="space-y-4">
@@ -66,7 +66,7 @@ export default function PriceMatchSection() {
               <circle cx="12" cy="12" r="10" stroke="#44464e" strokeWidth="2"/>
               <path d="M12 8v4M12 16h.01" stroke="#44464e" strokeWidth="2" strokeLinecap="round"/>
             </svg>
-            Garantía documentada · Solo disponible desde Nivel 2
+            Disponible desde Nivel 2 · Se solicita vía plataforma · Sin papeleo
           </div>
         </div>
 
