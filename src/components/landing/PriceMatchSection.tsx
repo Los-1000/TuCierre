@@ -26,7 +26,7 @@ export default function PriceMatchSection() {
                 <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" stroke="#d06d0d" strokeWidth="2" strokeLinejoin="round"/>
               </svg>
               <span className="text-xs font-bold tracking-widest uppercase" style={{ color: '#0a1f44' }}>
-                Garantía Price Match
+                Igualador de Precio
               </span>
             </div>
             <h2 className="text-4xl md:text-5xl font-black tracking-tight leading-tight" style={{ color: '#00081e' }}>
@@ -37,9 +37,9 @@ export default function PriceMatchSection() {
           </div>
 
           <p className="text-xl leading-relaxed" style={{ color: '#44464e' }}>
-            Si tu cliente recibe una cotización más baja de otra notaría en Lima,
-            nosotros la igualamos. <strong style={{ color: '#00081e' }}>Mismo proceso, misma calidad</strong>{' '}
-            — sin pagar un sol más.
+            ¿Tu cliente encontró un precio más bajo en otra notaría?{' '}
+            <strong style={{ color: '#00081e' }}>Preséntanoslo y lo igualamos.</strong>{' '}
+            Misma calidad, mismos plazos — sin pagar un sol más.
           </p>
 
           <ul className="space-y-4">
@@ -93,8 +93,8 @@ export default function PriceMatchSection() {
               <thead className="border-b" style={{ background: '#f5f3f7', borderColor: '#c5c6cf30' }}>
                 <tr>
                   <th className="p-6 font-bold" style={{ color: '#00081e' }}>Trámite</th>
-                  <th className="p-6 font-bold" style={{ color: '#00081e' }}>Mercado Lima</th>
-                  <th className="p-6 font-bold" style={{ color: '#d06d0d' }}>Red Tu Cierre</th>
+                  <th className="p-6 font-bold" style={{ color: '#00081e' }}>Precio Mercado</th>
+                  <th className="p-6 font-bold" style={{ color: '#d06d0d' }}>Igualamos</th>
                 </tr>
               </thead>
               <tbody>

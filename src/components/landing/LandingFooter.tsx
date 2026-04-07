@@ -35,7 +35,7 @@ export default function LandingFooter() {
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
               <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" stroke="#d06d0d" strokeWidth="2" strokeLinejoin="round"/>
             </svg>
-            Garantía Price Match
+            Igualador de Precio
           </div>
         </div>
 
@@ -61,8 +61,25 @@ export default function LandingFooter() {
         ))}
       </div>
 
+      {/* Footer CTA */}
+      <div className="max-w-screen-2xl mx-auto mt-20 pt-16 border-t border-white/10 flex flex-col items-center text-center gap-6">
+        <p className="text-3xl md:text-4xl font-black text-white tracking-tight">
+          Tu próximo cierre empieza aquí.
+        </p>
+        <p className="text-lg max-w-md" style={{ color: '#7f9fc2' }}>
+          Gratis para brokers. Sin tarjeta. Listo en minutos.
+        </p>
+        <Link
+          href="/register"
+          className="px-10 py-5 text-white rounded-xl font-bold text-lg hover:brightness-110 transition-all shadow-2xl"
+          style={{ background: '#d06d0d' }}
+        >
+          Registrarme como Broker
+        </Link>
+      </div>
+
       {/* Bottom bar */}
-      <div className="max-w-screen-2xl mx-auto mt-20 pt-10 border-t border-white/10 flex flex-col md:flex-row justify-between items-center gap-6">
+      <div className="max-w-screen-2xl mx-auto mt-12 pt-10 border-t border-white/10 flex flex-col md:flex-row justify-between items-center gap-6">
         <p className="text-sm font-medium" style={{ color: '#44464e' }}>
           © 2026 Tu Cierre · Plataforma notarial para brokers inmobiliarios en Perú
         </p>
