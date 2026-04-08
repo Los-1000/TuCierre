@@ -29,65 +29,81 @@ const ROWS = [
 
 export default function PricingSection() {
   return (
-    <section id="precios" className="py-32 md:py-40" style={{ background: '#0a1f44' }}>
-      <div className="max-w-screen-2xl mx-auto px-6 md:px-12">
+    <section id="precios" className="py-32 md:py-40" style={{ background: '#0F172A' }}>
+      <div className="max-w-screen-xl mx-auto px-6 md:px-10">
 
-        {/* Heading */}
         <h2
-          className="font-black uppercase tracking-[-0.04em] leading-none mb-4 text-white"
-          style={{ fontSize: 'clamp(56px, 8vw, 96px)' }}
+          className="font-black tracking-tighter leading-none mb-3 text-white"
+          style={{ fontSize: 'clamp(60px, 10vw, 120px)' }}
         >
-          El Sistema.
+          El{' '}
+          <span className="font-display italic" style={{ color: '#2563EB' }}>Sistema.</span>
         </h2>
-        <p className="text-white/40 font-light text-lg mb-16">
+        <p className="font-light text-lg mb-16" style={{ color: 'rgba(255,255,255,0.35)' }}>
           Tu comisión sube sola. Sin formularios. Sin aprobaciones.
         </p>
 
-        {/* Table header — hidden on mobile */}
-        <div className="hidden md:grid grid-cols-4 border-b border-white/10 pb-4 mb-4">
-          {['Categoría', 'Volumen', 'Comisión', 'Acceso'].map(h => (
+        <div
+          className="hidden md:grid grid-cols-4 pb-4 mb-4 border-b"
+          style={{ borderColor: 'rgba(255,255,255,0.06)' }}
+        >
+          {[
+            { label: 'Categoría', align: 'left'   },
+            { label: 'Volumen',   align: 'left'   },
+            { label: 'Comisión',  align: 'center' },
+            { label: 'Acceso',    align: 'right'  },
+          ].map(h => (
             <div
-              key={h}
-              className={`text-xs font-black uppercase tracking-[0.2em] text-white/30 ${h === 'Comisión' ? 'text-center' : h === 'Acceso' ? 'text-right' : ''}`}
+              key={h.label}
+              className="text-xs font-black uppercase tracking-[0.2em]"
+              style={{ color: 'rgba(255,255,255,0.22)', textAlign: h.align as 'left' | 'center' | 'right' }}
             >
-              {h}
+              {h.label}
             </div>
           ))}
         </div>
 
-        {/* Rows */}
-        {ROWS.map((row) =>
+        {ROWS.map(row =>
           row.featured ? (
             <div
               key={row.level}
-              className="rounded-2xl my-3 relative overflow-hidden p-8 md:grid md:grid-cols-4 md:items-center md:rounded-none flex flex-col gap-4"
-              style={{ background: '#d06d0d', minHeight: '140px' }}
+              className="rounded-2xl my-3 relative overflow-hidden p-8 md:grid md:grid-cols-4 md:items-center flex flex-col gap-4"
+              style={{ background: '#2563EB', minHeight: '140px' }}
             >
-              <span className="absolute right-8 bottom-0 font-black text-[120px] leading-none text-black/10 select-none pointer-events-none hidden md:block">
+              <span
+                className="absolute right-8 bottom-0 font-black leading-none select-none pointer-events-none hidden md:block"
+                style={{ fontSize: '120px', color: 'rgba(255,255,255,0.08)' }}
+                aria-hidden="true"
+              >
                 PRO
               </span>
 
               <div className="relative z-10">
-                <div className="font-black text-2xl uppercase tracking-tight text-[#00081e]">{row.level}</div>
-                <div className="text-xs font-black uppercase tracking-widest text-[#00081e]/50 mt-1">★ Popular</div>
-                <div className="text-sm font-light text-[#00081e]/60 mt-2">{row.range}</div>
+                <div className="font-black text-2xl uppercase tracking-tight text-white">{row.level}</div>
+                <div className="text-xs font-black uppercase tracking-widest mt-1" style={{ color: 'rgba(255,255,255,0.5)' }}>
+                  — Popular
+                </div>
+                <div className="text-sm font-light mt-2" style={{ color: 'rgba(255,255,255,0.6)' }}>{row.range}</div>
               </div>
 
               <div className="md:text-center relative z-10">
                 <span
-                  className="font-black text-[#00081e] tracking-[-0.05em] leading-none tabular-nums"
+                  className="font-black tracking-tighter leading-none tabular-nums text-white"
                   style={{ fontSize: 'clamp(56px, 9vw, 112px)' }}
                 >
                   {row.pct}
                 </span>
               </div>
 
-              <div className="text-sm font-light text-[#00081e]/60 relative z-10">{row.benefits}</div>
+              <div className="text-sm font-light relative z-10" style={{ color: 'rgba(255,255,255,0.6)' }}>
+                {row.benefits}
+              </div>
 
               <div className="md:text-right relative z-10">
                 <Link
                   href="/register"
-                  className="inline-block bg-[#00081e] text-white rounded-full px-6 py-3 text-xs font-black uppercase tracking-widest hover:bg-[#0a1f44] transition-colors"
+                  className="inline-block rounded-full px-6 py-3 text-xs font-black uppercase tracking-widest hover:opacity-85 transition-opacity"
+                  style={{ background: '#fff', color: '#1E3A8A' }}
                 >
                   {row.cta}
                 </Link>
@@ -96,23 +112,22 @@ export default function PricingSection() {
           ) : (
             <div
               key={row.level}
-              className="md:grid md:grid-cols-4 flex flex-col gap-3 items-start md:items-center border-b border-white/5 py-7 opacity-60 hover:opacity-100 transition-opacity"
+              className="md:grid md:grid-cols-4 flex flex-col gap-3 items-start md:items-center border-b py-7 opacity-50 hover:opacity-100 transition-opacity"
+              style={{ borderColor: 'rgba(255,255,255,0.04)' }}
             >
               <div>
                 <div className="font-black text-lg uppercase tracking-tight text-white">{row.level}</div>
-                <div className="text-xs font-light text-white/35 mt-1">{row.range}</div>
+                <div className="text-xs font-light mt-1" style={{ color: 'rgba(255,255,255,0.28)' }}>{row.range}</div>
               </div>
-
               <div className="text-center">
                 <span className="font-extralight text-3xl text-white tabular-nums">{row.pct}</span>
               </div>
-
-              <div className="text-sm font-light text-white/40">{row.benefits}</div>
-
+              <div className="text-sm font-light" style={{ color: 'rgba(255,255,255,0.32)' }}>{row.benefits}</div>
               <div className="text-right">
                 <Link
                   href="/register"
-                  className="text-xs font-black uppercase tracking-widest text-white/40 hover:text-[#d06d0d] transition-colors"
+                  className="text-xs font-black uppercase tracking-widest transition-colors hover:text-[#93C5FD]"
+                  style={{ color: 'rgba(255,255,255,0.32)' }}
                 >
                   {row.cta}
                 </Link>
@@ -121,7 +136,7 @@ export default function PricingSection() {
           )
         )}
 
-        <p className="text-center text-xs font-light text-white/20 mt-10 tracking-wide">
+        <p className="text-center text-xs font-light mt-10 tracking-wide" style={{ color: 'rgba(255,255,255,0.22)' }}>
           El nivel sube automáticamente según tus trámites firmados cada mes. Sin formularios, sin aprobaciones.
         </p>
       </div>

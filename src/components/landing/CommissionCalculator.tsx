@@ -2,13 +2,12 @@
 
 import { useState } from 'react'
 
-// Average ticket price based on common notarial services in Lima
 const AVG_TICKET = 900
 
 const TIERS = [
-  { min: 1, max: 3,   name: 'Nivel 1', rate: 0.03, pct: '3%',  color: '#b5540e' },
-  { min: 4, max: 7,   name: 'Nivel 2', rate: 0.05, pct: '5%',  color: '#d06d0d' },
-  { min: 8, max: 999, name: 'Nivel 3', rate: 0.08, pct: '8%',  color: '#22c55e' },
+  { min: 1, max: 3,   name: 'Nivel 1', rate: 0.03, pct: '3%', color: '#1D4ED8' },
+  { min: 4, max: 7,   name: 'Nivel 2', rate: 0.05, pct: '5%', color: '#2563EB' },
+  { min: 8, max: 999, name: 'Nivel 3', rate: 0.08, pct: '8%', color: '#1C7A52' },
 ]
 
 function getTier(tramites: number) {
@@ -28,19 +27,26 @@ export default function CommissionCalculator() {
   const nextTier = TIERS.find(t => t.min > tier.min) ?? null
   const toNext   = nextTier ? nextTier.min - tramites : 0
 
-  const sliderBg = `linear-gradient(to right, #0a1f44 ${((tramites - 1) / 19) * 100}%, #0a1f4430 ${((tramites - 1) / 19) * 100}%)`
+  const pct = ((tramites - 1) / 19) * 100
+  const sliderBg = `linear-gradient(to right, #2563EB ${pct}%, rgba(37,99,235,0.15) ${pct}%)`
 
   return (
-    <div className="bg-white rounded-2xl shadow-[0_8px_48px_rgba(10,31,68,0.10)] border border-[#0a1f44]/8 overflow-hidden">
-
+    <div
+      className="rounded-2xl overflow-hidden"
+      style={{
+        background: '#fff',
+        boxShadow: '0 8px 48px rgba(37,99,235,0.08)',
+        border: '1px solid #DBEAFE',
+      }}
+    >
       {/* Slider */}
       <div className="p-8 space-y-6">
         <div>
           <div className="flex items-baseline justify-between mb-5">
-            <label htmlFor="calc-slider" className="text-base font-semibold" style={{ color: '#00081e' }}>
+            <label htmlFor="calc-slider" className="text-base font-semibold" style={{ color: '#0F172A' }}>
               Trámites que cierras al mes
             </label>
-            <span className="font-black tabular-nums text-4xl" style={{ color: '#0a1f44' }}>
+            <span className="font-black tabular-nums text-4xl" style={{ color: '#2563EB' }}>
               {tramites}
             </span>
           </div>
@@ -53,7 +59,7 @@ export default function CommissionCalculator() {
             step={1}
             value={tramites}
             onChange={e => setTramites(Number(e.target.value))}
-            className="commission-range w-full h-2 rounded-full appearance-none cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#d06d0d] focus-visible:ring-offset-2"
+            className="commission-range w-full h-2 rounded-full appearance-none cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#2563EB] focus-visible:ring-offset-2"
             style={{ background: sliderBg }}
             aria-valuemin={1}
             aria-valuemax={20}
@@ -61,12 +67,16 @@ export default function CommissionCalculator() {
             aria-valuetext={`${tramites} trámites`}
           />
 
-          <div className="flex justify-between text-xs font-medium mt-2 select-none" style={{ color: '#0a1f4440' }} aria-hidden="true">
+          <div
+            className="flex justify-between text-xs font-medium mt-2 select-none"
+            style={{ color: 'rgba(37,99,235,0.3)' }}
+            aria-hidden="true"
+          >
             <span>1</span><span>5</span><span>10</span><span>15</span><span>20</span>
           </div>
         </div>
 
-        {/* Tier indicator */}
+        {/* Tier cards */}
         <div className="grid grid-cols-3 gap-2">
           {TIERS.map(t => {
             const active = tier.name === t.name
@@ -74,16 +84,20 @@ export default function CommissionCalculator() {
               <div
                 key={t.name}
                 className="rounded-xl p-3 border transition-all duration-200"
-                style={active
-                  ? { borderColor: t.color, background: `${t.color}15`, transform: 'scale(1.03)' }
-                  : { borderColor: '#0a1f4415', background: 'transparent', opacity: 0.4 }
+                style={
+                  active
+                    ? { borderColor: t.color, background: `${t.color}10`, transform: 'scale(1.03)' }
+                    : { borderColor: '#DBEAFE', background: 'transparent', opacity: 0.45 }
                 }
               >
-                <div className="font-black text-2xl leading-none tabular-nums" style={{ color: active ? t.color : '#00081e' }}>
+                <div
+                  className="font-black text-2xl leading-none tabular-nums"
+                  style={{ color: active ? t.color : '#0F172A' }}
+                >
                   {t.pct}
                 </div>
-                <div className="text-xs font-semibold mt-0.5" style={{ color: '#44464e' }}>{t.name}</div>
-                <div className="text-[10px] mt-0.5" style={{ color: '#44464e80' }}>
+                <div className="text-xs font-semibold mt-0.5" style={{ color: '#475569' }}>{t.name}</div>
+                <div className="text-[10px] mt-0.5" style={{ color: '#94A3B8' }}>
                   {t.min}–{t.max >= 99 ? '∞' : t.max}/mes
                 </div>
               </div>
@@ -92,40 +106,46 @@ export default function CommissionCalculator() {
         </div>
       </div>
 
-      {/* Result */}
-      <div className="px-8 py-7" style={{ background: '#0a1f44' }}>
-        <p className="text-xs font-bold uppercase tracking-widest mb-1" style={{ color: '#7f9fc2' }}>
+      {/* Result panel */}
+      <div className="px-8 py-7" style={{ background: '#0F172A' }}>
+        <p className="text-xs font-bold uppercase tracking-widest mb-1" style={{ color: '#94A3B8' }}>
           Comisión mensual estimada
         </p>
-        <p className="font-black text-white leading-none tabular-nums" style={{ fontSize: 'clamp(36px,5vw,52px)' }}>
+        <p
+          className="font-black text-white leading-none tabular-nums"
+          style={{ fontSize: 'clamp(36px, 5vw, 52px)' }}
+        >
           {fmtSoles(monthly)}
         </p>
-        <p className="text-xs mt-2" style={{ color: '#7f9fc270' }}>
+        <p className="text-xs mt-2" style={{ color: 'rgba(148,163,184,0.6)' }}>
           {tramites} trámites × S/. {AVG_TICKET.toLocaleString('es-PE')} promedio × {tier.pct}
         </p>
 
-        <div className="mt-5 pt-5 border-t border-white/10 flex items-center justify-between gap-4">
+        <div
+          className="mt-5 pt-5 border-t flex items-center justify-between gap-4"
+          style={{ borderColor: 'rgba(255,255,255,0.08)' }}
+        >
           <div>
-            <p className="text-xs mb-0.5" style={{ color: '#7f9fc250' }}>Proyección anual</p>
-            <p className="text-xl font-bold tabular-nums" style={{ color: '#ffffff80' }}>
+            <p className="text-xs mb-0.5" style={{ color: 'rgba(148,163,184,0.5)' }}>Proyección anual</p>
+            <p className="text-xl font-bold tabular-nums" style={{ color: 'rgba(255,255,255,0.6)' }}>
               {fmtSoles(annual)}
             </p>
           </div>
 
           {toNext > 0 && nextTier ? (
             <div className="text-right">
-              <p className="text-xs mb-0.5" style={{ color: '#7f9fc250' }}>Próximo nivel</p>
-              <p className="text-sm font-bold" style={{ color: '#d06d0d' }}>
+              <p className="text-xs mb-0.5" style={{ color: 'rgba(148,163,184,0.5)' }}>Próximo nivel</p>
+              <p className="text-sm font-bold" style={{ color: '#93C5FD' }}>
                 +{toNext} trámite{toNext > 1 ? 's' : ''} → {nextTier.pct}
               </p>
             </div>
           ) : (
             <div
               className="px-3.5 py-2.5 rounded-xl border"
-              style={{ background: '#22c55e15', borderColor: '#22c55e30' }}
+              style={{ background: 'rgba(28,122,82,0.12)', borderColor: 'rgba(28,122,82,0.28)' }}
             >
-              <p className="text-xs font-medium" style={{ color: '#22c55e80' }}>Nivel máximo</p>
-              <p className="text-sm font-black" style={{ color: '#22c55e' }}>Nivel 3 · 8%</p>
+              <p className="text-xs font-medium" style={{ color: 'rgba(28,122,82,0.7)' }}>Nivel máximo</p>
+              <p className="text-sm font-black" style={{ color: '#1C7A52' }}>Nivel 3 · 8%</p>
             </div>
           )}
         </div>

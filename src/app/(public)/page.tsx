@@ -17,16 +17,16 @@ export const metadata = {
 
 export default function LandingPage() {
   return (
-    <main className="font-sans antialiased" style={{ background: '#fbf8fc' }}>
+    <main className="font-sans antialiased" style={{ background: '#F8FAFF' }}>
       <LandingNavbar />
       <HeroSection />
       <MarqueeSection />
       <FeaturesSection />
       <StepsSection />
       <PriceMatchSection />
-      <CalculatorSection />
       <StatsSection />
       <PricingSection />
+      <CalculatorSection />
       <CtaSection />
       <LandingFooter />
     </main>

@@ -1,30 +1,29 @@
-const STATS = [
-  { value: '45+',    label: 'Notarías Aliadas',           },
-  { value: '1,200+', label: 'Trámites Completados',       },
-  { value: 'S/ 4.2M', label: 'Ahorrados por Clientes'    },
-  { value: '98%',    label: 'Brokers Satisfechos',        },
-]
-
 export default function StatsSection() {
   return (
-    <section className="py-24 border-y border-white/5" style={{ background: '#00081e' }}>
-      <div className="max-w-screen-2xl mx-auto px-6 md:px-12 grid grid-cols-2 md:grid-cols-4 gap-12 text-center">
-        {STATS.map((s) => (
-          <div key={s.label} className="space-y-3">
-            <div
-              className="text-5xl font-black tracking-tighter"
-              style={{ color: '#ffffff' }}
-            >
-              {s.value}
-            </div>
-            <div
-              className="text-xs font-black uppercase tracking-[0.25em]"
-              style={{ color: '#7f9fc2' }}
-            >
-              {s.label}
-            </div>
-          </div>
-        ))}
+    <section className="py-24" style={{ background: '#1D4ED8' }}>
+      <div className="max-w-screen-xl mx-auto px-6 md:px-10">
+
+        <p className="text-xs font-black uppercase tracking-[0.2em] mb-10" style={{ color: 'rgba(255,255,255,0.4)' }}>
+          Por qué TuCierre
+        </p>
+
+        <div className="space-y-6 max-w-4xl">
+          <h2
+            className="leading-none tracking-tight"
+            style={{ fontSize: 'clamp(36px, 5.5vw, 80px)', color: '#fff' }}
+          >
+            <span className="font-black">Trámites notariales gestionados </span>
+            <span className="font-extralight font-display italic">de inicio a firma</span>
+            <span className="font-black"> — sin llamadas, sin papel, sin sorpresas.</span>
+          </h2>
+
+          <p className="text-xl font-light" style={{ color: 'rgba(255,255,255,0.65)' }}>
+            Tú subes los documentos desde cualquier lugar.{' '}
+            <strong className="font-semibold text-white">Nosotros coordinamos con la notaría</strong>{' '}
+            y te avisamos cuando es hora de aparecer a firmar.
+          </p>
+        </div>
+
       </div>
     </section>
   )
