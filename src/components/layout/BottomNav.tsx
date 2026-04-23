@@ -17,7 +17,7 @@ export default function BottomNav() {
   const pathname = usePathname()
 
   return (
-    <nav className="lg:hidden fixed bottom-0 left-0 right-0 z-30 bg-white/95 backdrop-blur-sm border-t border-[#18181B]/8 pb-safe">
+    <nav className="lg:hidden fixed bottom-0 left-0 right-0 z-30 bg-white/95 border-t border-[#18181B]/8 pb-safe">
       <div className="flex items-stretch h-16">
         {navItems.map(item => {
           const isActive = pathname === item.href || (item.href !== '/dashboard' && pathname.startsWith(item.href + '/'))
@@ -26,6 +26,7 @@ export default function BottomNav() {
               <Link
                 key={item.href}
                 href={item.href}
+                aria-label={item.label}
                 className="flex-1 flex flex-col items-center justify-center group"
               >
                 <div className="w-12 h-12 -mt-4 rounded-2xl bg-[#2855E0] shadow-[0_4px_16px_rgba(40,85,224,0.35)] flex items-center justify-center group-active:scale-95 transition-transform">
@@ -38,13 +39,14 @@ export default function BottomNav() {
             <Link
               key={item.href}
               href={item.href}
+              aria-current={isActive ? 'page' : undefined}
               className={cn(
                 'flex-1 relative flex flex-col items-center justify-center gap-1 transition-colors',
                 isActive ? 'text-[#18181B]' : 'text-[#18181B]/40'
               )}
             >
               <item.icon size={19} />
-              <span className="text-[10px] font-medium">{item.label}</span>
+              <span className="text-xs font-medium">{item.label}</span>
               {isActive && (
                 <div className="absolute bottom-1.5 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full bg-[#2855E0]" />
               )}

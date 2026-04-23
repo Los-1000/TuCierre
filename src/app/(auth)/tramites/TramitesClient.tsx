@@ -2,7 +2,7 @@
 
 import { useState, useMemo } from 'react'
 import Link from 'next/link'
-import { Search, Plus, FileText, Download, ArrowRight } from 'lucide-react'
+import { Search, Plus, FileText, ArrowRight } from 'lucide-react'
 import { Input } from '@/components/ui/input'
 import {
   Select,
@@ -81,10 +81,6 @@ export default function TramitesClient({ initialTramites }: TramitesClientProps)
           </span>
         </div>
         <div className="flex items-center gap-3">
-          <button className="flex items-center gap-2 border border-white/20 text-white/70 rounded-full px-5 py-2 text-sm font-semibold bg-transparent hover:bg-white/8 transition-colors">
-            <Download size={15} />
-            Exportar CSV
-          </button>
           <Link
             href="/cotizar"
             className="flex items-center gap-2 bg-[#2855E0] hover:bg-[#1E46C7] text-white rounded-full px-6 py-2.5 font-semibold text-sm transition-all shadow-lg shadow-[#2855E0]/20"

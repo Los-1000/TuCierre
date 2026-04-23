@@ -236,7 +236,7 @@ export default function TramiteDetailPage() {
         {tramite.discount_applied > 0 && (
           <div className="mt-4 p-4 bg-[#2855E0]/5 rounded-2xl border border-[#2855E0]/15 flex items-center justify-between">
             <div>
-              <p className="text-[10px] font-bold uppercase tracking-widest text-[#2855E0]">
+              <p className="text-xs font-bold uppercase tracking-widest text-[#2855E0]">
                 Tu Comisión ({tramite.discount_applied}%)
               </p>
               <p className="text-xl font-bold text-[#2855E0] tabular-nums">

@@ -362,7 +362,7 @@ export default function PriceMatchPage() {
 
       {/* ── Mis solicitudes previas ── */}
       <div>
-        <h2 className="text-lg font-semibold text-[#18181B] mb-4">Mis solicitudes previas</h2>
+        <h2 className="text-lg font-semibold text-white mb-4">Mis solicitudes previas</h2>
 
         {requestsLoading ? (
           <div className="space-y-3">

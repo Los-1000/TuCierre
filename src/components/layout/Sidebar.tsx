@@ -78,10 +78,11 @@ export default function Sidebar({ broker }: SidebarProps) {
             <Link
               key={item.href}
               href={item.href}
+              aria-current={isActive ? 'page' : undefined}
               className={cn(
                 'flex items-center gap-3 px-4 py-2.5 text-sm font-medium transition-all',
                 isActive
-                  ? 'bg-white/10 border-l-[3px] border-[#4D78FF] text-white font-semibold rounded-r-xl'
+                  ? 'bg-white/10 border-l-[3px] border-[#2855E0] text-white font-semibold rounded-r-xl'
                   : 'text-white/60 hover:text-white hover:bg-white/6 rounded-xl'
               )}
             >
@@ -96,10 +97,11 @@ export default function Sidebar({ broker }: SidebarProps) {
       <div className="mx-3 mb-3 space-y-0.5 border-t border-white/8 pt-3">
         <Link
           href="/perfil"
+          aria-current={pathname === '/perfil' ? 'page' : undefined}
           className={cn(
             'flex items-center gap-3 px-4 py-2.5 text-sm font-medium transition-all',
             pathname === '/perfil'
-              ? 'bg-white/10 border-l-[3px] border-[#4D78FF] text-white font-semibold rounded-r-xl'
+              ? 'bg-white/10 border-l-[3px] border-[#2855E0] text-white font-semibold rounded-r-xl'
               : 'text-white/60 hover:text-white hover:bg-white/6 rounded-xl'
           )}
         >

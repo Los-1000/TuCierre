@@ -3,6 +3,8 @@ import { createClient } from '@/lib/supabase/server'
 import TramitesClient from './TramitesClient'
 import type { Tramite } from '@/types/database'
 
+export const metadata = { title: 'Mis Trámites · TuCierre' }
+
 export default async function TramitesPage() {
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()

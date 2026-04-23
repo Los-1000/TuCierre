@@ -9,6 +9,8 @@ import StatusBadge from '@/components/tramites/StatusBadge'
 import EmptyState from '@/components/shared/EmptyState'
 import type { Tramite, Broker } from '@/types/database'
 
+export const metadata = { title: 'Dashboard · TuCierre' }
+
 async function getDashboardData(brokerId: string) {
   const supabase = await createClient()
 
@@ -140,7 +142,7 @@ export default async function DashboardPage() {
               i === 0 && 'md:pl-8',
               i === stats.length - 1 && 'md:pr-8'
             )}>
-              <span className="text-[10px] font-bold uppercase tracking-widest text-[#18181B]/35">{stat.label}</span>
+              <span className="text-xs font-bold uppercase tracking-widest text-[#18181B]/55">{stat.label}</span>
               <span className={cn('font-bold text-[#18181B] leading-none tabular-nums', stat.isPrice ? 'text-xl' : 'text-3xl')}>
                 {stat.value}
               </span>
@@ -159,8 +161,8 @@ export default async function DashboardPage() {
             </span>
           </div>
           {tier !== 'oro' ? (
-            <span className="text-xs font-semibold text-white/40">
-              {tramitesToNext} más → <span className="text-white/60 font-bold">{nextTierLabel}</span>
+            <span className="text-xs font-semibold text-white/60">
+              {tramitesToNext} más → <span className="text-white/80 font-bold">{nextTierLabel}</span>
             </span>
           ) : (
             <span className="text-xs font-bold uppercase tracking-widest" style={{ color: '#C9880E' }}>
@@ -174,7 +176,7 @@ export default async function DashboardPage() {
             style={{ width: `${progressPercent}%`, background: tier === 'oro' ? '#C9880E' : '#2855E0' }}
           />
         </div>
-        <div className="mt-2 flex justify-between text-[10px] font-medium text-white/25">
+        <div className="mt-2 flex justify-between text-xs font-medium text-white/60">
           <span>0</span>
           <span>{tier === 'bronce' ? '4' : '8'} trámites</span>
         </div>
@@ -182,31 +184,38 @@ export default async function DashboardPage() {
 
       {/* Quick actions */}
       <div>
-        <h2 className="text-xs font-bold text-white/35 uppercase tracking-widest mb-3">Acciones rápidas</h2>
+        <h2 className="text-xs font-bold text-white/60 uppercase tracking-widest mb-3">Acciones rápidas</h2>
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-          {[
-            { href: '/clientes/nuevo', label: 'Nuevo cliente', desc: 'Registra un cliente ahora', icon: UserPlus, primary: true },
-            { href: '/tramites', label: 'Mis trámites', desc: `${activeCount} en proceso`, icon: FileText, primary: false },
-            { href: '/cotizar', label: 'Cotizar', desc: 'Precio al instante', icon: Calculator, primary: false },
-          ].map(action => (
-            <Link key={action.href} href={action.href}>
-              <div className={cn(
-                'flex items-center gap-3 px-4 py-3.5 rounded-2xl transition-all hover:shadow-sm border',
-                action.primary
-                  ? 'bg-[#2855E0] text-white border-[#2855E0]'
-                  : 'bg-white text-[#18181B] border-[#18181B]/8 hover:border-[#2855E0]/30'
-              )}>
-                <action.icon size={17} className="shrink-0" />
-                <div className="flex-1 min-w-0">
-                  <div className="text-sm font-semibold leading-none">{action.label}</div>
-                  <div className={cn('text-xs mt-1 leading-none', action.primary ? 'opacity-60' : 'text-[#18181B]/50')}>
-                    {action.desc}
+          {/* Primary — spans 2 columns on sm+ */}
+          <Link href="/clientes/nuevo" className="sm:col-span-2">
+            <div className="flex items-center gap-4 px-5 py-4 rounded-2xl bg-[#2855E0] hover:bg-[#1E46C7] text-white border border-[#2855E0] transition-all h-full">
+              <div className="w-10 h-10 rounded-xl bg-white/15 flex items-center justify-center shrink-0">
+                <UserPlus size={18} />
+              </div>
+              <div className="flex-1 min-w-0">
+                <div className="text-sm font-bold leading-none">Nuevo cliente</div>
+                <div className="text-xs mt-1.5 opacity-60 leading-snug">Registra y solicita un trámite</div>
+              </div>
+              <ArrowRight size={15} className="opacity-50 shrink-0" />
+            </div>
+          </Link>
+          {/* Secondaries — stacked */}
+          <div className="flex flex-col gap-3">
+            {[
+              { href: '/tramites', label: 'Mis trámites', desc: `${activeCount} en proceso`, icon: FileText },
+              { href: '/cotizar', label: 'Cotizar', desc: 'Precio al instante', icon: Calculator },
+            ].map(action => (
+              <Link key={action.href} href={action.href} className="flex-1">
+                <div className="flex items-center gap-3 px-4 py-3.5 rounded-2xl bg-white text-[#18181B] border border-[#18181B]/8 hover:border-[#2855E0]/30 transition-all h-full">
+                  <action.icon size={16} className="text-[#18181B]/45 shrink-0" />
+                  <div className="flex-1 min-w-0">
+                    <div className="text-sm font-semibold leading-none">{action.label}</div>
+                    <div className="text-xs mt-1 leading-none text-[#18181B]/50">{action.desc}</div>
                   </div>
                 </div>
-                <ArrowRight size={14} className="opacity-40 shrink-0" />
-              </div>
-            </Link>
-          ))}
+              </Link>
+            ))}
+          </div>
         </div>
       </div>
 

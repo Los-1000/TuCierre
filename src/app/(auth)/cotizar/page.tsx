@@ -53,13 +53,13 @@ function StepBar({ current }: { current: number }) {
                 'w-9 h-9 rounded-full flex items-center justify-center text-sm font-semibold transition-all',
                 isCompleted && 'bg-[#2855E0] text-white',
                 isActive && 'bg-[#2855E0] text-white ring-4 ring-[#2855E0]/20',
-                !isCompleted && !isActive && 'bg-white/8 border-2 border-white/20 text-white/30',
+                !isCompleted && !isActive && 'bg-white/8 border-2 border-white/20 text-white/55',
               )}>
                 {isCompleted ? <Check size={15} /> : s.number}
               </div>
               <span className={cn(
                 'text-xs font-semibold whitespace-nowrap',
-                isActive ? 'text-white font-bold' : isCompleted ? 'text-[#2855E0]' : 'text-white/30',
+                isActive ? 'text-white font-bold' : isCompleted ? 'text-[#2855E0]' : 'text-white/55',
               )}>
                 {s.label}
               </span>

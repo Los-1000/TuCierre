@@ -44,7 +44,7 @@ export default function PriceBreakdown({ basePrice, tier, propertyValue, matched
             </span>
           </div>
           <div className="mt-4 p-4 bg-emerald-50 rounded-2xl border border-emerald-200">
-            <p className="text-[10px] font-bold uppercase tracking-widest text-emerald-700">
+            <p className="text-xs font-bold uppercase tracking-widest text-emerald-700">
               Precio match activo
             </p>
             <p className="text-xs text-emerald-600 mt-0.5">
@@ -85,7 +85,7 @@ export default function PriceBreakdown({ basePrice, tier, propertyValue, matched
         {discount > 0 && (
           <div className="mt-4 p-4 bg-[#2855E0]/5 rounded-2xl border border-[#2855E0]/15 flex items-center justify-between">
             <div>
-              <p className="text-[10px] font-bold uppercase tracking-widest text-[#2855E0]">
+              <p className="text-xs font-bold uppercase tracking-widest text-[#2855E0]">
                 Tu Comisión ({tierConfig.discount}%)
               </p>
               <p className="text-lg font-bold text-[#2855E0] tabular-nums font-mono">
