@@ -17,7 +17,7 @@ export const metadata = {
 
 export default function LandingPage() {
   return (
-    <main className="font-sans antialiased" style={{ background: '#020952' }}>
+    <main id="main-content" className="font-sans antialiased" style={{ background: '#020952' }}>
       <LandingNavbar />
       <HeroSection />
       <MarqueeSection />

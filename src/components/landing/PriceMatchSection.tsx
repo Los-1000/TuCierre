@@ -70,9 +70,9 @@ export default function PriceMatchSection() {
             </span>
           </div>
 
-          {/* Table */}
-          <div className="bg-white">
-            <table className="w-full text-left">
+          {/* Table — scrollable on narrow viewports */}
+          <div className="bg-white overflow-x-auto">
+            <table className="w-full min-w-[460px] text-left">
               <thead>
                 <tr className="border-b" style={{ borderColor: '#F3F4F6' }}>
                   <th scope="col" className="px-7 py-4 text-xs font-black uppercase tracking-widest" style={{ color: 'rgba(2,9,82,0.35)' }}>Trámite</th>
@@ -90,12 +90,12 @@ export default function PriceMatchSection() {
                 ))}
               </tbody>
             </table>
+          </div>
 
-            {/* Savings footer */}
-            <div className="px-7 py-5 flex items-center justify-between border-t" style={{ background: '#020952', borderColor: '#E5E7EB' }}>
-              <span className="text-sm font-medium" style={{ color: 'rgba(255,255,255,0.5)' }}>Ahorro promedio</span>
-              <span className="text-2xl font-black tracking-tighter text-white">28% menos</span>
-            </div>
+          {/* Savings footer — outside scroll zone so it stays anchored */}
+          <div className="px-7 py-5 flex items-center justify-between border-t" style={{ background: '#020952', borderColor: '#E5E7EB' }}>
+            <span className="text-sm font-medium" style={{ color: 'rgba(255,255,255,0.5)' }}>Ahorro promedio</span>
+            <span className="text-2xl font-black tracking-tighter text-white">28% menos</span>
           </div>
         </div>
 

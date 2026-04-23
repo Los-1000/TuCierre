@@ -20,7 +20,7 @@ export default function LandingFooter() {
   return (
     <footer
       className="w-full border-t"
-      style={{ background: '#080E3D', borderColor: 'rgba(255,255,255,0.06)' }}
+      style={{ background: '#01063A', borderColor: 'rgba(255,255,255,0.06)' }}
     >
       <div className="max-w-screen-xl mx-auto px-6 md:px-10 py-16 grid grid-cols-1 md:grid-cols-4 gap-12">
 
@@ -46,16 +46,26 @@ export default function LandingFooter() {
               {col.heading}
             </h4>
             <div className="flex flex-col gap-3">
-              {col.links.map(([label, href]) => (
-                <Link
-                  key={label}
-                  href={href}
-                  className="text-sm transition-colors duration-200 hover:text-white"
-                  style={{ color: 'rgba(255,255,255,0.6)' }}
-                >
-                  {label}
-                </Link>
-              ))}
+              {col.links.map(([label, href]) =>
+                href === '#' ? (
+                  <span
+                    key={label}
+                    className="text-sm"
+                    style={{ color: 'rgba(255,255,255,0.3)' }}
+                  >
+                    {label}
+                  </span>
+                ) : (
+                  <Link
+                    key={label}
+                    href={href}
+                    className="text-sm transition-colors duration-200 hover:text-white"
+                    style={{ color: 'rgba(255,255,255,0.6)' }}
+                  >
+                    {label}
+                  </Link>
+                )
+              )}
             </div>
           </div>
         ))}
@@ -66,8 +76,8 @@ export default function LandingFooter() {
         style={{ borderColor: 'rgba(255,255,255,0.06)' }}
       >
         <p className="font-black text-white tracking-tight leading-none" style={{ fontSize: 'clamp(28px, 4vw, 60px)' }}>
-          Tu próximo cierre{' '}
-          <span className="font-display italic" style={{ color: 'rgba(255,255,255,0.4)' }}>empieza aquí.</span>
+          La plataforma notarial{' '}
+          <span className="font-display italic" style={{ color: 'rgba(255,255,255,0.4)' }}>de los brokers.</span>
         </p>
         <p className="text-base" style={{ color: 'rgba(255,255,255,0.6)' }}>Gratis para brokers. Sin tarjeta. Listo en minutos.</p>
         <Link
@@ -83,22 +93,9 @@ export default function LandingFooter() {
         className="max-w-screen-xl mx-auto px-6 md:px-10 py-8 border-t flex flex-col md:flex-row justify-between items-center gap-4"
         style={{ borderColor: 'rgba(255,255,255,0.06)' }}
       >
-        <p className="text-xs font-medium" style={{ color: '#334155' }}>
+        <p className="text-xs font-medium" style={{ color: 'rgba(255,255,255,0.35)' }}>
           © 2026 Tu Cierre · Plataforma notarial para brokers inmobiliarios en Perú
         </p>
-        <div className="flex items-center gap-3">
-          <svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#334155" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-            <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
-            <path d="M7 11V7a5 5 0 0 1 10 0v4" />
-          </svg>
-          <svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#334155" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
-          </svg>
-          <svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#334155" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-            <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
-            <polyline points="22 4 12 14.01 9 11.01" />
-          </svg>
-        </div>
       </div>
     </footer>
   )

@@ -13,7 +13,7 @@ function TramiteCard() {
       className="rounded-2xl overflow-hidden select-none"
       style={{
         background: '#fff',
-        boxShadow: '0 24px 64px rgba(37,99,235,0.10), 0 4px 16px rgba(37,99,235,0.06)',
+        boxShadow: '0 24px 64px rgba(40,85,224,0.10), 0 4px 16px rgba(40,85,224,0.06)',
         border: '1px solid rgba(255,255,255,0.12)',
       }}
       aria-hidden="true"
@@ -25,7 +25,7 @@ function TramiteCard() {
         </div>
         <span
           className="text-[10px] font-black uppercase tracking-widest px-2.5 py-1 rounded-full"
-          style={{ background: 'rgba(37,99,235,0.2)', color: 'rgba(255,255,255,0.65)', border: '1px solid rgba(255,255,255,0.12)' }}
+          style={{ background: 'rgba(40,85,224,0.2)', color: 'rgba(255,255,255,0.65)', border: '1px solid rgba(255,255,255,0.12)' }}
         >
           En firma
         </span>
