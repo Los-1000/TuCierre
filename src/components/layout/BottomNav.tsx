@@ -28,7 +28,7 @@ export default function BottomNav() {
                 href={item.href}
                 className="flex-1 flex flex-col items-center justify-center group"
               >
-                <div className="w-12 h-12 -mt-4 rounded-2xl bg-[#D47151] shadow-[0_4px_16px_rgba(212,113,81,0.35)] flex items-center justify-center group-active:scale-95 transition-transform">
+                <div className="w-12 h-12 -mt-4 rounded-2xl bg-[#2855E0] shadow-[0_4px_16px_rgba(40,85,224,0.35)] flex items-center justify-center group-active:scale-95 transition-transform">
                   <item.icon size={20} className="text-white" />
                 </div>
               </Link>
@@ -39,14 +39,14 @@ export default function BottomNav() {
               key={item.href}
               href={item.href}
               className={cn(
-                'flex-1 flex flex-col items-center justify-center gap-1 transition-colors',
+                'flex-1 relative flex flex-col items-center justify-center gap-1 transition-colors',
                 isActive ? 'text-[#18181B]' : 'text-[#18181B]/40'
               )}
             >
               <item.icon size={19} />
               <span className="text-[10px] font-medium">{item.label}</span>
               {isActive && (
-                <div className="absolute bottom-1 w-1 h-1 rounded-full bg-[#D47151]" />
+                <div className="absolute bottom-1.5 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full bg-[#2855E0]" />
               )}
             </Link>
           )

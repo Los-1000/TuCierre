@@ -158,7 +158,7 @@ export default function PriceMatchPage() {
       {/* Header */}
       <div>
         <h1 className="text-2xl font-bold text-[#18181B]">Price Match</h1>
-        <p className="text-[#18181B]/50 text-sm mt-1">
+        <p className="text-white/50 text-sm mt-1">
           ¿Encontraste un precio más bajo? Lo igualamos.
         </p>
       </div>
@@ -168,14 +168,14 @@ export default function PriceMatchPage() {
         <p className="text-sm text-[#18181B] font-medium mb-4">
           Encuentra un precio más bajo en otra notaría. Lo igualamos. Envíanos la cotización y
           respondemos en máximo{' '}
-          <span className="font-semibold text-[#D47151]">24 horas</span>.
+          <span className="font-semibold text-[#2855E0]">24 horas</span>.
         </p>
         <div className="flex flex-col sm:flex-row items-start sm:items-center gap-2 sm:gap-0">
           {HOW_IT_WORKS_STEPS.map((s, i) => (
             <div key={s.step} className="flex items-center gap-2">
               <div className="flex items-center gap-2">
-                <div className="w-7 h-7 rounded-full bg-[#D47151]/20 border border-[#D47151]/30 flex items-center justify-center shrink-0">
-                  <span className="text-xs font-bold text-[#D47151]">{s.step}</span>
+                <div className="w-7 h-7 rounded-full bg-[#2855E0]/20 border border-[#2855E0]/30 flex items-center justify-center shrink-0">
+                  <span className="text-xs font-bold text-[#2855E0]">{s.step}</span>
                 </div>
                 <span className="text-sm font-medium text-[#18181B]">{s.label}</span>
               </div>
@@ -196,8 +196,8 @@ export default function PriceMatchPage() {
 
         {submitted ? (
           <div className="flex flex-col items-center justify-center py-10 text-center">
-            <div className="w-16 h-16 rounded-full bg-[#D47151]/10 border border-[#D47151]/20 flex items-center justify-center mb-4">
-              <CheckCircle2 size={32} className="text-[#D47151]" />
+            <div className="w-16 h-16 rounded-full bg-[#2855E0]/10 border border-[#2855E0]/20 flex items-center justify-center mb-4">
+              <CheckCircle2 size={32} className="text-[#2855E0]" />
             </div>
             <h3 className="text-lg font-semibold text-[#18181B] mb-1">
               Solicitud enviada
@@ -208,7 +208,7 @@ export default function PriceMatchPage() {
             </p>
             <button
               onClick={handleNewRequest}
-              className="inline-flex items-center gap-2 bg-[#D47151] text-white text-sm font-semibold px-5 py-2.5 rounded-full hover:bg-[#A6553A] transition-colors"
+              className="inline-flex items-center gap-2 bg-[#2855E0] text-white text-sm font-semibold px-5 py-2.5 rounded-full hover:bg-[#1E46C7] transition-colors"
             >
               <PlusCircle size={16} />
               Crear nueva solicitud
@@ -301,7 +301,7 @@ export default function PriceMatchPage() {
               <div
                 className={cn(
                   'border-2 border-dashed rounded-2xl p-5 text-center transition-colors cursor-pointer hover:bg-[#18181B]/3',
-                  evidenceFile ? 'border-[#D47151]/40 bg-[#D47151]/5' : 'border-[#18181B]/15'
+                  evidenceFile ? 'border-[#2855E0]/40 bg-[#2855E0]/5' : 'border-[#18181B]/15'
                 )}
                 onClick={() => document.getElementById('evidence-input')?.click()}
               >
@@ -317,7 +317,7 @@ export default function PriceMatchPage() {
                 />
                 {evidenceFile ? (
                   <div className="flex items-center justify-center gap-2">
-                    <FileText size={18} className="text-[#D47151] shrink-0" />
+                    <FileText size={18} className="text-[#2855E0] shrink-0" />
                     <span className="text-sm font-medium text-[#18181B] truncate max-w-xs">
                       {evidenceFile.name}
                     </span>
@@ -401,16 +401,16 @@ export default function PriceMatchPage() {
                   </div>
 
                   {req.status === 'approved' && req.our_matched_price != null && (
-                    <div className="bg-[#D47151]/8 border border-[#D47151]/20 rounded-2xl px-4 py-3 mb-3 flex items-center justify-between">
+                    <div className="bg-[#2855E0]/8 border border-[#2855E0]/20 rounded-2xl px-4 py-3 mb-3 flex items-center justify-between">
                       <div>
-                        <div className="text-xs text-[#D47151] font-medium mb-0.5">
+                        <div className="text-xs text-[#2855E0] font-medium mb-0.5">
                           Precio igualado
                         </div>
-                        <div className="text-xl font-bold text-[#D47151] tabular-nums font-mono">
+                        <div className="text-xl font-bold text-[#2855E0] tabular-nums font-mono">
                           {formatPrice(req.our_matched_price)}
                         </div>
                       </div>
-                      <CheckCircle2 size={28} className="text-[#D47151] shrink-0" />
+                      <CheckCircle2 size={28} className="text-[#2855E0] shrink-0" />
                     </div>
                   )}
 
@@ -443,7 +443,7 @@ export default function PriceMatchPage() {
                             href={req.evidence_url}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="inline-flex items-center gap-1 text-[#D47151] hover:underline font-medium"
+                            className="inline-flex items-center gap-1 text-[#2855E0] hover:underline font-medium"
                           >
                             Ver documento
                             <ExternalLink size={11} />

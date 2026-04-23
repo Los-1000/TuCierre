@@ -1,4 +1,5 @@
 import { redirect } from 'next/navigation'
+import { Logo } from '@/components/ui/Logo'
 import { createClient } from '@/lib/supabase/server'
 import { LogOut } from 'lucide-react'
 import { AdminNav } from '@/components/layout/AdminNav'
@@ -32,12 +33,12 @@ export default async function AdminLayout({ children }: { children: React.ReactN
     .toUpperCase()
 
   return (
-    <div className="flex min-h-screen bg-[#F9F9F8]">
+    <div className="flex min-h-screen bg-[#F0F3FF]">
       {/* Admin Sidebar — dark, distinct */}
       <aside className="hidden lg:flex w-[240px] flex-col fixed left-0 top-0 h-full bg-[#18181B] z-20">
         {/* Brand */}
         <div className="px-6 pt-8 pb-10">
-          <h1 className="text-[18px] font-semibold text-white tracking-tight">TuCierre</h1>
+          <Logo variant="light" size="md" href="/admin" />
           <span className="inline-block mt-1 px-2 py-0.5 border border-red-500/40 bg-red-500/15 text-red-400 text-[10px] font-bold uppercase tracking-widest rounded-full">
             ADMIN
           </span>

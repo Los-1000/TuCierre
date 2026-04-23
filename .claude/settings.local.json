@@ -94,7 +94,28 @@
       "Bash(sed -i 's/\"text-ink hover:bg-muted hover:text-\\\\[#18181B\\\\]\"/\"text-[#18181B] hover:bg-muted hover:text-[#18181B]\"/g' \"components/ui/button.tsx\")",
       "Bash(grep:*)",
       "Bash(find:*)",
-      "Skill(landing-page-design)"
+      "Skill(landing-page-design)",
+      "mcp__plugin_claude-mem_mcp-search__get_observations",
+      "Bash(sed -n '1,3p' C:/Users/cefd2/Downloads/TuCierre/src/app/register/page.tsx)",
+      "Bash(sed -n '1,3p' C:/Users/cefd2/Downloads/TuCierre/src/app/forgot-password/page.tsx)",
+      "Bash(sed -n '1,3p' C:/Users/cefd2/Downloads/TuCierre/src/app/superadmin/layout.tsx)",
+      "Bash(sed -n '1,3p' C:/Users/cefd2/Downloads/TuCierre/src/app/'\\(public\\)'/privacidad/page.tsx)",
+      "Bash(sed -n '1,3p' C:/Users/cefd2/Downloads/TuCierre/src/app/'\\(public\\)'/terminos/page.tsx)",
+      "Bash(sed -n '100,115p' C:/Users/cefd2/Downloads/TuCierre/src/app/register/page.tsx)",
+      "Bash(sed -n '144,153p' C:/Users/cefd2/Downloads/TuCierre/src/app/register/page.tsx)",
+      "Bash(sed -n '62,68p' C:/Users/cefd2/Downloads/TuCierre/src/app/forgot-password/page.tsx)",
+      "Bash(sed -n '88,95p' C:/Users/cefd2/Downloads/TuCierre/src/app/superadmin/layout.tsx)",
+      "Bash(sed -n '8,14p' C:/Users/cefd2/Downloads/TuCierre/src/app/'\\(public\\)'/privacidad/page.tsx)",
+      "Bash(sed -n '60,72p' C:/Users/cefd2/Downloads/TuCierre/src/app/forgot-password/page.tsx)",
+      "Bash(sed -n '100,107p' C:/Users/cefd2/Downloads/TuCierre/src/app/register/page.tsx)",
+      "Bash(xargs sed *)",
+      "Bash(node -e ' *)",
+      "mcp__plugin_claude-mem_mcp-search__smart_outline",
+      "Bash(sed -n '115,130p' C:/Users/cefd2/Downloads/TuCierre/src/app/'\\(auth\\)'/dashboard/page.tsx)",
+      "Bash(sed -n '75,90p' C:/Users/cefd2/Downloads/TuCierre/src/app/'\\(auth\\)'/tramites/TramitesClient.tsx)",
+      "Bash(sed -n '208,215p' C:/Users/cefd2/Downloads/TuCierre/src/app/'\\(auth\\)'/recompensas/page.tsx)",
+      "Bash(sed -n '162,170p' C:/Users/cefd2/Downloads/TuCierre/src/app/'\\(auth\\)'/perfil/page.tsx)",
+      "Bash(sed -n '206,215p' C:/Users/cefd2/Downloads/TuCierre/src/app/'\\(auth\\)'/cotizar/page.tsx)"
     ]
   }
 }

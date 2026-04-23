@@ -1,6 +1,6 @@
 export default function StatsSection() {
   return (
-    <section className="py-24" style={{ background: '#1D4ED8' }}>
+    <section className="py-24" style={{ background: '#1A2580' }}>
       <div className="max-w-screen-xl mx-auto px-6 md:px-10">
 
         <p className="text-xs font-black uppercase tracking-[0.2em] mb-10" style={{ color: 'rgba(255,255,255,0.4)' }}>

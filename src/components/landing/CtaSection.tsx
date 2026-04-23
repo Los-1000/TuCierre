@@ -2,10 +2,10 @@ import Link from 'next/link'
 
 export default function CtaSection() {
   return (
-    <section className="py-32 relative overflow-hidden" style={{ background: '#0F172A' }}>
+    <section className="py-32 relative overflow-hidden" style={{ background: '#020952', borderTop: '1px solid rgba(255,255,255,0.06)' }}>
       <div
         className="absolute inset-0 pointer-events-none"
-        style={{ background: 'radial-gradient(ellipse at 50% 110%, rgba(37,99,235,0.1) 0%, transparent 55%)' }}
+        style={{ background: 'radial-gradient(ellipse at 50% 110%, rgba(255,255,255,0.02) 0%, transparent 55%)' }}
       />
 
       <div className="max-w-screen-xl mx-auto px-6 md:px-10 relative z-10 text-center space-y-10">
@@ -15,7 +15,7 @@ export default function CtaSection() {
           style={{ fontSize: 'clamp(48px, 9vw, 120px)', color: '#fff', maxWidth: '900px' }}
         >
           <span className="font-extralight">Tu próximo trámite </span>
-          <span className="font-black font-display italic" style={{ color: '#2563EB' }}>empieza aquí.</span>
+          <span className="font-black font-display italic" style={{ color: '#4D78FF' }}>empieza aquí.</span>
         </h2>
 
         <p
@@ -29,7 +29,7 @@ export default function CtaSection() {
           {['Mejor precio garantizado', 'Sin tarjeta requerida', 'Activo en Lima hoy'].map(item => (
             <span key={item} className="flex items-center gap-2">
               <svg aria-hidden="true" width="13" height="13" viewBox="0 0 24 24" fill="none">
-                <path d="M5 13l4 4L19 7" stroke="#2563EB" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+                <path d="M5 13l4 4L19 7" stroke="rgba(255,255,255,0.55)" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
               </svg>
               {item}
             </span>
@@ -40,7 +40,7 @@ export default function CtaSection() {
           <Link
             href="/register"
             className="px-12 py-5 text-white font-black text-lg rounded-xl hover:brightness-110 active:scale-95 transition-all duration-200"
-            style={{ background: '#2563EB' }}
+            style={{ background: '#4D78FF' }}
           >
             Crear mi cuenta gratis
           </Link>

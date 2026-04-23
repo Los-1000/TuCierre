@@ -110,7 +110,7 @@ export default function PriceMatchModal({ open, onClose, tramiteTypeId }: PriceM
             </label>
             <input
               placeholder="Notaría García & Asociados"
-              className="w-full h-11 px-4 rounded-2xl border border-[#18181B]/15 bg-white text-sm text-[#18181B] focus:outline-none focus:ring-2 focus:ring-[#D47151]/30 focus:border-[#D47151] transition-colors placeholder:text-[#18181B]/30"
+              className="w-full h-11 px-4 rounded-2xl border border-[#18181B]/15 bg-white text-sm text-[#18181B] focus:outline-none focus:ring-2 focus:ring-[#2855E0]/30 focus:border-[#2855E0] transition-colors placeholder:text-[#18181B]/30"
               {...register('competitor_name')}
             />
             {errors.competitor_name && (
@@ -128,7 +128,7 @@ export default function PriceMatchModal({ open, onClose, tramiteTypeId }: PriceM
               placeholder="1200.00"
               step="0.01"
               min="1"
-              className="w-full h-11 px-4 rounded-2xl border border-[#18181B]/15 bg-white text-sm text-[#18181B] focus:outline-none focus:ring-2 focus:ring-[#D47151]/30 focus:border-[#D47151] transition-colors placeholder:text-[#18181B]/30 font-mono"
+              className="w-full h-11 px-4 rounded-2xl border border-[#18181B]/15 bg-white text-sm text-[#18181B] focus:outline-none focus:ring-2 focus:ring-[#2855E0]/30 focus:border-[#2855E0] transition-colors placeholder:text-[#18181B]/30 font-mono"
               {...register('competitor_price', { valueAsNumber: true })}
             />
             {errors.competitor_price && (
@@ -143,9 +143,9 @@ export default function PriceMatchModal({ open, onClose, tramiteTypeId }: PriceM
             </label>
             <label
               htmlFor="evidence-modal"
-              className="flex flex-col items-center justify-center gap-2 border-2 border-dashed border-[#18181B]/20 rounded-2xl p-6 cursor-pointer hover:border-[#D47151]/40 hover:bg-[#D47151]/3 transition-all"
+              className="flex flex-col items-center justify-center gap-2 border-2 border-dashed border-[#18181B]/20 rounded-2xl p-6 cursor-pointer hover:border-[#2855E0]/40 hover:bg-[#2855E0]/3 transition-all"
             >
-              <Upload size={22} className="text-[#D47151]" />
+              <Upload size={22} className="text-[#2855E0]" />
               <span className="text-sm text-[#18181B]/60">
                 {evidenceFile ? evidenceFile.name : 'Haz clic para subir la cotización'}
               </span>

@@ -66,8 +66,8 @@ function StatusCell({ status }: { status: string }) {
 function SortIcon({ field, sortField, sortDir }: { field: SortField; sortField: SortField; sortDir: SortDir }) {
   if (sortField !== field) return <ArrowUpDown size={13} className="ml-1 opacity-40" />
   return sortDir === 'asc'
-    ? <ArrowUp size={13} className="ml-1 text-[#D47151]" />
-    : <ArrowDown size={13} className="ml-1 text-[#D47151]" />
+    ? <ArrowUp size={13} className="ml-1 text-[#2855E0]" />
+    : <ArrowDown size={13} className="ml-1 text-[#2855E0]" />
 }
 
 // ─── Main client component ────────────────────────────────────────────────────
@@ -217,7 +217,7 @@ export default function TramitesClient({
             placeholder="Buscar por código o broker..."
             value={search}
             onChange={e => setSearch(e.target.value)}
-            className="w-full border border-[#18181B]/15 rounded-2xl h-11 pl-9 pr-4 text-sm focus:outline-none focus:ring-2 focus:ring-[#D47151]/30 bg-transparent text-[#18181B] placeholder:text-[#18181B]/40"
+            className="w-full border border-[#18181B]/15 rounded-2xl h-11 pl-9 pr-4 text-sm focus:outline-none focus:ring-2 focus:ring-[#2855E0]/30 bg-transparent text-[#18181B] placeholder:text-[#18181B]/40"
           />
         </div>
 
@@ -225,7 +225,7 @@ export default function TramitesClient({
         <select
           value={statusFilter}
           onChange={e => setStatusFilter(e.target.value)}
-          className="border border-[#18181B]/15 rounded-2xl h-11 px-4 text-sm focus:outline-none focus:ring-2 focus:ring-[#D47151]/30 bg-transparent text-[#18181B]"
+          className="border border-[#18181B]/15 rounded-2xl h-11 px-4 text-sm focus:outline-none focus:ring-2 focus:ring-[#2855E0]/30 bg-transparent text-[#18181B]"
         >
           <option value="all">Todos los estados</option>
           {ALL_STATUSES.map(s => (
@@ -237,7 +237,7 @@ export default function TramitesClient({
         {(search || statusFilter !== 'all') && (
           <button
             onClick={clearFilters}
-            className="text-[#D47151] text-sm font-semibold flex items-center gap-1 hover:opacity-80 transition-opacity"
+            className="text-[#2855E0] text-sm font-semibold flex items-center gap-1 hover:opacity-80 transition-opacity"
           >
             <X size={14} />
             Limpiar
@@ -249,7 +249,7 @@ export default function TramitesClient({
       <div className="bg-white rounded-3xl border border-[#18181B]/8 shadow-[0_4px_24px_rgba(18,18,27,0.06)] overflow-hidden">
         <table className="w-full text-left border-collapse">
           <thead>
-            <tr className="bg-[#F9F9F8]">
+            <tr className="bg-[#F0F3FF]">
               <th className="py-4 pl-6 w-10">
                 <Checkbox
                   checked={filtered.length > 0 && selected.size === filtered.length}
@@ -301,7 +301,7 @@ export default function TramitesClient({
                 const type = unwrap(t.tramite_types)
                 const isUnassigned = t.status === 'solicitado'
                 return (
-                  <tr key={t.id} className="hover:bg-[#F9F9F8]/60 transition-colors">
+                  <tr key={t.id} className="hover:bg-[#F0F3FF]/60 transition-colors">
                     <td className="py-5 pl-6">
                       <Checkbox checked={selected.has(t.id)} onCheckedChange={() => toggleSelect(t.id)} />
                     </td>
@@ -383,9 +383,9 @@ export default function TramitesClient({
             <div className="space-y-5">
               {/* Summary */}
               {dialogTarget.length > 0 && (
-                <div className="p-4 bg-[#F9F9F8] rounded-2xl flex items-center gap-4">
-                  <div className="w-10 h-10 rounded-full bg-[#D47151]/10 flex items-center justify-center shrink-0">
-                    <span className="text-[#D47151] text-lg">📁</span>
+                <div className="p-4 bg-[#F0F3FF] rounded-2xl flex items-center gap-4">
+                  <div className="w-10 h-10 rounded-full bg-[#2855E0]/10 flex items-center justify-center shrink-0">
+                    <span className="text-[#2855E0] text-lg">📁</span>
                   </div>
                   <div>
                     <p className="text-[11px] font-bold text-[#18181B]/50 uppercase tracking-wider">
@@ -406,7 +406,7 @@ export default function TramitesClient({
                   Nuevo Estado
                 </label>
                 <Select value={newStatus} onValueChange={v => setNewStatus(v as TramiteStatus)}>
-                  <SelectTrigger className="border border-[#18181B]/15 rounded-2xl h-11 px-4 focus:ring-2 focus:ring-[#D47151]/30">
+                  <SelectTrigger className="border border-[#18181B]/15 rounded-2xl h-11 px-4 focus:ring-2 focus:ring-[#2855E0]/30">
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
@@ -432,7 +432,7 @@ export default function TramitesClient({
                   value={notes}
                   onChange={e => setNotes(e.target.value)}
                   rows={4}
-                  className="border border-[#18181B]/15 rounded-2xl px-4 py-3 focus:ring-2 focus:ring-[#D47151]/30 resize-none text-sm"
+                  className="border border-[#18181B]/15 rounded-2xl px-4 py-3 focus:ring-2 focus:ring-[#2855E0]/30 resize-none text-sm"
                 />
               </div>
 
@@ -458,7 +458,7 @@ export default function TramitesClient({
           </div>
 
           {/* Footer note */}
-          <div className="bg-[#F9F9F8] px-8 py-3 border-t border-[#18181B]/5">
+          <div className="bg-[#F0F3FF] px-8 py-3 border-t border-[#18181B]/5">
             <p className="text-[10px] text-center text-[#18181B]/40 font-medium uppercase tracking-widest">
               Se notificará automáticamente al broker vía email
             </p>

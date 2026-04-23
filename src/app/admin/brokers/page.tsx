@@ -174,7 +174,7 @@ export default function AdminBrokersPage() {
             placeholder="Buscar por nombre o email..."
             value={search}
             onChange={e => setSearch(e.target.value)}
-            className="w-full border border-[#18181B]/15 rounded-2xl h-11 pl-9 pr-4 text-sm focus:outline-none focus:ring-2 focus:ring-[#D47151]/30 bg-transparent text-[#18181B] placeholder:text-[#18181B]/40"
+            className="w-full border border-[#18181B]/15 rounded-2xl h-11 pl-9 pr-4 text-sm focus:outline-none focus:ring-2 focus:ring-[#2855E0]/30 bg-transparent text-[#18181B] placeholder:text-[#18181B]/40"
           />
         </div>
 
@@ -182,7 +182,7 @@ export default function AdminBrokersPage() {
         <select
           value={tierFilter}
           onChange={e => setTierFilter(e.target.value as TierFilter)}
-          className="border border-[#18181B]/15 rounded-2xl h-11 px-4 text-sm focus:outline-none focus:ring-2 focus:ring-[#D47151]/30 bg-transparent text-[#18181B]"
+          className="border border-[#18181B]/15 rounded-2xl h-11 px-4 text-sm focus:outline-none focus:ring-2 focus:ring-[#2855E0]/30 bg-transparent text-[#18181B]"
         >
           <option value="all">Todos los tiers</option>
           {(Object.keys(TIER_CONFIG) as BrokerTier[]).map(tier => (
@@ -196,7 +196,7 @@ export default function AdminBrokersPage() {
         {(search || tierFilter !== 'all') && (
           <button
             onClick={() => { setSearch(''); setTierFilter('all') }}
-            className="text-[#D47151] text-sm font-semibold flex items-center gap-1 hover:opacity-80 transition-opacity"
+            className="text-[#2855E0] text-sm font-semibold flex items-center gap-1 hover:opacity-80 transition-opacity"
           >
             <X size={14} />
             Limpiar
@@ -208,7 +208,7 @@ export default function AdminBrokersPage() {
       <div className="bg-white rounded-3xl border border-[#18181B]/8 shadow-[0_4px_24px_rgba(18,18,27,0.06)] overflow-hidden">
         <table className="w-full text-left border-collapse">
           <thead>
-            <tr className="bg-[#F9F9F8]">
+            <tr className="bg-[#F0F3FF]">
               <th className="px-8 py-5 text-[11px] font-bold uppercase tracking-wider text-[#18181B]/50">Nombre</th>
               <th className="px-6 py-5 text-[11px] font-bold uppercase tracking-wider text-[#18181B]/50">DNI</th>
               <th className="px-6 py-5 text-[11px] font-bold uppercase tracking-wider text-[#18181B]/50">Tier</th>
@@ -235,7 +235,7 @@ export default function AdminBrokersPage() {
               </tr>
             ) : (
               filtered.map(b => (
-                <tr key={b.id} className="hover:bg-[#F9F9F8]/60 transition-colors group cursor-pointer" onClick={() => openBrokerProfile(b)}>
+                <tr key={b.id} className="hover:bg-[#F0F3FF]/60 transition-colors group cursor-pointer" onClick={() => openBrokerProfile(b)}>
                   <td className="px-8 py-6">
                     <div className="flex items-center gap-4">
                       <div className="w-10 h-10 rounded-full bg-[#18181B]/8 flex items-center justify-center font-bold text-[#18181B] text-sm shrink-0">
@@ -307,7 +307,7 @@ export default function AdminBrokersPage() {
                     onClick={() => setActiveTab(tab)}
                     className={`py-4 text-sm font-bold capitalize transition-all border-b-2 ${
                       activeTab === tab
-                        ? 'text-[#18181B] border-[#D47151]'
+                        ? 'text-[#18181B] border-[#2855E0]'
                         : 'text-[#18181B]/40 border-transparent hover:text-[#18181B]/70'
                     }`}
                   >
@@ -323,11 +323,11 @@ export default function AdminBrokersPage() {
                 {activeTab === 'tramites' && (
                   <div className="p-8 space-y-4">
                     <div className="grid grid-cols-2 gap-4 mb-6">
-                      <div className="bg-[#F9F9F8] rounded-2xl p-4">
+                      <div className="bg-[#F0F3FF] rounded-2xl p-4">
                         <p className="text-[10px] font-bold uppercase tracking-wider text-[#18181B]/50 mb-1">Este mes</p>
                         <p className="text-2xl font-black text-[#18181B]">{selectedBroker.total_tramites_month}</p>
                       </div>
-                      <div className="bg-[#F9F9F8] rounded-2xl p-4">
+                      <div className="bg-[#F0F3FF] rounded-2xl p-4">
                         <p className="text-[10px] font-bold uppercase tracking-wider text-[#18181B]/50 mb-1">Total</p>
                         <p className="text-2xl font-black text-[#18181B]">{selectedBroker.total_tramites}</p>
                       </div>
@@ -349,7 +349,7 @@ export default function AdminBrokersPage() {
                           return (
                             <div
                               key={t.id}
-                              className="flex items-center gap-3 p-3 border border-[#18181B]/8 rounded-2xl hover:bg-[#F9F9F8] transition-colors"
+                              className="flex items-center gap-3 p-3 border border-[#18181B]/8 rounded-2xl hover:bg-[#F0F3FF] transition-colors"
                             >
                               <div className="flex-1 min-w-0">
                                 <p className="text-xs font-mono font-bold text-[#18181B]">{t.reference_code}</p>
@@ -396,7 +396,7 @@ export default function AdminBrokersPage() {
                               key={tier}
                               className={`flex items-center justify-between p-4 rounded-2xl border cursor-pointer transition-all ${
                                 isSelected
-                                  ? 'bg-[#D47151] text-white border-[#D47151]'
+                                  ? 'bg-[#2855E0] text-white border-[#2855E0]'
                                   : 'bg-white border-[#18181B]/10 hover:border-[#18181B]/20'
                               }`}
                             >
@@ -432,7 +432,7 @@ export default function AdminBrokersPage() {
                         value={tierReason}
                         onChange={e => setTierReason(e.target.value)}
                         rows={4}
-                        className="border border-[#18181B]/15 rounded-2xl px-4 py-3 focus:ring-2 focus:ring-[#D47151]/30 resize-none text-sm"
+                        className="border border-[#18181B]/15 rounded-2xl px-4 py-3 focus:ring-2 focus:ring-[#2855E0]/30 resize-none text-sm"
                       />
                     </div>
 

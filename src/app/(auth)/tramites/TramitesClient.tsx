@@ -75,19 +75,19 @@ export default function TramitesClient({ initialTramites }: TramitesClientProps)
       {/* Header */}
       <div className="flex items-center justify-between gap-4 flex-wrap">
         <div className="flex items-center gap-3">
-          <h1 className="text-3xl font-semibold text-[#18181B] tracking-tight">Mis Trámites</h1>
-          <span className="inline-flex items-center justify-center px-3 py-1 rounded-full bg-[#D47151]/10 text-[#D47151] text-sm font-bold">
+          <h1 className="text-3xl font-semibold text-white tracking-tight">Mis Trámites</h1>
+          <span className="inline-flex items-center justify-center px-3 py-1 rounded-full bg-white/10 text-white/70 text-sm font-bold">
             {filtered.length}
           </span>
         </div>
         <div className="flex items-center gap-3">
-          <button className="flex items-center gap-2 border border-[#18181B]/15 text-[#18181B] rounded-full px-5 py-2 text-sm font-semibold bg-transparent hover:bg-[#18181B]/5 transition-colors">
+          <button className="flex items-center gap-2 border border-white/20 text-white/70 rounded-full px-5 py-2 text-sm font-semibold bg-transparent hover:bg-white/8 transition-colors">
             <Download size={15} />
             Exportar CSV
           </button>
           <Link
             href="/cotizar"
-            className="flex items-center gap-2 bg-[#D47151] hover:bg-[#A6553A] text-white rounded-full px-6 py-2.5 font-semibold text-sm transition-all shadow-lg shadow-[#D47151]/20"
+            className="flex items-center gap-2 bg-[#2855E0] hover:bg-[#1E46C7] text-white rounded-full px-6 py-2.5 font-semibold text-sm transition-all shadow-lg shadow-[#2855E0]/20"
           >
             <Plus size={15} />
             Nueva cotización
@@ -109,7 +109,7 @@ export default function TramitesClient({ initialTramites }: TramitesClientProps)
               placeholder="Buscar por código, tipo o parte..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              className="w-full h-11 pl-11 pr-4 rounded-2xl border border-[#18181B]/15 bg-white text-sm text-[#18181B] placeholder:text-[#18181B]/40 focus:outline-none focus:ring-2 focus:ring-[#D47151]/30 focus:border-[#D47151] transition-colors"
+              className="w-full h-11 pl-11 pr-4 rounded-2xl border border-[#18181B]/15 bg-white text-sm text-[#18181B] placeholder:text-[#18181B]/40 focus:outline-none focus:ring-2 focus:ring-[#2855E0]/30 focus:border-[#2855E0] transition-colors"
             />
           </div>
 
@@ -150,7 +150,7 @@ export default function TramitesClient({ initialTramites }: TramitesClientProps)
           {hasActiveFilters && (
             <button
               onClick={handleClearFilters}
-              className="text-[#D47151] text-sm font-semibold hover:underline underline-offset-4 px-2 whitespace-nowrap"
+              className="text-[#2855E0] text-sm font-semibold hover:underline underline-offset-4 px-2 whitespace-nowrap"
             >
               Limpiar
             </button>
@@ -182,7 +182,7 @@ export default function TramitesClient({ initialTramites }: TramitesClientProps)
           <div className="overflow-x-auto">
             <table className="w-full text-left border-collapse">
               <thead>
-                <tr className="bg-[#F9F9F8] border-b border-[#18181B]/6">
+                <tr className="bg-[#F0F3FF] border-b border-[#18181B]/6">
                   <th className="px-6 py-4 text-[11px] font-bold uppercase tracking-widest text-[#18181B]/40">Código</th>
                   <th className="px-6 py-4 text-[11px] font-bold uppercase tracking-widest text-[#18181B]/40">Tipo</th>
                   <th className="px-6 py-4 text-[11px] font-bold uppercase tracking-widest text-[#18181B]/40">Estado</th>
@@ -193,7 +193,7 @@ export default function TramitesClient({ initialTramites }: TramitesClientProps)
               </thead>
               <tbody className="divide-y divide-[#18181B]/5">
                 {filtered.map((tramite) => (
-                  <tr key={tramite.id} className="hover:bg-[#F9F9F8]/60 transition-colors group">
+                  <tr key={tramite.id} className="hover:bg-[#F0F3FF]/60 transition-colors group">
                     <td className="px-6 py-4">
                       <code className="font-mono text-xs bg-[#18181B]/6 text-[#18181B]/70 px-2.5 py-1 rounded-full font-semibold">
                         {tramite.reference_code}
@@ -214,7 +214,7 @@ export default function TramitesClient({ initialTramites }: TramitesClientProps)
                     <td className="px-6 py-4 text-right">
                       <Link
                         href={`/tramites/${tramite.id}`}
-                        className="inline-flex items-center gap-1.5 text-[#18181B]/60 border border-[#18181B]/15 rounded-full px-3.5 py-1.5 text-xs font-semibold hover:border-[#D47151]/30 hover:text-[#D47151] transition-all group-hover:translate-x-0.5"
+                        className="inline-flex items-center gap-1.5 text-[#18181B]/60 border border-[#18181B]/15 rounded-full px-3.5 py-1.5 text-xs font-semibold hover:border-[#2855E0]/30 hover:text-[#2855E0] transition-all group-hover:translate-x-0.5"
                       >
                         Ver <ArrowRight size={12} />
                       </Link>

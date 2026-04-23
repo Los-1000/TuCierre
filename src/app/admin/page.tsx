@@ -192,7 +192,7 @@ export default async function AdminDashboardPage() {
             <h4 className="text-lg font-bold text-[#18181B] mb-6">Acciones rápidas</h4>
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
               <Link href="/admin/tramites?status=solicitado" className="group">
-                <div className="flex items-center gap-3 p-4 rounded-2xl border border-[#18181B]/10 hover:border-[#D47151]/40 hover:bg-[#D47151]/5 transition-all cursor-pointer">
+                <div className="flex items-center gap-3 p-4 rounded-2xl border border-[#18181B]/10 hover:border-[#2855E0]/40 hover:bg-[#2855E0]/5 transition-all cursor-pointer">
                   <div className="p-2 bg-purple-50 rounded-xl">
                     <FileText size={18} className="text-purple-600" />
                   </div>
@@ -200,12 +200,12 @@ export default async function AdminDashboardPage() {
                     <p className="text-sm font-semibold text-[#18181B]">Nuevas solicitudes</p>
                     <p className="text-xs text-[#18181B]/50">{byStatus['solicitado'] || 0} trámites</p>
                   </div>
-                  <ArrowRight size={16} className="text-[#18181B]/30 group-hover:text-[#D47151] transition-colors shrink-0" />
+                  <ArrowRight size={16} className="text-[#18181B]/30 group-hover:text-[#2855E0] transition-colors shrink-0" />
                 </div>
               </Link>
 
               <Link href="/admin/brokers" className="group">
-                <div className="flex items-center gap-3 p-4 rounded-2xl border border-[#18181B]/10 hover:border-[#D47151]/40 hover:bg-[#D47151]/5 transition-all cursor-pointer">
+                <div className="flex items-center gap-3 p-4 rounded-2xl border border-[#18181B]/10 hover:border-[#2855E0]/40 hover:bg-[#2855E0]/5 transition-all cursor-pointer">
                   <div className="p-2 bg-blue-50 rounded-xl">
                     <Users size={18} className="text-blue-600" />
                   </div>
@@ -213,7 +213,7 @@ export default async function AdminDashboardPage() {
                     <p className="text-sm font-semibold text-[#18181B]">Brokers activos</p>
                     <p className="text-xs text-[#18181B]/50">{activeBrokers} este mes</p>
                   </div>
-                  <ArrowRight size={16} className="text-[#18181B]/30 group-hover:text-[#D47151] transition-colors shrink-0" />
+                  <ArrowRight size={16} className="text-[#18181B]/30 group-hover:text-[#2855E0] transition-colors shrink-0" />
                 </div>
               </Link>
             </div>
@@ -243,7 +243,7 @@ export default async function AdminDashboardPage() {
                     ? 'bg-red-500'
                     : t.status === 'solicitado'
                     ? 'bg-[#D69E2E]'
-                    : 'bg-[#D47151]'
+                    : 'bg-[#2855E0]'
                   return (
                     <div key={t.id} className="relative flex gap-4 pl-8">
                       <div className={`absolute left-0 top-1 w-6 h-6 rounded-full flex items-center justify-center ${cfg ? cfg.bg : 'bg-gray-100'}`}>
@@ -265,7 +265,7 @@ export default async function AdminDashboardPage() {
           )}
 
           <Link href="/admin/tramites">
-            <button className="w-full mt-8 py-3 text-xs font-bold uppercase tracking-widest text-[#18181B]/40 hover:text-[#D47151] transition-colors border-t border-[#18181B]/8">
+            <button className="w-full mt-8 py-3 text-xs font-bold uppercase tracking-widest text-[#18181B]/40 hover:text-[#2855E0] transition-colors border-t border-[#18181B]/8">
               Ver todo el historial
             </button>
           </Link>

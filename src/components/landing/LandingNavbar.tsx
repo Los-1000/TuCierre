@@ -2,6 +2,7 @@
 
 import Link from 'next/link'
 import { useState } from 'react'
+import { Logo } from '@/components/ui/Logo'
 
 const NAV_LINKS = [
   ['Cómo funciona', '#como-funciona'],
@@ -16,25 +17,23 @@ export default function LandingNavbar() {
     <nav
       className="fixed top-0 left-0 right-0 z-50 border-b"
       style={{
-        background: 'rgba(248,250,255,0.96)',
-        backdropFilter: 'blur(12px)',
-        borderColor: '#DBEAFE',
+        background: '#020952',
+        borderColor: 'rgba(255,255,255,0.08)',
       }}
     >
-      <div className="max-w-screen-xl mx-auto px-6 md:px-10 py-3.5 flex items-center justify-between">
+      <div className="max-w-screen-xl mx-auto px-6 md:px-10 py-3 flex items-center justify-between">
 
         <div className="flex items-center gap-8">
-          <Link href="/" className="text-xl font-black tracking-tighter" style={{ color: '#0F172A' }}>
-            Tu<span style={{ color: '#2563EB' }}>Cierre</span>
-          </Link>
+          {/* Image blends into navy navbar — only white letters visible */}
+          <Logo size="sm" href="/" />
 
           <div className="hidden md:flex gap-7 items-center">
             {NAV_LINKS.map(([label, href]) => (
               <a
                 key={label}
                 href={href}
-                className="text-sm font-medium transition-colors hover:text-[#0F172A]"
-                style={{ color: '#475569' }}
+                className="text-sm font-medium transition-colors hover:text-white"
+                style={{ color: 'rgba(255,255,255,0.65)' }}
               >
                 {label}
               </a>
@@ -45,15 +44,15 @@ export default function LandingNavbar() {
         <div className="flex items-center gap-3">
           <Link
             href="/login"
-            className="hidden md:block px-4 py-2 text-sm font-semibold transition-colors hover:text-[#0F172A]"
-            style={{ color: '#475569' }}
+            className="hidden md:block px-4 py-2 text-sm font-semibold transition-colors hover:text-white"
+            style={{ color: 'rgba(255,255,255,0.65)' }}
           >
             Ingresar
           </Link>
           <Link
             href="/register"
             className="hidden md:block px-5 py-2.5 text-white rounded-lg text-sm font-bold shadow-sm hover:brightness-110 transition-all active:scale-95"
-            style={{ background: '#2563EB' }}
+            style={{ background: '#4D78FF' }}
           >
             Empezar gratis
           </Link>
@@ -63,7 +62,7 @@ export default function LandingNavbar() {
             aria-label={open ? 'Cerrar menú' : 'Abrir menú'}
             aria-expanded={open}
             onClick={() => setOpen(v => !v)}
-            style={{ color: '#0F172A' }}
+            style={{ color: 'rgba(255,255,255,0.8)' }}
           >
             {open ? (
               <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
@@ -81,33 +80,33 @@ export default function LandingNavbar() {
       {open && (
         <div
           className="md:hidden border-t px-6 py-6 space-y-1"
-          style={{ background: '#F8FAFF', borderColor: '#DBEAFE' }}
+          style={{ background: '#020952', borderColor: 'rgba(255,255,255,0.08)' }}
         >
           {NAV_LINKS.map(([label, href]) => (
             <a
               key={label}
               href={href}
               onClick={() => setOpen(false)}
-              className="block text-base font-medium py-3 transition-colors"
-              style={{ color: '#475569' }}
+              className="block text-base font-medium py-3"
+              style={{ color: 'rgba(255,255,255,0.65)' }}
             >
               {label}
             </a>
           ))}
-          <div className="pt-4 space-y-3 border-t" style={{ borderColor: '#DBEAFE' }}>
+          <div className="pt-4 space-y-3 border-t" style={{ borderColor: 'rgba(2,9,82,0.08)' }}>
             <Link
               href="/login"
               onClick={() => setOpen(false)}
-              className="block text-center px-6 py-3 text-sm font-semibold border rounded-lg transition-colors"
-              style={{ color: '#475569', borderColor: '#DBEAFE' }}
+              className="block text-center px-6 py-3 text-sm font-semibold border rounded-lg"
+              style={{ color: 'rgba(255,255,255,0.8)', borderColor: 'rgba(255,255,255,0.15)' }}
             >
               Ingresar
             </Link>
             <Link
               href="/register"
               onClick={() => setOpen(false)}
-              className="block text-center px-6 py-3 text-white rounded-lg text-sm font-bold hover:brightness-110 transition-all"
-              style={{ background: '#2563EB' }}
+              className="block text-center px-6 py-3 text-white rounded-lg text-sm font-bold"
+              style={{ background: '#4D78FF' }}
             >
               Empezar gratis
             </Link>

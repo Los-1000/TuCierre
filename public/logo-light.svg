@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 220 100" width="220" height="100">
+  <text
+    x="0"
+    y="48"
+    font-family="Inter, Arial, sans-serif"
+    font-weight="900"
+    font-size="38"
+    fill="white"
+    letter-spacing="-1"
+  >tucierre</text>
+  <text
+    x="0"
+    y="90"
+    font-family="Inter, Arial, sans-serif"
+    font-weight="900"
+    font-size="38"
+    fill="white"
+    letter-spacing="-1"
+  >&#x25CF;com</text>
+</svg>

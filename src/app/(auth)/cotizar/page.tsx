@@ -51,7 +51,7 @@ function StepBar({ current }: { current: number }) {
             <div className="flex flex-col items-center gap-1.5 flex-shrink-0">
               <div className={cn(
                 'w-9 h-9 rounded-full flex items-center justify-center text-sm font-semibold transition-all',
-                isCompleted && 'bg-[#D47151] text-white',
+                isCompleted && 'bg-[#2855E0] text-white',
                 isActive && 'bg-[#18181B] text-white ring-4 ring-[#18181B]/10',
                 !isCompleted && !isActive && 'bg-white border-2 border-[#18181B]/20 text-[#18181B]/40',
               )}>
@@ -59,7 +59,7 @@ function StepBar({ current }: { current: number }) {
               </div>
               <span className={cn(
                 'text-xs font-semibold whitespace-nowrap',
-                isActive ? 'text-[#18181B]' : isCompleted ? 'text-[#D47151]' : 'text-[#18181B]/30',
+                isActive ? 'text-[#18181B]' : isCompleted ? 'text-[#2855E0]' : 'text-[#18181B]/30',
               )}>
                 {s.label}
               </span>
@@ -67,7 +67,7 @@ function StepBar({ current }: { current: number }) {
             {i < STEPS.length - 1 && (
               <div className={cn(
                 'h-[2px] flex-1 mx-3 mb-5 transition-colors rounded-full',
-                current > s.number ? 'bg-[#D47151]' : 'bg-[#18181B]/10',
+                current > s.number ? 'bg-[#2855E0]' : 'bg-[#18181B]/10',
               )} />
             )}
           </div>
@@ -198,7 +198,7 @@ export default function CotizarPage() {
   if (loading) {
     return (
       <div className="flex items-center justify-center py-20">
-        <Loader2 size={32} className="animate-spin text-[#D47151]" />
+        <Loader2 size={32} className="animate-spin text-[#2855E0]" />
       </div>
     )
   }
@@ -206,8 +206,8 @@ export default function CotizarPage() {
   return (
     <div className="max-w-2xl mx-auto">
       <div className="mb-6">
-        <h1 className="text-2xl font-semibold text-[#18181B] tracking-tight">Nueva cotización</h1>
-        <p className="text-[#18181B]/60 text-sm mt-1">Solicita tu trámite notarial en 3 pasos.</p>
+        <h1 className="text-2xl font-semibold text-white tracking-tight">Nueva cotización</h1>
+        <p className="text-white/50 text-sm mt-1">Solicita tu trámite notarial en 3 pasos.</p>
       </div>
 
       <StepBar current={step} />
@@ -234,15 +234,15 @@ export default function CotizarPage() {
                   className={cn(
                     'w-full text-left border-2 rounded-2xl p-4 transition-all',
                     selectedNotaria?.id === n.id
-                      ? 'border-[#D47151] bg-[#D47151]/5 shadow-md'
-                      : 'border-[#18181B]/10 hover:border-[#D47151]/40 bg-white hover:bg-white',
+                      ? 'border-[#2855E0] bg-[#2855E0]/5 shadow-md'
+                      : 'border-[#18181B]/10 hover:border-[#2855E0]/40 bg-white hover:bg-white',
                   )}
                 >
                   <div className="flex items-start gap-3">
                     <div className={cn(
                       'w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0 transition-colors',
                       selectedNotaria?.id === n.id
-                        ? 'bg-[#D47151] text-white'
+                        ? 'bg-[#2855E0] text-white'
                         : 'bg-[#18181B]/6 text-[#18181B]/50',
                     )}>
                       <Building2 size={18} />
@@ -262,7 +262,7 @@ export default function CotizarPage() {
                       )}
                     </div>
                     {selectedNotaria?.id === n.id && (
-                      <div className="w-5 h-5 rounded-full bg-[#D47151] flex items-center justify-center flex-shrink-0 mt-0.5">
+                      <div className="w-5 h-5 rounded-full bg-[#2855E0] flex items-center justify-center flex-shrink-0 mt-0.5">
                         <Check size={12} className="text-white" />
                       </div>
                     )}
@@ -307,8 +307,8 @@ export default function CotizarPage() {
                   className={cn(
                     'text-left border-2 rounded-2xl p-4 transition-all',
                     selectedType?.id === type.id
-                      ? 'border-[#D47151] bg-[#D47151]/5 shadow-md'
-                      : 'border-[#18181B]/10 hover:border-[#D47151]/40 bg-white',
+                      ? 'border-[#2855E0] bg-[#2855E0]/5 shadow-md'
+                      : 'border-[#18181B]/10 hover:border-[#2855E0]/40 bg-white',
                   )}
                 >
                   <div className="flex items-center justify-between gap-2 mb-1">
@@ -319,7 +319,7 @@ export default function CotizarPage() {
                       {type.display_name}
                     </div>
                     {selectedType?.id === type.id && (
-                      <div className="w-5 h-5 rounded-full bg-[#D47151] flex items-center justify-center flex-shrink-0">
+                      <div className="w-5 h-5 rounded-full bg-[#2855E0] flex items-center justify-center flex-shrink-0">
                         <Check size={12} className="text-white" />
                       </div>
                     )}
@@ -338,11 +338,11 @@ export default function CotizarPage() {
                 ? activePm.our_matched_price
                 : calculateFinalPrice(selectedType.base_price, brokerTier).final
               return (
-                <div className="mt-4 bg-[#D47151]/6 border border-[#D47151]/20 rounded-2xl p-4 flex items-center justify-between">
-                  <span className="text-sm font-semibold text-[#D47151]">
+                <div className="mt-4 bg-[#2855E0]/6 border border-[#2855E0]/20 rounded-2xl p-4 flex items-center justify-between">
+                  <span className="text-sm font-semibold text-[#2855E0]">
                     {activePm ? 'Precio especial aprobado:' : 'Precio estimado con tu descuento:'}
                   </span>
-                  <span className="text-lg font-bold text-[#D47151] tabular-nums">
+                  <span className="text-lg font-bold text-[#2855E0] tabular-nums">
                     {formatPrice(displayPrice)}
                   </span>
                 </div>
@@ -359,7 +359,7 @@ export default function CotizarPage() {
               </label>
               <input
                 placeholder="Av. Javier Prado 1234, Piso 5"
-                className="w-full h-11 px-4 rounded-2xl border border-[#18181B]/15 bg-white text-sm text-[#18181B] focus:outline-none focus:ring-2 focus:ring-[#D47151]/30 focus:border-[#D47151] transition-colors placeholder:text-[#18181B]/30"
+                className="w-full h-11 px-4 rounded-2xl border border-[#18181B]/15 bg-white text-sm text-[#18181B] focus:outline-none focus:ring-2 focus:ring-[#2855E0]/30 focus:border-[#2855E0] transition-colors placeholder:text-[#18181B]/30"
                 {...form.register('property_address')}
               />
               {form.formState.errors.property_address && (
@@ -403,7 +403,7 @@ export default function CotizarPage() {
                   placeholder="350,000"
                   min="0"
                   step="1000"
-                  className="w-full h-11 px-4 rounded-2xl border border-[#18181B]/15 bg-white text-sm text-[#18181B] focus:outline-none focus:ring-2 focus:ring-[#D47151]/30 focus:border-[#D47151] transition-colors placeholder:text-[#18181B]/30"
+                  className="w-full h-11 px-4 rounded-2xl border border-[#18181B]/15 bg-white text-sm text-[#18181B] focus:outline-none focus:ring-2 focus:ring-[#2855E0]/30 focus:border-[#2855E0] transition-colors placeholder:text-[#18181B]/30"
                   {...form.register('property_value', { valueAsNumber: true })}
                 />
               </div>
@@ -487,7 +487,7 @@ export default function CotizarPage() {
             <button
               type="button"
               onClick={() => setPriceMatchOpen(true)}
-              className="text-sm text-[#18181B]/50 hover:text-[#D47151] underline-offset-4 hover:underline order-2 sm:order-1 transition-colors"
+              className="text-sm text-[#18181B]/50 hover:text-[#2855E0] underline-offset-4 hover:underline order-2 sm:order-1 transition-colors"
             >
               Tengo una cotización más baja
             </button>
@@ -502,7 +502,7 @@ export default function CotizarPage() {
               <button
                 onClick={handleSubmitTramite}
                 disabled={submitting}
-                className="flex items-center gap-2 bg-[#D47151] hover:bg-[#A6553A] text-white rounded-full px-6 py-2.5 font-semibold text-sm transition-all disabled:opacity-70"
+                className="flex items-center gap-2 bg-[#2855E0] hover:bg-[#1E46C7] text-white rounded-full px-6 py-2.5 font-semibold text-sm transition-all disabled:opacity-70"
               >
                 {submitting && <Loader2 size={14} className="animate-spin" />}
                 {submitting ? 'Solicitando...' : 'Solicitar trámite →'}

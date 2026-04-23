@@ -209,8 +209,8 @@ export default function RecompensasPage() {
     <div className="space-y-8">
       {/* Header */}
       <div>
-        <h1 className="text-3xl font-semibold text-[#18181B] tracking-tight">Recompensas</h1>
-        <p className="text-[#18181B]/60 text-sm mt-1">
+        <h1 className="text-3xl font-semibold text-white tracking-tight">Recompensas</h1>
+        <p className="text-white/50 text-sm mt-1">
           Tu nivel de fidelidad, beneficios y ahorro acumulado.
         </p>
       </div>
@@ -257,7 +257,7 @@ export default function RecompensasPage() {
                     {tramitesToNext > 0 ? (
                       <><span className="font-semibold text-[#18181B]">{tramitesToNext} trámite{tramitesToNext !== 1 ? 's' : ''} más</span>{' '}para subir a {nextTierLabel}</>
                     ) : (
-                      <span className="font-semibold text-[#D47151]">¡Estás a punto de subir a {nextTierLabel}!</span>
+                      <span className="font-semibold text-[#2855E0]">¡Estás a punto de subir a {nextTierLabel}!</span>
                     )}
                   </p>
                 </>
@@ -364,7 +364,7 @@ export default function RecompensasPage() {
         )}
 
         <div className="grid grid-cols-2 gap-3 mt-5">
-          <div className="bg-[#F9F9F8] border border-[#18181B]/8 rounded-2xl p-4 text-center">
+          <div className="bg-[#F0F3FF] border border-[#18181B]/8 rounded-2xl p-4 text-center">
             <div className="flex items-center justify-center gap-1.5 mb-1">
               <Users size={15} className="text-purple-500" />
             </div>
@@ -373,7 +373,7 @@ export default function RecompensasPage() {
             </div>
             <div className="text-xs text-[#18181B]/50 mt-0.5">referidos activos</div>
           </div>
-          <div className="bg-[#F9F9F8] border border-[#18181B]/8 rounded-2xl p-4 text-center">
+          <div className="bg-[#F0F3FF] border border-[#18181B]/8 rounded-2xl p-4 text-center">
             <div className="flex items-center justify-center gap-1.5 mb-1">
               <PiggyBank size={15} className="text-emerald-500" />
             </div>
@@ -541,7 +541,7 @@ export default function RecompensasPage() {
             <div className="overflow-x-auto">
               <table className="w-full text-sm">
                 <thead>
-                  <tr className="bg-[#F9F9F8] border-b border-[#18181B]/6">
+                  <tr className="bg-[#F0F3FF] border-b border-[#18181B]/6">
                     {['Mes', 'Clientes', 'Nivel', '%', 'Monto', 'Estado'].map(h => (
                       <th key={h} className="text-left text-[11px] font-bold uppercase tracking-widest text-[#18181B]/40 px-5 py-3">{h}</th>
                     ))}
@@ -555,7 +555,7 @@ export default function RecompensasPage() {
                     const label = new Date(parseInt(year), parseInt(mo) - 1, 1)
                       .toLocaleDateString('es-PE', { month: 'long', year: 'numeric' })
                     return (
-                      <tr key={month.yearMonth} className="hover:bg-[#F9F9F8]/60 transition-colors">
+                      <tr key={month.yearMonth} className="hover:bg-[#F0F3FF]/60 transition-colors">
                         <td className="px-5 py-3.5 font-medium text-[#18181B] capitalize">{label}</td>
                         <td className="px-5 py-3.5 text-[#18181B]/60">{r.count}</td>
                         <td className="px-5 py-3.5">{tc.icon} {tc.label}</td>
@@ -567,7 +567,7 @@ export default function RecompensasPage() {
                           ) : month.cashoutStatus === 'pending' ? (
                             <span className="inline-flex items-center text-xs font-medium px-2.5 py-0.5 rounded-full border bg-amber-50 text-amber-700 border-amber-200">En proceso</span>
                           ) : (
-                            <span className="inline-flex items-center text-xs font-medium px-2.5 py-0.5 rounded-full border bg-[#F9F9F8] text-[#18181B]/50 border-[#18181B]/10">Pendiente</span>
+                            <span className="inline-flex items-center text-xs font-medium px-2.5 py-0.5 rounded-full border bg-[#F0F3FF] text-[#18181B]/50 border-[#18181B]/10">Pendiente</span>
                           )}
                         </td>
                       </tr>
@@ -603,7 +603,7 @@ export default function RecompensasPage() {
           <div className="bg-white rounded-3xl border border-[#18181B]/8 shadow-[0_4px_24px_rgba(18,18,27,0.06)] overflow-hidden">
             <table className="w-full text-sm">
               <thead>
-                <tr className="bg-[#F9F9F8] border-b border-[#18181B]/6">
+                <tr className="bg-[#F0F3FF] border-b border-[#18181B]/6">
                   <th className="text-left text-[11px] font-bold uppercase tracking-widest text-[#18181B]/40 px-5 py-3">Tipo</th>
                   <th className="text-left text-[11px] font-bold uppercase tracking-widest text-[#18181B]/40 px-5 py-3">Descripción</th>
                   <th className="text-right text-[11px] font-bold uppercase tracking-widest text-[#18181B]/40 px-5 py-3">Monto</th>
@@ -615,10 +615,10 @@ export default function RecompensasPage() {
                 {rewards.map((reward) => {
                   const typeConfig = REWARD_TYPE_CONFIG[reward.type] ?? {
                     label: reward.type,
-                    badgeClass: 'bg-[#F9F9F8] text-[#18181B]/60 border-[#18181B]/10',
+                    badgeClass: 'bg-[#F0F3FF] text-[#18181B]/60 border-[#18181B]/10',
                   }
                   return (
-                    <tr key={reward.id} className="hover:bg-[#F9F9F8]/60 transition-colors">
+                    <tr key={reward.id} className="hover:bg-[#F0F3FF]/60 transition-colors">
                       <td className="px-5 py-3.5 whitespace-nowrap">
                         <span className={cn('inline-flex items-center text-xs font-medium px-2.5 py-1 rounded-full border', typeConfig.badgeClass)}>
                           {typeConfig.label}

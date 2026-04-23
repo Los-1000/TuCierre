@@ -165,9 +165,9 @@ export default function TramiteDetailPage() {
           {tramite.parties?.map((party, i) => (
             <div
               key={i}
-              className="flex items-start gap-3 p-4 bg-[#F9F9F8] rounded-2xl border border-[#18181B]/8"
+              className="flex items-start gap-3 p-4 bg-[#F0F3FF] rounded-2xl border border-[#18181B]/8"
             >
-              <div className="w-9 h-9 rounded-full bg-[#D47151]/10 text-[#D47151] font-semibold text-sm flex items-center justify-center shrink-0">
+              <div className="w-9 h-9 rounded-full bg-[#2855E0]/10 text-[#2855E0] font-semibold text-sm flex items-center justify-center shrink-0">
                 {generateInitials(party.name)}
               </div>
               <div className="flex-1 min-w-0">
@@ -234,12 +234,12 @@ export default function TramiteDetailPage() {
 
         {/* Commission highlight */}
         {tramite.discount_applied > 0 && (
-          <div className="mt-4 p-4 bg-[#D47151]/5 rounded-2xl border border-[#D47151]/15 flex items-center justify-between">
+          <div className="mt-4 p-4 bg-[#2855E0]/5 rounded-2xl border border-[#2855E0]/15 flex items-center justify-between">
             <div>
-              <p className="text-[10px] font-bold uppercase tracking-widest text-[#D47151]">
+              <p className="text-[10px] font-bold uppercase tracking-widest text-[#2855E0]">
                 Tu Comisión ({tramite.discount_applied}%)
               </p>
-              <p className="text-xl font-bold text-[#D47151] tabular-nums">
+              <p className="text-xl font-bold text-[#2855E0] tabular-nums">
                 {formatPrice(tramite.final_price * (tramite.discount_applied / 100))}
               </p>
             </div>
@@ -252,7 +252,7 @@ export default function TramiteDetailPage() {
               href={tramite.price_match_reference}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-1 text-xs text-[#D47151] hover:underline font-medium"
+              className="inline-flex items-center gap-1 text-xs text-[#2855E0] hover:underline font-medium"
             >
               <ExternalLink size={12} />
               Ver cotización igualada
@@ -278,7 +278,7 @@ export default function TramiteDetailPage() {
     <div className="space-y-6">
       {/* Breadcrumb */}
       <div className="flex items-center gap-2 text-sm text-[#18181B]/50">
-        <Link href="/tramites" className="hover:text-[#D47151] transition-colors flex items-center gap-1">
+        <Link href="/tramites" className="hover:text-[#2855E0] transition-colors flex items-center gap-1">
           <ArrowLeft size={14} />
           Mis Trámites
         </Link>
@@ -367,7 +367,7 @@ export default function TramiteDetailPage() {
       {/* ─── Mobile layout: Tabs ─── */}
       <div className="lg:hidden">
         <Tabs defaultValue="seguimiento">
-          <TabsList className="w-full grid grid-cols-4 h-auto bg-[#F9F9F8] rounded-2xl p-1">
+          <TabsList className="w-full grid grid-cols-4 h-auto bg-[#F0F3FF] rounded-2xl p-1">
             <TabsTrigger value="seguimiento" className="text-xs py-2 rounded-xl data-[state=active]:bg-white data-[state=active]:shadow-sm">
               Seguimiento
             </TabsTrigger>

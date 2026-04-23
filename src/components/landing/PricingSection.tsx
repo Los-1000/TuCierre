@@ -1,144 +1,160 @@
 import Link from 'next/link'
 
-const ROWS = [
+const TIERS = [
   {
     level: 'Nivel 1',
     range: '1–3 trámites / mes',
     pct: '3%',
-    cta: 'Empezar →',
+    benefits: ['Plataforma gratis', 'Tracking en tiempo real', 'Chat con notaría'],
     featured: false,
-    benefits: 'Plataforma gratis · Tracking · Chat notaría',
   },
   {
     level: 'Nivel 2',
     range: '4–7 trámites / mes',
     pct: '5%',
-    cta: 'Escalar a Nivel 2 →',
+    benefits: ['Price match garantizado', 'Soporte prioritario', 'Gestor asignado'],
     featured: true,
-    benefits: 'Price match · Soporte prioritario · Gestor asignado',
   },
   {
     level: 'Nivel 3',
     range: '8+ trámites / mes',
     pct: '8%',
-    cta: 'Alcanzar Nivel 3 →',
+    benefits: ['Prioridad máxima', 'Ejecutivo senior', 'Atención dedicada'],
     featured: false,
-    benefits: 'Prioridad máxima · Ejecutivo senior · Atención dedicada',
   },
 ]
 
 export default function PricingSection() {
   return (
-    <section id="precios" className="py-32 md:py-40" style={{ background: '#0F172A' }}>
+    <section
+      id="precios"
+      className="py-32 md:py-40"
+      style={{ background: '#020952', borderTop: '1px solid rgba(255,255,255,0.06)' }}
+    >
       <div className="max-w-screen-xl mx-auto px-6 md:px-10">
 
-        <h2
-          className="font-black tracking-tighter leading-none mb-3 text-white"
-          style={{ fontSize: 'clamp(60px, 10vw, 120px)' }}
-        >
-          El{' '}
-          <span className="font-display italic" style={{ color: '#2563EB' }}>Sistema.</span>
-        </h2>
-        <p className="font-light text-lg mb-16" style={{ color: 'rgba(255,255,255,0.35)' }}>
-          Tu comisión sube sola. Sin formularios. Sin aprobaciones.
-        </p>
-
-        <div
-          className="hidden md:grid grid-cols-4 pb-4 mb-4 border-b"
-          style={{ borderColor: 'rgba(255,255,255,0.06)' }}
-        >
-          {[
-            { label: 'Categoría', align: 'left'   },
-            { label: 'Volumen',   align: 'left'   },
-            { label: 'Comisión',  align: 'center' },
-            { label: 'Acceso',    align: 'right'  },
-          ].map(h => (
-            <div
-              key={h.label}
-              className="text-xs font-black uppercase tracking-[0.2em]"
-              style={{ color: 'rgba(255,255,255,0.22)', textAlign: h.align as 'left' | 'center' | 'right' }}
-            >
-              {h.label}
-            </div>
-          ))}
+        {/* Header */}
+        <div className="mb-20">
+          <h2
+            className="font-black tracking-tighter leading-none text-white mb-4"
+            style={{ fontSize: 'clamp(56px, 9vw, 112px)' }}
+          >
+            El Sistema.
+          </h2>
+          <p className="font-light text-lg max-w-md" style={{ color: 'rgba(255,255,255,0.4)' }}>
+            Tu comisión sube sola cada mes según volumen. Sin formularios. Sin aprobaciones.
+          </p>
         </div>
 
-        {ROWS.map(row =>
-          row.featured ? (
-            <div
-              key={row.level}
-              className="rounded-2xl my-3 relative overflow-hidden p-8 md:grid md:grid-cols-4 md:items-center flex flex-col gap-4"
-              style={{ background: '#2563EB', minHeight: '140px' }}
-            >
-              <span
-                className="absolute right-8 bottom-0 font-black leading-none select-none pointer-events-none hidden md:block"
-                style={{ fontSize: '120px', color: 'rgba(255,255,255,0.08)' }}
-                aria-hidden="true"
+        {/* Tier cards */}
+        <div className="space-y-3">
+          {TIERS.map(tier =>
+            tier.featured ? (
+              /* Featured — white card on dark navy */
+              <div
+                key={tier.level}
+                className="rounded-2xl p-8 md:p-10"
+                style={{ background: '#ffffff' }}
               >
-                PRO
-              </span>
+                <div className="flex flex-col md:flex-row md:items-center gap-8 md:gap-0">
+                  {/* Label */}
+                  <div className="md:w-48 shrink-0">
+                    <div className="text-xs font-black uppercase tracking-[0.2em] mb-1" style={{ color: 'rgba(2,9,82,0.35)' }}>
+                      Más popular
+                    </div>
+                    <div className="font-black text-2xl tracking-tight" style={{ color: '#020952' }}>{tier.level}</div>
+                    <div className="text-sm font-light mt-1" style={{ color: 'rgba(2,9,82,0.5)' }}>{tier.range}</div>
+                  </div>
 
-              <div className="relative z-10">
-                <div className="font-black text-2xl uppercase tracking-tight text-white">{row.level}</div>
-                <div className="text-xs font-black uppercase tracking-widest mt-1" style={{ color: 'rgba(255,255,255,0.5)' }}>
-                  — Popular
+                  {/* Percentage */}
+                  <div className="flex-1 md:text-center">
+                    <span
+                      className="font-black tracking-tighter leading-none tabular-nums"
+                      style={{ fontSize: 'clamp(64px, 10vw, 120px)', color: '#020952' }}
+                    >
+                      {tier.pct}
+                    </span>
+                    <span className="block text-sm font-medium mt-1" style={{ color: 'rgba(2,9,82,0.4)' }}>
+                      de comisión notarial
+                    </span>
+                  </div>
+
+                  {/* Benefits */}
+                  <div className="md:w-64 shrink-0 space-y-2">
+                    {tier.benefits.map(b => (
+                      <div key={b} className="flex items-center gap-2.5">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                          <path d="M5 13l4 4L19 7" stroke="#020952" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+                        </svg>
+                        <span className="text-sm font-medium" style={{ color: 'rgba(2,9,82,0.7)' }}>{b}</span>
+                      </div>
+                    ))}
+                  </div>
+
+                  {/* CTA */}
+                  <div className="md:w-40 md:text-right shrink-0">
+                    <Link
+                      href="/register"
+                      className="inline-block rounded-full px-7 py-3.5 text-sm font-black tracking-wide text-white hover:opacity-90 active:scale-95 transition-all"
+                      style={{ background: '#020952' }}
+                    >
+                      Empezar gratis
+                    </Link>
+                  </div>
                 </div>
-                <div className="text-sm font-light mt-2" style={{ color: 'rgba(255,255,255,0.6)' }}>{row.range}</div>
               </div>
+            ) : (
+              /* Non-featured — transparent row */
+              <div
+                key={tier.level}
+                className="rounded-2xl p-8 md:p-10 border"
+                style={{ borderColor: 'rgba(255,255,255,0.08)', background: 'rgba(255,255,255,0.03)' }}
+              >
+                <div className="flex flex-col md:flex-row md:items-center gap-6 md:gap-0">
+                  <div className="md:w-48 shrink-0">
+                    <div className="font-black text-xl tracking-tight text-white">{tier.level}</div>
+                    <div className="text-sm font-light mt-0.5" style={{ color: 'rgba(255,255,255,0.35)' }}>{tier.range}</div>
+                  </div>
 
-              <div className="md:text-center relative z-10">
-                <span
-                  className="font-black tracking-tighter leading-none tabular-nums text-white"
-                  style={{ fontSize: 'clamp(56px, 9vw, 112px)' }}
-                >
-                  {row.pct}
-                </span>
-              </div>
+                  <div className="flex-1 md:text-center">
+                    <span
+                      className="font-extralight tracking-tighter leading-none tabular-nums text-white"
+                      style={{ fontSize: 'clamp(44px, 6vw, 72px)' }}
+                    >
+                      {tier.pct}
+                    </span>
+                  </div>
 
-              <div className="text-sm font-light relative z-10" style={{ color: 'rgba(255,255,255,0.6)' }}>
-                {row.benefits}
-              </div>
+                  <div className="md:w-64 shrink-0 space-y-1.5">
+                    {tier.benefits.map(b => (
+                      <div key={b} className="text-sm font-light" style={{ color: 'rgba(255,255,255,0.4)' }}>
+                        {b}
+                      </div>
+                    ))}
+                  </div>
 
-              <div className="md:text-right relative z-10">
-                <Link
-                  href="/register"
-                  className="inline-block rounded-full px-6 py-3 text-xs font-black uppercase tracking-widest hover:opacity-85 transition-opacity"
-                  style={{ background: '#fff', color: '#1E3A8A' }}
-                >
-                  {row.cta}
-                </Link>
+                  <div className="md:w-40 md:text-right shrink-0">
+                    <Link
+                      href="/register"
+                      className="text-sm font-bold tracking-wide hover:text-white transition-colors"
+                      style={{ color: 'rgba(255,255,255,0.35)' }}
+                    >
+                      Comenzar →
+                    </Link>
+                  </div>
+                </div>
               </div>
-            </div>
-          ) : (
-            <div
-              key={row.level}
-              className="md:grid md:grid-cols-4 flex flex-col gap-3 items-start md:items-center border-b py-7 opacity-50 hover:opacity-100 transition-opacity"
-              style={{ borderColor: 'rgba(255,255,255,0.04)' }}
-            >
-              <div>
-                <div className="font-black text-lg uppercase tracking-tight text-white">{row.level}</div>
-                <div className="text-xs font-light mt-1" style={{ color: 'rgba(255,255,255,0.28)' }}>{row.range}</div>
-              </div>
-              <div className="text-center">
-                <span className="font-extralight text-3xl text-white tabular-nums">{row.pct}</span>
-              </div>
-              <div className="text-sm font-light" style={{ color: 'rgba(255,255,255,0.32)' }}>{row.benefits}</div>
-              <div className="text-right">
-                <Link
-                  href="/register"
-                  className="text-xs font-black uppercase tracking-widest transition-colors hover:text-[#93C5FD]"
-                  style={{ color: 'rgba(255,255,255,0.32)' }}
-                >
-                  {row.cta}
-                </Link>
-              </div>
-            </div>
-          )
-        )}
+            )
+          )}
+        </div>
 
-        <p className="text-center text-xs font-light mt-10 tracking-wide" style={{ color: 'rgba(255,255,255,0.22)' }}>
-          El nivel sube automáticamente según tus trámites firmados cada mes. Sin formularios, sin aprobaciones.
+        <p
+          className="text-center text-xs font-light mt-10 tracking-wide"
+          style={{ color: 'rgba(255,255,255,0.2)' }}
+        >
+          El nivel sube automáticamente cada mes según tus trámites firmados.
         </p>
+
       </div>
     </section>
   )

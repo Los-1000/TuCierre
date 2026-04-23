@@ -1,4 +1,5 @@
 import { redirect } from 'next/navigation'
+import { Logo } from '@/components/ui/Logo'
 import { createClient } from '@/lib/supabase/server'
 import { createAdminClient } from '@/lib/supabase/admin'
 import Link from 'next/link'
@@ -83,21 +84,21 @@ export default async function SuperAdminLayout({
   ]
 
   return (
-    <div className="flex min-h-screen bg-[#F9F9F8]">
+    <div className="flex min-h-screen bg-[#F0F3FF]">
       {/* Sidebar */}
       <aside className="hidden lg:flex w-64 flex-col fixed left-0 top-0 h-full bg-[#18181B] z-20">
         <div className="px-6 h-16 flex items-center justify-between border-b border-white/8">
           <div className="flex items-center gap-2">
-            <span className="text-white font-bold text-[18px] tracking-tight">TuCierre</span>
+            <Logo variant="light" size="md" href="/superadmin" />
           </div>
-          <span className="text-[10px] font-bold tracking-[0.12em] text-[#D47151] uppercase bg-[#D47151]/10 px-2 py-0.5 rounded-full">
+          <span className="text-[10px] font-bold tracking-[0.12em] text-[#2855E0] uppercase bg-[#2855E0]/10 px-2 py-0.5 rounded-full">
             Super
           </span>
         </div>
 
         <div className="px-5 py-3 border-b border-white/8">
           <div className="flex items-center gap-2">
-            <ShieldCheck size={14} className="text-[#D47151] shrink-0" />
+            <ShieldCheck size={14} className="text-[#2855E0] shrink-0" />
             <span className="text-white/50 text-xs truncate">{broker.email}</span>
           </div>
         </div>
@@ -114,7 +115,7 @@ export default async function SuperAdminLayout({
                 {item.label}
               </div>
               {item.badge != null && (
-                <span className="bg-[#D47151] text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full min-w-[18px] text-center">
+                <span className="bg-[#2855E0] text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full min-w-[18px] text-center">
                   {item.badge}
                 </span>
               )}

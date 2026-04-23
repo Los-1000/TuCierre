@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import { Shield } from 'lucide-react'
+import { Logo } from '@/components/ui/Logo'
 
 export default function TerminosPage() {
   return (
@@ -7,9 +8,7 @@ export default function TerminosPage() {
       {/* Header */}
       <header className="bg-white border-b border-slate-200">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
-          <Link href="/" className="flex items-center gap-2">
-            <span className="font-semibold text-[#18181B] text-lg tracking-tight">TuCierre</span>
-          </Link>
+          <Logo size="sm" href="/" />
           <Link href="/" className="text-sm text-slate-500 hover:text-slate-900">← Volver al inicio</Link>
         </div>
       </header>
@@ -89,7 +88,7 @@ export default function TerminosPage() {
           <section className="space-y-3">
             <h2 className="text-lg font-semibold text-slate-900">10. Contacto</h2>
             <p>
-              Para consultas sobre estos términos, escríbenos a <a href="mailto:soporte@tucierre.pe" className="text-[#D47151] hover:underline">soporte@tucierre.pe</a>.
+              Para consultas sobre estos términos, escríbenos a <a href="mailto:soporte@tucierre.pe" className="text-[#2855E0] hover:underline">soporte@tucierre.pe</a>.
             </p>
           </section>
         </div>

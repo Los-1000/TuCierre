@@ -80,7 +80,7 @@ const TIER_COLORS: Record<string, string> = {
 const DOC_STATUS_CONFIG = {
   pending:  { label: 'Sin subir',  icon: Clock,        className: 'text-[#18181B]/30' },
   uploaded: { label: 'Recibido',   icon: CheckCircle2, className: 'text-blue-600' },
-  approved: { label: 'Aprobado',   icon: CheckCircle2, className: 'text-[#D47151]' },
+  approved: { label: 'Aprobado',   icon: CheckCircle2, className: 'text-[#2855E0]' },
   rejected: { label: 'Rechazado',  icon: XCircle,      className: 'text-red-600' },
 }
 
@@ -182,7 +182,7 @@ export default function AdminTramiteClient({
     <div className="space-y-4">
       {/* Broker card */}
       <div className="rounded-2xl border border-[#18181B]/8 bg-white overflow-hidden">
-        <div className="px-4 py-3 bg-[#F9F9F8] border-b border-[#18181B]/6 flex items-center gap-2">
+        <div className="px-4 py-3 bg-[#F0F3FF] border-b border-[#18181B]/6 flex items-center gap-2">
           <User size={14} className="text-[#18181B]/40" />
           <span className="text-xs font-semibold uppercase tracking-wide text-[#18181B]/40">Broker</span>
         </div>
@@ -224,7 +224,7 @@ export default function AdminTramiteClient({
       {/* Property card */}
       {(tramite.property_address || tramite.property_district || tramite.property_value) && (
         <div className="rounded-2xl border border-[#18181B]/8 bg-white overflow-hidden">
-          <div className="px-4 py-3 bg-[#F9F9F8] border-b border-[#18181B]/6 flex items-center gap-2">
+          <div className="px-4 py-3 bg-[#F0F3FF] border-b border-[#18181B]/6 flex items-center gap-2">
             <MapPin size={14} className="text-[#18181B]/40" />
             <span className="text-xs font-semibold uppercase tracking-wide text-[#18181B]/40">Inmueble</span>
           </div>
@@ -240,7 +240,7 @@ export default function AdminTramiteClient({
 
       {/* Price card */}
       <div className="rounded-2xl border border-[#18181B]/8 bg-white overflow-hidden">
-        <div className="px-4 py-3 bg-[#F9F9F8] border-b border-[#18181B]/6">
+        <div className="px-4 py-3 bg-[#F0F3FF] border-b border-[#18181B]/6">
           <span className="text-xs font-semibold uppercase tracking-wide text-[#18181B]/40">Precio</span>
         </div>
         <div className="p-4 space-y-0">
@@ -249,7 +249,7 @@ export default function AdminTramiteClient({
           {tramite.discount_applied > 0 && (
             <InfoRow
               label={`Descuento (${tramite.discount_applied}%)`}
-              value={<span className="text-[#D47151]">−{formatPrice(tramite.quoted_price * tramite.discount_applied / 100)}</span>}
+              value={<span className="text-[#2855E0]">−{formatPrice(tramite.quoted_price * tramite.discount_applied / 100)}</span>}
             />
           )}
           <InfoRow
@@ -259,7 +259,7 @@ export default function AdminTramiteClient({
           {tramite.price_matched && tramite.price_match_reference?.startsWith('https://') && (
             <div className="pt-2">
               <a href={tramite.price_match_reference} target="_blank" rel="noopener noreferrer"
-                className="inline-flex items-center gap-1 text-xs text-[#D47151] hover:underline">
+                className="inline-flex items-center gap-1 text-xs text-[#2855E0] hover:underline">
                 <ExternalLink size={11} /> Ver cotización igualada
               </a>
             </div>
@@ -269,7 +269,7 @@ export default function AdminTramiteClient({
 
       {/* Dates */}
       <div className="rounded-2xl border border-[#18181B]/8 bg-white overflow-hidden">
-        <div className="px-4 py-3 bg-[#F9F9F8] border-b border-[#18181B]/6">
+        <div className="px-4 py-3 bg-[#F0F3FF] border-b border-[#18181B]/6">
           <span className="text-xs font-semibold uppercase tracking-wide text-[#18181B]/40">Fechas</span>
         </div>
         <div className="p-4 space-y-0">
@@ -277,7 +277,7 @@ export default function AdminTramiteClient({
           <InfoRow label="Último cambio" value={formatDate(tramite.updated_at)} />
           {tramite.estimated_completion && (
             <InfoRow label="Entrega estimada" value={
-              <span className="font-medium text-[#D47151]">
+              <span className="font-medium text-[#2855E0]">
                 {new Date(tramite.estimated_completion).toLocaleDateString('es-PE', { day: 'numeric', month: 'long', year: 'numeric' })}
               </span>
             } />
@@ -330,7 +330,7 @@ export default function AdminTramiteClient({
                 <div className="flex items-center gap-2 shrink-0">
                   {uploaded?.url && (
                     <a href={uploaded.url} target="_blank" rel="noopener noreferrer">
-                      <button className="inline-flex items-center gap-1 text-xs text-[#D47151] hover:underline font-medium px-2 py-1">
+                      <button className="inline-flex items-center gap-1 text-xs text-[#2855E0] hover:underline font-medium px-2 py-1">
                         <FileText size={12} /> Ver
                       </button>
                     </a>
@@ -411,7 +411,7 @@ export default function AdminTramiteClient({
         <div className="space-y-1.5">
           <Link
             href="/admin/tramites"
-            className="inline-flex items-center gap-1.5 text-sm text-[#18181B]/50 hover:text-[#D47151] transition-colors -ml-1"
+            className="inline-flex items-center gap-1.5 text-sm text-[#18181B]/50 hover:text-[#2855E0] transition-colors -ml-1"
           >
             <ArrowLeft size={15} />
             Todos los trámites
@@ -434,7 +434,7 @@ export default function AdminTramiteClient({
 
         <button
           onClick={handleOpenStatusDialog}
-          className="inline-flex items-center gap-2 bg-[#D47151] text-white text-sm font-semibold px-5 py-2.5 rounded-full hover:bg-[#A6553A] transition-colors shrink-0"
+          className="inline-flex items-center gap-2 bg-[#2855E0] text-white text-sm font-semibold px-5 py-2.5 rounded-full hover:bg-[#1E46C7] transition-colors shrink-0"
         >
           Cambiar estado
         </button>
@@ -446,12 +446,12 @@ export default function AdminTramiteClient({
         {/* Left — tabs */}
         <div className="lg:col-span-7">
           <Tabs defaultValue="solicitud">
-            <TabsList className="w-full grid grid-cols-4 mb-4 bg-[#F9F9F8] rounded-2xl p-1">
+            <TabsList className="w-full grid grid-cols-4 mb-4 bg-[#F0F3FF] rounded-2xl p-1">
               <TabsTrigger value="solicitud" className="text-xs rounded-xl data-[state=active]:bg-white data-[state=active]:text-[#18181B] data-[state=active]:shadow-sm">Solicitud</TabsTrigger>
               <TabsTrigger value="documentos" className="text-xs rounded-xl data-[state=active]:bg-white data-[state=active]:text-[#18181B] data-[state=active]:shadow-sm">
                 Documentos
                 {tramite.documents.filter(d => d.status === 'uploaded').length > 0 && (
-                  <span className="ml-1.5 inline-flex items-center justify-center w-4 h-4 rounded-full bg-[#D47151] text-white text-[10px] font-bold">
+                  <span className="ml-1.5 inline-flex items-center justify-center w-4 h-4 rounded-full bg-[#2855E0] text-white text-[10px] font-bold">
                     {tramite.documents.filter(d => d.status === 'uploaded').length}
                   </span>
                 )}
@@ -471,11 +471,11 @@ export default function AdminTramiteClient({
         <div className="lg:col-span-5">
           <div className="sticky top-6">
             <div className="rounded-3xl border border-[#18181B]/8 bg-white overflow-hidden">
-              <div className="px-4 py-3 bg-[#F9F9F8] border-b border-[#18181B]/6 flex items-center gap-2">
+              <div className="px-4 py-3 bg-[#F0F3FF] border-b border-[#18181B]/6 flex items-center gap-2">
                 <span className="text-xs font-semibold uppercase tracking-wide text-[#18181B]/40">
                   Chat con {broker?.full_name?.split(' ')[0] ?? 'broker'}
                 </span>
-                <span className="text-[10px] h-4 px-1.5 inline-flex items-center border border-[#D47151]/20 text-[#D47151] bg-[#D47151]/8 rounded-full font-medium">
+                <span className="text-[10px] h-4 px-1.5 inline-flex items-center border border-[#2855E0]/20 text-[#2855E0] bg-[#2855E0]/8 rounded-full font-medium">
                   Notaría
                 </span>
               </div>
@@ -527,7 +527,7 @@ export default function AdminTramiteClient({
             <button
               onClick={handleUpdateStatus}
               disabled={isPending}
-              className="inline-flex items-center gap-2 bg-[#D47151] text-white text-sm font-semibold px-4 py-2 rounded-full hover:bg-[#A6553A] transition-colors disabled:opacity-40"
+              className="inline-flex items-center gap-2 bg-[#2855E0] text-white text-sm font-semibold px-4 py-2 rounded-full hover:bg-[#1E46C7] transition-colors disabled:opacity-40"
             >
               {isPending && <Loader2 size={14} className="animate-spin" />}
               Actualizar

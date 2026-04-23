@@ -106,7 +106,7 @@ export default async function DashboardPage() {
   const stats = [
     { label: 'Trámites activos', value: activeCount.toString(), icon: Clock, iconBg: 'bg-blue-50', iconColor: 'text-blue-600' },
     { label: 'Completados / mes', value: completedThisMonth.toString(), icon: CheckCircle, iconBg: 'bg-emerald-50', iconColor: 'text-emerald-600' },
-    { label: 'Monto gestionado', value: formatPrice(totalAmount), icon: Wallet, iconBg: 'bg-[#D47151]/8', iconColor: 'text-[#D47151]', isPrice: true },
+    { label: 'Monto gestionado', value: formatPrice(totalAmount), icon: Wallet, iconBg: 'bg-[#2855E0]/8', iconColor: 'text-[#2855E0]', isPrice: true },
     { label: 'Ahorro acumulado', value: formatPrice(totalSavings), icon: PiggyBank, iconBg: 'bg-[#D69E2E]/10', iconColor: 'text-[#D69E2E]', isPrice: true },
   ]
 
@@ -115,42 +115,38 @@ export default async function DashboardPage() {
       {/* Header */}
       <div className="flex items-start justify-between">
         <div>
-          <h1 className="text-3xl font-semibold text-[#18181B] tracking-tight">
+          <h1 className="text-3xl font-semibold text-white tracking-tight">
             {greeting}, {firstName}
           </h1>
-          <p className="text-[#18181B]/60 text-sm mt-1">
+          <p className="text-white/50 text-sm mt-1">
             {new Date().toLocaleDateString('es-PE', { weekday: 'long', day: 'numeric', month: 'long' })}
           </p>
         </div>
         <Link
           href="/cotizar"
-          className="hidden sm:flex items-center gap-2 bg-[#D47151] hover:bg-[#A6553A] text-white rounded-full px-6 py-2.5 font-semibold text-sm transition-all shadow-lg shadow-[#D47151]/20"
+          className="hidden sm:flex items-center gap-2 bg-[#2855E0] hover:bg-[#1E46C7] text-white rounded-full px-6 py-2.5 font-semibold text-sm transition-all shadow-lg shadow-[#2855E0]/20"
         >
           <Plus size={16} />
           Nueva cotización
         </Link>
       </div>
 
-      {/* Stats row */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-        {stats.map((stat) => (
-          <div
-            key={stat.label}
-            className="bg-white rounded-3xl border border-[#18181B]/8 shadow-[0_4px_24px_rgba(18,18,27,0.06)] p-6"
-          >
-            <div className="flex justify-between items-start mb-4">
-              <span className="text-[11px] font-bold uppercase tracking-widest text-[#18181B]/40">
-                {stat.label}
+      {/* Stats strip */}
+      <div className="bg-white rounded-3xl border border-[#18181B]/8 shadow-[0_4px_24px_rgba(18,18,27,0.04)]">
+        <div className="grid grid-cols-2 md:grid-cols-4 divide-y md:divide-y-0 md:divide-x divide-[#18181B]/6">
+          {stats.map((stat, i) => (
+            <div key={stat.label} className={cn(
+              'px-6 py-5 flex flex-col gap-1.5',
+              i === 0 && 'md:pl-8',
+              i === stats.length - 1 && 'md:pr-8'
+            )}>
+              <span className="text-[10px] font-bold uppercase tracking-widest text-[#18181B]/35">{stat.label}</span>
+              <span className={cn('font-bold text-[#18181B] leading-none tabular-nums', stat.isPrice ? 'text-xl' : 'text-3xl')}>
+                {stat.value}
               </span>
-              <div className={cn('p-2 rounded-xl', stat.iconBg)}>
-                <stat.icon size={18} className={stat.iconColor} />
-              </div>
             </div>
-            <div className={cn('font-bold text-[#18181B] leading-none', stat.isPrice ? 'text-xl' : 'text-4xl')}>
-              {stat.value}
-            </div>
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
 
       {/* Tier progress card */}
@@ -167,7 +163,7 @@ export default async function DashboardPage() {
             </p>
           </div>
           {tier !== 'oro' && (
-            <div className="flex items-center gap-2 text-[#D47151] font-bold text-sm bg-[#D47151]/5 px-4 py-2 rounded-full border border-[#D47151]/10">
+            <div className="flex items-center gap-2 text-[#2855E0] font-bold text-sm bg-[#2855E0]/5 px-4 py-2 rounded-full border border-[#2855E0]/10">
               <span>{tramitesToNext} trámites más</span>
               <ArrowRight size={14} />
               <span className="font-black">Nivel {nextTierLabel}</span>
@@ -176,7 +172,7 @@ export default async function DashboardPage() {
         </div>
         <div className="relative w-full h-2.5 bg-[#18181B]/8 rounded-full overflow-hidden">
           <div
-            className="absolute top-0 left-0 h-full bg-[#D47151] rounded-full transition-all duration-700"
+            className="absolute top-0 left-0 h-full bg-[#2855E0] rounded-full transition-all duration-700"
             style={{ width: `${progressPercent}%` }}
           />
         </div>
@@ -189,7 +185,7 @@ export default async function DashboardPage() {
 
       {/* Quick actions */}
       <div>
-        <h2 className="text-xs font-bold text-[#18181B]/40 uppercase tracking-widest mb-3">Acciones rápidas</h2>
+        <h2 className="text-xs font-bold text-white/35 uppercase tracking-widest mb-3">Acciones rápidas</h2>
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
           {[
             { href: '/clientes/nuevo', label: 'Nuevo cliente', desc: 'Registra un cliente ahora', icon: UserPlus, primary: true },
@@ -201,7 +197,7 @@ export default async function DashboardPage() {
                 'flex items-center gap-3 px-4 py-3.5 rounded-2xl transition-all hover:shadow-sm border',
                 action.primary
                   ? 'bg-[#18181B] text-white border-[#18181B]'
-                  : 'bg-white text-[#18181B] border-[#18181B]/8 hover:border-[#D47151]/30'
+                  : 'bg-white text-[#18181B] border-[#18181B]/8 hover:border-[#2855E0]/30'
               )}>
                 <action.icon size={17} className="shrink-0" />
                 <div className="flex-1 min-w-0">
@@ -223,7 +219,7 @@ export default async function DashboardPage() {
           <h2 className="font-semibold text-[#18181B]">Trámites Recientes</h2>
           <Link
             href="/tramites"
-            className="text-xs font-bold text-[#D47151] hover:underline uppercase tracking-wider"
+            className="text-xs font-bold text-[#2855E0] hover:underline uppercase tracking-wider"
           >
             Ver todos
           </Link>
@@ -242,7 +238,7 @@ export default async function DashboardPage() {
           <div className="overflow-x-auto">
             <table className="w-full text-left border-collapse">
               <thead>
-                <tr className="text-[11px] font-bold text-[#18181B]/40 uppercase tracking-widest bg-[#F9F9F8]">
+                <tr className="text-[11px] font-bold text-[#18181B]/40 uppercase tracking-widest bg-[#F0F3FF]">
                   <th className="px-6 py-4">Código</th>
                   <th className="px-4 py-4">Tipo</th>
                   <th className="px-4 py-4">Estado</th>
@@ -253,7 +249,7 @@ export default async function DashboardPage() {
               </thead>
               <tbody className="divide-y divide-[#18181B]/5">
                 {recentTramites.map((tramite) => (
-                  <tr key={tramite.id} className="hover:bg-[#F9F9F8]/80 transition-colors group">
+                  <tr key={tramite.id} className="hover:bg-[#F0F3FF]/80 transition-colors group">
                     <td className="px-6 py-4">
                       <code className="font-mono text-xs bg-[#18181B]/5 text-[#18181B]/60 px-2 py-1 rounded-md font-semibold">
                         {tramite.reference_code}
@@ -274,7 +270,7 @@ export default async function DashboardPage() {
                     <td className="px-6 py-4 text-right">
                       <Link
                         href={`/tramites/${tramite.id}`}
-                        className="inline-flex items-center gap-1 text-[#D47151] font-bold text-sm group-hover:translate-x-1 transition-transform"
+                        className="inline-flex items-center gap-1 text-[#2855E0] font-bold text-sm group-hover:translate-x-1 transition-transform"
                       >
                         Ver <ChevronRight size={14} />
                       </Link>
@@ -290,7 +286,7 @@ export default async function DashboardPage() {
       {/* FAB for mobile */}
       <Link
         href="/cotizar"
-        className="fixed bottom-20 right-5 lg:hidden flex items-center gap-2 bg-[#D47151] text-white pl-4 pr-5 py-3.5 rounded-full shadow-2xl shadow-[#D47151]/40 hover:bg-[#A6553A] transition-all z-50 font-semibold"
+        className="fixed bottom-20 right-5 lg:hidden flex items-center gap-2 bg-[#2855E0] text-white pl-4 pr-5 py-3.5 rounded-full shadow-2xl shadow-[#2855E0]/40 hover:bg-[#1E46C7] transition-all z-50 font-semibold"
       >
         <Plus size={18} />
         Nueva cotización

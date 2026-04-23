@@ -1,5 +1,6 @@
 'use client'
 
+import { Logo } from '@/components/ui/Logo'
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
@@ -67,11 +68,11 @@ export default function LoginPage() {
       {/* Left panel — dark brand */}
       <section className="hidden lg:flex flex-col justify-between w-1/2 bg-[#18181B] p-16 relative overflow-hidden">
         {/* Ambient glow */}
-        <div className="absolute top-[-10%] right-[-10%] w-[500px] h-[500px] bg-[#D47151] blur-[120px] rounded-full opacity-10 pointer-events-none" />
+        <div className="absolute top-[-10%] right-[-10%] w-[500px] h-[500px] bg-[#2855E0] blur-[120px] rounded-full opacity-10 pointer-events-none" />
 
         {/* Top — wordmark */}
         <div className="flex items-center gap-3 z-10">
-          <h1 className="text-white text-[22px] font-semibold tracking-tight">TuCierre</h1>
+          <Logo variant="light" size="lg" href="/" />
           <span className="bg-white/10 text-white/60 px-3 py-1 rounded-full text-[10px] font-bold tracking-widest uppercase border border-white/10">
             BETA
           </span>
@@ -85,7 +86,7 @@ export default function LoginPage() {
           <p className="text-white/50 text-[36px] italic font-medium leading-tight mb-8">
             Solo cierra.
           </p>
-          <div className="w-32 h-[1px] bg-[#D47151]" />
+          <div className="w-32 h-[1px] bg-[#2855E0]" />
         </div>
 
         {/* Bottom — trust pills */}
@@ -99,7 +100,7 @@ export default function LoginPage() {
               key={pill.text}
               className="flex items-center gap-2 bg-white/5 border border-white/10 px-4 py-2 rounded-full"
             >
-              <span className="text-[#D47151] text-sm">{pill.icon}</span>
+              <span className="text-[#2855E0] text-sm">{pill.icon}</span>
               <span className="text-white/80 text-sm font-medium">{pill.text}</span>
             </div>
           ))}
@@ -107,11 +108,11 @@ export default function LoginPage() {
       </section>
 
       {/* Right panel — form */}
-      <section className="w-full lg:w-1/2 flex items-center justify-center p-6 bg-[#F9F9F8]">
+      <section className="w-full lg:w-1/2 flex items-center justify-center p-6 bg-[#F0F3FF]">
         <div className="w-full max-w-[400px]">
           {/* Mobile wordmark */}
           <div className="mb-10 lg:hidden text-center">
-            <h1 className="text-[#18181B] text-[24px] font-bold tracking-tight">TuCierre</h1>
+            <Logo size="md" href="/" />
           </div>
 
           {/* Card */}
@@ -132,7 +133,7 @@ export default function LoginPage() {
                   type="email"
                   placeholder="tu@email.com"
                   autoComplete="email"
-                  className="h-[48px] px-5 rounded-2xl bg-[#F3F4F3] border-transparent focus:border-[#D47151] focus:ring-[#D47151]/30 text-[#18181B] placeholder:text-[#18181B]/30"
+                  className="h-[48px] px-5 rounded-2xl bg-[#EEF1FF] border-transparent focus:border-[#2855E0] focus:ring-[#2855E0]/30 text-[#18181B] placeholder:text-[#18181B]/30"
                   {...register('email')}
                 />
                 {errors.email && <p className="text-red-500 text-xs mt-1">{errors.email.message}</p>}
@@ -147,7 +148,7 @@ export default function LoginPage() {
                   <button
                     type="button"
                     onClick={() => setShowPassword(!showPassword)}
-                    className="text-[11px] font-bold uppercase tracking-wider text-[#D47151] hover:opacity-80 transition-opacity"
+                    className="text-[11px] font-bold uppercase tracking-wider text-[#2855E0] hover:opacity-80 transition-opacity"
                   >
                     {showPassword ? 'Ocultar' : 'Mostrar'}
                   </button>
@@ -158,7 +159,7 @@ export default function LoginPage() {
                     type={showPassword ? 'text' : 'password'}
                     placeholder="••••••••"
                     autoComplete="current-password"
-                    className="h-[48px] px-5 rounded-2xl bg-[#F3F4F3] border-transparent focus:border-[#D47151] focus:ring-[#D47151]/30 text-[#18181B] placeholder:text-[#18181B]/30"
+                    className="h-[48px] px-5 rounded-2xl bg-[#EEF1FF] border-transparent focus:border-[#2855E0] focus:ring-[#2855E0]/30 text-[#18181B] placeholder:text-[#18181B]/30"
                     {...register('password')}
                   />
                 </div>
@@ -166,7 +167,7 @@ export default function LoginPage() {
                 <div className="flex justify-end pt-1">
                   <Link
                     href="/forgot-password"
-                    className="text-[13px] font-medium text-[#D47151] hover:underline underline-offset-4 decoration-[#D47151]/30"
+                    className="text-[13px] font-medium text-[#2855E0] hover:underline underline-offset-4 decoration-[#2855E0]/30"
                   >
                     Olvidé mi contraseña
                   </Link>
@@ -177,7 +178,7 @@ export default function LoginPage() {
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full h-[52px] bg-[#D47151] hover:bg-[#A6553A] text-white font-semibold rounded-full flex items-center justify-center gap-2 transition-all shadow-lg shadow-[#D47151]/20 mt-6 disabled:opacity-70"
+                className="w-full h-[52px] bg-[#2855E0] hover:bg-[#1E46C7] text-white font-semibold rounded-full flex items-center justify-center gap-2 transition-all shadow-lg shadow-[#2855E0]/20 mt-6 disabled:opacity-70"
               >
                 {loading ? (
                   <><Loader2 size={18} className="animate-spin" />Ingresando...</>
@@ -204,7 +205,7 @@ export default function LoginPage() {
                 className="text-sm font-medium text-[#18181B]/60 hover:text-[#18181B] transition-colors"
               >
                 ¿No tienes cuenta?{' '}
-                <span className="text-[#D47151] font-semibold">Regístrate gratis</span>
+                <span className="text-[#2855E0] font-semibold">Regístrate gratis</span>
               </Link>
             </div>
           </div>

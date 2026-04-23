@@ -2,7 +2,7 @@ const BULLETS = [
   {
     icon: (
       <svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none">
-        <path d="M12 2l3 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" stroke="#2563EB" strokeWidth="2" strokeLinejoin="round" />
+        <path d="M12 2l3 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" stroke="rgba(255,255,255,0.55)" strokeWidth="2" strokeLinejoin="round" />
       </svg>
     ),
     title: 'Registra tu operación',
@@ -11,9 +11,9 @@ const BULLETS = [
   {
     icon: (
       <svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none">
-        <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" stroke="#2563EB" strokeWidth="2" strokeLinecap="round" />
-        <circle cx="9" cy="7" r="4" stroke="#2563EB" strokeWidth="2" />
-        <path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75" stroke="#2563EB" strokeWidth="2" strokeLinecap="round" />
+        <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" stroke="rgba(255,255,255,0.55)" strokeWidth="2" strokeLinecap="round" />
+        <circle cx="9" cy="7" r="4" stroke="rgba(255,255,255,0.55)" strokeWidth="2" />
+        <path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75" stroke="rgba(255,255,255,0.55)" strokeWidth="2" strokeLinecap="round" />
       </svg>
     ),
     title: 'Sube los documentos',
@@ -22,8 +22,8 @@ const BULLETS = [
   {
     icon: (
       <svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none">
-        <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" stroke="#2563EB" strokeWidth="2" strokeLinejoin="round" fill="#2563EB" fillOpacity="0.1" />
-        <path d="M9 12l2 2 4-4" stroke="#2563EB" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+        <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" stroke="rgba(255,255,255,0.55)" strokeWidth="2" strokeLinejoin="round" fill="rgba(255,255,255,0.55)" fillOpacity="0.1" />
+        <path d="M9 12l2 2 4-4" stroke="rgba(255,255,255,0.55)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
       </svg>
     ),
     title: 'Solo apareces a firmar',
@@ -33,33 +33,33 @@ const BULLETS = [
 
 const TRAMITE_ROWS = [
   { label: 'Compraventa de inmueble',    status: 'Firmado',    color: '#1C7A52' },
-  { label: 'Poder notarial registral',   status: 'En proceso', color: '#2563EB' },
+  { label: 'Poder notarial registral',   status: 'En proceso', color: 'rgba(255,255,255,0.65)' },
   { label: 'Hipoteca escritura pública', status: 'Firmado',    color: '#1C7A52' },
-  { label: 'Sucesión intestada',         status: 'Pendiente',  color: '#94A3B8' },
+  { label: 'Sucesión intestada',         status: 'Pendiente',  color: 'rgba(255,255,255,0.5)' },
 ]
 
 function DashboardMockup() {
   return (
     <div
       className="rounded-2xl overflow-hidden shadow-2xl select-none border"
-      style={{ background: '#07101F', borderColor: 'rgba(255,255,255,0.06)' }}
+      style={{ background: '#020952', borderColor: 'rgba(255,255,255,0.06)' }}
       aria-hidden="true"
     >
       <div
         className="flex items-center justify-between px-5 py-4 border-b"
-        style={{ background: '#0F172A', borderColor: 'rgba(255,255,255,0.06)' }}
+        style={{ background: '#020952', borderColor: 'rgba(255,255,255,0.06)' }}
       >
         <div className="flex items-center gap-2">
-          <div className="w-2 h-2 rounded-full" style={{ background: '#2563EB' }} />
+          <div className="w-2 h-2 rounded-full" style={{ background: 'rgba(255,255,255,0.12)' }} />
           <span className="text-white font-bold text-sm tracking-tight">Tu Cierre</span>
         </div>
         <div className="flex items-center gap-2">
           <div className="w-20 h-2 rounded-full" style={{ background: 'rgba(255,255,255,0.08)' }} />
           <div
             className="w-7 h-7 rounded-full flex items-center justify-center"
-            style={{ background: 'rgba(37,99,235,0.18)', border: '1px solid rgba(37,99,235,0.3)' }}
+            style={{ background: 'rgba(255,255,255,0.08)', border: '1px solid rgba(255,255,255,0.12)' }}
           >
-            <span className="text-[10px] font-black" style={{ color: '#93C5FD' }}>BR</span>
+            <span className="text-[10px] font-black" style={{ color: 'rgba(255,255,255,0.65)' }}>BR</span>
           </div>
         </div>
       </div>
@@ -70,15 +70,15 @@ function DashboardMockup() {
           { label: 'Trámites', value: '7 activos' },
           { label: 'Nivel',    value: 'Nivel 2 · 5%' },
         ].map(s => (
-          <div key={s.label} className="px-4 py-3" style={{ background: '#07101F' }}>
-            <div className="text-[10px] font-semibold uppercase tracking-widest" style={{ color: '#94A3B8' }}>{s.label}</div>
+          <div key={s.label} className="px-4 py-3" style={{ background: '#020952', borderTop: '1px solid rgba(255,255,255,0.06)' }}>
+            <div className="text-[10px] font-semibold uppercase tracking-widest" style={{ color: 'rgba(255,255,255,0.5)' }}>{s.label}</div>
             <div className="text-sm font-black text-white mt-0.5">{s.value}</div>
           </div>
         ))}
       </div>
 
       <div className="px-4 py-3 space-y-2">
-        <div className="text-[10px] font-black uppercase tracking-widest mb-3" style={{ color: '#94A3B8' }}>
+        <div className="text-[10px] font-black uppercase tracking-widest mb-3" style={{ color: 'rgba(255,255,255,0.5)' }}>
           Mis Trámites
         </div>
         {TRAMITE_ROWS.map(row => (
@@ -103,15 +103,15 @@ function DashboardMockup() {
 
       <div className="px-4 pb-4 pt-1">
         <div className="flex justify-between items-center mb-1.5">
-          <span className="text-[10px] font-semibold uppercase tracking-widest" style={{ color: '#94A3B8' }}>
+          <span className="text-[10px] font-semibold uppercase tracking-widest" style={{ color: 'rgba(255,255,255,0.5)' }}>
             Progreso al Nivel 3
           </span>
           <span className="text-[10px] font-bold text-white">7 / 8 trámites</span>
         </div>
         <div className="h-1.5 rounded-full overflow-hidden" style={{ background: 'rgba(255,255,255,0.08)' }}>
-          <div className="h-full rounded-full" style={{ width: '87.5%', background: '#2563EB' }} />
+          <div className="h-full rounded-full" style={{ width: '87.5%', background: 'rgba(255,255,255,0.12)' }} />
         </div>
-        <p className="text-[10px] mt-1.5 font-medium" style={{ color: '#93C5FD' }}>
+        <p className="text-[10px] mt-1.5 font-medium" style={{ color: 'rgba(255,255,255,0.65)' }}>
           1 trámite más → 8% comisión
         </p>
       </div>
@@ -121,7 +121,7 @@ function DashboardMockup() {
 
 export default function StepsSection() {
   return (
-    <section id="como-funciona" className="py-28" style={{ background: '#0F172A' }}>
+    <section id="como-funciona" className="py-28" style={{ background: '#020952', borderTop: '1px solid rgba(255,255,255,0.06)' }}>
       <div className="max-w-screen-xl mx-auto px-6 md:px-10 grid md:grid-cols-2 gap-16 items-center">
 
         <DashboardMockup />
@@ -139,11 +139,11 @@ export default function StepsSection() {
               style={{ fontSize: 'clamp(30px, 4vw, 52px)' }}
             >
               <span className="font-extralight">De la operación a la firma </span>
-              <span className="font-black font-display italic" style={{ color: '#2563EB' }}>en tres pasos</span>
+              <span className="font-black font-display italic" style={{ color: 'rgba(255,255,255,0.65)' }}>en tres pasos</span>
             </h2>
           </div>
 
-          <p className="text-xl leading-relaxed font-light" style={{ color: '#94A3B8' }}>
+          <p className="text-xl leading-relaxed font-light" style={{ color: 'rgba(255,255,255,0.5)' }}>
             Sin llamadas a notarías. Sin documentos extraviados. Sin "¿cómo va mi trámite?".
             Todo en una sola plataforma.
           </p>
@@ -159,7 +159,7 @@ export default function StepsSection() {
                 </div>
                 <div>
                   <h4 className="font-bold text-lg text-white">{b.title}</h4>
-                  <p className="mt-0.5 font-light" style={{ color: '#94A3B8' }}>{b.body}</p>
+                  <p className="mt-0.5 font-light" style={{ color: 'rgba(255,255,255,0.5)' }}>{b.body}</p>
                 </div>
               </div>
             ))}

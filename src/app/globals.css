@@ -4,25 +4,26 @@
 
 @layer base {
   :root {
-    --background: 44 25% 96%;
-    --foreground: 225 28% 10%;
+    /* #020952 � logo exact navy */
+    --background: 235 95% 16%;
+    --foreground: 0 0% 98%;
     --card: 0 0% 100%;
-    --card-foreground: 225 28% 10%;
+    --card-foreground: 235 60% 20%;
     --popover: 0 0% 100%;
-    --popover-foreground: 225 28% 10%;
-    --primary: 217 65% 20%;
-    --primary-foreground: 44 25% 96%;
-    --secondary: 44 20% 91%;
-    --secondary-foreground: 225 28% 10%;
-    --muted: 44 20% 93%;
-    --muted-foreground: 220 10% 48%;
-    --accent: 35 87% 41%;
+    --popover-foreground: 235 60% 20%;
+    --primary: 225 100% 65%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 235 50% 22%;
+    --secondary-foreground: 0 0% 90%;
+    --muted: 235 40% 22%;
+    --muted-foreground: 235 30% 68%;
+    --accent: 225 100% 65%;
     --accent-foreground: 0 0% 100%;
     --destructive: 0 78% 56%;
     --destructive-foreground: 0 0% 98%;
-    --border: 42 20% 87%;
-    --input: 42 20% 87%;
-    --ring: 217 65% 20%;
+    --border: 235 40% 28%;
+    --input: 235 40% 22%;
+    --ring: 225 100% 65%;
     --radius: 0.5rem;
   }
 }
@@ -31,7 +32,7 @@
   * { @apply border-border; }
   html { scroll-behavior: smooth; }
   body {
-    @apply bg-parchment text-ink font-sans antialiased;
+    @apply bg-[#020952] text-white font-sans antialiased;
     font-feature-settings: 'kern' 1, 'liga' 1;
   }
   h1, h2 { @apply font-display; }
@@ -49,26 +50,33 @@
   /* noise-overlay fue eliminado por alto consumo de GPU */
 
   .glass-pill {
-    @apply bg-[#F9F9F8]/80 backdrop-blur-md border border-[#18181B]/10 shadow-[0_8px_32px_rgba(0,0,0,0.06)];
+    @apply bg-[#F0F3FF]/80 backdrop-blur-md border border-[#18181B]/10 shadow-[0_8px_32px_rgba(0,0,0,0.06)];
   }
   .glass-pill-dark {
     @apply bg-[#18181B]/80 backdrop-blur-md border border-white/10 shadow-[0_8px_32px_rgba(0,0,0,0.2)];
   }
 
   ::selection {
-    background: rgba(208, 109, 13, 0.2);
-    color: #00081e;
+    background: rgba(40, 85, 224, 0.18);
+    color: #020952;
   }
 
   .text-gold-gradient {
-    background: linear-gradient(135deg, #CB7A5D 0%, #D47151 60%, #A6553A 100%);
+    background: linear-gradient(135deg, #4B78F5 0%, #2855E0 60%, #1E46C7 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .text-brand-gradient {
+    background: linear-gradient(135deg, #4B78F5 0%, #2855E0 60%, #1E46C7 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
   }
 
   .shimmer {
-    background: linear-gradient(90deg, #ece9e0 25%, #f5f3ec 50%, #ece9e0 75%);
+    background: linear-gradient(90deg, rgba(255,255,255,0.05) 25%, rgba(255,255,255,0.10) 50%, rgba(255,255,255,0.05) 75%);
     background-size: 200% 100%;
     animation: shimmer 2s linear infinite;
   }
@@ -131,25 +139,25 @@
   width: 22px;
   height: 22px;
   border-radius: 50%;
-  background: #D07A2E;
+  background: #2855E0;
   cursor: pointer;
   border: 3px solid #fff;
-  box-shadow: 0 1px 6px rgba(208, 122, 46, 0.4);
+  box-shadow: 0 1px 6px rgba(40, 85, 224, 0.4);
   transition: box-shadow 150ms ease, transform 150ms ease;
 }
 .commission-range::-webkit-slider-thumb:hover,
 .commission-range:focus-visible::-webkit-slider-thumb {
-  box-shadow: 0 2px 12px rgba(208, 122, 46, 0.55);
+  box-shadow: 0 2px 12px rgba(40, 85, 224, 0.55);
   transform: scale(1.1);
 }
 .commission-range::-moz-range-thumb {
   width: 22px;
   height: 22px;
   border-radius: 50%;
-  background: #D07A2E;
+  background: #2855E0;
   cursor: pointer;
   border: 3px solid #fff;
-  box-shadow: 0 1px 6px rgba(208, 122, 46, 0.4);
+  box-shadow: 0 1px 6px rgba(40, 85, 224, 0.4);
 }
 
 /* content-visibility removed — it applies contain:layout which breaks IntersectionObserver in Reveal components */

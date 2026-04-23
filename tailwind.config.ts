@@ -48,29 +48,33 @@ const config: Config = {
           DEFAULT: 'hsl(var(--card))',
           foreground: 'hsl(var(--card-foreground))',
         },
-        // TuCierre brand
-        ink: '#12161F',
-        parchment: '#F7F5EF',
+        // TuCierre brand — #020952 exact logo navy
+        ink: '#020952',
+        parchment: '#020952',
         brand: {
-          navy: '#0D1929',
-          'navy-mid': '#152640',
-          'navy-light': '#1E3A5F',
+          navy: '#020952',       // exact logo background
+          'navy-deep': '#01063A',
+          'navy-mid': '#0D1870',
+          'navy-surface': '#0E1F8A', // card/elevated surface on dark
+          blue: '#4D78FF',       // bright accent on dark backgrounds
+          'blue-cta': '#2855E0', // CTA on white/light backgrounds
+          'blue-hover': '#3A62EE',
+          'blue-light': '#92B3FF',
           gold: '#C9880E',
-          'gold-light': '#E8A21A',
+          'gold-light': '#F0AA20',
           'gold-dark': '#A06A08',
           emerald: '#1A7A54',
-          'emerald-light': '#22A06B',
-          // Legacy alias — kept for component compatibility
+          'emerald-light': '#22C97A',
           green: '#1A7A54',
           'green-light': '#22A06B',
           'green-dark': '#155C3E',
           red: '#D93B3B',
-          bg: '#F7F5EF',
+          bg: '#020952',
         },
         tier: {
-          bronce: '#B5540E',
-          plata: '#6B7F99',
-          oro: '#C9880E',
+          bronce: '#E07A3C',
+          plata: '#8EA2C4',
+          oro: '#F0AA20',
         },
       },
       borderRadius: {

@@ -1,5 +1,7 @@
 'use client'
 
+import { Logo } from '@/components/ui/Logo'
+
 import Link from 'next/link'
 import { usePathname, useRouter } from 'next/navigation'
 import {
@@ -38,25 +40,23 @@ export default function Sidebar({ broker }: SidebarProps) {
   const tierConfig = TIER_CONFIG[tier]
 
   return (
-    <aside className="hidden lg:flex w-60 flex-col fixed left-0 top-0 h-full bg-white border-r border-[#18181B]/8 z-20">
+    <aside className="hidden lg:flex w-60 flex-col fixed left-0 top-0 h-full bg-[#020952] border-r border-white/8 z-20">
       {/* Logo */}
-      <div className="px-6 h-16 flex items-center border-b border-[#18181B]/8">
-        <Link href="/dashboard" className="flex items-center gap-2.5">
-          <span className="font-semibold text-[18px] text-[#18181B] tracking-tight">TuCierre</span>
-        </Link>
+      <div className="px-6 h-16 flex items-center border-b border-white/8">
+        <Logo size="md" />
       </div>
 
       {/* Broker info */}
       {broker && (
         <Link
           href="/perfil"
-          className="mx-3 mt-4 flex items-center gap-3 px-3 py-2.5 rounded-2xl hover:bg-[#18181B]/4 transition-colors group"
+          className="mx-3 mt-4 flex items-center gap-3 px-3 py-2.5 rounded-2xl hover:bg-white/6 transition-colors group"
         >
-          <div className="w-9 h-9 rounded-full bg-[#18181B] flex items-center justify-center text-white font-semibold text-xs shrink-0">
+          <div className="w-9 h-9 rounded-full bg-white/15 flex items-center justify-center text-white font-semibold text-xs shrink-0">
             {generateInitials(broker.full_name)}
           </div>
           <div className="flex-1 min-w-0">
-            <div className="text-sm font-semibold text-[#18181B] truncate leading-none">
+            <div className="text-sm font-semibold text-white truncate leading-none">
               {broker.full_name.split(' ')[0]}
             </div>
             <div className={cn('text-xs font-medium mt-0.5 leading-none', tierConfig.color)}>
@@ -68,7 +68,7 @@ export default function Sidebar({ broker }: SidebarProps) {
       )}
 
       {/* Divider */}
-      <div className="mx-5 my-3 h-px bg-[#18181B]/8" />
+      <div className="mx-5 my-3 h-px bg-white/8" />
 
       {/* Navigation */}
       <nav className="flex-1 px-3 space-y-0.5 overflow-y-auto">
@@ -81,11 +81,11 @@ export default function Sidebar({ broker }: SidebarProps) {
               className={cn(
                 'flex items-center gap-3 px-4 py-2.5 text-sm font-medium transition-all',
                 isActive
-                  ? 'bg-[#D47151]/8 border-l-[3px] border-[#D47151] text-[#D47151] font-semibold rounded-r-xl'
-                  : 'text-[#18181B]/60 hover:text-[#18181B] hover:bg-[#18181B]/4 rounded-xl'
+                  ? 'bg-white/10 border-l-[3px] border-[#4D78FF] text-white font-semibold rounded-r-xl'
+                  : 'text-white/60 hover:text-white hover:bg-white/6 rounded-xl'
               )}
             >
-              <item.icon size={16} className={isActive ? 'text-[#D47151]' : ''} />
+              <item.icon size={16} className={isActive ? 'text-[#2855E0]' : ''} />
               {item.label}
             </Link>
           )
@@ -93,14 +93,14 @@ export default function Sidebar({ broker }: SidebarProps) {
       </nav>
 
       {/* Bottom actions */}
-      <div className="mx-3 mb-3 space-y-0.5 border-t border-[#18181B]/8 pt-3">
+      <div className="mx-3 mb-3 space-y-0.5 border-t border-white/8 pt-3">
         <Link
           href="/perfil"
           className={cn(
             'flex items-center gap-3 px-4 py-2.5 text-sm font-medium transition-all',
             pathname === '/perfil'
-              ? 'bg-[#D47151]/8 border-l-[3px] border-[#D47151] text-[#D47151] font-semibold rounded-r-xl'
-              : 'text-[#18181B]/60 hover:text-[#18181B] hover:bg-[#18181B]/4 rounded-xl'
+              ? 'bg-white/10 border-l-[3px] border-[#4D78FF] text-white font-semibold rounded-r-xl'
+              : 'text-white/60 hover:text-white hover:bg-white/6 rounded-xl'
           )}
         >
           <Settings size={16} />
@@ -108,7 +108,7 @@ export default function Sidebar({ broker }: SidebarProps) {
         </Link>
         <button
           onClick={handleSignOut}
-          className="flex items-center gap-3 px-4 py-2.5 w-full rounded-xl text-sm font-medium text-[#18181B]/60 hover:text-red-600 hover:bg-red-50 transition-all"
+          className="flex items-center gap-3 px-4 py-2.5 w-full rounded-xl text-sm font-medium text-white/50 hover:text-red-400 hover:bg-red-500/10 transition-all"
         >
           <LogOut size={16} />
           Cerrar sesión

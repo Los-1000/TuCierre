@@ -83,12 +83,12 @@ export default function PriceBreakdown({ basePrice, tier, propertyValue, matched
 
         {/* Commission highlight */}
         {discount > 0 && (
-          <div className="mt-4 p-4 bg-[#D47151]/5 rounded-2xl border border-[#D47151]/15 flex items-center justify-between">
+          <div className="mt-4 p-4 bg-[#2855E0]/5 rounded-2xl border border-[#2855E0]/15 flex items-center justify-between">
             <div>
-              <p className="text-[10px] font-bold uppercase tracking-widest text-[#D47151]">
+              <p className="text-[10px] font-bold uppercase tracking-widest text-[#2855E0]">
                 Tu Comisión ({tierConfig.discount}%)
               </p>
-              <p className="text-lg font-bold text-[#D47151] tabular-nums font-mono">
+              <p className="text-lg font-bold text-[#2855E0] tabular-nums font-mono">
                 {formatPrice(discount)}
               </p>
             </div>

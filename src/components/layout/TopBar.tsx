@@ -1,5 +1,7 @@
 'use client'
 
+import { Logo } from '@/components/ui/Logo'
+
 import Link from 'next/link'
 import { Menu } from 'lucide-react'
 import { generateInitials, cn } from '@/lib/utils'
@@ -16,19 +18,17 @@ export default function TopBar({ broker, onMenuClick }: TopBarProps) {
   const tierConfig = TIER_CONFIG[tier]
 
   return (
-    <header className="sticky top-0 z-10 bg-white border-b border-[#18181B]/8 lg:hidden">
+    <header className="sticky top-0 z-10 bg-[#020952] border-b border-white/8 lg:hidden">
       <div className="flex items-center justify-between px-4 h-14">
         <div className="flex items-center gap-3">
           <button
             onClick={onMenuClick}
-            className="w-9 h-9 flex items-center justify-center rounded-xl text-[#18181B]/50 hover:bg-[#18181B]/5 transition-colors"
+            className="w-9 h-9 flex items-center justify-center rounded-xl text-white/60 hover:bg-white/8 transition-colors"
             aria-label="Abrir menú"
           >
             <Menu size={19} />
           </button>
-          <Link href="/dashboard">
-            <span className="font-semibold text-base text-[#18181B] tracking-tight">TuCierre</span>
-          </Link>
+          <Logo size="sm" />
         </div>
 
         <Link href="/perfil" className="flex items-center gap-2">
@@ -37,7 +37,7 @@ export default function TopBar({ broker, onMenuClick }: TopBarProps) {
               {tierConfig.icon} {tierConfig.label}
             </span>
           )}
-          <div className="w-8 h-8 rounded-full bg-[#18181B] flex items-center justify-center text-white font-semibold text-[11px]">
+          <div className="w-8 h-8 rounded-full bg-white/15 flex items-center justify-center text-white font-semibold text-[11px]">
             {broker ? generateInitials(broker.full_name) : '?'}
           </div>
         </Link>
