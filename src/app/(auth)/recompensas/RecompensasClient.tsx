@@ -116,7 +116,7 @@ export default function RecompensasClient({
     <div className="space-y-8">
       {/* Header */}
       <div>
-        <h1 className="text-3xl font-semibold text-white tracking-tight">Recompensas</h1>
+        <h1 className="text-4xl font-bold font-display text-white tracking-tight">Recompensas</h1>
         <p className="text-white/50 text-sm mt-1">
           Tu nivel de fidelidad, beneficios y ahorro acumulado.
         </p>

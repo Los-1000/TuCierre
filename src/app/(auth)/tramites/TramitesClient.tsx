@@ -75,7 +75,7 @@ export default function TramitesClient({ initialTramites }: TramitesClientProps)
       {/* Header */}
       <div className="flex items-center justify-between gap-4 flex-wrap">
         <div className="flex items-center gap-3">
-          <h1 className="text-3xl font-semibold text-white tracking-tight">Mis Trámites</h1>
+          <h1 className="text-4xl font-bold font-display text-white tracking-tight">Mis Trámites</h1>
           <span className="inline-flex items-center justify-center px-3 py-1 rounded-full bg-white/10 text-white/70 text-sm font-bold">
             {filtered.length}
           </span>

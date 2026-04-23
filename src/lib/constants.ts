@@ -4,14 +4,14 @@ export const TRAMITE_STATUS_CONFIG: Record<
   TramiteStatus,
   { label: string; bg: string; text: string; border: string; step: number }
 > = {
-  cotizado:              { label: 'Cotizado',          bg: 'bg-blue-50',    text: 'text-blue-700',    border: 'border-blue-200',   step: 1 },
-  solicitado:            { label: 'Solicitado',         bg: 'bg-purple-50',  text: 'text-purple-700',  border: 'border-purple-200', step: 2 },
-  documentos_pendientes: { label: 'Docs. Pendientes',   bg: 'bg-yellow-50',  text: 'text-yellow-800',  border: 'border-yellow-300', step: 3 },
-  en_revision:           { label: 'En Revisión',        bg: 'bg-orange-50',  text: 'text-orange-800',  border: 'border-orange-300', step: 4 },
-  en_firma:              { label: 'En Firma',           bg: 'bg-sky-50',     text: 'text-sky-800',     border: 'border-sky-300',    step: 5 },
-  en_registro:           { label: 'En Registro',        bg: 'bg-green-50',   text: 'text-green-800',   border: 'border-green-300',  step: 6 },
-  completado:            { label: 'Completado',         bg: 'bg-emerald-50', text: 'text-emerald-900', border: 'border-emerald-300',step: 7 },
-  cancelado:             { label: 'Cancelado',          bg: 'bg-red-50',     text: 'text-red-800',     border: 'border-red-200',    step: -1 },
+  cotizado:              { label: 'Cotizado',          bg: 'bg-blue-100',    text: 'text-blue-900',    border: 'border-blue-300',   step: 1 },
+  solicitado:            { label: 'Solicitado',         bg: 'bg-purple-100',  text: 'text-purple-900',  border: 'border-purple-300', step: 2 },
+  documentos_pendientes: { label: 'Docs. Pendientes',   bg: 'bg-amber-100',   text: 'text-amber-900',   border: 'border-amber-400',  step: 3 },
+  en_revision:           { label: 'En Revisión',        bg: 'bg-orange-100',  text: 'text-orange-900',  border: 'border-orange-400', step: 4 },
+  en_firma:              { label: 'En Firma',           bg: 'bg-sky-100',     text: 'text-sky-900',     border: 'border-sky-400',    step: 5 },
+  en_registro:           { label: 'En Registro',        bg: 'bg-green-100',   text: 'text-green-900',   border: 'border-green-400',  step: 6 },
+  completado:            { label: 'Completado',         bg: 'bg-emerald-100', text: 'text-emerald-900', border: 'border-emerald-400', step: 7 },
+  cancelado:             { label: 'Cancelado',          bg: 'bg-red-100',     text: 'text-red-900',     border: 'border-red-300',    step: -1 },
 }
 
 export const TRAMITE_STATUS_ORDER: TramiteStatus[] = [

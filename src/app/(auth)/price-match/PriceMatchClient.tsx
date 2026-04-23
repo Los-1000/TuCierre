@@ -155,7 +155,7 @@ export default function PriceMatchPage() {
     <div className="space-y-8">
       {/* Header */}
       <div>
-        <h1 className="text-2xl font-bold text-white">Price Match</h1>
+        <h1 className="text-3xl font-bold font-display text-white tracking-tight">Price Match</h1>
         <p className="text-white/50 text-sm mt-1">
           ¿Encontraste un precio más bajo? Lo igualamos.
         </p>

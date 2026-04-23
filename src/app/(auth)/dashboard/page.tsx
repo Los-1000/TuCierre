@@ -117,7 +117,7 @@ export default async function DashboardPage() {
       {/* Header */}
       <div className="flex items-start justify-between">
         <div>
-          <h1 className="text-3xl font-semibold text-white tracking-tight">
+          <h1 className="text-4xl font-bold font-display text-white tracking-tight">
             {greeting}, {firstName}
           </h1>
           <p className="text-white/50 text-sm mt-1">

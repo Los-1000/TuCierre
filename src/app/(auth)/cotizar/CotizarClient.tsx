@@ -206,7 +206,7 @@ export default function CotizarPage() {
   return (
     <div className="max-w-2xl mx-auto">
       <div className="mb-6">
-        <h1 className="text-2xl font-semibold text-white tracking-tight">Nueva cotización</h1>
+        <h1 className="text-3xl font-bold font-display text-white tracking-tight">Nueva cotización</h1>
         <p className="text-white/50 text-sm mt-1">Solicita tu trámite notarial en 3 pasos.</p>
       </div>
 
