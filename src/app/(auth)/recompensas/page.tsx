@@ -299,7 +299,7 @@ export default function RecompensasPage() {
                   isActive
                     ? 'bg-white border-2 shadow-[0_8px_28px_rgba(0,0,0,0.10)]'
                     : isLocked
-                    ? 'bg-white/55 border border-white/10'
+                    ? 'bg-white/80 border border-[#18181B]/5'
                     : 'bg-white border border-[#18181B]/8',
                 )}
                 style={isActive ? { borderColor: color } : {}}
@@ -417,8 +417,8 @@ export default function RecompensasPage() {
       {/* ── Retiro de referidos ── */}
       <div>
         <div className="flex items-center gap-2 mb-4">
-          <Wallet size={17} className="text-[#18181B]/50" />
-          <h2 className="text-lg font-semibold text-[#18181B]">Retiro de referidos</h2>
+          <Wallet size={17} className="text-white/40" />
+          <h2 className="text-lg font-semibold text-white">Retiro de referidos</h2>
         </div>
 
         {brokerLoading || cashoutsLoading ? (
@@ -519,8 +519,8 @@ export default function RecompensasPage() {
       {/* ── Comisiones ── */}
       <div>
         <div className="flex items-center gap-2 mb-4">
-          <DollarSign size={17} className="text-[#18181B]/50" />
-          <h2 className="text-lg font-semibold text-[#18181B]">Comisiones</h2>
+          <DollarSign size={17} className="text-white/40" />
+          <h2 className="text-lg font-semibold text-white">Comisiones</h2>
         </div>
 
         {commissionsLoading ? (
@@ -612,8 +612,8 @@ export default function RecompensasPage() {
       {/* ── Historial de recompensas ── */}
       <div>
         <div className="flex items-center gap-2 mb-4">
-          <TrendingUp size={17} className="text-[#18181B]/50" />
-          <h2 className="text-lg font-semibold text-[#18181B]">Historial de recompensas</h2>
+          <TrendingUp size={17} className="text-white/40" />
+          <h2 className="text-lg font-semibold text-white">Historial de recompensas</h2>
         </div>
 
         {rewardsLoading ? (

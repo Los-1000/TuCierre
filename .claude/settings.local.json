@@ -117,7 +117,10 @@
       "Bash(sed -n '162,170p' C:/Users/cefd2/Downloads/TuCierre/src/app/'\\(auth\\)'/perfil/page.tsx)",
       "Bash(sed -n '206,215p' C:/Users/cefd2/Downloads/TuCierre/src/app/'\\(auth\\)'/cotizar/page.tsx)",
       "Bash(sed -n '155,195p' C:/Users/cefd2/Downloads/TuCierre/src/app/'\\(auth\\)'/price-match/page.tsx)",
-      "Bash(sed -n '430,445p' C:/Users/cefd2/Downloads/TuCierre/src/app/'\\(auth\\)'/cotizar/page.tsx)"
+      "Bash(sed -n '430,445p' C:/Users/cefd2/Downloads/TuCierre/src/app/'\\(auth\\)'/cotizar/page.tsx)",
+      "Bash(sed -n '417,425p' C:/Users/cefd2/Downloads/TuCierre/src/app/'\\(auth\\)'/recompensas/page.tsx)",
+      "Bash(sed -n '519,526p' C:/Users/cefd2/Downloads/TuCierre/src/app/'\\(auth\\)'/recompensas/page.tsx)",
+      "Bash(sed -n '612,619p' C:/Users/cefd2/Downloads/TuCierre/src/app/'\\(auth\\)'/recompensas/page.tsx)"
     ]
   }
 }

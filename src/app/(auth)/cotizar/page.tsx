@@ -234,7 +234,7 @@ export default function CotizarPage() {
                   className={cn(
                     'w-full text-left border-2 rounded-2xl p-4 transition-all',
                     selectedNotaria?.id === n.id
-                      ? 'border-[#2855E0] bg-[#2855E0]/5 shadow-md'
+                      ? 'border-[#2855E0] bg-white shadow-sm'
                       : 'border-[#18181B]/10 hover:border-[#2855E0]/40 bg-white hover:bg-white',
                   )}
                 >
@@ -307,7 +307,7 @@ export default function CotizarPage() {
                   className={cn(
                     'text-left border-2 rounded-2xl p-4 transition-all',
                     selectedType?.id === type.id
-                      ? 'border-[#2855E0] bg-[#2855E0]/5 shadow-md'
+                      ? 'border-[#2855E0] bg-white shadow-sm'
                       : 'border-[#18181B]/10 hover:border-[#2855E0]/40 bg-white',
                   )}
                 >
