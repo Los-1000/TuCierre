@@ -249,7 +249,7 @@ export default function TramitesClient({
       <div className="bg-white rounded-3xl border border-[#18181B]/8 shadow-[0_4px_24px_rgba(18,18,27,0.06)] overflow-hidden">
         <table className="w-full text-left border-collapse">
           <thead>
-            <tr className="bg-[#F0F3FF]">
+            <tr className="bg-slate-50">
               <th className="py-4 pl-6 w-10">
                 <Checkbox
                   checked={filtered.length > 0 && selected.size === filtered.length}
@@ -301,7 +301,7 @@ export default function TramitesClient({
                 const type = unwrap(t.tramite_types)
                 const isUnassigned = t.status === 'solicitado'
                 return (
-                  <tr key={t.id} className="hover:bg-[#F0F3FF]/60 transition-colors">
+                  <tr key={t.id} className="hover:bg-slate-50/60 transition-colors">
                     <td className="py-5 pl-6">
                       <Checkbox checked={selected.has(t.id)} onCheckedChange={() => toggleSelect(t.id)} />
                     </td>
@@ -383,7 +383,7 @@ export default function TramitesClient({
             <div className="space-y-5">
               {/* Summary */}
               {dialogTarget.length > 0 && (
-                <div className="p-4 bg-[#F0F3FF] rounded-2xl flex items-center gap-4">
+                <div className="p-4 bg-slate-50 rounded-2xl flex items-center gap-4">
                   <div className="w-10 h-10 rounded-full bg-[#2855E0]/10 flex items-center justify-center shrink-0">
                     <span className="text-[#2855E0] text-lg">📁</span>
                   </div>
@@ -458,7 +458,7 @@ export default function TramitesClient({
           </div>
 
           {/* Footer note */}
-          <div className="bg-[#F0F3FF] px-8 py-3 border-t border-[#18181B]/5">
+          <div className="bg-slate-50 px-8 py-3 border-t border-[#18181B]/5">
             <p className="text-[10px] text-center text-[#18181B]/40 font-medium uppercase tracking-widest">
               Se notificará automáticamente al broker vía email
             </p>

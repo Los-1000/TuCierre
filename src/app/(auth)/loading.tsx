@@ -3,7 +3,7 @@
 
 export default function AuthLoading() {
   return (
-    <div className="flex min-h-screen bg-[#F0F3FF]">
+    <div className="flex min-h-screen bg-[#020952]">
       {/* Sidebar skeleton */}
       <div className="hidden lg:flex w-60 flex-col fixed left-0 top-0 h-full bg-white border-r border-[#18181B]/8 z-20">
         <div className="p-5 border-b border-[#18181B]/8">

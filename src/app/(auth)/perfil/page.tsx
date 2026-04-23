@@ -260,12 +260,12 @@ export default function PerfilPage() {
           </div>
         )}
         <div className="grid grid-cols-2 gap-3 mt-4">
-          <div className="bg-[#F0F3FF] border border-[#18181B]/8 rounded-2xl p-4 text-center">
+          <div className="bg-slate-50 border border-[#18181B]/8 rounded-2xl p-4 text-center">
             <Users size={15} className="mx-auto text-[#2855E0] mb-1" />
             <p className="text-2xl font-bold text-[#18181B]">{referralCount}</p>
             <p className="text-xs text-[#18181B]/40 mt-0.5">Personas referidas</p>
           </div>
-          <div className="bg-[#F0F3FF] border border-[#18181B]/8 rounded-2xl p-4 text-center">
+          <div className="bg-slate-50 border border-[#18181B]/8 rounded-2xl p-4 text-center">
             <PiggyBank size={15} className="mx-auto text-[#2855E0] mb-1" />
             <p className="text-lg font-bold text-[#18181B] tabular-nums">{formatPrice(referralBonuses)}</p>
             <p className="text-xs text-[#18181B]/40 mt-0.5">Bonos ganados</p>

@@ -208,7 +208,7 @@ export default function AdminBrokersPage() {
       <div className="bg-white rounded-3xl border border-[#18181B]/8 shadow-[0_4px_24px_rgba(18,18,27,0.06)] overflow-hidden">
         <table className="w-full text-left border-collapse">
           <thead>
-            <tr className="bg-[#F0F3FF]">
+            <tr className="bg-slate-50">
               <th className="px-8 py-5 text-[11px] font-bold uppercase tracking-wider text-[#18181B]/50">Nombre</th>
               <th className="px-6 py-5 text-[11px] font-bold uppercase tracking-wider text-[#18181B]/50">DNI</th>
               <th className="px-6 py-5 text-[11px] font-bold uppercase tracking-wider text-[#18181B]/50">Tier</th>
@@ -235,7 +235,7 @@ export default function AdminBrokersPage() {
               </tr>
             ) : (
               filtered.map(b => (
-                <tr key={b.id} className="hover:bg-[#F0F3FF]/60 transition-colors group cursor-pointer" onClick={() => openBrokerProfile(b)}>
+                <tr key={b.id} className="hover:bg-slate-50/60 transition-colors group cursor-pointer" onClick={() => openBrokerProfile(b)}>
                   <td className="px-8 py-6">
                     <div className="flex items-center gap-4">
                       <div className="w-10 h-10 rounded-full bg-[#18181B]/8 flex items-center justify-center font-bold text-[#18181B] text-sm shrink-0">
@@ -323,11 +323,11 @@ export default function AdminBrokersPage() {
                 {activeTab === 'tramites' && (
                   <div className="p-8 space-y-4">
                     <div className="grid grid-cols-2 gap-4 mb-6">
-                      <div className="bg-[#F0F3FF] rounded-2xl p-4">
+                      <div className="bg-slate-50 rounded-2xl p-4">
                         <p className="text-[10px] font-bold uppercase tracking-wider text-[#18181B]/50 mb-1">Este mes</p>
                         <p className="text-2xl font-black text-[#18181B]">{selectedBroker.total_tramites_month}</p>
                       </div>
-                      <div className="bg-[#F0F3FF] rounded-2xl p-4">
+                      <div className="bg-slate-50 rounded-2xl p-4">
                         <p className="text-[10px] font-bold uppercase tracking-wider text-[#18181B]/50 mb-1">Total</p>
                         <p className="text-2xl font-black text-[#18181B]">{selectedBroker.total_tramites}</p>
                       </div>
@@ -349,7 +349,7 @@ export default function AdminBrokersPage() {
                           return (
                             <div
                               key={t.id}
-                              className="flex items-center gap-3 p-3 border border-[#18181B]/8 rounded-2xl hover:bg-[#F0F3FF] transition-colors"
+                              className="flex items-center gap-3 p-3 border border-[#18181B]/8 rounded-2xl hover:bg-slate-50 transition-colors"
                             >
                               <div className="flex-1 min-w-0">
                                 <p className="text-xs font-mono font-bold text-[#18181B]">{t.reference_code}</p>

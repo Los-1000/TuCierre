@@ -118,7 +118,7 @@ export default async function AdminPriceMatchPage() {
                     <div>
                       <h3 className="text-xl font-bold text-[#18181B]">{r.brokers?.full_name ?? '—'}</h3>
                       <div className="flex items-center gap-3 mt-1">
-                        <span className="text-xs font-bold text-[#18181B]/50 uppercase tracking-tight bg-[#F0F3FF] px-2 py-0.5 rounded-lg">
+                        <span className="text-xs font-bold text-[#18181B]/50 uppercase tracking-tight bg-slate-50 px-2 py-0.5 rounded-lg">
                           {r.competitor_name}
                         </span>
                         <span className="text-sm font-medium text-[#2855E0]">
@@ -131,7 +131,7 @@ export default async function AdminPriceMatchPage() {
                         href={r.evidence_url}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="flex items-center gap-2 px-4 py-2 rounded-full border border-[#18181B]/15 text-[#18181B]/60 text-xs font-bold uppercase tracking-wider hover:bg-[#F0F3FF] transition-colors"
+                        className="flex items-center gap-2 px-4 py-2 rounded-full border border-[#18181B]/15 text-[#18181B]/60 text-xs font-bold uppercase tracking-wider hover:bg-slate-50 transition-colors"
                       >
                         <ExternalLink size={12} />
                         Ver evidencia
@@ -140,7 +140,7 @@ export default async function AdminPriceMatchPage() {
                   </div>
 
                   {/* Price grid */}
-                  <div className="grid grid-cols-3 gap-4 bg-[#F0F3FF] p-4 rounded-2xl">
+                  <div className="grid grid-cols-3 gap-4 bg-slate-50 p-4 rounded-2xl">
                     <div>
                       <p className="text-[10px] font-bold text-[#18181B]/50 uppercase mb-1">Competidor</p>
                       <p className="text-lg font-bold text-[#18181B]">{formatPrice(r.competitor_price)}</p>

@@ -182,7 +182,7 @@ export default function AdminTramiteClient({
     <div className="space-y-4">
       {/* Broker card */}
       <div className="rounded-2xl border border-[#18181B]/8 bg-white overflow-hidden">
-        <div className="px-4 py-3 bg-[#F0F3FF] border-b border-[#18181B]/6 flex items-center gap-2">
+        <div className="px-4 py-3 bg-slate-50 border-b border-[#18181B]/6 flex items-center gap-2">
           <User size={14} className="text-[#18181B]/40" />
           <span className="text-xs font-semibold uppercase tracking-wide text-[#18181B]/40">Broker</span>
         </div>
@@ -224,7 +224,7 @@ export default function AdminTramiteClient({
       {/* Property card */}
       {(tramite.property_address || tramite.property_district || tramite.property_value) && (
         <div className="rounded-2xl border border-[#18181B]/8 bg-white overflow-hidden">
-          <div className="px-4 py-3 bg-[#F0F3FF] border-b border-[#18181B]/6 flex items-center gap-2">
+          <div className="px-4 py-3 bg-slate-50 border-b border-[#18181B]/6 flex items-center gap-2">
             <MapPin size={14} className="text-[#18181B]/40" />
             <span className="text-xs font-semibold uppercase tracking-wide text-[#18181B]/40">Inmueble</span>
           </div>
@@ -240,7 +240,7 @@ export default function AdminTramiteClient({
 
       {/* Price card */}
       <div className="rounded-2xl border border-[#18181B]/8 bg-white overflow-hidden">
-        <div className="px-4 py-3 bg-[#F0F3FF] border-b border-[#18181B]/6">
+        <div className="px-4 py-3 bg-slate-50 border-b border-[#18181B]/6">
           <span className="text-xs font-semibold uppercase tracking-wide text-[#18181B]/40">Precio</span>
         </div>
         <div className="p-4 space-y-0">
@@ -269,7 +269,7 @@ export default function AdminTramiteClient({
 
       {/* Dates */}
       <div className="rounded-2xl border border-[#18181B]/8 bg-white overflow-hidden">
-        <div className="px-4 py-3 bg-[#F0F3FF] border-b border-[#18181B]/6">
+        <div className="px-4 py-3 bg-slate-50 border-b border-[#18181B]/6">
           <span className="text-xs font-semibold uppercase tracking-wide text-[#18181B]/40">Fechas</span>
         </div>
         <div className="p-4 space-y-0">
@@ -446,7 +446,7 @@ export default function AdminTramiteClient({
         {/* Left — tabs */}
         <div className="lg:col-span-7">
           <Tabs defaultValue="solicitud">
-            <TabsList className="w-full grid grid-cols-4 mb-4 bg-[#F0F3FF] rounded-2xl p-1">
+            <TabsList className="w-full grid grid-cols-4 mb-4 bg-slate-50 rounded-2xl p-1">
               <TabsTrigger value="solicitud" className="text-xs rounded-xl data-[state=active]:bg-white data-[state=active]:text-[#18181B] data-[state=active]:shadow-sm">Solicitud</TabsTrigger>
               <TabsTrigger value="documentos" className="text-xs rounded-xl data-[state=active]:bg-white data-[state=active]:text-[#18181B] data-[state=active]:shadow-sm">
                 Documentos
@@ -471,7 +471,7 @@ export default function AdminTramiteClient({
         <div className="lg:col-span-5">
           <div className="sticky top-6">
             <div className="rounded-3xl border border-[#18181B]/8 bg-white overflow-hidden">
-              <div className="px-4 py-3 bg-[#F0F3FF] border-b border-[#18181B]/6 flex items-center gap-2">
+              <div className="px-4 py-3 bg-slate-50 border-b border-[#18181B]/6 flex items-center gap-2">
                 <span className="text-xs font-semibold uppercase tracking-wide text-[#18181B]/40">
                   Chat con {broker?.full_name?.split(' ')[0] ?? 'broker'}
                 </span>

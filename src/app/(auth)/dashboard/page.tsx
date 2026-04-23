@@ -149,37 +149,34 @@ export default async function DashboardPage() {
         </div>
       </div>
 
-      {/* Tier progress card */}
-      <div className="bg-white rounded-3xl border border-[#18181B]/8 shadow-[0_4px_24px_rgba(18,18,27,0.06)] p-6">
-        <div className="flex flex-col md:flex-row md:items-center justify-between mb-5 gap-3">
-          <div>
-            <h3 className="text-base font-semibold text-[#18181B]">
-              {monthCount} trámite{monthCount !== 1 ? 's' : ''} completado{monthCount !== 1 ? 's' : ''} este mes
-            </h3>
-            <p className="text-[#18181B]/60 text-sm mt-0.5">
-              {tier !== 'oro'
-                ? `Te faltan ${tramitesToNext} trámite${tramitesToNext !== 1 ? 's' : ''} para nivel ${nextTierLabel}`
-                : 'Nivel máximo alcanzado'}
-            </p>
+      {/* Tier progress — naked, no card */}
+      <div className="px-1">
+        <div className="flex items-center justify-between mb-3">
+          <div className="flex items-baseline gap-3">
+            <span className="text-2xl font-black text-white tabular-nums">{monthCount}</span>
+            <span className="text-white/50 text-sm">
+              trámite{monthCount !== 1 ? 's' : ''} este mes
+            </span>
           </div>
-          {tier !== 'oro' && (
-            <div className="flex items-center gap-2 text-[#2855E0] font-bold text-sm bg-[#2855E0]/5 px-4 py-2 rounded-full border border-[#2855E0]/10">
-              <span>{tramitesToNext} trámites más</span>
-              <ArrowRight size={14} />
-              <span className="font-black">Nivel {nextTierLabel}</span>
-            </div>
+          {tier !== 'oro' ? (
+            <span className="text-xs font-semibold text-white/40">
+              {tramitesToNext} más → <span className="text-white/60 font-bold">{nextTierLabel}</span>
+            </span>
+          ) : (
+            <span className="text-xs font-bold uppercase tracking-widest" style={{ color: '#C9880E' }}>
+              Nivel Oro ★
+            </span>
           )}
         </div>
-        <div className="relative w-full h-2.5 bg-[#18181B]/8 rounded-full overflow-hidden">
+        <div className="relative w-full h-1.5 bg-white/10 rounded-full overflow-hidden">
           <div
-            className="absolute top-0 left-0 h-full bg-[#2855E0] rounded-full transition-all duration-700"
-            style={{ width: `${progressPercent}%` }}
+            className="absolute top-0 left-0 h-full rounded-full transition-all duration-700"
+            style={{ width: `${progressPercent}%`, background: tier === 'oro' ? '#C9880E' : '#2855E0' }}
           />
         </div>
-        <div className="mt-3 flex justify-between text-[11px] font-bold text-[#18181B]/40 uppercase tracking-widest">
-          <span>0 Trámites</span>
-          <span>{Math.round(progressPercent)}% del objetivo</span>
-          <span>{tier === 'bronce' ? '4' : '8'} trámites ({nextTierLabel || 'Oro'})</span>
+        <div className="mt-2 flex justify-between text-[10px] font-medium text-white/25">
+          <span>0</span>
+          <span>{tier === 'bronce' ? '4' : '8'} trámites</span>
         </div>
       </div>
 
@@ -196,7 +193,7 @@ export default async function DashboardPage() {
               <div className={cn(
                 'flex items-center gap-3 px-4 py-3.5 rounded-2xl transition-all hover:shadow-sm border',
                 action.primary
-                  ? 'bg-[#18181B] text-white border-[#18181B]'
+                  ? 'bg-[#2855E0] text-white border-[#2855E0]'
                   : 'bg-white text-[#18181B] border-[#18181B]/8 hover:border-[#2855E0]/30'
               )}>
                 <action.icon size={17} className="shrink-0" />
@@ -219,7 +216,7 @@ export default async function DashboardPage() {
           <h2 className="font-semibold text-[#18181B]">Trámites Recientes</h2>
           <Link
             href="/tramites"
-            className="text-xs font-bold text-[#2855E0] hover:underline uppercase tracking-wider"
+            className="text-xs font-medium text-[#2855E0] hover:underline"
           >
             Ver todos
           </Link>
@@ -238,7 +235,7 @@ export default async function DashboardPage() {
           <div className="overflow-x-auto">
             <table className="w-full text-left border-collapse">
               <thead>
-                <tr className="text-[11px] font-bold text-[#18181B]/40 uppercase tracking-widest bg-[#F0F3FF]">
+                <tr className="text-[11px] font-bold text-[#18181B]/40 uppercase tracking-widest bg-slate-50">
                   <th className="px-6 py-4">Código</th>
                   <th className="px-4 py-4">Tipo</th>
                   <th className="px-4 py-4">Estado</th>
@@ -249,7 +246,7 @@ export default async function DashboardPage() {
               </thead>
               <tbody className="divide-y divide-[#18181B]/5">
                 {recentTramites.map((tramite) => (
-                  <tr key={tramite.id} className="hover:bg-[#F0F3FF]/80 transition-colors group">
+                  <tr key={tramite.id} className="hover:bg-slate-50 transition-colors group">
                     <td className="px-6 py-4">
                       <code className="font-mono text-xs bg-[#18181B]/5 text-[#18181B]/60 px-2 py-1 rounded-md font-semibold">
                         {tramite.reference_code}

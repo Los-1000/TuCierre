@@ -165,7 +165,7 @@ export default function TramiteDetailPage() {
           {tramite.parties?.map((party, i) => (
             <div
               key={i}
-              className="flex items-start gap-3 p-4 bg-[#F0F3FF] rounded-2xl border border-[#18181B]/8"
+              className="flex items-start gap-3 p-4 bg-slate-50 rounded-2xl border border-[#18181B]/8"
             >
               <div className="w-9 h-9 rounded-full bg-[#2855E0]/10 text-[#2855E0] font-semibold text-sm flex items-center justify-center shrink-0">
                 {generateInitials(party.name)}
@@ -367,7 +367,7 @@ export default function TramiteDetailPage() {
       {/* ─── Mobile layout: Tabs ─── */}
       <div className="lg:hidden">
         <Tabs defaultValue="seguimiento">
-          <TabsList className="w-full grid grid-cols-4 h-auto bg-[#F0F3FF] rounded-2xl p-1">
+          <TabsList className="w-full grid grid-cols-4 h-auto bg-slate-50 rounded-2xl p-1">
             <TabsTrigger value="seguimiento" className="text-xs py-2 rounded-xl data-[state=active]:bg-white data-[state=active]:shadow-sm">
               Seguimiento
             </TabsTrigger>

@@ -33,7 +33,7 @@ export default async function AdminLayout({ children }: { children: React.ReactN
     .toUpperCase()
 
   return (
-    <div className="flex min-h-screen bg-[#F0F3FF]">
+    <div className="flex min-h-screen bg-slate-50">
       {/* Admin Sidebar — dark, distinct */}
       <aside className="hidden lg:flex w-[240px] flex-col fixed left-0 top-0 h-full bg-[#18181B] z-20">
         {/* Brand */}

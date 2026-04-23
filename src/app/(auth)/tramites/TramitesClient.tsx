@@ -182,7 +182,7 @@ export default function TramitesClient({ initialTramites }: TramitesClientProps)
           <div className="overflow-x-auto">
             <table className="w-full text-left border-collapse">
               <thead>
-                <tr className="bg-[#F0F3FF] border-b border-[#18181B]/6">
+                <tr className="border-b border-[#18181B]/8">
                   <th className="px-6 py-4 text-[11px] font-bold uppercase tracking-widest text-[#18181B]/40">Código</th>
                   <th className="px-6 py-4 text-[11px] font-bold uppercase tracking-widest text-[#18181B]/40">Tipo</th>
                   <th className="px-6 py-4 text-[11px] font-bold uppercase tracking-widest text-[#18181B]/40">Estado</th>
@@ -193,7 +193,7 @@ export default function TramitesClient({ initialTramites }: TramitesClientProps)
               </thead>
               <tbody className="divide-y divide-[#18181B]/5">
                 {filtered.map((tramite) => (
-                  <tr key={tramite.id} className="hover:bg-[#F0F3FF]/60 transition-colors group">
+                  <tr key={tramite.id} className="hover:bg-slate-50 transition-colors group">
                     <td className="px-6 py-4">
                       <code className="font-mono text-xs bg-[#18181B]/6 text-[#18181B]/70 px-2.5 py-1 rounded-full font-semibold">
                         {tramite.reference_code}

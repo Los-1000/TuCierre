@@ -1,6 +1,6 @@
 export default function AdminLoading() {
   return (
-    <div className="flex min-h-screen bg-[#F0F3FF]">
+    <div className="flex min-h-screen bg-slate-50">
       {/* Admin sidebar skeleton */}
       <div className="hidden lg:flex w-[240px] flex-col fixed left-0 top-0 h-full bg-[#18181B] z-20">
         <div className="px-6 pt-8 pb-10">

@@ -52,14 +52,14 @@ function StepBar({ current }: { current: number }) {
               <div className={cn(
                 'w-9 h-9 rounded-full flex items-center justify-center text-sm font-semibold transition-all',
                 isCompleted && 'bg-[#2855E0] text-white',
-                isActive && 'bg-[#18181B] text-white ring-4 ring-[#18181B]/10',
-                !isCompleted && !isActive && 'bg-white border-2 border-[#18181B]/20 text-[#18181B]/40',
+                isActive && 'bg-[#2855E0] text-white ring-4 ring-[#2855E0]/20',
+                !isCompleted && !isActive && 'bg-white/8 border-2 border-white/20 text-white/30',
               )}>
                 {isCompleted ? <Check size={15} /> : s.number}
               </div>
               <span className={cn(
                 'text-xs font-semibold whitespace-nowrap',
-                isActive ? 'text-[#18181B]' : isCompleted ? 'text-[#2855E0]' : 'text-[#18181B]/30',
+                isActive ? 'text-white font-bold' : isCompleted ? 'text-[#2855E0]' : 'text-white/30',
               )}>
                 {s.label}
               </span>
@@ -67,7 +67,7 @@ function StepBar({ current }: { current: number }) {
             {i < STEPS.length - 1 && (
               <div className={cn(
                 'h-[2px] flex-1 mx-3 mb-5 transition-colors rounded-full',
-                current > s.number ? 'bg-[#2855E0]' : 'bg-[#18181B]/10',
+                current > s.number ? 'bg-[#2855E0]' : 'bg-white/12',
               )} />
             )}
           </div>
@@ -215,7 +215,7 @@ export default function CotizarPage() {
       {/* ── STEP 1: Select notaria ── */}
       {step === 1 && (
         <div className="space-y-4">
-          <h2 className="font-semibold text-[#18181B]">¿Con qué notaría quieres trabajar?</h2>
+          <h2 className="font-semibold text-white">¿Con qué notaría quieres trabajar?</h2>
 
           {notarias.length === 0 ? (
             <div className="bg-white border border-[#18181B]/10 rounded-2xl p-8 text-center">
@@ -297,7 +297,7 @@ export default function CotizarPage() {
         >
           {/* Type selection */}
           <div>
-            <h2 className="font-semibold text-[#18181B] mb-3">¿Qué trámite necesitas?</h2>
+            <h2 className="font-semibold text-white mb-3">¿Qué trámite necesitas?</h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
               {tramiteTypes.map(type => (
                 <button
@@ -352,7 +352,7 @@ export default function CotizarPage() {
 
           {/* Property data */}
           <div className="space-y-4">
-            <h2 className="font-semibold text-[#18181B]">Datos del inmueble</h2>
+            <h2 className="font-semibold text-white">Datos del inmueble</h2>
             <div>
               <label className="text-[11px] font-bold uppercase tracking-widest text-[#18181B]/50 block mb-1.5">
                 Dirección <span className="text-red-500">*</span>
@@ -432,7 +432,7 @@ export default function CotizarPage() {
       {/* ── STEP 3: Summary & submit ── */}
       {step === 3 && selectedType && selectedNotaria && (
         <div className="space-y-4">
-          <h2 className="font-semibold text-[#18181B]">Resumen del trámite</h2>
+          <h2 className="font-semibold text-white">Resumen del trámite</h2>
 
           {/* Notaria */}
           <div className="bg-white border border-[#18181B]/10 rounded-2xl p-4">

@@ -282,59 +282,88 @@ export default function RecompensasPage() {
 
       {/* ── 3 tier cards ── */}
       <div>
-        <h2 className="text-lg font-semibold text-[#18181B] mb-4">Beneficios del programa</h2>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <h2 className="text-lg font-semibold text-white mb-4">Beneficios del programa</h2>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
           {(['bronce', 'plata', 'oro'] as BrokerTier[]).map((t) => {
             const config = TIER_CONFIG[t]
             const isActive = tier === t
             const color = TIER_COLOR[t]
             const isLocked = (t === 'plata' && tier === 'bronce') || (t === 'oro' && tier !== 'oro')
+            const TierIcon = t === 'oro' ? Award : t === 'plata' ? Star : TrendingUp
 
             return (
               <div
                 key={t}
                 className={cn(
-                  'bg-white rounded-3xl p-6 transition-shadow',
-                  isActive ? TIER_BORDER[t] : 'border border-[#18181B]/8',
+                  'rounded-2xl p-5 transition-all duration-200',
+                  isActive
+                    ? 'bg-white border-2 shadow-[0_8px_28px_rgba(0,0,0,0.10)]'
+                    : isLocked
+                    ? 'bg-white/55 border border-white/10'
+                    : 'bg-white border border-[#18181B]/8',
                 )}
+                style={isActive ? { borderColor: color } : {}}
               >
-                <div className="flex items-center justify-between mb-4">
-                  <div className="flex items-center gap-2">
-                    <span className="text-2xl">{config.icon}</span>
-                    <span className="font-bold text-base" style={{ color }}>{config.label}</span>
+                {/* Header */}
+                <div className="flex items-start justify-between mb-4">
+                  <div
+                    className="w-9 h-9 rounded-xl flex items-center justify-center"
+                    style={{
+                      background: isActive ? `${color}18` : 'rgba(24,24,27,0.05)',
+                      color: isActive ? color : 'rgba(24,24,27,0.3)',
+                    }}
+                  >
+                    <TierIcon size={17} />
                   </div>
-                  {isActive && (
+                  {isActive ? (
                     <span
-                      className="text-[10px] font-bold uppercase tracking-widest px-2.5 py-1 rounded-full text-white"
+                      className="text-[9px] font-black uppercase tracking-widest px-2 py-1 rounded-full text-white"
                       style={{ backgroundColor: color }}
                     >
-                      NIVEL ACTUAL
+                      Actual
                     </span>
-                  )}
-                  {isLocked && !isActive && (
-                    <Lock size={14} className="text-[#18181B]/30" />
+                  ) : isLocked ? (
+                    <Lock size={13} className="text-[#18181B]/25 mt-1" />
+                  ) : null}
+                </div>
+
+                {/* Tier label */}
+                <div className="mb-3">
+                  <span
+                    className={cn('font-black text-lg tracking-tight')}
+                    style={{ color: isActive ? color : isLocked ? 'rgba(24,24,27,0.35)' : '#18181B' }}
+                  >
+                    {config.label}
+                  </span>
+                  {config.discount > 0 && (
+                    <p className="text-xs text-[#18181B]/40 mt-0.5">
+                      {TIER_CONFIG[t].minTramites}+ trámites/mes
+                    </p>
                   )}
                 </div>
-                {config.discount > 0 && (
-                  <p className="text-xs text-[#18181B]/50 mb-3">
-                    Desde <span className="font-semibold text-[#18181B]">{TIER_CONFIG[t].minTramites} trámites/mes</span>
-                  </p>
-                )}
+
+                {/* Benefits */}
                 <div className="space-y-2">
                   {tierBenefits[t].map((benefit, i) => (
                     <div key={i} className="flex items-start gap-2">
                       <CheckCircle
-                        size={14}
+                        size={13}
                         className="mt-0.5 shrink-0"
-                        style={{ color: isActive ? color : '#18181B30' }}
+                        style={{ color: isActive ? color : 'rgba(24,24,27,0.2)' }}
                       />
-                      <span className="text-sm text-[#18181B]/60">{benefit}</span>
+                      <span
+                        className="text-sm leading-snug"
+                        style={{ color: isActive ? 'rgba(24,24,27,0.75)' : 'rgba(24,24,27,0.4)' }}
+                      >
+                        {benefit}
+                      </span>
                     </div>
                   ))}
                 </div>
+
                 {isLocked && tramitesToNext > 0 && (
                   <div
-                    className="mt-4 text-center py-1.5 rounded-full text-xs font-bold"
+                    className="mt-4 text-center py-1.5 rounded-full text-xs font-semibold"
                     style={{ backgroundColor: `${color}10`, color }}
                   >
                     Faltan {tramitesToNext} trámite{tramitesToNext !== 1 ? 's' : ''}
@@ -364,7 +393,7 @@ export default function RecompensasPage() {
         )}
 
         <div className="grid grid-cols-2 gap-3 mt-5">
-          <div className="bg-[#F0F3FF] border border-[#18181B]/8 rounded-2xl p-4 text-center">
+          <div className="bg-slate-50 border border-[#18181B]/8 rounded-2xl p-4 text-center">
             <div className="flex items-center justify-center gap-1.5 mb-1">
               <Users size={15} className="text-purple-500" />
             </div>
@@ -373,7 +402,7 @@ export default function RecompensasPage() {
             </div>
             <div className="text-xs text-[#18181B]/50 mt-0.5">referidos activos</div>
           </div>
-          <div className="bg-[#F0F3FF] border border-[#18181B]/8 rounded-2xl p-4 text-center">
+          <div className="bg-slate-50 border border-[#18181B]/8 rounded-2xl p-4 text-center">
             <div className="flex items-center justify-center gap-1.5 mb-1">
               <PiggyBank size={15} className="text-emerald-500" />
             </div>
@@ -541,7 +570,7 @@ export default function RecompensasPage() {
             <div className="overflow-x-auto">
               <table className="w-full text-sm">
                 <thead>
-                  <tr className="bg-[#F0F3FF] border-b border-[#18181B]/6">
+                  <tr className="border-b border-[#18181B]/8">
                     {['Mes', 'Clientes', 'Nivel', '%', 'Monto', 'Estado'].map(h => (
                       <th key={h} className="text-left text-[11px] font-bold uppercase tracking-widest text-[#18181B]/40 px-5 py-3">{h}</th>
                     ))}
@@ -555,7 +584,7 @@ export default function RecompensasPage() {
                     const label = new Date(parseInt(year), parseInt(mo) - 1, 1)
                       .toLocaleDateString('es-PE', { month: 'long', year: 'numeric' })
                     return (
-                      <tr key={month.yearMonth} className="hover:bg-[#F0F3FF]/60 transition-colors">
+                      <tr key={month.yearMonth} className="hover:bg-slate-50 transition-colors">
                         <td className="px-5 py-3.5 font-medium text-[#18181B] capitalize">{label}</td>
                         <td className="px-5 py-3.5 text-[#18181B]/60">{r.count}</td>
                         <td className="px-5 py-3.5">{tc.icon} {tc.label}</td>
@@ -567,7 +596,7 @@ export default function RecompensasPage() {
                           ) : month.cashoutStatus === 'pending' ? (
                             <span className="inline-flex items-center text-xs font-medium px-2.5 py-0.5 rounded-full border bg-amber-50 text-amber-700 border-amber-200">En proceso</span>
                           ) : (
-                            <span className="inline-flex items-center text-xs font-medium px-2.5 py-0.5 rounded-full border bg-[#F0F3FF] text-[#18181B]/50 border-[#18181B]/10">Pendiente</span>
+                            <span className="inline-flex items-center text-xs font-medium px-2.5 py-0.5 rounded-full border bg-slate-50 text-[#18181B]/50 border-[#18181B]/10">Pendiente</span>
                           )}
                         </td>
                       </tr>
@@ -603,7 +632,7 @@ export default function RecompensasPage() {
           <div className="bg-white rounded-3xl border border-[#18181B]/8 shadow-[0_4px_24px_rgba(18,18,27,0.06)] overflow-hidden">
             <table className="w-full text-sm">
               <thead>
-                <tr className="bg-[#F0F3FF] border-b border-[#18181B]/6">
+                <tr className="border-b border-[#18181B]/8">
                   <th className="text-left text-[11px] font-bold uppercase tracking-widest text-[#18181B]/40 px-5 py-3">Tipo</th>
                   <th className="text-left text-[11px] font-bold uppercase tracking-widest text-[#18181B]/40 px-5 py-3">Descripción</th>
                   <th className="text-right text-[11px] font-bold uppercase tracking-widest text-[#18181B]/40 px-5 py-3">Monto</th>
@@ -615,10 +644,10 @@ export default function RecompensasPage() {
                 {rewards.map((reward) => {
                   const typeConfig = REWARD_TYPE_CONFIG[reward.type] ?? {
                     label: reward.type,
-                    badgeClass: 'bg-[#F0F3FF] text-[#18181B]/60 border-[#18181B]/10',
+                    badgeClass: 'bg-slate-50 text-[#18181B]/60 border-[#18181B]/10',
                   }
                   return (
-                    <tr key={reward.id} className="hover:bg-[#F0F3FF]/60 transition-colors">
+                    <tr key={reward.id} className="hover:bg-slate-50 transition-colors">
                       <td className="px-5 py-3.5 whitespace-nowrap">
                         <span className={cn('inline-flex items-center text-xs font-medium px-2.5 py-1 rounded-full border', typeConfig.badgeClass)}>
                           {typeConfig.label}

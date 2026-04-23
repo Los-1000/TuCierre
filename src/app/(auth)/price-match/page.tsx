@@ -157,15 +157,15 @@ export default function PriceMatchPage() {
     <div className="space-y-8">
       {/* Header */}
       <div>
-        <h1 className="text-2xl font-bold text-[#18181B]">Price Match</h1>
+        <h1 className="text-2xl font-bold text-white">Price Match</h1>
         <p className="text-white/50 text-sm mt-1">
           ¿Encontraste un precio más bajo? Lo igualamos.
         </p>
       </div>
 
       {/* ── How it works banner ── */}
-      <div className="bg-[#18181B]/5 rounded-3xl p-5">
-        <p className="text-sm text-[#18181B] font-medium mb-4">
+      <div className="bg-white/7 rounded-2xl p-5 border border-white/8">
+        <p className="text-sm text-white/75 font-medium mb-4">
           Encuentra un precio más bajo en otra notaría. Lo igualamos. Envíanos la cotización y
           respondemos en máximo{' '}
           <span className="font-semibold text-[#2855E0]">24 horas</span>.
@@ -174,15 +174,15 @@ export default function PriceMatchPage() {
           {HOW_IT_WORKS_STEPS.map((s, i) => (
             <div key={s.step} className="flex items-center gap-2">
               <div className="flex items-center gap-2">
-                <div className="w-7 h-7 rounded-full bg-[#2855E0]/20 border border-[#2855E0]/30 flex items-center justify-center shrink-0">
-                  <span className="text-xs font-bold text-[#2855E0]">{s.step}</span>
+                <div className="w-7 h-7 rounded-full bg-white/12 border border-white/20 flex items-center justify-center shrink-0">
+                  <span className="text-xs font-bold text-white/70">{s.step}</span>
                 </div>
-                <span className="text-sm font-medium text-[#18181B]">{s.label}</span>
+                <span className="text-sm font-medium text-white/80">{s.label}</span>
               </div>
               {i < HOW_IT_WORKS_STEPS.length - 1 && (
                 <ChevronRight
                   size={16}
-                  className="text-[#18181B]/30 mx-1 hidden sm:block"
+                  className="text-white/25 mx-1 hidden sm:block"
                 />
               )}
             </div>
