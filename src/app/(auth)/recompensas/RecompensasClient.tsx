@@ -153,7 +153,7 @@ export default function RecompensasClient({
                 </div>
                 <div className="h-2.5 bg-[#18181B]/8 rounded-full overflow-hidden">
                   <div
-                    className="h-full rounded-full transition-all duration-700"
+                    className="h-full rounded-full transition-all duration-700 motion-reduce:transition-none"
                     style={{ width: `${progressPercent}%`, backgroundColor: tierColor }}
                   />
                 </div>
@@ -219,7 +219,7 @@ export default function RecompensasClient({
                   </div>
                   {isActive ? (
                     <span
-                      className="text-[9px] font-black uppercase tracking-widest px-2 py-1 rounded-full text-white"
+                      className="text-xs font-black uppercase tracking-widest px-2 py-1 rounded-full text-white"
                       style={{ backgroundColor: color }}
                     >
                       Actual
@@ -287,7 +287,7 @@ export default function RecompensasClient({
         {broker?.referral_code ? (
           <ReferralCode code={broker.referral_code} />
         ) : (
-          <p className="text-sm text-[#18181B]/40 italic">Código de referido no disponible.</p>
+          <p className="text-sm text-[#6B7A9A] italic">Código de referido no disponible.</p>
         )}
 
         <div className="grid grid-cols-2 gap-3 mt-5">
@@ -358,7 +358,7 @@ export default function RecompensasClient({
 
           {initialCashouts.length > 0 && (
             <div className="mt-5 border-t border-[#18181B]/8 pt-4">
-              <h3 className="text-xs font-bold uppercase tracking-widest text-[#18181B]/40 mb-3">Historial de retiros</h3>
+              <h3 className="text-xs font-bold uppercase tracking-widest text-[#6B7A9A] mb-3">Historial de retiros</h3>
               <div className="space-y-2">
                 {initialCashouts.map((c) => {
                   const statusConf = CASHOUT_STATUS_CONFIG[c.status]
@@ -384,7 +384,7 @@ export default function RecompensasClient({
                         <div className="text-sm font-semibold text-[#18181B] tabular-nums font-mono">
                           {formatPrice(c.amount)}
                         </div>
-                        <div className="text-xs text-[#18181B]/40">{formatDate(c.created_at)}</div>
+                        <div className="text-xs text-[#6B7A9A]">{formatDate(c.created_at)}</div>
                       </div>
                     </div>
                   )
@@ -405,7 +405,7 @@ export default function RecompensasClient({
         {initialCommissionMonths.length === 0 ? (
           <div className="bg-white rounded-3xl border border-[#18181B]/8 shadow-[0_4px_24px_rgba(18,18,27,0.06)] py-10 text-center">
             <DollarSign size={28} className="mx-auto text-[#18181B]/20 mb-2" />
-            <p className="text-sm text-[#18181B]/40">Aún no tienes comisiones generadas.</p>
+            <p className="text-sm text-[#6B7A9A]">Aún no tienes comisiones generadas.</p>
           </div>
         ) : (
           <div className="bg-white rounded-3xl border border-[#18181B]/8 shadow-[0_4px_24px_rgba(18,18,27,0.06)] overflow-hidden">
@@ -451,7 +451,7 @@ export default function RecompensasClient({
                 <thead>
                   <tr className="border-b border-[#18181B]/8">
                     {['Mes', 'Clientes', 'Nivel', '%', 'Monto', 'Estado'].map(h => (
-                      <th key={h} scope="col" className="text-left text-xs font-bold uppercase tracking-widest text-[#18181B]/40 px-5 py-3">{h}</th>
+                      <th key={h} scope="col" className="text-left text-xs font-bold uppercase tracking-widest text-[#6B7A9A] px-5 py-3">{h}</th>
                     ))}
                   </tr>
                 </thead>
@@ -463,7 +463,7 @@ export default function RecompensasClient({
                     const label = new Date(parseInt(year), parseInt(mo) - 1, 1)
                       .toLocaleDateString('es-PE', { month: 'long', year: 'numeric' })
                     return (
-                      <tr key={month.yearMonth} className="hover:bg-[#18181B]/3 transition-colors">
+                      <tr key={month.yearMonth} className="hover:bg-[#18181B]/3 transition-colors motion-reduce:transition-none">
                         <td className="px-5 py-3.5 font-medium text-[#18181B] capitalize">{label}</td>
                         <td className="px-5 py-3.5 text-[#18181B]/60">{r.count}</td>
                         <td className="px-5 py-3.5">{tc.icon} {tc.label}</td>
@@ -475,7 +475,7 @@ export default function RecompensasClient({
                           ) : month.cashoutStatus === 'pending' ? (
                             <span className="inline-flex items-center text-xs font-medium px-2.5 py-0.5 rounded-full border bg-amber-50 text-amber-700 border-amber-200">En proceso</span>
                           ) : (
-                            <span className="inline-flex items-center text-xs font-medium px-2.5 py-0.5 rounded-full border bg-slate-50 text-[#18181B]/50 border-[#18181B]/10">Pendiente</span>
+                            <span className="inline-flex items-center text-xs font-medium px-2.5 py-0.5 rounded-full border bg-[#18181B]/4 text-[#18181B]/50 border-[#18181B]/10">Pendiente</span>
                           )}
                         </td>
                       </tr>
@@ -506,21 +506,21 @@ export default function RecompensasClient({
             <table className="w-full text-sm">
               <thead>
                 <tr className="border-b border-[#18181B]/8">
-                  <th scope="col" className="text-left text-xs font-bold uppercase tracking-widest text-[#18181B]/40 px-5 py-3">Tipo</th>
-                  <th scope="col" className="text-left text-xs font-bold uppercase tracking-widest text-[#18181B]/40 px-5 py-3">Descripción</th>
-                  <th scope="col" className="text-right text-xs font-bold uppercase tracking-widest text-[#18181B]/40 px-5 py-3">Monto</th>
-                  <th scope="col" className="text-left text-xs font-bold uppercase tracking-widest text-[#18181B]/40 px-5 py-3 hidden md:table-cell">Trámite</th>
-                  <th scope="col" className="text-left text-xs font-bold uppercase tracking-widest text-[#18181B]/40 px-5 py-3">Fecha</th>
+                  <th scope="col" className="text-left text-xs font-bold uppercase tracking-widest text-[#6B7A9A] px-5 py-3">Tipo</th>
+                  <th scope="col" className="text-left text-xs font-bold uppercase tracking-widest text-[#6B7A9A] px-5 py-3">Descripción</th>
+                  <th scope="col" className="text-right text-xs font-bold uppercase tracking-widest text-[#6B7A9A] px-5 py-3">Monto</th>
+                  <th scope="col" className="text-left text-xs font-bold uppercase tracking-widest text-[#6B7A9A] px-5 py-3 hidden md:table-cell">Trámite</th>
+                  <th scope="col" className="text-left text-xs font-bold uppercase tracking-widest text-[#6B7A9A] px-5 py-3">Fecha</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-[#18181B]/5">
                 {initialRewards.map((reward) => {
                   const typeConfig = REWARD_TYPE_CONFIG[reward.type] ?? {
                     label: reward.type,
-                    badgeClass: 'bg-slate-50 text-[#18181B]/60 border-[#18181B]/10',
+                    badgeClass: 'bg-[#18181B]/4 text-[#18181B]/60 border-[#18181B]/10',
                   }
                   return (
-                    <tr key={reward.id} className="hover:bg-[#18181B]/3 transition-colors">
+                    <tr key={reward.id} className="hover:bg-[#18181B]/3 transition-colors motion-reduce:transition-none">
                       <td className="px-5 py-3.5 whitespace-nowrap">
                         <span className={cn('inline-flex items-center text-xs font-medium px-2.5 py-1 rounded-full border', typeConfig.badgeClass)}>
                           {typeConfig.label}
@@ -540,10 +540,10 @@ export default function RecompensasClient({
                             {reward.tramites?.reference_code}
                           </code>
                         ) : (
-                          <span className="text-[#18181B]/30 text-xs">—</span>
+                          <span className="text-[#6B7A9A] text-xs">—</span>
                         )}
                       </td>
-                      <td className="px-5 py-3.5 text-[#18181B]/40 text-xs whitespace-nowrap">
+                      <td className="px-5 py-3.5 text-[#6B7A9A] text-xs whitespace-nowrap">
                         {formatDate(reward.created_at)}
                       </td>
                     </tr>

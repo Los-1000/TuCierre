@@ -128,7 +128,16 @@
       "Bash(sed -n '54,60p' \"C:/Users/cefd2/Downloads/TuCierre/src/components/landing/CtaSection.tsx\")",
       "Bash(sed -n '15,22p' \"C:/Users/cefd2/Downloads/TuCierre/src/components/landing/StatsSection.tsx\")",
       "Bash(sed -n '278,286p' \"C:/Users/cefd2/Downloads/TuCierre/src/app/\\(auth\\)/cotizar/page.tsx\")",
-      "Bash(sed -n '421,428p' \"C:/Users/cefd2/Downloads/TuCierre/src/app/\\(auth\\)/cotizar/page.tsx\")"
+      "Bash(sed -n '421,428p' \"C:/Users/cefd2/Downloads/TuCierre/src/app/\\(auth\\)/cotizar/page.tsx\")",
+      "Bash(sed -i 's/bg-slate-200/bg-[#E0E4F0]/g; s/bg-slate-100/bg-[#E0E4F0]/g; s/border-slate-200/border-[#E0E4F0]/g' \"C:/Users/cefd2/Downloads/TuCierre/src/app/\\(auth\\)/tramites/loading.tsx\")",
+      "Bash(sed -i 's/bg-slate-200/bg-[#E0E4F0]/g; s/bg-slate-100/bg-[#E0E4F0]/g; s/border-slate-200/border-[#E0E4F0]/g' \"C:/Users/cefd2/Downloads/TuCierre/src/app/\\(auth\\)/cotizar/loading.tsx\")",
+      "Bash(sed -n '220,230p' \"C:/Users/cefd2/Downloads/TuCierre/src/app/\\(auth\\)/perfil/PerfilClient.tsx\")",
+      "Bash(sed -n '306,315p' \"C:/Users/cefd2/Downloads/TuCierre/src/app/\\(auth\\)/perfil/PerfilClient.tsx\")",
+      "Bash(sed -n '338,345p' \"C:/Users/cefd2/Downloads/TuCierre/src/app/\\(auth\\)/perfil/PerfilClient.tsx\")",
+      "Bash(sed -n '173,180p' \"C:\\\\Users\\\\cefd2\\\\Downloads\\\\TuCierre\\\\src\\\\app\\\\\\(auth\\)\\\\dashboard\\\\page.tsx\")",
+      "Bash(sed -n '277,283p' \"C:\\\\Users\\\\cefd2\\\\Downloads\\\\TuCierre\\\\src\\\\app\\\\\\(auth\\)\\\\dashboard\\\\page.tsx\")",
+      "Bash(sed -n '153,158p' \"C:\\\\Users\\\\cefd2\\\\Downloads\\\\TuCierre\\\\src\\\\app\\\\\\(auth\\)\\\\recompensas\\\\RecompensasClient.tsx\")",
+      "Bash(sed -n '213,219p' \"C:\\\\Users\\\\cefd2\\\\Downloads\\\\TuCierre\\\\src\\\\app\\\\\\(auth\\)\\\\tramites\\\\TramitesClient.tsx\")"
     ]
   }
 }

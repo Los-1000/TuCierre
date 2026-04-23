@@ -96,7 +96,7 @@ export default function TramiteDetailPage() {
 
   const TimelineSection = (
     <section aria-labelledby="timeline-heading" className="bg-white rounded-3xl border border-[#18181B]/8 shadow-[0_4px_24px_rgba(18,18,27,0.06)] p-6">
-      <h2 id="timeline-heading" className="text-xs font-bold uppercase tracking-widest text-[#18181B]/40 mb-6">
+      <h2 id="timeline-heading" className="text-xs font-bold uppercase tracking-widest text-[#6B7A9A] mb-6">
         Estado del proceso
       </h2>
       {effectiveStatus && (
@@ -122,7 +122,7 @@ export default function TramiteDetailPage() {
         </div>
       </div>
       {requiredDocs.length === 0 ? (
-        <p className="text-sm text-[#18181B]/40">No se requieren documentos para este trámite.</p>
+        <p className="text-sm text-[#6B7A9A]">No se requieren documentos para este trámite.</p>
       ) : (
         <div className="space-y-2">
           {requiredDocs.map((req, i) => {
@@ -155,11 +155,11 @@ export default function TramiteDetailPage() {
 
   const PartesSection = (
     <section aria-labelledby="partes-heading" className="space-y-3">
-      <h2 id="partes-heading" className="text-xs font-bold uppercase tracking-widest text-[#18181B]/40">
+      <h2 id="partes-heading" className="text-xs font-bold uppercase tracking-widest text-[#6B7A9A]">
         Partes
       </h2>
       {tramite.parties?.length === 0 ? (
-        <p className="text-sm text-[#18181B]/40">No hay partes registradas.</p>
+        <p className="text-sm text-[#6B7A9A]">No hay partes registradas.</p>
       ) : (
         <div className="space-y-2">
           {tramite.parties?.map((party, i) => (
@@ -181,10 +181,10 @@ export default function TramiteDetailPage() {
                 </div>
                 <p className="text-xs text-[#18181B]/50 mt-0.5">DNI: {party.dni}</p>
                 {party.email && (
-                  <p className="text-xs text-[#18181B]/40 truncate">{party.email}</p>
+                  <p className="text-xs text-[#6B7A9A] truncate">{party.email}</p>
                 )}
                 {party.phone && (
-                  <p className="text-xs text-[#18181B]/40">{party.phone}</p>
+                  <p className="text-xs text-[#6B7A9A]">{party.phone}</p>
                 )}
               </div>
             </div>
@@ -196,7 +196,7 @@ export default function TramiteDetailPage() {
 
   const DetallesSection = (
     <section aria-labelledby="detalles-heading" className="bg-white rounded-3xl border border-[#18181B]/8 shadow-[0_4px_24px_rgba(18,18,27,0.06)] p-6">
-      <h2 id="detalles-heading" className="text-xs font-bold uppercase tracking-widest text-[#18181B]/40 mb-5">
+      <h2 id="detalles-heading" className="text-xs font-bold uppercase tracking-widest text-[#6B7A9A] mb-5">
         Detalles Financieros
       </h2>
       <div className="space-y-0">

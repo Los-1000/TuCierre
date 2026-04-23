@@ -1,12 +1,13 @@
 'use client'
 
 import { useEffect, useState } from 'react'
+import dynamic from 'next/dynamic'
+import { CardSkeleton } from '@/components/shared/SkeletonCard'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import {
   CheckCircle2,
   ChevronRight,
-  ExternalLink,
   FileText,
   PlusCircle,
   UploadCloud,
@@ -27,15 +28,16 @@ import { createClient } from '@/lib/supabase/client'
 import { useAuth } from '@/hooks/useAuth'
 import { priceMatchFormSchema, type PriceMatchFormInput } from '@/lib/validations'
 import { formatPrice, formatDate, cn } from '@/lib/utils'
-import EmptyState from '@/components/shared/EmptyState'
-import { CardSkeleton } from '@/components/shared/SkeletonCard'
-import type { TramiteType, PriceMatchRequest, PriceMatchStatus } from '@/types/database'
+import type { TramiteType, PriceMatchStatus } from '@/types/database'
+import { type PriceMatchRow } from './PriceMatchHistoryList'
 
-const STATUS_CONFIG: Record<PriceMatchStatus, { label: string; className: string }> = {
-  pending:  { label: 'Pendiente',  className: 'bg-amber-50 text-amber-700 border-amber-200' },
-  approved: { label: 'Aprobado',   className: 'bg-green-50 text-green-700 border-green-200' },
-  rejected: { label: 'Rechazado',  className: 'bg-red-50 text-red-700 border-red-200' },
-}
+const PriceMatchHistoryList = dynamic(() => import('./PriceMatchHistoryList'), {
+  loading: () => (
+    <div className="space-y-3">
+      {[1, 2].map((i) => <CardSkeleton key={i} />)}
+    </div>
+  ),
+})
 
 const HOW_IT_WORKS_STEPS = [
   { step: '1', label: 'Envía cotización' },
@@ -44,10 +46,6 @@ const HOW_IT_WORKS_STEPS = [
 ]
 
 type FormValues = PriceMatchFormInput & { notes?: string }
-
-type PriceMatchRow = PriceMatchRequest & {
-  tramite_types?: TramiteType | null
-}
 
 export default function PriceMatchPage() {
   const { user, loading: authLoading } = useAuth()
@@ -208,7 +206,7 @@ export default function PriceMatchPage() {
             </p>
             <button
               onClick={handleNewRequest}
-              className="inline-flex items-center gap-2 bg-[#2855E0] text-white text-sm font-semibold px-5 py-2.5 rounded-full hover:bg-[#1E46C7] transition-colors"
+              className="inline-flex items-center gap-2 bg-[#2855E0] text-white text-sm font-semibold px-5 py-3 rounded-full hover:bg-[#1E46C7] transition-colors motion-reduce:transition-none"
             >
               <PlusCircle size={16} />
               Crear nueva solicitud
@@ -270,7 +268,7 @@ export default function PriceMatchPage() {
                 Precio cotizado (S/.) <span className="text-red-500">*</span>
               </Label>
               <div className="relative">
-                <span className="absolute left-3 top-1/2 -translate-y-1/2 text-sm text-[#18181B]/40 font-mono pointer-events-none">
+                <span className="absolute left-3 top-1/2 -translate-y-1/2 text-sm text-[#6B7A9A] font-mono pointer-events-none">
                   S/.
                 </span>
                 <Input
@@ -296,7 +294,7 @@ export default function PriceMatchPage() {
             <div className="space-y-1.5">
               <Label htmlFor="evidence" className="text-[#18181B] font-medium">
                 Evidencia{' '}
-                <span className="text-[#18181B]/40 text-xs font-normal">(PDF o imagen, opcional)</span>
+                <span className="text-[#6B7A9A] text-xs font-normal">(PDF o imagen, opcional)</span>
               </Label>
               <div
                 className={cn(
@@ -328,7 +326,7 @@ export default function PriceMatchPage() {
                     <span className="text-sm text-[#18181B]/50">
                       Haz clic para subir la cotización
                     </span>
-                    <span className="text-xs text-[#18181B]/30">PDF, JPG, PNG — máx. 10 MB</span>
+                    <span className="text-xs text-[#6B7A9A]">PDF, JPG, PNG — máx. 10 MB</span>
                   </div>
                 )}
               </div>
@@ -338,7 +336,7 @@ export default function PriceMatchPage() {
             <div className="space-y-1.5">
               <Label htmlFor="notes" className="text-[#18181B] font-medium">
                 Notas adicionales{' '}
-                <span className="text-[#18181B]/40 text-xs font-normal">(opcional)</span>
+                <span className="text-[#6B7A9A] text-xs font-normal">(opcional)</span>
               </Label>
               <Textarea
                 id="notes"
@@ -352,7 +350,7 @@ export default function PriceMatchPage() {
             <button
               type="submit"
               disabled={isSubmitting || uploading || authLoading}
-              className="inline-flex items-center gap-2 bg-[#2855E0] text-white text-sm font-semibold px-6 py-3 rounded-full hover:bg-[#1E46C7] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+              className="inline-flex items-center gap-2 bg-[#2855E0] text-white text-sm font-semibold px-6 py-3 rounded-full hover:bg-[#1E46C7] transition-colors motion-reduce:transition-none disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {isSubmitting || uploading ? 'Enviando...' : 'Enviar solicitud'}
             </button>
@@ -361,103 +359,7 @@ export default function PriceMatchPage() {
       </div>
 
       {/* ── Mis solicitudes previas ── */}
-      <div>
-        <h2 className="text-lg font-semibold text-white mb-4">Mis solicitudes previas</h2>
-
-        {requestsLoading ? (
-          <div className="space-y-3">
-            {[1, 2].map((i) => (
-              <CardSkeleton key={i} />
-            ))}
-          </div>
-        ) : requests.length === 0 ? (
-          <EmptyState
-            title="Sin solicitudes aún"
-            description="Cuando envíes una solicitud de price match, aparecerá aquí con su estado actual."
-          />
-        ) : (
-          <div className="space-y-3">
-            {requests.map((req) => {
-              const statusConf = STATUS_CONFIG[req.status]
-              return (
-                <div key={req.id} className="rounded-3xl border border-[#18181B]/8 bg-white p-5">
-                  <div className="flex items-start justify-between gap-3 mb-3">
-                    <div className="min-w-0">
-                      <div className="font-semibold text-[#18181B] text-sm truncate">
-                        {req.tramite_types?.display_name ?? 'Trámite notarial'}
-                      </div>
-                      <div className="text-xs text-[#18181B]/40 mt-0.5">
-                        Enviado {formatDate(req.created_at)}
-                      </div>
-                    </div>
-                    <span
-                      className={cn(
-                        'inline-flex items-center text-xs font-medium px-2.5 py-1 rounded-full border shrink-0',
-                        statusConf.className
-                      )}
-                    >
-                      {statusConf.label}
-                    </span>
-                  </div>
-
-                  {req.status === 'approved' && req.our_matched_price != null && (
-                    <div className="bg-[#2855E0]/8 border border-[#2855E0]/20 rounded-2xl px-4 py-3 mb-3 flex items-center justify-between">
-                      <div>
-                        <div className="text-xs text-[#2855E0] font-medium mb-0.5">
-                          Precio igualado
-                        </div>
-                        <div className="text-xl font-bold text-[#2855E0] tabular-nums font-mono">
-                          {formatPrice(req.our_matched_price)}
-                        </div>
-                      </div>
-                      <CheckCircle2 size={28} className="text-[#2855E0] shrink-0" />
-                    </div>
-                  )}
-
-                  <div className="grid grid-cols-2 gap-x-4 gap-y-1.5 text-xs text-[#18181B]/60">
-                    <div>
-                      <span className="text-[#18181B]/40">Notaría competidora</span>
-                      <div className="font-medium text-[#18181B] mt-0.5">
-                        {req.competitor_name}
-                      </div>
-                    </div>
-                    <div>
-                      <span className="text-[#18181B]/40">Precio cotizado</span>
-                      <div className="font-semibold text-[#18181B] tabular-nums font-mono mt-0.5">
-                        {formatPrice(req.competitor_price)}
-                      </div>
-                    </div>
-                    {req.reviewed_at && (
-                      <div>
-                        <span className="text-[#18181B]/40">Revisado</span>
-                        <div className="font-medium text-[#18181B] mt-0.5">
-                          {formatDate(req.reviewed_at)}
-                        </div>
-                      </div>
-                    )}
-                    {req.evidence_url && (
-                      <div>
-                        <span className="text-[#18181B]/40">Evidencia</span>
-                        <div className="mt-0.5">
-                          <a
-                            href={req.evidence_url}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="inline-flex items-center gap-1 text-[#2855E0] hover:underline font-medium"
-                          >
-                            Ver documento
-                            <ExternalLink size={11} />
-                          </a>
-                        </div>
-                      </div>
-                    )}
-                  </div>
-                </div>
-              )
-            })}
-          </div>
-        )}
-      </div>
+      <PriceMatchHistoryList requests={requests} requestsLoading={requestsLoading} />
     </div>
   )
 }

@@ -126,7 +126,7 @@ export default async function DashboardPage() {
         </div>
         <Link
           href="/cotizar"
-          className="hidden sm:flex items-center gap-2 bg-[#2855E0] hover:bg-[#1E46C7] text-white rounded-full px-6 py-2.5 font-semibold text-sm transition-all shadow-lg shadow-[#2855E0]/20"
+          className="hidden sm:flex items-center gap-2 bg-[#2855E0] hover:bg-[#1E46C7] text-white rounded-full px-6 py-3 font-semibold text-sm transition-all motion-reduce:transition-none"
         >
           <Plus size={16} />
           Nueva cotización
@@ -142,8 +142,8 @@ export default async function DashboardPage() {
               i === 0 && 'md:pl-8',
               i === stats.length - 1 && 'md:pr-8'
             )}>
-              <span className="text-xs font-bold uppercase tracking-widest text-[#18181B]/55">{stat.label}</span>
-              <span className={cn('font-bold text-[#18181B] leading-none tabular-nums', stat.isPrice ? 'text-xl' : 'text-3xl')}>
+              <span className="text-xs font-bold uppercase tracking-widest text-[#6B7A9A]">{stat.label}</span>
+              <span className={cn('font-bold text-[#18181B] leading-none tabular-nums', stat.isPrice ? 'text-xl' : 'text-xl')}>
                 {stat.value}
               </span>
             </div>
@@ -172,7 +172,7 @@ export default async function DashboardPage() {
         </div>
         <div className="relative w-full h-1.5 bg-white/10 rounded-full overflow-hidden">
           <div
-            className="absolute top-0 left-0 h-full rounded-full transition-all duration-700"
+            className="absolute top-0 left-0 h-full rounded-full transition-all duration-700 motion-reduce:transition-none"
             style={{ width: `${progressPercent}%`, background: tier === 'oro' ? '#C9880E' : '#2855E0' }}
           />
         </div>
@@ -244,7 +244,7 @@ export default async function DashboardPage() {
           <div className="overflow-x-auto">
             <table className="w-full text-left border-collapse">
               <thead>
-                <tr className="text-xs font-bold text-[#18181B]/40 uppercase tracking-widest bg-[#18181B]/4">
+                <tr className="text-xs font-bold text-[#6B7A9A] uppercase tracking-widest bg-[#18181B]/4">
                   <th scope="col" className="px-6 py-4">Código</th>
                   <th scope="col" className="px-4 py-4">Tipo</th>
                   <th scope="col" className="px-4 py-4">Estado</th>
@@ -255,7 +255,7 @@ export default async function DashboardPage() {
               </thead>
               <tbody className="divide-y divide-[#18181B]/5">
                 {recentTramites.map((tramite) => (
-                  <tr key={tramite.id} className="hover:bg-[#18181B]/3 transition-colors group">
+                  <tr key={tramite.id} className="hover:bg-[#18181B]/3 transition-colors motion-reduce:transition-none group">
                     <td className="px-6 py-4">
                       <code className="font-mono text-xs bg-[#18181B]/5 text-[#18181B]/60 px-2 py-1 rounded-md font-semibold">
                         {tramite.reference_code}
@@ -267,7 +267,7 @@ export default async function DashboardPage() {
                     <td className="px-4 py-4">
                       <StatusBadge status={tramite.status} size="sm" />
                     </td>
-                    <td className="px-4 py-4 text-[#18181B]/40 text-xs hidden sm:table-cell">
+                    <td className="px-4 py-4 text-[#6B7A9A] text-xs hidden sm:table-cell">
                       {formatDate(tramite.created_at)}
                     </td>
                     <td className="px-6 py-4 text-right font-semibold text-[#18181B] text-sm tabular-nums">
@@ -276,7 +276,7 @@ export default async function DashboardPage() {
                     <td className="px-6 py-4 text-right">
                       <Link
                         href={`/tramites/${tramite.id}`}
-                        className="inline-flex items-center gap-1 text-[#2855E0] font-bold text-sm group-hover:translate-x-1 transition-transform"
+                        className="inline-flex items-center gap-1 text-[#2855E0] font-bold text-sm group-hover:translate-x-1 motion-reduce:group-hover:translate-x-0 transition-transform motion-reduce:transition-none"
                       >
                         Ver <ChevronRight size={14} />
                       </Link>
@@ -292,7 +292,7 @@ export default async function DashboardPage() {
       {/* FAB for mobile */}
       <Link
         href="/cotizar"
-        className="fixed bottom-20 right-5 lg:hidden flex items-center gap-2 bg-[#2855E0] text-white pl-4 pr-5 py-3.5 rounded-full shadow-2xl shadow-[#2855E0]/40 hover:bg-[#1E46C7] transition-all z-50 font-semibold"
+        className="fixed bottom-20 right-5 lg:hidden flex items-center gap-2 bg-[#2855E0] text-white pl-4 pr-5 py-3.5 rounded-full shadow-2xl hover:bg-[#1E46C7] transition-all motion-reduce:transition-none z-50 font-semibold"
       >
         <Plus size={18} />
         Nueva cotización

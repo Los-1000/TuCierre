@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, memo } from 'react'
 import { useRouter } from 'next/navigation'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -40,7 +40,7 @@ const STEPS = [
   { number: 3, label: 'Confirmar' },
 ]
 
-function StepBar({ current }: { current: number }) {
+const StepBar = memo(function StepBar({ current }: { current: number }) {
   return (
     <div className="flex items-center gap-0 mb-8">
       {STEPS.map((s, i) => {
@@ -50,7 +50,7 @@ function StepBar({ current }: { current: number }) {
           <div key={s.number} className="flex items-center flex-1 last:flex-none">
             <div className="flex flex-col items-center gap-1.5 flex-shrink-0">
               <div className={cn(
-                'w-9 h-9 rounded-full flex items-center justify-center text-sm font-semibold transition-all',
+                'w-11 h-11 rounded-full flex items-center justify-center text-sm font-semibold transition-all motion-reduce:transition-none',
                 isCompleted && 'bg-[#2855E0] text-white',
                 isActive && 'bg-[#2855E0] text-white ring-4 ring-[#2855E0]/20',
                 !isCompleted && !isActive && 'bg-white/8 border-2 border-white/20 text-white/55',
@@ -75,7 +75,7 @@ function StepBar({ current }: { current: number }) {
       })}
     </div>
   )
-}
+})
 
 // ─── Main page ────────────────────────────────────────────────────────────────
 
@@ -278,7 +278,7 @@ export default function CotizarPage() {
                 if (!selectedNotaria) { toast.error('Selecciona una notaría'); return }
                 setStep(2)
               }}
-              className="flex items-center gap-2 bg-[#2855E0] text-white rounded-full px-6 py-2.5 font-semibold text-sm hover:bg-[#1E46C7] transition-colors disabled:opacity-50"
+              className="flex items-center gap-2 bg-[#2855E0] text-white rounded-full px-6 py-3 font-semibold text-sm hover:bg-[#1E46C7] transition-colors motion-reduce:transition-none disabled:opacity-50"
             >
               Continuar <ArrowRight size={15} />
             </button>
@@ -354,12 +354,13 @@ export default function CotizarPage() {
           <div className="space-y-4">
             <h2 className="font-semibold text-white">Datos del inmueble</h2>
             <div>
-              <label className="text-xs font-bold uppercase tracking-widest text-[#18181B]/50 block mb-1.5">
+              <label htmlFor="property_address" className="text-xs font-bold uppercase tracking-widest text-[#6B7A9A] block mb-1.5">
                 Dirección <span className="text-red-500">*</span>
               </label>
               <input
+                id="property_address"
                 placeholder="Av. Javier Prado 1234, Piso 5"
-                className="w-full h-11 px-4 rounded-2xl border border-[#18181B]/15 bg-white text-sm text-[#18181B] focus:outline-none focus:ring-2 focus:ring-[#2855E0]/30 focus:border-[#2855E0] transition-colors placeholder:text-[#18181B]/30"
+                className="w-full h-11 px-4 rounded-2xl border border-[#18181B]/15 bg-white text-sm text-[#18181B] focus:outline-none focus:ring-2 focus:ring-[#2855E0]/30 focus:border-[#2855E0] transition-colors placeholder:text-[#6B7A9A]"
                 {...form.register('property_address')}
               />
               {form.formState.errors.property_address && (
@@ -371,14 +372,14 @@ export default function CotizarPage() {
 
             <div className="grid grid-cols-2 gap-4">
               <div>
-                <label className="text-xs font-bold uppercase tracking-widest text-[#18181B]/50 block mb-1.5">
+                <label htmlFor="property_district" className="text-xs font-bold uppercase tracking-widest text-[#6B7A9A] block mb-1.5">
                   Distrito <span className="text-red-500">*</span>
                 </label>
                 <Select
                   value={form.watch('property_district')}
                   onValueChange={(val) => form.setValue('property_district', val)}
                 >
-                  <SelectTrigger className="h-11 rounded-2xl border-[#18181B]/15">
+                  <SelectTrigger id="property_district" className="h-11 rounded-2xl border-[#18181B]/15">
                     <SelectValue placeholder="Seleccionar" />
                   </SelectTrigger>
                   <SelectContent>
@@ -395,15 +396,16 @@ export default function CotizarPage() {
               </div>
 
               <div>
-                <label className="text-xs font-bold uppercase tracking-widest text-[#18181B]/50 block mb-1.5">
+                <label htmlFor="property_value" className="text-xs font-bold uppercase tracking-widest text-[#6B7A9A] block mb-1.5">
                   Valor del inmueble (S/.)
                 </label>
                 <input
+                  id="property_value"
                   type="number"
                   placeholder="350,000"
                   min="0"
                   step="1000"
-                  className="w-full h-11 px-4 rounded-2xl border border-[#18181B]/15 bg-white text-sm text-[#18181B] focus:outline-none focus:ring-2 focus:ring-[#2855E0]/30 focus:border-[#2855E0] transition-colors placeholder:text-[#18181B]/30"
+                  className="w-full h-11 px-4 rounded-2xl border border-[#18181B]/15 bg-white text-sm text-[#18181B] focus:outline-none focus:ring-2 focus:ring-[#2855E0]/30 focus:border-[#2855E0] transition-colors placeholder:text-[#6B7A9A]"
                   {...form.register('property_value', { valueAsNumber: true })}
                 />
               </div>
@@ -414,14 +416,14 @@ export default function CotizarPage() {
             <button
               type="button"
               onClick={() => setStep(1)}
-              className="flex items-center gap-2 border border-[#18181B]/15 text-[#18181B] rounded-full px-5 py-2.5 font-semibold text-sm hover:bg-[#18181B]/5 transition-colors"
+              className="flex items-center gap-2 border border-[#18181B]/15 text-[#18181B] rounded-full px-5 py-3 font-semibold text-sm hover:bg-[#18181B]/5 transition-colors motion-reduce:transition-none"
             >
               <ArrowLeft size={15} /> Anterior
             </button>
             <button
               type="submit"
               disabled={!selectedType}
-              className="flex items-center gap-2 bg-[#2855E0] text-white rounded-full px-6 py-2.5 font-semibold text-sm hover:bg-[#1E46C7] transition-colors disabled:opacity-40"
+              className="flex items-center gap-2 bg-[#2855E0] text-white rounded-full px-6 py-3 font-semibold text-sm hover:bg-[#1E46C7] transition-colors motion-reduce:transition-none disabled:opacity-40"
             >
               Continuar <ArrowRight size={15} />
             </button>
@@ -436,7 +438,7 @@ export default function CotizarPage() {
 
           {/* Notaria */}
           <div className="bg-white border border-[#18181B]/10 rounded-2xl p-4">
-            <div className="text-xs font-bold uppercase tracking-widest text-[#18181B]/40 mb-2">Notaría seleccionada</div>
+            <div className="text-xs font-bold uppercase tracking-widest text-[#6B7A9A] mb-2">Notaría seleccionada</div>
             <div className="flex items-center gap-3">
               <div className="w-9 h-9 rounded-xl bg-[#18181B]/6 flex items-center justify-center">
                 <Building2 size={16} className="text-[#18181B]/60" />
@@ -457,7 +459,7 @@ export default function CotizarPage() {
 
           {/* Type */}
           <div className="bg-white border border-[#18181B]/10 rounded-2xl p-4">
-            <div className="text-xs font-bold uppercase tracking-widest text-[#18181B]/40 mb-1">Tipo de trámite</div>
+            <div className="text-xs font-bold uppercase tracking-widest text-[#6B7A9A] mb-1">Tipo de trámite</div>
             <div className="font-semibold text-[#18181B]">{selectedType.display_name}</div>
             <div className="text-sm text-[#18181B]/50 mt-0.5">
               ~{selectedType.estimated_days} días hábiles
@@ -466,7 +468,7 @@ export default function CotizarPage() {
 
           {/* Property */}
           <div className="bg-white border border-[#18181B]/10 rounded-2xl p-4">
-            <div className="text-xs font-bold uppercase tracking-widest text-[#18181B]/40 mb-1">Inmueble</div>
+            <div className="text-xs font-bold uppercase tracking-widest text-[#6B7A9A] mb-1">Inmueble</div>
             <div className="font-medium text-[#18181B]">{form.watch('property_address')}</div>
             <div className="text-sm text-[#18181B]/50">{form.watch('property_district')}</div>
             {form.watch('property_value') ? (
@@ -495,14 +497,14 @@ export default function CotizarPage() {
               <button
                 type="button"
                 onClick={() => setStep(2)}
-                className="flex items-center gap-2 border border-[#18181B]/15 text-[#18181B] rounded-full px-5 py-2.5 font-semibold text-sm hover:bg-[#18181B]/5 transition-colors"
+                className="flex items-center gap-2 border border-[#18181B]/15 text-[#18181B] rounded-full px-5 py-3 font-semibold text-sm hover:bg-[#18181B]/5 transition-colors motion-reduce:transition-none"
               >
                 <ArrowLeft size={15} /> Anterior
               </button>
               <button
                 onClick={handleSubmitTramite}
                 disabled={submitting}
-                className="flex items-center gap-2 bg-[#2855E0] hover:bg-[#1E46C7] text-white rounded-full px-6 py-2.5 font-semibold text-sm transition-all disabled:opacity-70"
+                className="flex items-center gap-2 bg-[#2855E0] hover:bg-[#1E46C7] text-white rounded-full px-6 py-3 font-semibold text-sm transition-all motion-reduce:transition-none disabled:opacity-70"
               >
                 {submitting && <Loader2 size={14} className="animate-spin" />}
                 {submitting ? 'Solicitando...' : 'Solicitar trámite →'}

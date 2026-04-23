@@ -83,7 +83,7 @@ export default function TramitesClient({ initialTramites }: TramitesClientProps)
         <div className="flex items-center gap-3">
           <Link
             href="/cotizar"
-            className="flex items-center gap-2 bg-[#2855E0] hover:bg-[#1E46C7] text-white rounded-full px-6 py-2.5 font-semibold text-sm transition-all shadow-lg shadow-[#2855E0]/20"
+            className="flex items-center gap-2 bg-[#2855E0] hover:bg-[#1E46C7] text-white rounded-full px-6 py-3 font-semibold text-sm transition-all motion-reduce:transition-none"
           >
             <Plus size={15} />
             Nueva cotización
@@ -108,7 +108,7 @@ export default function TramitesClient({ initialTramites }: TramitesClientProps)
               placeholder="Buscar por código, tipo o parte..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              className="w-full h-11 pl-11 pr-4 rounded-2xl border border-[#18181B]/15 bg-white text-sm text-[#18181B] placeholder:text-[#18181B]/40 focus:outline-none focus:ring-2 focus:ring-[#2855E0]/30 focus:border-[#2855E0] transition-colors"
+              className="w-full h-11 pl-11 pr-4 rounded-2xl border border-[#18181B]/15 bg-white text-sm text-[#18181B] placeholder:text-[#6B7A9A] focus:outline-none focus:ring-2 focus:ring-[#2855E0]/30 focus:border-[#2855E0] transition-colors"
             />
           </div>
 
@@ -117,7 +117,7 @@ export default function TramitesClient({ initialTramites }: TramitesClientProps)
             value={statusFilter}
             onValueChange={(v) => setStatusFilter(v as 'all' | TramiteStatus)}
           >
-            <SelectTrigger className="w-full sm:w-48 h-11 rounded-2xl border-[#18181B]/15 text-sm">
+            <SelectTrigger aria-label="Filtrar por estado" className="w-full sm:w-48 h-11 rounded-2xl border-[#18181B]/15 text-sm">
               <SelectValue placeholder="Estado" />
             </SelectTrigger>
             <SelectContent>
@@ -135,7 +135,7 @@ export default function TramitesClient({ initialTramites }: TramitesClientProps)
             value={dateRange}
             onValueChange={(v) => setDateRange(v as DateRange)}
           >
-            <SelectTrigger className="w-full sm:w-44 h-11 rounded-2xl border-[#18181B]/15 text-sm">
+            <SelectTrigger aria-label="Filtrar por período" className="w-full sm:w-44 h-11 rounded-2xl border-[#18181B]/15 text-sm">
               <SelectValue placeholder="Período" />
             </SelectTrigger>
             <SelectContent>
@@ -161,7 +161,7 @@ export default function TramitesClient({ initialTramites }: TramitesClientProps)
       {filtered.length === 0 ? (
         <div className="bg-white rounded-3xl border border-[#18181B]/8 shadow-[0_4px_24px_rgba(18,18,27,0.06)] p-10">
           <EmptyState
-            icon={<FileText size={28} className="text-[#18181B]/30" />}
+            icon={<FileText size={28} className="text-[#6B7A9A]" />}
             title={
               hasActiveFilters
                 ? 'Sin resultados'
@@ -182,17 +182,17 @@ export default function TramitesClient({ initialTramites }: TramitesClientProps)
             <table className="w-full text-left border-collapse">
               <thead>
                 <tr className="border-b border-[#18181B]/8">
-                  <th scope="col" className="px-6 py-4 text-xs font-bold uppercase tracking-widest text-[#18181B]/40">Código</th>
-                  <th scope="col" className="px-6 py-4 text-xs font-bold uppercase tracking-widest text-[#18181B]/40">Tipo</th>
-                  <th scope="col" className="px-6 py-4 text-xs font-bold uppercase tracking-widest text-[#18181B]/40">Estado</th>
-                  <th scope="col" className="px-6 py-4 text-xs font-bold uppercase tracking-widest text-[#18181B]/40 hidden md:table-cell">Fecha</th>
-                  <th scope="col" className="px-6 py-4 text-xs font-bold uppercase tracking-widest text-[#18181B]/40 text-right hidden sm:table-cell">Monto</th>
-                  <th scope="col" className="px-6 py-4 text-xs font-bold uppercase tracking-widest text-[#18181B]/40 text-right">Acción</th>
+                  <th scope="col" className="px-6 py-4 text-xs font-bold uppercase tracking-widest text-[#6B7A9A]">Código</th>
+                  <th scope="col" className="px-6 py-4 text-xs font-bold uppercase tracking-widest text-[#6B7A9A]">Tipo</th>
+                  <th scope="col" className="px-6 py-4 text-xs font-bold uppercase tracking-widest text-[#6B7A9A]">Estado</th>
+                  <th scope="col" className="px-6 py-4 text-xs font-bold uppercase tracking-widest text-[#6B7A9A] hidden md:table-cell">Fecha</th>
+                  <th scope="col" className="px-6 py-4 text-xs font-bold uppercase tracking-widest text-[#6B7A9A] text-right hidden sm:table-cell">Monto</th>
+                  <th scope="col" className="px-6 py-4 text-xs font-bold uppercase tracking-widest text-[#6B7A9A] text-right">Acción</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-[#18181B]/5">
                 {filtered.map((tramite) => (
-                  <tr key={tramite.id} className="hover:bg-[#18181B]/3 transition-colors group">
+                  <tr key={tramite.id} className="hover:bg-[#18181B]/3 transition-colors motion-reduce:transition-none group">
                     <td className="px-6 py-4">
                       <code className="font-mono text-xs bg-[#18181B]/6 text-[#18181B]/70 px-2.5 py-1 rounded-full font-semibold">
                         {tramite.reference_code}
@@ -204,7 +204,7 @@ export default function TramitesClient({ initialTramites }: TramitesClientProps)
                     <td className="px-6 py-4">
                       <StatusBadge status={tramite.status} size="sm" />
                     </td>
-                    <td className="px-6 py-4 text-xs text-[#18181B]/40 hidden md:table-cell">
+                    <td className="px-6 py-4 text-xs text-[#6B7A9A] hidden md:table-cell">
                       {formatDate(tramite.created_at)}
                     </td>
                     <td className="px-6 py-4 text-right font-semibold text-[#18181B] text-sm tabular-nums hidden sm:table-cell">
@@ -213,7 +213,7 @@ export default function TramitesClient({ initialTramites }: TramitesClientProps)
                     <td className="px-6 py-4 text-right">
                       <Link
                         href={`/tramites/${tramite.id}`}
-                        className="inline-flex items-center gap-1.5 text-[#18181B]/60 border border-[#18181B]/15 rounded-full px-3.5 py-1.5 text-xs font-semibold hover:border-[#2855E0]/30 hover:text-[#2855E0] transition-all group-hover:translate-x-0.5"
+                        className="inline-flex items-center gap-1.5 text-[#18181B]/60 border border-[#18181B]/15 rounded-full px-3.5 py-1.5 text-xs font-semibold hover:border-[#2855E0]/30 hover:text-[#2855E0] transition-all motion-reduce:transition-none group-hover:translate-x-0.5 motion-reduce:group-hover:translate-x-0"
                       >
                         Ver <ArrowRight size={12} />
                       </Link>
