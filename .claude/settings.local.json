@@ -120,7 +120,13 @@
       "Bash(sed -n '430,445p' C:/Users/cefd2/Downloads/TuCierre/src/app/'\\(auth\\)'/cotizar/page.tsx)",
       "Bash(sed -n '417,425p' C:/Users/cefd2/Downloads/TuCierre/src/app/'\\(auth\\)'/recompensas/page.tsx)",
       "Bash(sed -n '519,526p' C:/Users/cefd2/Downloads/TuCierre/src/app/'\\(auth\\)'/recompensas/page.tsx)",
-      "Bash(sed -n '612,619p' C:/Users/cefd2/Downloads/TuCierre/src/app/'\\(auth\\)'/recompensas/page.tsx)"
+      "Bash(sed -n '612,619p' C:/Users/cefd2/Downloads/TuCierre/src/app/'\\(auth\\)'/recompensas/page.tsx)",
+      "Bash(sort -t',' -k4 -n)",
+      "Bash(sed -n '49,55p' \"C:/Users/cefd2/Downloads/TuCierre/src/components/landing/PriceMatchSection.tsx\")",
+      "Bash(sed -n '34,40p' \"C:/Users/cefd2/Downloads/TuCierre/src/components/landing/LandingFooter.tsx\")",
+      "Bash(sed -n '13,22p' \"C:/Users/cefd2/Downloads/TuCierre/src/components/landing/CtaSection.tsx\")",
+      "Bash(sed -n '54,60p' \"C:/Users/cefd2/Downloads/TuCierre/src/components/landing/CtaSection.tsx\")",
+      "Bash(sed -n '15,22p' \"C:/Users/cefd2/Downloads/TuCierre/src/components/landing/StatsSection.tsx\")"
     ]
   }
 }

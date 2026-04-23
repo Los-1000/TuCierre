@@ -18,9 +18,9 @@ function TramiteCard() {
       }}
       aria-hidden="true"
     >
-      <div className="px-5 py-4 flex items-center justify-between" style={{ background: '#020952' }}>
+      <div className="px-5 py-4 flex items-center justify-between bg-brand-navy">
         <div className="flex items-center gap-2">
-          <div className="w-2 h-2 rounded-full" style={{ background: '#4D78FF' }} />
+          <div className="w-2 h-2 rounded-full bg-brand-blue" />
           <span className="text-sm font-bold text-white tracking-tight">Tu Cierre</span>
         </div>
         <span
@@ -31,7 +31,7 @@ function TramiteCard() {
         </span>
       </div>
 
-      <div className="px-5 py-4 border-b" style={{ borderColor: 'rgba(255,255,255,0.12)' }}>
+      <div className="px-5 py-4 border-b" style={{ background: 'var(--brand-navy)', borderColor: 'rgba(255,255,255,0.12)' }}>
         <p className="text-[10px] font-bold uppercase tracking-[0.2em] mb-1" style={{ color: 'rgba(255,255,255,0.5)' }}>
           Tipo de trámite
         </p>
@@ -42,14 +42,14 @@ function TramiteCard() {
         {STEPS.map((step) => (
           <div key={step.label} className="flex items-center gap-3">
             {step.state === 'done' && (
-              <div className="w-5 h-5 rounded-full flex items-center justify-center shrink-0" style={{ background: '#1C7A52' }}>
+              <div className="w-5 h-5 rounded-full flex items-center justify-center shrink-0 bg-brand-success">
                 <svg width="9" height="9" viewBox="0 0 24 24" fill="none">
                   <path d="M5 13l4 4L19 7" stroke="white" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round" />
                 </svg>
               </div>
             )}
             {step.state === 'active' && (
-              <div className="w-5 h-5 rounded-full flex items-center justify-center shrink-0 animate-pulse" style={{ background: '#4D78FF' }}>
+              <div className="w-5 h-5 rounded-full flex items-center justify-center shrink-0 animate-pulse bg-brand-blue">
                 <div className="w-2 h-2 rounded-full bg-white" />
               </div>
             )}
@@ -61,15 +61,15 @@ function TramiteCard() {
                 className="text-xs font-medium"
                 style={{
                   color:
-                    step.state === 'done'    ? '#1C7A52'
-                    : step.state === 'active' ? '#0F172A'
-                    : '#94A3B8',
+                    step.state === 'done'    ? 'var(--brand-success)'
+                    : step.state === 'active' ? '#1A2050'
+                    : '#64748B',
                 }}
               >
                 {step.label}
               </span>
               {step.state === 'active' && (
-                <span className="text-[10px] font-black uppercase tracking-widest" style={{ color: '#4D78FF' }}>
+                <span className="text-[10px] font-black uppercase tracking-widest text-brand-blue">
                   Ahora
                 </span>
               )}
@@ -78,7 +78,7 @@ function TramiteCard() {
         ))}
       </div>
 
-      <div className="px-5 py-3 flex items-center gap-2 border-t" style={{ background: '#020952', borderColor: 'rgba(255,255,255,0.12)' }}>
+      <div className="px-5 py-3 flex items-center gap-2 border-t" style={{ background: 'var(--brand-navy)', borderColor: 'rgba(255,255,255,0.12)' }}>
         <svg aria-hidden="true" width="12" height="12" viewBox="0 0 24 24" fill="none">
           <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" stroke="rgba(255,255,255,0.55)" strokeWidth="2" strokeLinejoin="round" />
         </svg>
@@ -93,8 +93,8 @@ function TramiteCard() {
 export default function HeroSection() {
   return (
     <section
-      className="relative overflow-hidden pt-[64px] flex items-center"
-      style={{ background: '#020952', minHeight: '88vh' }}
+      className="relative overflow-hidden pt-[64px] flex items-center bg-brand-navy"
+      style={{ minHeight: '88vh' }}
     >
       <div
         className="absolute inset-0 pointer-events-none"
@@ -106,7 +106,7 @@ export default function HeroSection() {
       />
 
       <div className="max-w-screen-xl mx-auto px-6 md:px-10 py-20 w-full">
-        <div className="grid lg:grid-cols-[1fr_400px] gap-16 xl:gap-24 items-center">
+        <div className="grid md:grid-cols-[1fr_340px] lg:grid-cols-[1fr_400px] gap-16 xl:gap-24 items-center">
 
           <div className="space-y-8">
             <div
@@ -125,7 +125,7 @@ export default function HeroSection() {
             >
               <span className="block font-extralight">El trámite notarial</span>
               <span className="block font-extralight">de tu cliente,</span>
-              <span className="block font-black font-display italic" style={{ color: '#4D78FF' }}>
+              <span className="block font-black font-display italic text-brand-blue">
                 resuelto.
               </span>
             </h1>
@@ -142,8 +142,8 @@ export default function HeroSection() {
             <div className="flex flex-col sm:flex-row gap-4 pt-2">
               <Link
                 href="/register"
-                className="inline-flex items-center justify-center gap-2.5 px-8 py-4 text-white font-bold rounded-xl shadow-lg hover:brightness-110 active:scale-95 transition-all duration-200"
-                style={{ background: '#4D78FF', fontSize: '1rem' }}
+                className="inline-flex items-center justify-center gap-2.5 px-8 py-4 text-white font-bold rounded-xl shadow-lg hover:brightness-110 active:scale-95 transition-all duration-200 bg-brand-blue"
+                style={{ fontSize: '1rem' }}
               >
                 Crear mi cuenta gratis
                 <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none">
@@ -162,8 +162,8 @@ export default function HeroSection() {
             <div className="flex flex-wrap gap-6 pt-1">
               {['Sin tarjeta requerida', 'Gratis para brokers', 'Activo en Lima'].map(item => (
                 <span key={item} className="flex items-center gap-1.5 text-sm font-medium" style={{ color: 'rgba(255,255,255,0.5)' }}>
-                  <svg aria-hidden="true" width="13" height="13" viewBox="0 0 24 24" fill="none">
-                    <path d="M5 13l4 4L19 7" stroke="#1C7A52" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+                  <svg aria-hidden="true" width="13" height="13" viewBox="0 0 24 24" fill="none" className="text-brand-success">
+                    <path d="M5 13l4 4L19 7" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
                   </svg>
                   {item}
                 </span>
@@ -171,7 +171,7 @@ export default function HeroSection() {
             </div>
           </div>
 
-          <div className="hidden lg:block">
+          <div className="hidden md:block">
             <TramiteCard />
           </div>
 

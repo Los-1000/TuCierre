@@ -2,6 +2,15 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Brand hex tokens — use for dynamic JS color expressions (style={{ color: 'var(--brand-navy)' }}) */
+:root {
+  --brand-navy: #020952;
+  --brand-navy-deep: #01063A;
+  --brand-blue: #4D78FF;
+  --brand-blue-cta: #2855E0;
+  --brand-success: #1C7A52;
+}
+
 @layer base {
   :root {
     /* #020952 � logo exact navy */

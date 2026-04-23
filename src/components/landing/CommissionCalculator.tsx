@@ -5,9 +5,9 @@ import { useState } from 'react'
 const AVG_TICKET = 900
 
 const TIERS = [
-  { min: 1,  max: 3,   name: 'Nivel 1', rate: 0.03, pct: '3%', color: '#4D78FF' },
-  { min: 4,  max: 7,   name: 'Nivel 2', rate: 0.05, pct: '5%', color: '#020952' },
-  { min: 8,  max: 999, name: 'Nivel 3', rate: 0.08, pct: '8%', color: '#1C7A52' },
+  { min: 1,  max: 3,   name: 'Nivel 1', rate: 0.03, pct: '3%', color: 'var(--brand-blue)' },
+  { min: 4,  max: 7,   name: 'Nivel 2', rate: 0.05, pct: '5%', color: 'var(--brand-blue)' },
+  { min: 8,  max: 999, name: 'Nivel 3', rate: 0.08, pct: '8%', color: 'var(--brand-success)' },
 ]
 
 function getTier(tramites: number) {
@@ -28,7 +28,7 @@ export default function CommissionCalculator() {
   const toNext   = nextTier ? nextTier.min - tramites : 0
 
   const pct = ((tramites - 1) / 19) * 100
-  const sliderBg = `linear-gradient(to right, #4D78FF ${pct}%, rgba(2,9,82,0.12) ${pct}%)`
+  const sliderBg = `linear-gradient(to right, var(--brand-blue) ${pct}%, rgba(2,9,82,0.12) ${pct}%)`
 
   return (
     <div
@@ -41,10 +41,10 @@ export default function CommissionCalculator() {
         {/* Slider */}
         <div>
           <div className="flex items-baseline justify-between mb-5">
-            <label htmlFor="calc-slider" className="text-base font-semibold" style={{ color: '#020952' }}>
+            <label htmlFor="calc-slider" className="text-base font-semibold text-brand-navy">
               Trámites al mes
             </label>
-            <span className="font-black tabular-nums text-4xl tracking-tighter" style={{ color: '#020952' }}>
+            <span className="font-black tabular-nums text-4xl tracking-tighter text-brand-navy">
               {tramites}
             </span>
           </div>
@@ -88,13 +88,13 @@ export default function CommissionCalculator() {
                     : { borderColor: 'rgba(2,9,82,0.1)', background: 'rgba(2,9,82,0.02)' }
                 }
               >
-                <div className="font-black text-2xl leading-none tabular-nums" style={{ color: active ? t.color : 'rgba(2,9,82,0.25)' }}>
+                <div className="font-black text-2xl leading-none tabular-nums" style={{ color: active ? t.color : 'rgba(2,9,82,0.5)' }}>
                   {t.pct}
                 </div>
-                <div className="text-xs font-semibold mt-0.5" style={{ color: active ? 'rgba(2,9,82,0.7)' : 'rgba(2,9,82,0.35)' }}>
+                <div className="text-xs font-semibold mt-0.5" style={{ color: active ? 'rgba(2,9,82,0.7)' : 'rgba(2,9,82,0.6)' }}>
                   {t.name}
                 </div>
-                <div className="text-[10px] mt-0.5" style={{ color: 'rgba(2,9,82,0.3)' }}>
+                <div className="text-[10px] mt-0.5" style={{ color: 'rgba(2,9,82,0.6)' }}>
                   {t.min}–{t.max >= 99 ? '∞' : t.max}/mes
                 </div>
               </div>
@@ -104,8 +104,8 @@ export default function CommissionCalculator() {
       </div>
 
       {/* Result panel — navy */}
-      <div className="px-8 py-7" style={{ background: '#020952' }}>
-        <p className="text-xs font-bold uppercase tracking-widest mb-1" style={{ color: 'rgba(255,255,255,0.4)' }}>
+      <div className="px-8 py-7 bg-brand-navy">
+        <p className="text-xs font-bold uppercase tracking-widest mb-1" style={{ color: 'rgba(255,255,255,0.6)' }}>
           Comisión mensual estimada
         </p>
         <p
@@ -114,7 +114,7 @@ export default function CommissionCalculator() {
         >
           {fmtSoles(monthly)}
         </p>
-        <p className="text-xs mt-2" style={{ color: 'rgba(255,255,255,0.3)' }}>
+        <p className="text-xs mt-2" style={{ color: 'rgba(255,255,255,0.55)' }}>
           {tramites} trámites × S/. {AVG_TICKET.toLocaleString('es-PE')} promedio × {tier.pct}
         </p>
 
@@ -123,13 +123,13 @@ export default function CommissionCalculator() {
           style={{ borderColor: 'rgba(255,255,255,0.08)' }}
         >
           <div>
-            <p className="text-xs mb-0.5" style={{ color: 'rgba(255,255,255,0.35)' }}>Proyección anual</p>
+            <p className="text-xs mb-0.5" style={{ color: 'rgba(255,255,255,0.6)' }}>Proyección anual</p>
             <p className="text-xl font-bold tabular-nums text-white">{fmtSoles(annual)}</p>
           </div>
 
           {toNext > 0 && nextTier ? (
             <div className="text-right">
-              <p className="text-xs mb-0.5" style={{ color: 'rgba(255,255,255,0.35)' }}>Para subir de nivel</p>
+              <p className="text-xs mb-0.5" style={{ color: 'rgba(255,255,255,0.6)' }}>Para subir de nivel</p>
               <p className="text-sm font-bold text-white">
                 +{toNext} trámite{toNext > 1 ? 's' : ''} → {nextTier.pct}
               </p>
@@ -137,7 +137,7 @@ export default function CommissionCalculator() {
           ) : (
             <div className="px-3.5 py-2.5 rounded-xl border" style={{ background: 'rgba(28,122,82,0.12)', borderColor: 'rgba(28,122,82,0.28)' }}>
               <p className="text-xs font-medium" style={{ color: 'rgba(28,122,82,0.8)' }}>Nivel máximo</p>
-              <p className="text-sm font-black" style={{ color: '#22A06B' }}>Nivel 3 · 8%</p>
+              <p className="text-sm font-black text-brand-green-light">Nivel 3 · 8%</p>
             </div>
           )}
         </div>

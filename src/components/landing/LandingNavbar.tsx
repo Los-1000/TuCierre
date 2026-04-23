@@ -1,7 +1,7 @@
 'use client'
 
 import Link from 'next/link'
-import { useState } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import { Logo } from '@/components/ui/Logo'
 
 const NAV_LINKS = [
@@ -12,15 +12,21 @@ const NAV_LINKS = [
 
 export default function LandingNavbar() {
   const [open, setOpen] = useState(false)
+  const menuRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    if (open && menuRef.current) {
+      const firstLink = menuRef.current.querySelector('a')
+      firstLink?.focus()
+    }
+  }, [open])
 
   return (
     <nav
       aria-label="Navegación principal"
-      className="fixed top-0 left-0 right-0 z-50 border-b"
-      style={{
-        background: '#020952',
-        borderColor: 'rgba(255,255,255,0.08)',
-      }}
+      className="fixed top-0 left-0 right-0 z-50 border-b bg-brand-navy"
+      onKeyDown={(e) => { if (e.key === 'Escape') setOpen(false) }}
+      style={{ borderColor: 'rgba(255,255,255,0.08)' }}
     >
       <div className="max-w-screen-xl mx-auto px-6 md:px-10 py-3 flex items-center justify-between">
 
@@ -45,21 +51,20 @@ export default function LandingNavbar() {
         <div className="flex items-center gap-3">
           <Link
             href="/login"
-            className="hidden md:block px-4 py-2 text-sm font-semibold transition-colors hover:text-white"
+            className="hidden md:block px-4 py-3 text-sm font-semibold transition-colors hover:text-white"
             style={{ color: 'rgba(255,255,255,0.65)' }}
           >
             Ingresar
           </Link>
           <Link
             href="/register"
-            className="hidden md:block px-5 py-2.5 text-white rounded-lg text-sm font-bold shadow-sm hover:brightness-110 transition-all active:scale-95"
-            style={{ background: '#4D78FF' }}
+            className="hidden md:block px-5 py-3 text-white rounded-lg text-sm font-bold shadow-sm hover:brightness-110 transition-all active:scale-95 bg-brand-blue"
           >
             Empezar gratis
           </Link>
 
           <button
-            className="md:hidden p-2 transition-colors"
+            className="md:hidden p-2.5 min-h-[44px] min-w-[44px] flex items-center justify-center transition-colors"
             aria-label={open ? 'Cerrar menú' : 'Abrir menú'}
             aria-expanded={open}
             onClick={() => setOpen(v => !v)}
@@ -80,15 +85,16 @@ export default function LandingNavbar() {
 
       {open && (
         <div
-          className="md:hidden border-t px-6 py-6 space-y-1"
-          style={{ background: '#020952', borderColor: 'rgba(255,255,255,0.08)' }}
+          ref={menuRef}
+          className="md:hidden border-t px-6 py-6 space-y-1 bg-brand-navy"
+          style={{ borderColor: 'rgba(255,255,255,0.08)' }}
         >
           {NAV_LINKS.map(([label, href]) => (
             <a
               key={label}
               href={href}
               onClick={() => setOpen(false)}
-              className="block text-base font-medium py-3"
+              className="block text-base font-medium py-3.5"
               style={{ color: 'rgba(255,255,255,0.65)' }}
             >
               {label}
@@ -98,7 +104,7 @@ export default function LandingNavbar() {
             <Link
               href="/login"
               onClick={() => setOpen(false)}
-              className="block text-center px-6 py-3 text-sm font-semibold border rounded-lg"
+              className="block text-center px-6 py-3.5 text-sm font-semibold border rounded-lg"
               style={{ color: 'rgba(255,255,255,0.8)', borderColor: 'rgba(255,255,255,0.15)' }}
             >
               Ingresar
@@ -106,8 +112,7 @@ export default function LandingNavbar() {
             <Link
               href="/register"
               onClick={() => setOpen(false)}
-              className="block text-center px-6 py-3 text-white rounded-lg text-sm font-bold"
-              style={{ background: '#4D78FF' }}
+              className="block text-center px-6 py-3.5 text-white rounded-lg text-sm font-bold bg-brand-blue"
             >
               Empezar gratis
             </Link>

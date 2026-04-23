@@ -68,6 +68,7 @@ const config: Config = {
           green: '#1A7A54',
           'green-light': '#22A06B',
           'green-dark': '#155C3E',
+          success: '#1C7A52',  // done/confirmed state — step indicators, status badges
           red: '#D93B3B',
           bg: '#020952',
         },
