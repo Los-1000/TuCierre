@@ -11,7 +11,7 @@ const adminNavItems = [
   { href: '/admin/referidos', label: 'Referidos', icon: Gift },
 ]
 
-export function AdminNav() {
+export function AdminNav({ onNavigate }: { onNavigate?: () => void } = {}) {
   const pathname = usePathname()
 
   return (
@@ -25,10 +25,12 @@ export function AdminNav() {
           <Link
             key={item.href}
             href={item.href}
-            className={`flex items-center gap-3 px-4 py-3 text-sm font-medium tracking-tight transition-all rounded-none ${
+            aria-current={isActive ? 'page' : undefined}
+            onClick={onNavigate}
+            className={`flex items-center gap-3 px-4 py-3 text-sm font-medium tracking-tight transition-all rounded-lg ${
               isActive
-                ? 'bg-white/10 border-l-[3px] border-[#2855E0] text-white'
-                : 'text-white/60 hover:text-white hover:bg-white/8 border-l-[3px] border-transparent'
+                ? 'bg-white/15 text-white'
+                : 'text-white/60 hover:text-white hover:bg-white/8'
             }`}
           >
             <item.icon size={18} className="shrink-0" />

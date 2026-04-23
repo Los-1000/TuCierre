@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState, useCallback } from 'react'
+import { useEffect, useState, useCallback, useMemo } from 'react'
 import { createClient } from '@/lib/supabase/client'
 import { toast } from 'sonner'
 import {
@@ -12,7 +12,7 @@ import StatusBadge from '@/components/tramites/StatusBadge'
 import { formatDate, formatPrice } from '@/lib/utils'
 import { TIER_CONFIG } from '@/lib/constants'
 import type { Broker, BrokerTier, TramiteStatus } from '@/types/database'
-import { Search, Loader2, X } from 'lucide-react'
+import { Search, Loader2, X, AlertTriangle } from 'lucide-react'
 
 type TierFilter = 'all' | BrokerTier
 
@@ -34,50 +34,29 @@ function TierBadge({ tier }: { tier: BrokerTier }) {
     oro:    'bg-[#D69E2E]/10 text-[#D69E2E] border border-[#D69E2E]/20',
   }
   return (
-    <span className={`inline-flex items-center px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider ${styles[tier]}`}>
+    <span className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider ${styles[tier]}`}>
       {tier}
     </span>
-  )
-}
-
-// ─── Avatar initials ──────────────────────────────────────────────────────────
-
-function AvatarInitials({ name, size = 10 }: { name: string; size?: number }) {
-  const initials = name
-    .split(' ')
-    .slice(0, 2)
-    .map(w => w[0])
-    .join('')
-    .toUpperCase()
-  return (
-    <div
-      className={`w-${size} h-${size} rounded-full bg-[#18181B] text-white flex items-center justify-center font-bold text-sm shrink-0`}
-    >
-      {initials}
-    </div>
   )
 }
 
 // ─── Main component ───────────────────────────────────────────────────────────
 
 export default function AdminBrokersPage() {
-  const supabase = createClient()
+  const supabase = useMemo(() => createClient(), [])
 
   const [brokers, setBrokers] = useState<Broker[]>([])
   const [loading, setLoading] = useState(true)
 
-  // Filters
   const [search, setSearch] = useState('')
   const [tierFilter, setTierFilter] = useState<TierFilter>('all')
 
-  // Profile sheet
   const [sheetOpen, setSheetOpen] = useState(false)
   const [selectedBroker, setSelectedBroker] = useState<Broker | null>(null)
   const [brokerTramites, setBrokerTramites] = useState<BrokerTramite[]>([])
   const [loadingTramites, setLoadingTramites] = useState(false)
   const [activeTab, setActiveTab] = useState<'tramites' | 'ajustes'>('tramites')
 
-  // Tier adjustment (inline in sheet)
   const [newTier, setNewTier] = useState<BrokerTier>('bronce')
   const [tierReason, setTierReason] = useState('')
   const [updatingTier, setUpdatingTier] = useState(false)
@@ -144,7 +123,6 @@ export default function AdminBrokersPage() {
     }
   }
 
-  // Filtered brokers
   const filtered = brokers.filter(b => {
     if (tierFilter !== 'all' && b.tier !== tierFilter) return false
     if (search.trim()) {
@@ -166,19 +144,18 @@ export default function AdminBrokersPage() {
 
       {/* Filter bar */}
       <div className="bg-white rounded-3xl border border-[#18181B]/8 shadow-[0_4px_24px_rgba(18,18,27,0.06)] p-4 flex flex-wrap items-center gap-3">
-        {/* Search */}
         <div className="relative flex-1 min-w-[200px]">
           <Search size={15} className="absolute left-3 top-1/2 -translate-y-1/2 text-[#18181B]/40" />
           <input
             type="text"
             placeholder="Buscar por nombre o email..."
+            aria-label="Buscar por nombre o email"
             value={search}
             onChange={e => setSearch(e.target.value)}
             className="w-full border border-[#18181B]/15 rounded-2xl h-11 pl-9 pr-4 text-sm focus:outline-none focus:ring-2 focus:ring-[#2855E0]/30 bg-transparent text-[#18181B] placeholder:text-[#18181B]/40"
           />
         </div>
 
-        {/* Tier filter */}
         <select
           value={tierFilter}
           onChange={e => setTierFilter(e.target.value as TierFilter)}
@@ -192,7 +169,6 @@ export default function AdminBrokersPage() {
           ))}
         </select>
 
-        {/* Clear */}
         {(search || tierFilter !== 'all') && (
           <button
             onClick={() => { setSearch(''); setTierFilter('all') }}
@@ -209,13 +185,13 @@ export default function AdminBrokersPage() {
         <table className="w-full text-left border-collapse">
           <thead>
             <tr className="bg-slate-50">
-              <th className="px-8 py-5 text-[11px] font-bold uppercase tracking-wider text-[#18181B]/50">Nombre</th>
-              <th className="px-6 py-5 text-[11px] font-bold uppercase tracking-wider text-[#18181B]/50">DNI</th>
-              <th className="px-6 py-5 text-[11px] font-bold uppercase tracking-wider text-[#18181B]/50">Tier</th>
-              <th className="px-6 py-5 text-[11px] font-bold uppercase tracking-wider text-[#18181B]/50">Trámites/mes</th>
-              <th className="px-6 py-5 text-[11px] font-bold uppercase tracking-wider text-[#18181B]/50">Total</th>
-              <th className="px-6 py-5 text-[11px] font-bold uppercase tracking-wider text-[#18181B]/50">Registrado</th>
-              <th className="px-8 py-5 text-[11px] font-bold uppercase tracking-wider text-[#18181B]/50 text-right">Acciones</th>
+              <th className="px-8 py-5 text-xs font-bold uppercase tracking-wider text-[#18181B]/60">Nombre</th>
+              <th className="px-6 py-5 text-xs font-bold uppercase tracking-wider text-[#18181B]/60">DNI</th>
+              <th className="px-6 py-5 text-xs font-bold uppercase tracking-wider text-[#18181B]/60">Tier</th>
+              <th className="px-6 py-5 text-xs font-bold uppercase tracking-wider text-[#18181B]/60">Trámites/mes</th>
+              <th className="px-6 py-5 text-xs font-bold uppercase tracking-wider text-[#18181B]/60">Total</th>
+              <th className="px-6 py-5 text-xs font-bold uppercase tracking-wider text-[#18181B]/60">Registrado</th>
+              <th className="px-8 py-5 text-xs font-bold uppercase tracking-wider text-[#18181B]/60 text-right">Acciones</th>
             </tr>
           </thead>
 
@@ -235,7 +211,14 @@ export default function AdminBrokersPage() {
               </tr>
             ) : (
               filtered.map(b => (
-                <tr key={b.id} className="hover:bg-slate-50/60 transition-colors group cursor-pointer" onClick={() => openBrokerProfile(b)}>
+                <tr
+                  key={b.id}
+                  role="button"
+                  tabIndex={0}
+                  className="hover:bg-slate-50/60 transition-colors group cursor-pointer"
+                  onClick={() => openBrokerProfile(b)}
+                  onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openBrokerProfile(b) } }}
+                >
                   <td className="px-8 py-6">
                     <div className="flex items-center gap-4">
                       <div className="w-10 h-10 rounded-full bg-[#18181B]/8 flex items-center justify-center font-bold text-[#18181B] text-sm shrink-0">
@@ -293,6 +276,7 @@ export default function AdminBrokersPage() {
                 </div>
                 <button
                   onClick={() => setSheetOpen(false)}
+                  aria-label="Cerrar perfil"
                   className="p-2 hover:bg-[#18181B]/5 rounded-full transition-colors"
                 >
                   <X size={18} className="text-[#18181B]/50" />
@@ -324,11 +308,11 @@ export default function AdminBrokersPage() {
                   <div className="p-8 space-y-4">
                     <div className="grid grid-cols-2 gap-4 mb-6">
                       <div className="bg-slate-50 rounded-2xl p-4">
-                        <p className="text-[10px] font-bold uppercase tracking-wider text-[#18181B]/50 mb-1">Este mes</p>
+                        <p className="text-xs font-bold uppercase tracking-wider text-[#18181B]/60 mb-1">Este mes</p>
                         <p className="text-2xl font-black text-[#18181B]">{selectedBroker.total_tramites_month}</p>
                       </div>
                       <div className="bg-slate-50 rounded-2xl p-4">
-                        <p className="text-[10px] font-bold uppercase tracking-wider text-[#18181B]/50 mb-1">Total</p>
+                        <p className="text-xs font-bold uppercase tracking-wider text-[#18181B]/60 mb-1">Total</p>
                         <p className="text-2xl font-black text-[#18181B]">{selectedBroker.total_tramites}</p>
                       </div>
                     </div>
@@ -371,10 +355,9 @@ export default function AdminBrokersPage() {
                 {/* AJUSTES TAB */}
                 {activeTab === 'ajustes' && (
                   <div className="p-8 space-y-8">
-                    {/* Tier adjustment */}
                     <div className="space-y-4">
                       <div>
-                        <h4 className="text-[11px] font-bold uppercase tracking-widest text-[#18181B]/50 mb-1">
+                        <h4 className="text-xs font-bold uppercase tracking-widest text-[#18181B]/60 mb-1">
                           Ajustar tier manualmente
                         </h4>
                         <p className="text-sm text-[#18181B]/60 leading-relaxed">
@@ -382,7 +365,6 @@ export default function AdminBrokersPage() {
                         </p>
                       </div>
 
-                      {/* Tier radio group */}
                       <div className="grid grid-cols-1 gap-3">
                         {(Object.keys(TIER_CONFIG) as BrokerTier[]).map(tier => {
                           const isSelected = newTier === tier
@@ -422,9 +404,8 @@ export default function AdminBrokersPage() {
                       </div>
                     </div>
 
-                    {/* Motivo */}
                     <div className="space-y-2">
-                      <label className="text-[10px] font-bold text-[#18181B]/50 uppercase tracking-wider">
+                      <label className="text-xs font-bold text-[#18181B]/60 uppercase tracking-wider">
                         Motivo del ajuste
                       </label>
                       <Textarea
@@ -436,9 +417,8 @@ export default function AdminBrokersPage() {
                       />
                     </div>
 
-                    {/* Warning */}
                     <div className="bg-[#D69E2E]/8 rounded-2xl p-4 flex gap-3">
-                      <span className="text-[#D69E2E] text-lg shrink-0">⚠</span>
+                      <AlertTriangle size={18} className="text-[#D69E2E] shrink-0 mt-0.5" />
                       <p className="text-xs font-medium text-[#D69E2E] leading-relaxed">
                         Este cambio sobreescribirá el cálculo automático para este periodo. El cambio quedará registrado en el log de auditoría.
                       </p>
@@ -447,7 +427,6 @@ export default function AdminBrokersPage() {
                 )}
               </div>
 
-              {/* Drawer footer action — only show in Ajustes tab */}
               {activeTab === 'ajustes' && (
                 <div className="p-8 border-t border-[#18181B]/5">
                   <button

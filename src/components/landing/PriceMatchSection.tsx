@@ -17,8 +17,7 @@ export default function PriceMatchSection() {
   return (
     <section
       id="pricematch"
-      className="py-32"
-      style={{ background: 'var(--brand-navy)', borderTop: '1px solid rgba(255,255,255,0.06)' }}
+      className="py-32 bg-brand-navy border-t border-white/6"
     >
       <div className="max-w-screen-xl mx-auto px-6 md:px-10 grid lg:grid-cols-2 gap-16 xl:gap-24 items-center">
 
@@ -26,7 +25,7 @@ export default function PriceMatchSection() {
         <Reveal direction="up" delay={0}>
         <div className="space-y-8">
           <div className="space-y-5">
-            <p className="text-xs font-black uppercase tracking-[0.2em]" style={{ color: 'rgba(255,255,255,0.5)' }}>
+            <p className="text-xs font-black uppercase tracking-[0.2em] text-white/50">
               Igualador de precio
             </p>
             <h2
@@ -38,7 +37,7 @@ export default function PriceMatchSection() {
             </h2>
           </div>
 
-          <p className="text-lg leading-relaxed" style={{ color: 'rgba(255,255,255,0.55)' }}>
+          <p className="text-lg leading-relaxed text-white/55">
             ¿Tu cliente encontró un precio más bajo en otra notaría?{' '}
             <strong className="text-white font-semibold">Preséntanoslo y lo igualamos.</strong>{' '}
             Misma calidad, mismos plazos.
@@ -46,9 +45,9 @@ export default function PriceMatchSection() {
 
           <ul className="space-y-3">
             {CHECKS.map(item => (
-              <li key={item} className="flex items-center gap-3 text-base" style={{ color: 'rgba(255,255,255,0.8)' }}>
-                <span className="w-5 h-5 rounded-full flex items-center justify-center shrink-0" style={{ background: 'rgba(28,122,82,0.15)', border: '1px solid rgba(28,122,82,0.3)' }}>
-                  <svg width="10" height="10" viewBox="0 0 24 24" fill="none" aria-hidden="true" className="text-brand-green-light">
+              <li key={item} className="flex items-center gap-3 text-base text-white/80">
+                <span className="w-5 h-5 rounded-full flex items-center justify-center shrink-0 bg-brand-success/15 border border-brand-success/30">
+                  <svg width="10" height="10" viewBox="0 0 24 24" fill="none" aria-hidden="true" className="text-brand-emerald-light">
                     <path d="M5 13l4 4L19 7" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
                   </svg>
                 </span>
@@ -57,7 +56,7 @@ export default function PriceMatchSection() {
             ))}
           </ul>
 
-          <p className="text-sm" style={{ color: 'rgba(255,255,255,0.5)' }}>
+          <p className="text-sm text-white/50">
             Disponible desde Nivel 2 · Se solicita vía plataforma · Sin papeleo
           </p>
         </div>
@@ -67,9 +66,9 @@ export default function PriceMatchSection() {
         <Reveal direction="up" delay={150}>
         <div className="rounded-2xl overflow-hidden" style={{ boxShadow: '0 32px 64px rgba(0,0,0,0.4)' }}>
           {/* Card header */}
-          <div className="px-7 py-5 flex items-center justify-between bg-white border-b border-gray-200">
+          <div className="px-7 py-5 flex items-center justify-between bg-white border-b border-brand-navy/10">
             <span className="font-black text-lg tracking-tight text-brand-navy">Tarifas 2026</span>
-            <span className="text-[10px] font-black uppercase tracking-widest px-3 py-1.5 rounded-full" style={{ background: 'rgba(2,9,82,0.06)', color: 'var(--brand-navy)' }}>
+            <span className="text-[10px] font-black uppercase tracking-widest px-3 py-1.5 rounded-full bg-brand-navy/6 text-brand-navy">
               Verificado
             </span>
           </div>
@@ -78,17 +77,17 @@ export default function PriceMatchSection() {
           <div className="bg-white overflow-x-auto">
             <table className="w-full min-w-[460px] text-left">
               <thead>
-                <tr className="border-b border-gray-100">
-                  <th scope="col" className="px-7 py-4 text-xs font-black uppercase tracking-widest" style={{ color: 'rgba(2,9,82,0.55)' }}>Trámite</th>
-                  <th scope="col" className="px-7 py-4 text-xs font-black uppercase tracking-widest" style={{ color: 'rgba(2,9,82,0.55)' }}>Mercado</th>
+                <tr className="border-b border-brand-navy/8">
+                  <th scope="col" className="px-7 py-4 text-xs font-black uppercase tracking-widest text-brand-navy/55">Trámite</th>
+                  <th scope="col" className="px-7 py-4 text-xs font-black uppercase tracking-widest text-brand-navy/55">Mercado</th>
                   <th scope="col" className="px-7 py-4 text-xs font-black uppercase tracking-widest text-brand-navy">TuCierre</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-gray-100">
+              <tbody className="divide-y divide-brand-navy/8">
                 {TABLE_ROWS.map((row, i) => (
-                  <tr key={i} className="hover:bg-slate-50 transition-colors">
-                    <td className="px-7 py-5 text-sm font-medium" style={{ color: '#1A2050' }}>{row.tramite}</td>
-                    <td className="px-7 py-5 text-sm line-through" style={{ color: '#64748B' }}>{row.mercado}</td>
+                  <tr key={i} className="hover:bg-brand-navy/5 transition-colors">
+                    <td className="px-7 py-5 text-sm font-medium text-brand-navy">{row.tramite}</td>
+                    <td className="px-7 py-5 text-sm line-through text-brand-navy/40">{row.mercado}</td>
                     <td className="px-7 py-5 text-sm font-black text-brand-navy">{row.tucierre}</td>
                   </tr>
                 ))}
@@ -96,9 +95,9 @@ export default function PriceMatchSection() {
             </table>
           </div>
 
-          {/* Savings footer — outside scroll zone so it stays anchored */}
-          <div className="px-7 py-5 flex items-center justify-between border-t" style={{ background: 'var(--brand-navy)', borderColor: 'rgba(255,255,255,0.1)' }}>
-            <span className="text-sm font-medium" style={{ color: 'rgba(255,255,255,0.5)' }}>Ahorro promedio</span>
+          {/* Savings footer */}
+          <div className="px-7 py-5 flex items-center justify-between border-t bg-brand-navy border-white/10">
+            <span className="text-sm font-medium text-white/50">Ahorro promedio</span>
             <span className="text-2xl font-black tracking-tighter text-white">28% menos</span>
           </div>
         </div>

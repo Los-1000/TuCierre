@@ -3,7 +3,7 @@ import Reveal from '@/components/landing/Reveal'
 
 export default function CtaSection() {
   return (
-    <section className="py-32 relative overflow-hidden" style={{ background: 'var(--brand-navy)', borderTop: '1px solid rgba(255,255,255,0.06)' }}>
+    <section className="py-32 relative overflow-hidden bg-brand-navy border-t border-white/6">
       <div
         className="absolute inset-0 pointer-events-none"
         style={{ background: 'radial-gradient(ellipse at 50% 110%, rgba(255,255,255,0.02) 0%, transparent 55%)' }}
@@ -23,19 +23,19 @@ export default function CtaSection() {
 
         <Reveal direction="up" delay={100}>
           <p
-            className="font-medium mx-auto"
-            style={{ fontSize: 'clamp(16px, 2vw, 20px)', color: 'rgba(255,255,255,0.6)', maxWidth: '520px' }}
+            className="font-medium mx-auto text-white/60"
+            style={{ fontSize: 'clamp(16px, 2vw, 20px)', maxWidth: '520px' }}
           >
             Regístrate en 2 minutos. Tu primer trámite puede salir hoy mismo.
           </p>
         </Reveal>
 
         <Reveal direction="up" delay={150}>
-          <div className="flex flex-wrap justify-center gap-6 text-sm font-medium" style={{ color: 'rgba(255,255,255,0.6)' }}>
+          <div className="flex flex-wrap justify-center gap-6 text-sm font-medium text-white/60">
             {['Mejor precio garantizado', 'Sin tarjeta requerida', 'Activo en Lima hoy'].map(item => (
               <span key={item} className="flex items-center gap-2">
                 <svg aria-hidden="true" width="13" height="13" viewBox="0 0 24 24" fill="none">
-                  <path d="M5 13l4 4L19 7" stroke="rgba(255,255,255,0.55)" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+                  <path d="M5 13l4 4L19 7" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="text-white/55" />
                 </svg>
                 {item}
               </span>
@@ -53,8 +53,7 @@ export default function CtaSection() {
             </Link>
             <Link
               href="/login"
-              className="px-10 py-4 font-semibold text-base rounded-xl border hover:bg-white/5 active:scale-95 transition-all duration-200 text-white"
-              style={{ borderColor: 'rgba(255,255,255,0.18)' }}
+              className="px-10 py-4 font-semibold text-base rounded-xl border border-white/18 hover:bg-white/5 active:scale-95 transition-all duration-200 text-white"
             >
               Ingresar a mi cuenta
             </Link>

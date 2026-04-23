@@ -29,21 +29,10 @@ export default async function AdminTramitesPage({
     .from('tramites')
     .select('id, reference_code, status, final_price, created_at, updated_at, tramite_types!tramite_type_id(display_name), brokers!broker_id(full_name, email)')
     .order('created_at', { ascending: false })
+    .limit(300)
 
   if (error) {
     console.error('[admin/tramites] fetch error:', error.message)
-  }
-
-  // Debug: log status distribution in terminal
-  if (tramites?.length) {
-    const list = tramites as { status: string }[]
-    const byStatus = list.reduce<Record<string, number>>((acc, t) => {
-      acc[t.status ?? 'null'] = (acc[t.status ?? 'null'] ?? 0) + 1
-      return acc
-    }, {})
-    console.log('[admin/tramites] fetched', tramites.length, 'tramites, by status:', byStatus)
-  } else {
-    console.log('[admin/tramites] 0 tramites. Error:', error?.message ?? 'none')
   }
 
   return (

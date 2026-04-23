@@ -3,6 +3,7 @@ import { Logo } from '@/components/ui/Logo'
 import { createClient } from '@/lib/supabase/server'
 import { LogOut } from 'lucide-react'
 import { AdminNav } from '@/components/layout/AdminNav'
+import { MobileAdminHeader } from '@/components/layout/MobileAdminHeader'
 
 async function signOutAction() {
   'use server'
@@ -34,7 +35,10 @@ export default async function AdminLayout({ children }: { children: React.ReactN
 
   return (
     <div className="flex min-h-screen bg-slate-50">
-      {/* Admin Sidebar — dark, distinct */}
+      {/* Mobile top bar + off-canvas drawer */}
+      <MobileAdminHeader />
+
+      {/* Desktop sidebar — dark, distinct */}
       <aside className="hidden lg:flex w-[240px] flex-col fixed left-0 top-0 h-full bg-[#18181B] z-20">
         {/* Brand */}
         <div className="px-6 pt-8 pb-10">
@@ -61,7 +65,7 @@ export default async function AdminLayout({ children }: { children: React.ReactN
           <form action={signOutAction}>
             <button
               type="submit"
-              className="flex items-center gap-3 px-4 py-2.5 w-full text-white/60 hover:text-white hover:bg-white/8 transition-all text-sm font-medium rounded-none"
+              className="flex items-center gap-3 px-4 py-2.5 w-full text-white/60 hover:text-white hover:bg-white/8 transition-all text-sm font-medium rounded-lg"
             >
               <LogOut size={18} className="shrink-0" />
               Cerrar sesión
@@ -70,8 +74,8 @@ export default async function AdminLayout({ children }: { children: React.ReactN
         </div>
       </aside>
 
-      {/* Main content */}
-      <main className="flex-1 lg:ml-[240px] min-h-screen">
+      {/* Main content — pt-14 offsets the mobile top bar on small screens */}
+      <main className="flex-1 lg:ml-[240px] min-h-screen pt-14 lg:pt-0">
         <div className="max-w-7xl mx-auto p-6 md:p-10">
           {children}
         </div>

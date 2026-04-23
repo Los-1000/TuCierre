@@ -3,7 +3,7 @@ const TICKER_B = 'HIPOTECA  ◆  PODER NOTARIAL  ◆  SUCESIÓN  ◆  DONACIÓN 
 
 export default function MarqueeSection() {
   return (
-    <section aria-hidden="true" className="border-y border-white/5 overflow-hidden" style={{ background: 'var(--brand-navy)', borderTop: '1px solid rgba(255,255,255,0.06)' }}>
+    <section aria-hidden="true" className="border-y border-white/5 overflow-hidden bg-brand-navy border-t border-white/6" >
       {/* Row 1: left → right, orange */}
       <div className="py-3 border-b border-white/5">
         <div className="flex whitespace-nowrap animate-ticker">

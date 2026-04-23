@@ -1,18 +1,7 @@
 'use client'
 
-import { useEffect, useState, useCallback } from 'react'
+import { useEffect, useState, useCallback, useMemo } from 'react'
 import { createClient } from '@/lib/supabase/client'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { Input } from '@/components/ui/input'
-import { Badge } from '@/components/ui/badge'
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from '@/components/ui/table'
 import { formatDate } from '@/lib/utils'
 import { Search, Loader2, Users, Gift, TrendingUp } from 'lucide-react'
 import type { Broker } from '@/types/database'
@@ -23,7 +12,7 @@ interface BrokerWithReferrals extends Broker {
 }
 
 export default function AdminReferidosPage() {
-  const supabase = createClient()
+  const supabase = useMemo(() => createClient(), [])
 
   const [brokers, setBrokers] = useState<BrokerWithReferrals[]>([])
   const [loading, setLoading] = useState(true)
@@ -32,7 +21,6 @@ export default function AdminReferidosPage() {
   const fetchData = useCallback(async () => {
     setLoading(true)
 
-    // Fetch all brokers
     const { data: allBrokers } = await supabase
       .from('brokers')
       .select('*')
@@ -40,11 +28,9 @@ export default function AdminReferidosPage() {
 
     if (!allBrokers) { setLoading(false); return }
 
-    // Build referrer name map: id → full_name
     const brokerMap = new Map<string, string>()
     for (const b of allBrokers) brokerMap.set(b.id, b.full_name)
 
-    // Count referrals per broker (how many brokers have referred_by = this broker's id)
     const referralCounts = new Map<string, number>()
     for (const b of allBrokers) {
       if (b.referred_by) {
@@ -81,124 +67,122 @@ export default function AdminReferidosPage() {
   return (
     <div className="space-y-6">
       {/* Header */}
-      <div>
-        <h1 className="text-2xl font-bold text-gray-900">Referidos</h1>
-        <p className="text-sm text-gray-500 mt-1">Gestiona los códigos de referido y el programa de bonos.</p>
+      <div className="flex items-baseline gap-4">
+        <h1 className="text-3xl font-bold tracking-tight text-[#18181B]">Referidos</h1>
+        <span className="text-xl font-medium text-[#18181B]/30">
+          {loading ? '…' : `${brokers.length} brokers`}
+        </span>
       </div>
 
       {/* KPI Cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-        <Card className="border border-gray-200 shadow-sm">
-          <CardContent className="p-5">
-            <div className="p-2 bg-purple-50 rounded-lg w-fit mb-3">
-              <Users size={20} className="text-purple-600" />
-            </div>
-            <p className="text-xs text-gray-500 font-medium uppercase tracking-wide">Brokers referidos</p>
-            <p className="text-2xl font-bold text-gray-900 mt-1">{loading ? '—' : totalReferrals}</p>
-            <p className="text-xs text-gray-400 mt-1">Con código de referido aplicado</p>
-          </CardContent>
-        </Card>
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
+        <div className="bg-white rounded-3xl border border-[#18181B]/8 shadow-[0_4px_24px_rgba(18,18,27,0.06)] p-6">
+          <div className="w-10 h-10 rounded-xl bg-[#2855E0]/10 flex items-center justify-center mb-4">
+            <Users size={20} className="text-[#2855E0]" />
+          </div>
+          <p className="text-xs font-bold uppercase tracking-wider text-[#18181B]/60 mb-1">Brokers referidos</p>
+          <p className="text-2xl font-black text-[#18181B]">{loading ? '—' : totalReferrals}</p>
+          <p className="text-xs text-[#18181B]/50 mt-1">Con código de referido aplicado</p>
+        </div>
 
-        <Card className="border border-gray-200 shadow-sm">
-          <CardContent className="p-5">
-            <div className="p-2 bg-blue-50 rounded-lg w-fit mb-3">
-              <TrendingUp size={20} className="text-blue-600" />
-            </div>
-            <p className="text-xs text-gray-500 font-medium uppercase tracking-wide">Referidores activos</p>
-            <p className="text-2xl font-bold text-gray-900 mt-1">{loading ? '—' : topReferrers}</p>
-            <p className="text-xs text-gray-400 mt-1">Brokers que han referido al menos 1</p>
-          </CardContent>
-        </Card>
+        <div className="bg-white rounded-3xl border border-[#18181B]/8 shadow-[0_4px_24px_rgba(18,18,27,0.06)] p-6">
+          <div className="w-10 h-10 rounded-xl bg-[#020952]/10 flex items-center justify-center mb-4">
+            <TrendingUp size={20} className="text-[#020952]" />
+          </div>
+          <p className="text-xs font-bold uppercase tracking-wider text-[#18181B]/60 mb-1">Referidores activos</p>
+          <p className="text-2xl font-black text-[#18181B]">{loading ? '—' : topReferrers}</p>
+          <p className="text-xs text-[#18181B]/50 mt-1">Brokers que han referido al menos 1</p>
+        </div>
 
-        <Card className="border border-gray-200 shadow-sm">
-          <CardContent className="p-5">
-            <div className="p-2 bg-green-50 rounded-lg w-fit mb-3">
-              <Gift size={20} className="text-green-600" />
-            </div>
-            <p className="text-xs text-gray-500 font-medium uppercase tracking-wide">Bonos generados</p>
-            <p className="text-2xl font-bold text-gray-900 mt-1">
-              {loading ? '—' : `S/. ${totalBonuses.toLocaleString('es-PE', { minimumFractionDigits: 2 })}`}
-            </p>
-            <p className="text-xs text-gray-400 mt-1">S/. 50 por referido registrado</p>
-          </CardContent>
-        </Card>
+        <div className="bg-white rounded-3xl border border-[#18181B]/8 shadow-[0_4px_24px_rgba(18,18,27,0.06)] p-6">
+          <div className="w-10 h-10 rounded-xl bg-[#6B7A9A]/10 flex items-center justify-center mb-4">
+            <Gift size={20} className="text-[#6B7A9A]" />
+          </div>
+          <p className="text-xs font-bold uppercase tracking-wider text-[#18181B]/60 mb-1">Bonos generados</p>
+          <p className="text-2xl font-black text-[#18181B]">
+            {loading ? '—' : `S/. ${totalBonuses.toLocaleString('es-PE', { minimumFractionDigits: 2 })}`}
+          </p>
+          <p className="text-xs text-[#18181B]/50 mt-1">S/. 50 por referido registrado</p>
+        </div>
       </div>
 
       {/* Search */}
       <div className="relative max-w-xs">
-        <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
-        <Input
+        <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-[#18181B]/40" />
+        <input
+          type="text"
           placeholder="Buscar broker o código..."
+          aria-label="Buscar broker o código"
           value={search}
           onChange={(e) => setSearch(e.target.value)}
-          className="pl-8"
+          className="w-full border border-[#18181B]/15 rounded-2xl h-10 pl-9 pr-4 text-sm focus:outline-none focus:ring-2 focus:ring-[#2855E0]/30 bg-white text-[#18181B] placeholder:text-[#18181B]/40"
         />
       </div>
 
       {/* Table */}
-      <div className="border border-gray-200 rounded-lg overflow-hidden bg-white shadow-sm">
-        <Table>
-          <TableHeader>
-            <TableRow className="bg-gray-50">
-              <TableHead className="text-xs font-semibold uppercase tracking-wide text-gray-500">Broker</TableHead>
-              <TableHead className="text-xs font-semibold uppercase tracking-wide text-gray-500">Código</TableHead>
-              <TableHead className="text-xs font-semibold uppercase tracking-wide text-gray-500 text-center">Referidos</TableHead>
-              <TableHead className="text-xs font-semibold uppercase tracking-wide text-gray-500">Referido por</TableHead>
-              <TableHead className="text-xs font-semibold uppercase tracking-wide text-gray-500">Registrado</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
+      <div className="bg-white rounded-3xl border border-[#18181B]/8 shadow-[0_4px_24px_rgba(18,18,27,0.06)] overflow-hidden">
+        <table className="w-full text-left border-collapse">
+          <thead>
+            <tr className="bg-slate-50">
+              <th className="px-8 py-5 text-xs font-bold uppercase tracking-wider text-[#18181B]/60">Broker</th>
+              <th className="px-6 py-5 text-xs font-bold uppercase tracking-wider text-[#18181B]/60">Código</th>
+              <th className="px-6 py-5 text-xs font-bold uppercase tracking-wider text-[#18181B]/60 text-center">Referidos</th>
+              <th className="px-6 py-5 text-xs font-bold uppercase tracking-wider text-[#18181B]/60">Referido por</th>
+              <th className="px-6 py-5 text-xs font-bold uppercase tracking-wider text-[#18181B]/60">Registrado</th>
+            </tr>
+          </thead>
+          <tbody className="divide-y divide-[#18181B]/5">
             {loading ? (
-              <TableRow>
-                <TableCell colSpan={5} className="text-center py-12 text-gray-400">
+              <tr>
+                <td colSpan={5} className="text-center py-12 text-[#18181B]/40">
                   <Loader2 size={20} className="animate-spin mx-auto mb-2" />
                   Cargando...
-                </TableCell>
-              </TableRow>
+                </td>
+              </tr>
             ) : filtered.length === 0 ? (
-              <TableRow>
-                <TableCell colSpan={5} className="text-center py-12 text-gray-400 text-sm">
+              <tr>
+                <td colSpan={5} className="text-center py-12 text-[#18181B]/40 text-sm">
                   No se encontraron resultados
-                </TableCell>
-              </TableRow>
+                </td>
+              </tr>
             ) : (
               filtered.map((b) => (
-                <TableRow key={b.id} className="hover:bg-gray-50 transition-colors">
-                  <TableCell>
-                    <p className="text-sm font-medium text-gray-900">{b.full_name}</p>
-                    <p className="text-xs text-gray-400">{b.email}</p>
-                  </TableCell>
-                  <TableCell>
+                <tr key={b.id} className="hover:bg-slate-50 transition-colors">
+                  <td className="px-8 py-5">
+                    <p className="text-sm font-semibold text-[#18181B]">{b.full_name}</p>
+                    <p className="text-xs text-[#18181B]/50">{b.email}</p>
+                  </td>
+                  <td className="px-6 py-5">
                     {b.referral_code ? (
-                      <code className="text-xs font-mono font-semibold bg-gray-100 px-2 py-0.5 rounded text-[#18181B] tracking-wider">
+                      <code className="text-xs font-mono font-semibold bg-[#18181B]/5 px-2 py-0.5 rounded text-[#18181B] tracking-wider">
                         {b.referral_code}
                       </code>
                     ) : (
-                      <span className="text-gray-400 text-xs">—</span>
+                      <span className="text-[#18181B]/40 text-xs">—</span>
                     )}
-                  </TableCell>
-                  <TableCell className="text-center">
+                  </td>
+                  <td className="px-6 py-5 text-center">
                     {b.referral_count > 0 ? (
-                      <Badge variant="secondary" className="bg-purple-50 text-purple-700 border-purple-200 font-semibold">
+                      <span className="inline-flex items-center justify-center w-7 h-7 rounded-full bg-[#2855E0]/10 text-[#2855E0] text-xs font-bold">
                         {b.referral_count}
-                      </Badge>
+                      </span>
                     ) : (
-                      <span className="text-gray-400 text-xs">0</span>
+                      <span className="text-[#18181B]/40 text-xs">0</span>
                     )}
-                  </TableCell>
-                  <TableCell>
+                  </td>
+                  <td className="px-6 py-5">
                     {b.referrer_name ? (
-                      <span className="text-sm text-gray-700">{b.referrer_name}</span>
+                      <span className="text-sm text-[#18181B]/80">{b.referrer_name}</span>
                     ) : (
-                      <span className="text-gray-400 text-xs">—</span>
+                      <span className="text-[#18181B]/40 text-xs">—</span>
                     )}
-                  </TableCell>
-                  <TableCell className="text-sm text-gray-500">{formatDate(b.created_at)}</TableCell>
-                </TableRow>
+                  </td>
+                  <td className="px-6 py-5 text-sm text-[#18181B]/50">{formatDate(b.created_at)}</td>
+                </tr>
               ))
             )}
-          </TableBody>
-        </Table>
+          </tbody>
+        </table>
       </div>
     </div>
   )

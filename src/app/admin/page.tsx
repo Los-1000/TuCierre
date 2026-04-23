@@ -1,7 +1,6 @@
 import { createClient } from '@/lib/supabase/server'
 import { redirect } from 'next/navigation'
 import Link from 'next/link'
-import { Button } from '@/components/ui/button'
 import StatusBadge from '@/components/tramites/StatusBadge'
 import { formatPrice, formatDate } from '@/lib/utils'
 import { TRAMITE_STATUS_CONFIG } from '@/lib/constants'
@@ -45,25 +44,18 @@ async function fetchDashboard() {
       .limit(10),
   ])
 
-  // Count by status
   const byStatus: Record<string, number> = {}
   const tramites = (tramitesRes.data ?? []) as { status: string; final_price: number; broker_id: string; updated_at: string }[]
-  if (tramites.length > 0) {
-    for (const t of tramites) {
-      byStatus[t.status] = (byStatus[t.status] || 0) + 1
-    }
+  for (const t of tramites) {
+    byStatus[t.status] = (byStatus[t.status] || 0) + 1
   }
 
-  // Income this month (completado)
   let incomeThisMonth = 0
   const monthTramites = (monthTramitesRes.data ?? []) as { broker_id: string; final_price: number; status: string }[]
-  if (monthTramites.length > 0) {
-    incomeThisMonth = monthTramites
-      .filter(t => t.status === 'completado')
-      .reduce((sum, t) => sum + (t.final_price || 0), 0)
-  }
+  incomeThisMonth = monthTramites
+    .filter(t => t.status === 'completado')
+    .reduce((sum, t) => sum + (t.final_price || 0), 0)
 
-  // Active brokers this month
   const activeBrokerIds = new Set(monthTramites.map(t => t.broker_id))
   const activeBrokers = activeBrokerIds.size
 
@@ -83,10 +75,13 @@ export default async function AdminDashboardPage() {
     (byStatus['en_firma'] || 0) +
     (byStatus['en_registro'] || 0)
 
+  const enProcesoCount =
+    (byStatus['en_revision'] || 0) +
+    (byStatus['en_firma'] || 0) +
+    (byStatus['en_registro'] || 0)
+
   const completedCount = byStatus['completado'] || 0
   const totalCount = Object.values(byStatus).reduce((a, b) => a + b, 0)
-
-  // sin notaria = solicitado (unassigned proxy)
   const sinAsignar = byStatus['solicitado'] || 0
 
   return (
@@ -94,7 +89,7 @@ export default async function AdminDashboardPage() {
       {/* Page Header */}
       <div className="flex items-end justify-between">
         <div>
-          <p className="text-[11px] font-bold uppercase tracking-[0.1em] text-[#18181B]/40 mb-1">
+          <p className="text-xs font-bold uppercase tracking-[0.1em] text-[#18181B]/60 mb-1">
             Resumen Administrativo
           </p>
           <h1 className="text-4xl font-extrabold tracking-tight text-[#18181B]">Dashboard</h1>
@@ -117,10 +112,11 @@ export default async function AdminDashboardPage() {
               </p>
             </div>
           </div>
-          <Link href="/admin/tramites?status=solicitado">
-            <button className="border border-[#D69E2E]/40 text-[#D69E2E] rounded-full px-6 py-2.5 font-semibold text-sm bg-transparent hover:bg-[#D69E2E]/10 transition-colors shrink-0">
-              Gestionar ahora
-            </button>
+          <Link
+            href="/admin/tramites?status=solicitado"
+            className="border border-[#D69E2E]/40 text-[#D69E2E] rounded-full px-6 py-2.5 font-semibold text-sm bg-transparent hover:bg-[#D69E2E]/10 transition-colors shrink-0"
+          >
+            Gestionar ahora
           </Link>
         </div>
       )}
@@ -128,17 +124,15 @@ export default async function AdminDashboardPage() {
       {/* KPI Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-5">
         {/* Trámites activos */}
-        <div className="bg-white rounded-3xl border border-[#18181B]/8 shadow-[0_4px_24px_rgba(18,18,27,0.06)] p-6 hover:-translate-y-1 transition-transform duration-300">
-          <p className="text-[11px] font-bold uppercase tracking-wider text-[#18181B]/40 mb-1">Trámites activos</p>
-          <div className="flex items-baseline gap-2">
-            <h3 className="text-4xl font-black text-[#18181B]">{activeCount}</h3>
-          </div>
+        <div className="bg-white rounded-3xl border border-[#18181B]/8 shadow-[0_4px_24px_rgba(18,18,27,0.06)] p-6">
+          <p className="text-xs font-bold uppercase tracking-wider text-[#18181B]/60 mb-1">Trámites activos</p>
+          <h3 className="text-4xl font-black text-[#18181B]">{activeCount}</h3>
           <p className="text-xs text-[#18181B]/50 mt-1">En proceso actualmente</p>
         </div>
 
         {/* Sin asignar — highlighted */}
-        <div className={`rounded-3xl border p-6 hover:-translate-y-1 transition-transform duration-300 ${sinAsignar > 0 ? 'bg-red-50 border-red-200' : 'bg-white border-[#18181B]/8 shadow-[0_4px_24px_rgba(18,18,27,0.06)]'}`}>
-          <p className={`text-[11px] font-bold uppercase tracking-wider mb-1 ${sinAsignar > 0 ? 'text-red-600/70' : 'text-[#18181B]/40'}`}>Sin asignar</p>
+        <div className={`rounded-3xl border p-6 ${sinAsignar > 0 ? 'bg-red-50 border-red-200' : 'bg-white border-[#18181B]/8 shadow-[0_4px_24px_rgba(18,18,27,0.06)]'}`}>
+          <p className={`text-xs font-bold uppercase tracking-wider mb-1 ${sinAsignar > 0 ? 'text-red-600/70' : 'text-[#18181B]/60'}`}>Sin asignar</p>
           <div className="flex items-baseline gap-2">
             <h3 className={`text-4xl font-black ${sinAsignar > 0 ? 'text-red-700' : 'text-[#18181B]'}`}>{sinAsignar}</h3>
             {sinAsignar > 0 && <AlertCircle size={18} className="text-red-500 mb-1" />}
@@ -147,22 +141,22 @@ export default async function AdminDashboardPage() {
         </div>
 
         {/* En proceso */}
-        <div className="bg-white rounded-3xl border border-[#18181B]/8 shadow-[0_4px_24px_rgba(18,18,27,0.06)] p-6 hover:-translate-y-1 transition-transform duration-300">
-          <p className="text-[11px] font-bold uppercase tracking-wider text-[#18181B]/40 mb-1">En proceso</p>
-          <h3 className="text-4xl font-black text-[#18181B]">{activeCount}</h3>
-          <p className="text-xs text-[#18181B]/50 mt-1">Brokers activos: {activeBrokers}</p>
+        <div className="bg-white rounded-3xl border border-[#18181B]/8 shadow-[0_4px_24px_rgba(18,18,27,0.06)] p-6">
+          <p className="text-xs font-bold uppercase tracking-wider text-[#18181B]/60 mb-1">En proceso</p>
+          <h3 className="text-4xl font-black text-[#18181B]">{enProcesoCount}</h3>
+          <p className="text-xs text-[#18181B]/50 mt-1">En revisión, firma o registro</p>
         </div>
 
         {/* Completados */}
-        <div className="bg-white rounded-3xl border border-[#18181B]/8 shadow-[0_4px_24px_rgba(18,18,27,0.06)] p-6 hover:-translate-y-1 transition-transform duration-300">
-          <p className="text-[11px] font-bold uppercase tracking-wider text-[#18181B]/40 mb-1">Completados</p>
+        <div className="bg-white rounded-3xl border border-[#18181B]/8 shadow-[0_4px_24px_rgba(18,18,27,0.06)] p-6">
+          <p className="text-xs font-bold uppercase tracking-wider text-[#18181B]/60 mb-1">Completados</p>
           <h3 className="text-4xl font-black text-[#18181B]">{completedCount}</h3>
           <p className="text-xs text-[#18181B]/50 mt-1">de {totalCount} en total</p>
         </div>
 
         {/* Ingresos — dark card */}
-        <div className="bg-[#18181B] rounded-3xl shadow-xl p-6 hover:-translate-y-1 transition-transform duration-300">
-          <p className="text-[11px] font-bold uppercase tracking-wider text-zinc-400 mb-1">Ingresos del mes</p>
+        <div className="bg-[#18181B] rounded-3xl shadow-xl p-6">
+          <p className="text-xs font-bold uppercase tracking-wider text-zinc-400 mb-1">Ingresos del mes</p>
           <h3 className="text-3xl font-black text-white tracking-tighter">{formatPrice(incomeThisMonth)}</h3>
           <p className="text-xs text-zinc-500 mt-1">Trámites completados</p>
         </div>
@@ -190,31 +184,33 @@ export default async function AdminDashboardPage() {
           {/* Quick Actions */}
           <div className="bg-white rounded-3xl border border-[#18181B]/8 shadow-[0_4px_24px_rgba(18,18,27,0.06)] p-8">
             <h4 className="text-lg font-bold text-[#18181B] mb-6">Acciones rápidas</h4>
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-              <Link href="/admin/tramites?status=solicitado" className="group">
-                <div className="flex items-center gap-3 p-4 rounded-2xl border border-[#18181B]/10 hover:border-[#2855E0]/40 hover:bg-[#2855E0]/5 transition-all cursor-pointer">
-                  <div className="p-2 bg-purple-50 rounded-xl">
-                    <FileText size={18} className="text-purple-600" />
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <p className="text-sm font-semibold text-[#18181B]">Nuevas solicitudes</p>
-                    <p className="text-xs text-[#18181B]/50">{byStatus['solicitado'] || 0} trámites</p>
-                  </div>
-                  <ArrowRight size={16} className="text-[#18181B]/30 group-hover:text-[#2855E0] transition-colors shrink-0" />
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <Link
+                href="/admin/tramites?status=solicitado"
+                className="group flex items-center gap-3 p-4 rounded-2xl border border-[#18181B]/10 hover:border-[#2855E0]/40 hover:bg-[#2855E0]/5 transition-all"
+              >
+                <div className="p-2 bg-[#2855E0]/10 rounded-xl">
+                  <FileText size={18} className="text-[#2855E0]" />
                 </div>
+                <div className="flex-1 min-w-0">
+                  <p className="text-sm font-semibold text-[#18181B]">Nuevas solicitudes</p>
+                  <p className="text-xs text-[#18181B]/50">{byStatus['solicitado'] || 0} trámites</p>
+                </div>
+                <ArrowRight size={16} className="text-[#18181B]/30 group-hover:text-[#2855E0] transition-colors shrink-0" />
               </Link>
 
-              <Link href="/admin/brokers" className="group">
-                <div className="flex items-center gap-3 p-4 rounded-2xl border border-[#18181B]/10 hover:border-[#2855E0]/40 hover:bg-[#2855E0]/5 transition-all cursor-pointer">
-                  <div className="p-2 bg-blue-50 rounded-xl">
-                    <Users size={18} className="text-blue-600" />
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <p className="text-sm font-semibold text-[#18181B]">Brokers activos</p>
-                    <p className="text-xs text-[#18181B]/50">{activeBrokers} este mes</p>
-                  </div>
-                  <ArrowRight size={16} className="text-[#18181B]/30 group-hover:text-[#2855E0] transition-colors shrink-0" />
+              <Link
+                href="/admin/brokers"
+                className="group flex items-center gap-3 p-4 rounded-2xl border border-[#18181B]/10 hover:border-[#2855E0]/40 hover:bg-[#2855E0]/5 transition-all"
+              >
+                <div className="p-2 bg-[#020952]/10 rounded-xl">
+                  <Users size={18} className="text-[#020952]" />
                 </div>
+                <div className="flex-1 min-w-0">
+                  <p className="text-sm font-semibold text-[#18181B]">Brokers activos</p>
+                  <p className="text-xs text-[#18181B]/50">{activeBrokers} este mes</p>
+                </div>
+                <ArrowRight size={16} className="text-[#18181B]/30 group-hover:text-[#2855E0] transition-colors shrink-0" />
               </Link>
             </div>
           </div>
@@ -230,44 +226,42 @@ export default async function AdminDashboardPage() {
               Sin actividad reciente
             </div>
           ) : (
-            <div className="space-y-0">
-              <div className="relative space-y-6">
-                {/* Vertical connector */}
-                <div className="absolute left-[11px] top-2 bottom-2 w-px bg-[#18181B]/10" />
+            <div className="relative space-y-6">
+              <div className="absolute left-[11px] top-2 bottom-2 w-px bg-[#18181B]/10" />
 
-                {recentTramites.map((t, i) => {
-                  const cfg = TRAMITE_STATUS_CONFIG[t.status as TramiteStatus]
-                  const dotColor = t.status === 'completado'
-                    ? 'bg-emerald-500'
-                    : t.status === 'cancelado'
-                    ? 'bg-red-500'
-                    : t.status === 'solicitado'
-                    ? 'bg-[#D69E2E]'
-                    : 'bg-[#2855E0]'
-                  return (
-                    <div key={t.id} className="relative flex gap-4 pl-8">
-                      <div className={`absolute left-0 top-1 w-6 h-6 rounded-full flex items-center justify-center ${cfg ? cfg.bg : 'bg-gray-100'}`}>
-                        <span className={`w-2 h-2 rounded-full ${dotColor}`} />
-                      </div>
-                      <div className="flex-1 min-w-0">
-                        <p className="text-sm font-bold leading-tight text-[#18181B]">
-                          {t.reference_code} — {t.brokers?.full_name ?? '—'}
-                        </p>
-                        <p className="text-[11px] text-[#18181B]/50 mt-0.5">
-                          {t.tramite_types?.display_name ?? '—'} · {formatDate(t.updated_at)}
-                        </p>
-                      </div>
+              {recentTramites.map((t) => {
+                const cfg = TRAMITE_STATUS_CONFIG[t.status as TramiteStatus]
+                const dotColor = t.status === 'completado'
+                  ? 'bg-[#2855E0]'
+                  : t.status === 'cancelado'
+                  ? 'bg-red-500'
+                  : t.status === 'solicitado'
+                  ? 'bg-[#6B7A9A]'
+                  : 'bg-[#020952]'
+                return (
+                  <div key={t.id} className="relative flex gap-4 pl-8">
+                    <div className={`absolute left-0 top-1 w-6 h-6 rounded-full flex items-center justify-center ${cfg ? cfg.bg : 'bg-[#18181B]/8'}`}>
+                      <span className={`w-2 h-2 rounded-full ${dotColor}`} />
                     </div>
-                  )
-                })}
-              </div>
+                    <div className="flex-1 min-w-0">
+                      <p className="text-sm font-bold leading-tight text-[#18181B]">
+                        {t.reference_code} — {t.brokers?.full_name ?? '—'}
+                      </p>
+                      <p className="text-xs text-[#18181B]/50 mt-0.5">
+                        {t.tramite_types?.display_name ?? '—'} · {formatDate(t.updated_at)}
+                      </p>
+                    </div>
+                  </div>
+                )
+              })}
             </div>
           )}
 
-          <Link href="/admin/tramites">
-            <button className="w-full mt-8 py-3 text-xs font-bold uppercase tracking-widest text-[#18181B]/40 hover:text-[#2855E0] transition-colors border-t border-[#18181B]/8">
-              Ver todo el historial
-            </button>
+          <Link
+            href="/admin/tramites"
+            className="block w-full mt-8 py-3 text-xs font-bold uppercase tracking-widest text-center text-[#18181B]/50 hover:text-[#2855E0] transition-colors border-t border-[#18181B]/8"
+          >
+            Ver todo el historial
           </Link>
         </div>
       </div>

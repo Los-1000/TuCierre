@@ -70,19 +70,7 @@
     color: #020952;
   }
 
-  .text-gold-gradient {
-    background: linear-gradient(135deg, #4B78F5 0%, #2855E0 60%, #1E46C7 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-  }
-
-  .text-brand-gradient {
-    background: linear-gradient(135deg, #4B78F5 0%, #2855E0 60%, #1E46C7 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-  }
+  /* .text-brand-gradient removed — gradient text is an anti-pattern; use text-brand-blue for accent emphasis */
 
   .shimmer {
     background: linear-gradient(90deg, rgba(255,255,255,0.05) 25%, rgba(255,255,255,0.10) 50%, rgba(255,255,255,0.05) 75%);

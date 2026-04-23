@@ -106,10 +106,10 @@ export default async function DashboardPage() {
   const greeting = getHour() < 12 ? 'Buenos días' : getHour() < 19 ? 'Buenas tardes' : 'Buenas noches'
 
   const stats = [
-    { label: 'Trámites activos', value: activeCount.toString(), icon: Clock, iconBg: 'bg-blue-50', iconColor: 'text-blue-600' },
-    { label: 'Completados / mes', value: completedThisMonth.toString(), icon: CheckCircle, iconBg: 'bg-emerald-50', iconColor: 'text-emerald-600' },
+    { label: 'Trámites activos', value: activeCount.toString(), icon: Clock, iconBg: 'bg-[#2855E0]/8', iconColor: 'text-[#2855E0]' },
+    { label: 'Completados / mes', value: completedThisMonth.toString(), icon: CheckCircle, iconBg: 'bg-[#1C7A52]/8', iconColor: 'text-[#1C7A52]' },
     { label: 'Monto gestionado', value: formatPrice(totalAmount), icon: Wallet, iconBg: 'bg-[#2855E0]/8', iconColor: 'text-[#2855E0]', isPrice: true },
-    { label: 'Ahorro acumulado', value: formatPrice(totalSavings), icon: PiggyBank, iconBg: 'bg-[#D69E2E]/10', iconColor: 'text-[#D69E2E]', isPrice: true },
+    { label: 'Ahorro acumulado', value: formatPrice(totalSavings), icon: PiggyBank, iconBg: 'bg-[#C9880E]/10', iconColor: 'text-[#C9880E]', isPrice: true },
   ]
 
   return (
@@ -244,18 +244,18 @@ export default async function DashboardPage() {
           <div className="overflow-x-auto">
             <table className="w-full text-left border-collapse">
               <thead>
-                <tr className="text-[11px] font-bold text-[#18181B]/40 uppercase tracking-widest bg-slate-50">
-                  <th className="px-6 py-4">Código</th>
-                  <th className="px-4 py-4">Tipo</th>
-                  <th className="px-4 py-4">Estado</th>
-                  <th className="px-4 py-4 hidden sm:table-cell">Fecha</th>
-                  <th className="px-6 py-4 text-right">Monto</th>
-                  <th className="px-6 py-4 text-right">Acción</th>
+                <tr className="text-xs font-bold text-[#18181B]/40 uppercase tracking-widest bg-[#18181B]/4">
+                  <th scope="col" className="px-6 py-4">Código</th>
+                  <th scope="col" className="px-4 py-4">Tipo</th>
+                  <th scope="col" className="px-4 py-4">Estado</th>
+                  <th scope="col" className="px-4 py-4 hidden sm:table-cell">Fecha</th>
+                  <th scope="col" className="px-6 py-4 text-right">Monto</th>
+                  <th scope="col" className="px-6 py-4 text-right">Acción</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-[#18181B]/5">
                 {recentTramites.map((tramite) => (
-                  <tr key={tramite.id} className="hover:bg-slate-50 transition-colors group">
+                  <tr key={tramite.id} className="hover:bg-[#18181B]/3 transition-colors group">
                     <td className="px-6 py-4">
                       <code className="font-mono text-xs bg-[#18181B]/5 text-[#18181B]/60 px-2 py-1 rounded-md font-semibold">
                         {tramite.reference_code}

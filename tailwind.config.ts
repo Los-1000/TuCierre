@@ -56,7 +56,8 @@ const config: Config = {
           'navy-deep': '#01063A',
           'navy-mid': '#0D1870',
           'navy-surface': '#0E1F8A', // card/elevated surface on dark
-          blue: '#4D78FF',       // bright accent on dark backgrounds
+          // USE RULE: blue (#4D78FF) on dark/navy bg  |  blue-cta (#2855E0) on white/light bg
+          blue: '#4D78FF',       // bright accent on dark backgrounds only
           'blue-cta': '#2855E0', // CTA on white/light backgrounds
           'blue-hover': '#3A62EE',
           'blue-light': '#92B3FF',

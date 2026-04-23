@@ -291,14 +291,14 @@ export default function RecompensasClient({
         )}
 
         <div className="grid grid-cols-2 gap-3 mt-5">
-          <div className="bg-slate-50 border border-[#18181B]/8 rounded-2xl p-4 text-center">
+          <div className="bg-[#18181B]/4 border border-[#18181B]/8 rounded-2xl p-4 text-center">
             <div className="flex items-center justify-center gap-1.5 mb-1">
               <Users size={15} className="text-[#2855E0]" />
             </div>
             <div className="text-2xl font-bold text-[#18181B]">{referralCount}</div>
             <div className="text-xs text-[#18181B]/50 mt-0.5">referidos activos</div>
           </div>
-          <div className="bg-slate-50 border border-[#18181B]/8 rounded-2xl p-4 text-center">
+          <div className="bg-[#18181B]/4 border border-[#18181B]/8 rounded-2xl p-4 text-center">
             <div className="flex items-center justify-center gap-1.5 mb-1">
               <PiggyBank size={15} className="text-[#2855E0]" />
             </div>
@@ -451,7 +451,7 @@ export default function RecompensasClient({
                 <thead>
                   <tr className="border-b border-[#18181B]/8">
                     {['Mes', 'Clientes', 'Nivel', '%', 'Monto', 'Estado'].map(h => (
-                      <th key={h} className="text-left text-[11px] font-bold uppercase tracking-widest text-[#18181B]/40 px-5 py-3">{h}</th>
+                      <th key={h} scope="col" className="text-left text-xs font-bold uppercase tracking-widest text-[#18181B]/40 px-5 py-3">{h}</th>
                     ))}
                   </tr>
                 </thead>
@@ -463,7 +463,7 @@ export default function RecompensasClient({
                     const label = new Date(parseInt(year), parseInt(mo) - 1, 1)
                       .toLocaleDateString('es-PE', { month: 'long', year: 'numeric' })
                     return (
-                      <tr key={month.yearMonth} className="hover:bg-slate-50 transition-colors">
+                      <tr key={month.yearMonth} className="hover:bg-[#18181B]/3 transition-colors">
                         <td className="px-5 py-3.5 font-medium text-[#18181B] capitalize">{label}</td>
                         <td className="px-5 py-3.5 text-[#18181B]/60">{r.count}</td>
                         <td className="px-5 py-3.5">{tc.icon} {tc.label}</td>
@@ -506,11 +506,11 @@ export default function RecompensasClient({
             <table className="w-full text-sm">
               <thead>
                 <tr className="border-b border-[#18181B]/8">
-                  <th className="text-left text-[11px] font-bold uppercase tracking-widest text-[#18181B]/40 px-5 py-3">Tipo</th>
-                  <th className="text-left text-[11px] font-bold uppercase tracking-widest text-[#18181B]/40 px-5 py-3">Descripción</th>
-                  <th className="text-right text-[11px] font-bold uppercase tracking-widest text-[#18181B]/40 px-5 py-3">Monto</th>
-                  <th className="text-left text-[11px] font-bold uppercase tracking-widest text-[#18181B]/40 px-5 py-3 hidden md:table-cell">Trámite</th>
-                  <th className="text-left text-[11px] font-bold uppercase tracking-widest text-[#18181B]/40 px-5 py-3">Fecha</th>
+                  <th scope="col" className="text-left text-xs font-bold uppercase tracking-widest text-[#18181B]/40 px-5 py-3">Tipo</th>
+                  <th scope="col" className="text-left text-xs font-bold uppercase tracking-widest text-[#18181B]/40 px-5 py-3">Descripción</th>
+                  <th scope="col" className="text-right text-xs font-bold uppercase tracking-widest text-[#18181B]/40 px-5 py-3">Monto</th>
+                  <th scope="col" className="text-left text-xs font-bold uppercase tracking-widest text-[#18181B]/40 px-5 py-3 hidden md:table-cell">Trámite</th>
+                  <th scope="col" className="text-left text-xs font-bold uppercase tracking-widest text-[#18181B]/40 px-5 py-3">Fecha</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-[#18181B]/5">
@@ -520,7 +520,7 @@ export default function RecompensasClient({
                     badgeClass: 'bg-slate-50 text-[#18181B]/60 border-[#18181B]/10',
                   }
                   return (
-                    <tr key={reward.id} className="hover:bg-slate-50 transition-colors">
+                    <tr key={reward.id} className="hover:bg-[#18181B]/3 transition-colors">
                       <td className="px-5 py-3.5 whitespace-nowrap">
                         <span className={cn('inline-flex items-center text-xs font-medium px-2.5 py-1 rounded-full border', typeConfig.badgeClass)}>
                           {typeConfig.label}

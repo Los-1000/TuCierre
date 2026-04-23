@@ -99,8 +99,11 @@ export default function TramitesClient({ initialTramites }: TramitesClientProps)
             <Search
               size={16}
               className="absolute left-4 top-1/2 -translate-y-1/2 text-[#18181B]/40 pointer-events-none"
+              aria-hidden="true"
             />
+            <label htmlFor="tramites-search" className="sr-only">Buscar trámites</label>
             <input
+              id="tramites-search"
               type="text"
               placeholder="Buscar por código, tipo o parte..."
               value={search}
@@ -179,17 +182,17 @@ export default function TramitesClient({ initialTramites }: TramitesClientProps)
             <table className="w-full text-left border-collapse">
               <thead>
                 <tr className="border-b border-[#18181B]/8">
-                  <th className="px-6 py-4 text-[11px] font-bold uppercase tracking-widest text-[#18181B]/40">Código</th>
-                  <th className="px-6 py-4 text-[11px] font-bold uppercase tracking-widest text-[#18181B]/40">Tipo</th>
-                  <th className="px-6 py-4 text-[11px] font-bold uppercase tracking-widest text-[#18181B]/40">Estado</th>
-                  <th className="px-6 py-4 text-[11px] font-bold uppercase tracking-widest text-[#18181B]/40 hidden md:table-cell">Fecha</th>
-                  <th className="px-6 py-4 text-[11px] font-bold uppercase tracking-widest text-[#18181B]/40 text-right hidden sm:table-cell">Monto</th>
-                  <th className="px-6 py-4 text-[11px] font-bold uppercase tracking-widest text-[#18181B]/40 text-right">Acción</th>
+                  <th scope="col" className="px-6 py-4 text-xs font-bold uppercase tracking-widest text-[#18181B]/40">Código</th>
+                  <th scope="col" className="px-6 py-4 text-xs font-bold uppercase tracking-widest text-[#18181B]/40">Tipo</th>
+                  <th scope="col" className="px-6 py-4 text-xs font-bold uppercase tracking-widest text-[#18181B]/40">Estado</th>
+                  <th scope="col" className="px-6 py-4 text-xs font-bold uppercase tracking-widest text-[#18181B]/40 hidden md:table-cell">Fecha</th>
+                  <th scope="col" className="px-6 py-4 text-xs font-bold uppercase tracking-widest text-[#18181B]/40 text-right hidden sm:table-cell">Monto</th>
+                  <th scope="col" className="px-6 py-4 text-xs font-bold uppercase tracking-widest text-[#18181B]/40 text-right">Acción</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-[#18181B]/5">
                 {filtered.map((tramite) => (
-                  <tr key={tramite.id} className="hover:bg-slate-50 transition-colors group">
+                  <tr key={tramite.id} className="hover:bg-[#18181B]/3 transition-colors group">
                     <td className="px-6 py-4">
                       <code className="font-mono text-xs bg-[#18181B]/6 text-[#18181B]/70 px-2.5 py-1 rounded-full font-semibold">
                         {tramite.reference_code}

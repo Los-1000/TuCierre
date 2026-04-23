@@ -24,9 +24,8 @@ export default function LandingNavbar() {
   return (
     <nav
       aria-label="Navegación principal"
-      className="fixed top-0 left-0 right-0 z-50 border-b bg-brand-navy"
+      className="fixed top-0 left-0 right-0 z-50 border-b border-white/8 bg-brand-navy"
       onKeyDown={(e) => { if (e.key === 'Escape') setOpen(false) }}
-      style={{ borderColor: 'rgba(255,255,255,0.08)' }}
     >
       <div className="max-w-screen-xl mx-auto px-6 md:px-10 py-3 flex items-center justify-between">
 
@@ -39,8 +38,7 @@ export default function LandingNavbar() {
               <a
                 key={label}
                 href={href}
-                className="text-sm font-medium transition-colors hover:text-white"
-                style={{ color: 'rgba(255,255,255,0.65)' }}
+                className="text-sm font-medium transition-colors text-white/65 hover:text-white"
               >
                 {label}
               </a>
@@ -51,8 +49,7 @@ export default function LandingNavbar() {
         <div className="flex items-center gap-3">
           <Link
             href="/login"
-            className="hidden md:block px-4 py-3 text-sm font-semibold transition-colors hover:text-white"
-            style={{ color: 'rgba(255,255,255,0.65)' }}
+            className="hidden md:block px-4 py-3 text-sm font-semibold transition-colors text-white/65 hover:text-white"
           >
             Ingresar
           </Link>
@@ -64,11 +61,10 @@ export default function LandingNavbar() {
           </Link>
 
           <button
-            className="md:hidden p-2.5 min-h-[44px] min-w-[44px] flex items-center justify-center transition-colors"
+            className="md:hidden p-2.5 min-h-[44px] min-w-[44px] flex items-center justify-center transition-colors text-white/80 hover:text-white"
             aria-label={open ? 'Cerrar menú' : 'Abrir menú'}
             aria-expanded={open}
             onClick={() => setOpen(v => !v)}
-            style={{ color: 'rgba(255,255,255,0.8)' }}
           >
             {open ? (
               <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
@@ -86,26 +82,23 @@ export default function LandingNavbar() {
       {open && (
         <div
           ref={menuRef}
-          className="md:hidden border-t px-6 py-6 space-y-1 bg-brand-navy"
-          style={{ borderColor: 'rgba(255,255,255,0.08)' }}
+          className="md:hidden border-t border-white/8 px-6 py-6 space-y-1 bg-brand-navy"
         >
           {NAV_LINKS.map(([label, href]) => (
             <a
               key={label}
               href={href}
               onClick={() => setOpen(false)}
-              className="block text-base font-medium py-3.5"
-              style={{ color: 'rgba(255,255,255,0.65)' }}
+              className="block text-base font-medium py-3.5 text-white/65 hover:text-white transition-colors"
             >
               {label}
             </a>
           ))}
-          <div className="pt-4 space-y-3 border-t" style={{ borderColor: 'rgba(2,9,82,0.08)' }}>
+          <div className="pt-4 space-y-3 border-t border-brand-navy/8">
             <Link
               href="/login"
               onClick={() => setOpen(false)}
-              className="block text-center px-6 py-3.5 text-sm font-semibold border rounded-lg"
-              style={{ color: 'rgba(255,255,255,0.8)', borderColor: 'rgba(255,255,255,0.15)' }}
+              className="block text-center px-6 py-3.5 text-sm font-semibold border rounded-lg text-white/80 border-white/15 hover:text-white transition-colors"
             >
               Ingresar
             </Link>

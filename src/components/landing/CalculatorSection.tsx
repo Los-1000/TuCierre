@@ -15,15 +15,12 @@ const CommissionCalculator = dynamic(
 
 export default function CalculatorSection() {
   return (
-    <section
-      className="py-32"
-      style={{ background: 'var(--brand-navy)', borderTop: '1px solid rgba(255,255,255,0.06)' }}
-    >
+    <section className="py-32 bg-brand-navy border-t border-white/6">
       <div className="max-w-4xl mx-auto px-6">
 
         <Reveal direction="up" delay={0}>
           <div className="mb-14 space-y-3">
-            <p className="text-xs font-black uppercase tracking-[0.2em]" style={{ color: 'rgba(255,255,255,0.5)' }}>
+            <p className="text-xs font-black uppercase tracking-[0.2em] text-white/50">
               Calculadora de ganancias
             </p>
             <h2
@@ -32,7 +29,7 @@ export default function CalculatorSection() {
             >
               Calcula cuánto ganas al mes
             </h2>
-            <p className="text-lg" style={{ color: 'rgba(255,255,255,0.5)' }}>
+            <p className="text-lg text-white/50">
               Ajusta cuántos trámites cierras y ve tu comisión exacta según tu nivel.
             </p>
           </div>
@@ -42,7 +39,7 @@ export default function CalculatorSection() {
           <CommissionCalculator />
         </Reveal>
 
-        <p className="mt-6 text-sm text-center" style={{ color: 'rgba(255,255,255,0.45)' }}>
+        <p className="mt-6 text-sm text-center text-white/45">
           Estimado sobre ticket promedio de <strong className="text-white/50">S/. 900</strong> por trámite en Lima.
         </p>
 

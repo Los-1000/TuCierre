@@ -9,7 +9,7 @@ const TRAMITE_ICONS: Record<string, LucideIcon> = {
   poder: Key,
   constitucion_empresa: Building2,
   levantamiento_hipoteca: TrendingDown,
-  anticretico: FileText,
+  arrendamiento: FileText,
 }
 
 interface TramiteTypeCardProps {
