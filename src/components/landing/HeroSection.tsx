@@ -147,23 +147,6 @@ export default function HeroSection() {
               </a>
             </div>
 
-            <div className="pt-1 space-y-2 border-t border-white/8">
-              <p className="text-[10px] font-black uppercase tracking-[0.15em] text-white/45 pt-3">
-                Qué pasa después
-              </p>
-              {[
-                { n: '01', label: 'Crea tu cuenta', time: '2 min' },
-                { n: '02', label: 'Registra tu primera operación', time: '5 min' },
-                { n: '03', label: 'Solo apareces a firmar', time: 'Sin llamadas' },
-              ].map(step => (
-                <div key={step.n} className="flex items-center gap-3">
-                  <span className="text-xs font-black w-6 text-brand-blue/50">{step.n}</span>
-                  <span className="text-xs flex-1 text-white/65">{step.label}</span>
-                  <span className="text-xs font-bold text-white/45">{step.time}</span>
-                </div>
-              ))}
-            </div>
-
             <div className="flex flex-wrap gap-6">
               {['Sin tarjeta requerida', 'Gratis para brokers', 'Activo en Lima'].map(item => (
                 <span key={item} className="flex items-center gap-1.5 text-sm font-medium text-white/45">

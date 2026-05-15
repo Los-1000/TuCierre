@@ -3,7 +3,7 @@ import Reveal from '@/components/landing/Reveal'
 
 export default function CtaSection() {
   return (
-    <section className="py-32 relative overflow-hidden bg-white border-t border-[#EDE9E0]">
+    <section className="py-32 relative overflow-hidden bg-white border-t border-brand-border-light">
 
       <div className="max-w-screen-xl mx-auto px-6 md:px-10 relative z-10 text-center space-y-10">
 

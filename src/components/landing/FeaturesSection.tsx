@@ -2,7 +2,7 @@
 
 export default function FeaturesSection() {
   return (
-    <section id="features" className="py-28 bg-white border-t border-[#EDE9E0]">
+    <section id="features" className="py-28 bg-white border-t border-brand-border-light">
       <div className="max-w-screen-xl mx-auto px-6 md:px-10">
 
         <div className="mb-16 flex flex-col lg:flex-row lg:items-end justify-between gap-6">

@@ -57,7 +57,7 @@ export default function CommissionCalculator() {
             step={1}
             value={tramites}
             onChange={e => setTramites(Number(e.target.value))}
-            className="commission-range w-full h-2 rounded-full appearance-none cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#4D78FF] focus-visible:ring-offset-2"
+            className="commission-range w-full h-2 rounded-full appearance-none cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-blue focus-visible:ring-offset-2"
             style={{ background: sliderBg }}
             aria-valuemin={1}
             aria-valuemax={20}
