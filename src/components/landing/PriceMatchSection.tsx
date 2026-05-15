@@ -30,7 +30,7 @@ export default function PriceMatchSection() {
                 className="text-heading-xl tracking-tight"
               >
                 <span className="font-extralight text-brand-navy">Si encuentras un precio menor, </span>
-                <span className="font-black font-display italic text-brand-blue-cta">lo igualamos.</span>
+                <span className="font-black font-display italic text-brand-gold">lo igualamos.</span>
               </h2>
             </div>
 

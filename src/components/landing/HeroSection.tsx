@@ -113,7 +113,7 @@ export default function HeroSection() {
             >
               <span className="block font-extralight">El trámite notarial</span>
               <span className="block font-extralight">de tu cliente,</span>
-              <span className="block font-black font-display italic text-brand-blue">
+              <span className="block font-black font-display italic text-brand-gold-light">
                 resuelto.
               </span>
             </h1>
@@ -130,7 +130,7 @@ export default function HeroSection() {
             <div className="flex flex-col sm:flex-row gap-4 pt-2">
               <Link
                 href="/register"
-                className="inline-flex items-center justify-center gap-2.5 px-8 py-4 text-white font-bold rounded-xl shadow-lg hover:brightness-110 active:scale-95 transition-all duration-200 bg-brand-blue"
+                className="inline-flex items-center justify-center gap-2.5 px-8 py-4 text-brand-navy font-bold rounded-xl shadow-lg hover:brightness-110 active:scale-95 transition-all duration-200 bg-brand-gold"
                 style={{ fontSize: '1rem' }}
               >
                 Crear mi cuenta gratis

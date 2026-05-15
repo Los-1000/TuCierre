@@ -55,7 +55,7 @@ export default function LandingNavbar() {
           </Link>
           <Link
             href="/register"
-            className="hidden md:block px-5 py-3 text-white rounded-lg text-sm font-bold shadow-sm hover:brightness-110 transition-all active:scale-95 bg-brand-blue"
+            className="hidden md:block px-5 py-3 text-brand-navy rounded-lg text-sm font-bold shadow-sm hover:brightness-110 transition-all active:scale-95 bg-brand-gold"
           >
             Empezar gratis
           </Link>
@@ -105,7 +105,7 @@ export default function LandingNavbar() {
             <Link
               href="/register"
               onClick={() => setOpen(false)}
-              className="block text-center px-6 py-3.5 text-white rounded-lg text-sm font-bold bg-brand-blue"
+              className="block text-center px-6 py-3.5 text-brand-navy rounded-lg text-sm font-bold bg-brand-gold"
             >
               Empezar gratis
             </Link>

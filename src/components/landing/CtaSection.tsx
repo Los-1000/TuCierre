@@ -17,7 +17,7 @@ export default function CtaSection() {
             style={{ maxWidth: '900px' }}
           >
             <span className="font-extralight">Tu próximo trámite </span>
-            <span className="font-black font-display italic text-brand-blue">empieza aquí.</span>
+            <span className="font-black font-display italic text-brand-gold-light">empieza aquí.</span>
           </h2>
         </Reveal>
 
@@ -34,7 +34,7 @@ export default function CtaSection() {
           <div className="flex flex-col sm:flex-row justify-center gap-4 pt-4">
             <Link
               href="/register"
-              className="px-12 py-5 text-white font-black text-lg rounded-xl hover:brightness-110 active:scale-95 transition-all duration-200 bg-brand-blue"
+              className="px-12 py-5 text-brand-navy font-black text-lg rounded-xl hover:brightness-110 active:scale-95 transition-all duration-200 bg-brand-gold"
             >
               Crear mi cuenta gratis
             </Link>
