@@ -94,7 +94,7 @@ export default function LandingNavbar() {
               {label}
             </a>
           ))}
-          <div className="pt-4 space-y-3 border-t border-brand-navy/8">
+          <div className="pt-4 space-y-3 border-t border-white/12">
             <Link
               href="/login"
               onClick={() => setOpen(false)}

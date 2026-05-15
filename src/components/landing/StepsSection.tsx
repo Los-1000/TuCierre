@@ -1,4 +1,4 @@
-import Reveal from '@/components/landing/Reveal'
+﻿import Reveal from '@/components/landing/Reveal'
 
 const BULLETS = [
   {
@@ -131,8 +131,8 @@ export default function StepsSection() {
                 className="tracking-tight leading-tight text-white"
                 style={{ fontSize: 'clamp(30px, 4vw, 52px)' }}
               >
-                <span className="font-extralight">De la operación a la firma </span>
-                <span className="font-black font-display italic text-white/65">en tres pasos</span>
+                <span className="font-black">De la operación a la firma </span>
+                <span className="block font-extralight text-white/55">en tres pasos.</span>
               </h2>
             </div>
           </Reveal>

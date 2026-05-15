@@ -8,7 +8,7 @@ export default function MarqueeSection() {
       <div className="py-3 border-b border-white/5">
         <div className="flex whitespace-nowrap animate-ticker">
           {[...Array(4)].map((_, i) => (
-            <span key={i} className="shrink-0 text-[11px] font-black uppercase tracking-[0.18em] text-tier-bronce">
+            <span key={i} className="shrink-0 text-xs font-black uppercase tracking-[0.18em] text-tier-bronce">
               {TICKER_A}
             </span>
           ))}
@@ -19,7 +19,7 @@ export default function MarqueeSection() {
       <div className="py-3">
         <div className="flex whitespace-nowrap animate-ticker-reverse">
           {[...Array(4)].map((_, i) => (
-            <span key={i} className="shrink-0 text-[11px] font-extralight uppercase tracking-[0.18em] italic text-white/20">
+            <span key={i} className="shrink-0 text-xs font-extralight uppercase tracking-[0.18em] italic text-white/20">
               {TICKER_B}
             </span>
           ))}

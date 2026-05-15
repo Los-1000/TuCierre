@@ -1,10 +1,10 @@
 import Link from 'next/link'
 
 const STEPS = [
-  { label: 'Documentos cargados',      state: 'done'    },
-  { label: 'Revisión notarial',        state: 'done'    },
-  { label: 'Listo para firma',         state: 'active'  },
-  { label: 'Inscripción en Registros', state: 'pending' },
+  { label: 'Documentos cargados',       state: 'done'    },
+  { label: 'Revisión notarial',          state: 'done'    },
+  { label: 'Listo para firma',           state: 'active'  },
+  { label: 'Inscripción en Registros',   state: 'pending' },
 ] as const
 
 function TramiteCard() {
@@ -54,7 +54,7 @@ function TramiteCard() {
             )}
             <div className="flex-1 flex items-center justify-between gap-2">
               <span className={`text-xs font-medium ${
-                step.state === 'done'    ? 'text-brand-success'
+                step.state === 'done'     ? 'text-brand-success'
                 : step.state === 'active' ? 'text-brand-navy'
                 : 'text-brand-navy/40'
               }`}>
@@ -148,7 +148,24 @@ export default function HeroSection() {
               </a>
             </div>
 
-            <div className="flex flex-wrap gap-6 pt-1">
+            <div className="pt-1 space-y-2 border-t border-white/8">
+              <p className="text-[10px] font-black uppercase tracking-[0.15em] text-white/30 pt-3">
+                Qué pasa después
+              </p>
+              {[
+                { n: '01', label: 'Crea tu cuenta', time: '2 min' },
+                { n: '02', label: 'Registra tu primera operación', time: '5 min' },
+                { n: '03', label: 'Solo apareces a firmar', time: 'Sin llamadas' },
+              ].map(step => (
+                <div key={step.n} className="flex items-center gap-3">
+                  <span className="text-xs font-black w-6 text-brand-blue/50">{step.n}</span>
+                  <span className="text-xs flex-1 text-white/55">{step.label}</span>
+                  <span className="text-xs font-bold text-white/30">{step.time}</span>
+                </div>
+              ))}
+            </div>
+
+            <div className="flex flex-wrap gap-6">
               {['Sin tarjeta requerida', 'Gratis para brokers', 'Activo en Lima'].map(item => (
                 <span key={item} className="flex items-center gap-1.5 text-sm font-medium text-white/50">
                   <svg aria-hidden="true" width="13" height="13" viewBox="0 0 24 24" fill="none" className="text-brand-success">
@@ -160,7 +177,7 @@ export default function HeroSection() {
             </div>
           </div>
 
-          <div className="hidden md:block">
+          <div>
             <TramiteCard />
           </div>
 

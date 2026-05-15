@@ -31,19 +31,6 @@ export default function CtaSection() {
         </Reveal>
 
         <Reveal direction="up" delay={150}>
-          <div className="flex flex-wrap justify-center gap-6 text-sm font-medium text-white/60">
-            {['Mejor precio garantizado', 'Sin tarjeta requerida', 'Activo en Lima hoy'].map(item => (
-              <span key={item} className="flex items-center gap-2">
-                <svg aria-hidden="true" width="13" height="13" viewBox="0 0 24 24" fill="none">
-                  <path d="M5 13l4 4L19 7" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="text-white/55" />
-                </svg>
-                {item}
-              </span>
-            ))}
-          </div>
-        </Reveal>
-
-        <Reveal direction="up" delay={200}>
           <div className="flex flex-col sm:flex-row justify-center gap-4 pt-4">
             <Link
               href="/register"

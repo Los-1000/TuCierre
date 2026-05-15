@@ -3,16 +3,26 @@ import { Logo } from '@/components/ui/Logo'
 
 const COLS = [
   {
-    heading: 'Empresa',
-    links: [['Contacto', '#'], ['Nosotros', '#'], ['Blog Notarial', '#']],
+    heading: 'Plataforma',
+    links: [
+      ['Cómo funciona', '#como-funciona'],
+      ['Precios',        '#precios'],
+      ['Registrarme',    '/register'],
+    ],
   },
   {
     heading: 'Legal',
-    links: [['Privacidad', '/privacidad'], ['Términos', '/terminos'], ['Seguridad', '#']],
+    links: [
+      ['Privacidad', '/privacidad'],
+      ['Términos',   '/terminos'],
+    ],
   },
   {
-    heading: 'Recursos',
-    links: [['Soporte', '#'], ['Cómo funciona', '#como-funciona'], ['Precios', '#precios']],
+    heading: 'Acceso',
+    links: [
+      ['Ingresar',      '/login'],
+      ['Crear cuenta',  '/register'],
+    ],
   },
 ]
 
@@ -24,7 +34,7 @@ export default function LandingFooter() {
         <div className="space-y-5">
           <Logo variant="light" size="md" href="/" />
           <p className="text-sm leading-relaxed text-white/60">
-            Líder en infraestructura digital para transacciones inmobiliarias de alto valor en Lima.
+            Infraestructura digital para transacciones notariales en Lima. Gratis para brokers.
           </p>
           <div className="inline-flex items-center gap-2 px-3 py-2 rounded-lg border text-sm font-semibold bg-brand-blue/8 border-white/15 text-white/60">
             <svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" className="text-brand-blue-light">
@@ -40,36 +50,18 @@ export default function LandingFooter() {
               {col.heading}
             </h4>
             <div className="flex flex-col gap-3">
-              {col.links.map(([label, href]) =>
-                href === '#' ? (
-                  <span key={label} className="text-sm text-white/45">{label}</span>
-                ) : (
-                  <Link
-                    key={label}
-                    href={href}
-                    className="text-sm transition-colors duration-200 text-white/60 hover:text-white"
-                  >
-                    {label}
-                  </Link>
-                )
-              )}
+              {col.links.map(([label, href]) => (
+                <Link
+                  key={label}
+                  href={href}
+                  className="text-sm transition-colors duration-200 text-white/60 hover:text-white"
+                >
+                  {label}
+                </Link>
+              ))}
             </div>
           </div>
         ))}
-      </div>
-
-      <div className="max-w-screen-xl mx-auto px-6 md:px-10 py-12 border-t border-white/6 flex flex-col items-center text-center gap-5">
-        <p className="font-black text-white tracking-tight leading-none" style={{ fontSize: 'clamp(28px, 4vw, 60px)' }}>
-          La plataforma notarial{' '}
-          <span className="font-display italic text-white/55">de los brokers.</span>
-        </p>
-        <p className="text-base text-white/60">Gratis para brokers. Sin tarjeta. Listo en minutos.</p>
-        <Link
-          href="/register"
-          className="px-8 py-4 text-white rounded-xl font-bold text-base hover:brightness-110 active:scale-95 transition-all duration-200 bg-brand-blue"
-        >
-          Registrarme como Broker
-        </Link>
       </div>
 
       <div className="max-w-screen-xl mx-auto px-6 md:px-10 py-8 border-t border-white/6 flex flex-col md:flex-row justify-between items-center gap-4">
