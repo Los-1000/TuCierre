@@ -1,4 +1,4 @@
-import Reveal from '@/components/landing/Reveal'
+﻿import Reveal from '@/components/landing/Reveal'
 
 const CHECKS = [
   'Cotizaciones instantáneas sin llamadas',
@@ -16,25 +16,25 @@ export default function PriceMatchSection() {
   return (
     <section
       id="pricematch"
-      className="py-32 bg-[#F5F7FF] border-t border-[#E0E4F0]"
+      className="py-32 bg-brand-bg border-t border-brand-border-light"
     >
       <div className="max-w-screen-xl mx-auto px-6 md:px-10 grid lg:grid-cols-2 gap-16 xl:gap-24 items-center">
 
         <Reveal direction="up" delay={0}>
           <div className="space-y-8">
             <div className="space-y-5">
-              <p className="text-xs font-black uppercase tracking-[0.2em] text-[#6B7A9A]">
+              <p className="text-xs font-black uppercase tracking-[0.2em] text-brand-muted">
                 Igualador de precio
               </p>
               <h2
                 className="text-heading-xl tracking-tight"
               >
                 <span className="font-extralight text-brand-navy">Si encuentras un precio menor, </span>
-                <span className="font-black font-display italic text-brand-blue">lo igualamos.</span>
+                <span className="font-black font-display italic text-brand-blue-cta">lo igualamos.</span>
               </h2>
             </div>
 
-            <p className="text-lg leading-relaxed text-[#1A2050]/65">
+            <p className="text-lg leading-relaxed text-brand-text/65">
               ¿Tu cliente encontró un precio más bajo en otra notaría?{' '}
               <strong className="text-brand-navy font-semibold">Preséntanoslo y lo igualamos.</strong>{' '}
               Misma calidad, mismos plazos.
@@ -53,14 +53,14 @@ export default function PriceMatchSection() {
               ))}
             </ul>
 
-            <p className="text-sm text-[#6B7A9A]">
+            <p className="text-sm text-brand-muted">
               Disponible desde Nivel 2 · Se solicita vía plataforma · Sin papeleo
             </p>
           </div>
         </Reveal>
 
         <Reveal direction="up" delay={150}>
-          <div className="rounded-2xl overflow-hidden shadow-lg border border-[#E0E4F0]">
+          <div className="rounded-2xl overflow-hidden shadow-lg border border-brand-border-light">
             <div className="px-7 py-5 flex items-center justify-between bg-white border-b border-brand-navy/10">
               <span className="font-black text-lg tracking-tight text-brand-navy">Tarifas 2026</span>
               <span className="text-xs font-black uppercase tracking-widest px-3 py-1.5 rounded-full bg-brand-navy/6 text-brand-navy">
@@ -90,7 +90,7 @@ export default function PriceMatchSection() {
             </div>
 
             <div className="px-7 py-5 flex items-center justify-between border-t bg-brand-navy border-white/10">
-              <span className="text-sm font-medium text-white/50">Ahorro promedio</span>
+              <span className="text-sm font-medium text-white/45">Ahorro promedio</span>
               <span className="text-2xl font-black tracking-tighter text-white">28% menos</span>
             </div>
           </div>

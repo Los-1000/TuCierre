@@ -50,7 +50,7 @@ const config: Config = {
         },
         // TuCierre brand — #020952 exact logo navy
         ink: '#020952',
-        parchment: '#020952',
+        parchment: '#F5F7FF',
         brand: {
           navy: '#020952',       // exact logo background
           'navy-deep': '#01063A',
@@ -71,7 +71,10 @@ const config: Config = {
           'green-dark': '#155C3E',
           success: '#1C7A52',  // done/confirmed state — step indicators, status badges
           red: '#D93B3B',
-          bg: '#020952',
+          bg: '#F5F7FF',             // light section background
+          'border-light': '#E0E4F0', // light section border
+          muted: '#6B7A9A',          // muted text on light sections
+          text: '#1A2050',           // body text on light sections
         },
         tier: {
           bronce: '#E07A3C',

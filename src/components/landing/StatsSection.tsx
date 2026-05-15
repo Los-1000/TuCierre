@@ -1,4 +1,4 @@
-import Reveal from '@/components/landing/Reveal'
+﻿import Reveal from '@/components/landing/Reveal'
 
 const STATS = [
   { value: '500+',  label: 'Trámites gestionados',  sub: 'En Lima Metropolitana'          },
@@ -24,11 +24,11 @@ const TESTIMONIALS = [
 
 export default function StatsSection() {
   return (
-    <section className="py-32 bg-[#F5F7FF] border-t border-[#E0E4F0]">
+    <section className="py-32 bg-brand-bg border-t border-brand-border-light">
       <div className="max-w-screen-xl mx-auto px-6 md:px-10">
 
         <Reveal direction="up" delay={0}>
-          <p className="text-xs font-black uppercase tracking-[0.2em] mb-14 text-[#1A2050]/50">
+          <p className="text-xs font-black uppercase tracking-[0.2em] mb-14 text-brand-text/50">
             Por qué TuCierre
           </p>
         </Reveal>
@@ -44,7 +44,7 @@ export default function StatsSection() {
                   {stat.value}
                 </p>
                 <p className="mt-2 text-sm font-bold text-brand-navy">{stat.label}</p>
-                <p className="mt-0.5 text-xs text-[#6B7A9A]">{stat.sub}</p>
+                <p className="mt-0.5 text-xs text-brand-muted">{stat.sub}</p>
               </div>
             </Reveal>
           ))}
@@ -53,14 +53,14 @@ export default function StatsSection() {
         <div className="grid md:grid-cols-2 gap-6">
           {TESTIMONIALS.map((t, i) => (
             <Reveal key={t.name} direction="up" delay={i * 100}>
-              <div className="rounded-2xl p-8 bg-white border border-[#E0E4F0]">
-                <p className="text-base leading-relaxed text-[#1A2050]/75 mb-6">
+              <div className="rounded-2xl p-8 bg-white border border-brand-border-light">
+                <p className="text-base leading-relaxed text-brand-text/75 mb-6">
                   &ldquo;{t.quote}&rdquo;
                 </p>
                 <div className="flex items-center justify-between">
                   <div>
                     <p className="text-sm font-bold text-brand-navy">{t.name}</p>
-                    <p className="text-xs text-[#6B7A9A] mt-0.5">{t.role}</p>
+                    <p className="text-xs text-brand-muted mt-0.5">{t.role}</p>
                   </div>
                   <span className="text-xs font-black uppercase tracking-widest px-2.5 py-1 rounded-full bg-brand-navy/6 text-brand-navy/55">
                     {t.tier}

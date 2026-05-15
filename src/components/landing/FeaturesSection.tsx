@@ -1,4 +1,4 @@
-import Reveal from '@/components/landing/Reveal'
+﻿import Reveal from '@/components/landing/Reveal'
 
 export default function FeaturesSection() {
   return (
@@ -14,7 +14,7 @@ export default function FeaturesSection() {
             </h2>
           </Reveal>
           <Reveal direction="up" delay={100}>
-            <p className="text-sm font-medium leading-relaxed max-w-xs text-white/50">
+            <p className="text-sm font-medium leading-relaxed max-w-xs text-white/45">
               Una sola plataforma. Desde la cotización hasta la firma.
             </p>
           </Reveal>
@@ -28,7 +28,7 @@ export default function FeaturesSection() {
               className="rounded-2xl p-10 md:p-14 flex flex-col justify-between h-full bg-white/7"
               style={{ minHeight: '340px' }}
             >
-              <p className="text-xs font-black uppercase tracking-[0.25em] text-white/40">01</p>
+              <p className="text-xs font-black uppercase tracking-[0.25em] text-white/45">01</p>
               <div>
                 <h3
                   className="font-black tracking-tight leading-tight mb-4 text-white/95"
@@ -36,7 +36,7 @@ export default function FeaturesSection() {
                 >
                   Precios verificados<br />al instante
                 </h3>
-                <p className="text-lg leading-relaxed text-white/60" style={{ maxWidth: '460px' }}>
+                <p className="text-lg leading-relaxed text-white/65" style={{ maxWidth: '460px' }}>
                   Cotizaciones notariales en segundos. Sin llamadas, sin sorpresas.
                   Lo que ves en pantalla es lo que paga tu cliente.
                 </p>
@@ -50,7 +50,7 @@ export default function FeaturesSection() {
               className="rounded-2xl p-8 flex flex-col justify-between gap-6 h-full bg-white/7"
               style={{ minHeight: '340px' }}
             >
-              <p className="text-xs font-black uppercase tracking-[0.25em] text-white/40">02</p>
+              <p className="text-xs font-black uppercase tracking-[0.25em] text-white/45">02</p>
               <div className="flex flex-col gap-3">
                 {[
                   { label: 'Cotización', time: '< 1 min', desc: 'Precio exacto en segundos', done: true },
@@ -73,14 +73,14 @@ export default function FeaturesSection() {
                     <div className="flex-1 pb-1">
                       <div className="flex items-baseline gap-2">
                         <span className="text-sm font-bold text-white">{s.label}</span>
-                        <span className="text-[11px] font-black tracking-widest uppercase text-white/50">{s.time}</span>
+                        <span className="text-[11px] font-black tracking-widest uppercase text-white/45">{s.time}</span>
                       </div>
-                      <p className="text-xs mt-0.5 text-white/60">{s.desc}</p>
+                      <p className="text-xs mt-0.5 text-white/65">{s.desc}</p>
                     </div>
                   </div>
                 ))}
               </div>
-              <p className="text-xs text-white/50">
+              <p className="text-xs text-white/45">
                 De la cotización a la firma — 48 h promedio en Lima
               </p>
             </div>
@@ -91,7 +91,7 @@ export default function FeaturesSection() {
             <div className="rounded-2xl overflow-hidden">
               <div className="grid md:grid-cols-[5fr_7fr] bg-white/7">
                 <div className="p-10 md:p-14 flex flex-col justify-between gap-6 border-b md:border-b-0 md:border-r border-white/12">
-                  <p className="text-xs font-black uppercase tracking-[0.25em] text-white/40">03</p>
+                  <p className="text-xs font-black uppercase tracking-[0.25em] text-white/45">03</p>
                   <h3
                     className="font-black tracking-tight leading-tight text-white/95"
                     style={{ fontSize: 'clamp(20px, 2.5vw, 36px)' }}
@@ -100,7 +100,7 @@ export default function FeaturesSection() {
                   </h3>
                 </div>
                 <div className="p-10 md:p-14 flex items-center bg-brand-navy border-t border-white/6">
-                  <p className="text-lg leading-relaxed text-white/60">
+                  <p className="text-lg leading-relaxed text-white/65">
                     Cada trámite es supervisado por expertos notariales en Lima.
                     Sin errores de proceso, sin riesgos legales para ti ni para tu cliente
                     — tu nombre queda limpio en cada operación.

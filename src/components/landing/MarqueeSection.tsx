@@ -1,4 +1,4 @@
-const TICKER_A = 'TRÁMITE CERRADO  ✦  S/. 1,200  ✦  COMPRAVENTA  ✦  LIMA, PERÚ  ✦  TC‑2026  ✦  '
+﻿const TICKER_A = 'TRÁMITE CERRADO  ✦  S/. 1,200  ✦  COMPRAVENTA  ✦  LIMA, PERÚ  ✦  TC‑2026  ✦  '
 const TICKER_B = 'HIPOTECA  ◆  PODER NOTARIAL  ◆  SUCESIÓN  ◆  DONACIÓN  ◆  ESCRITURA PÚBLICA  ◆  '
 
 export default function MarqueeSection() {

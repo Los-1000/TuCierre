@@ -1,4 +1,4 @@
-import Link from 'next/link'
+﻿import Link from 'next/link'
 import Reveal from '@/components/landing/Reveal'
 
 export default function CtaSection() {
@@ -23,7 +23,7 @@ export default function CtaSection() {
 
         <Reveal direction="up" delay={100}>
           <p
-            className="font-medium mx-auto text-white/60"
+            className="font-medium mx-auto text-white/65"
             style={{ fontSize: 'clamp(16px, 2vw, 20px)', maxWidth: '520px' }}
           >
             Regístrate en 2 minutos. Tu primer trámite puede salir hoy mismo.

@@ -1,4 +1,4 @@
-import Link from 'next/link'
+﻿import Link from 'next/link'
 
 const STEPS = [
   { label: 'Documentos cargados',       state: 'done'    },
@@ -28,7 +28,7 @@ function TramiteCard() {
       </div>
 
       <div className="px-5 py-4 border-b bg-brand-navy border-white/12">
-        <p className="text-[11px] font-bold uppercase tracking-[0.2em] mb-1 text-white/50">
+        <p className="text-[11px] font-bold uppercase tracking-[0.2em] mb-1 text-white/45">
           Tipo de trámite
         </p>
         <p className="font-semibold text-sm text-white/95">Compraventa de Inmueble</p>
@@ -74,7 +74,7 @@ function TramiteCard() {
         <svg aria-hidden="true" width="12" height="12" viewBox="0 0 24 24" fill="none">
           <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" stroke="rgba(255,255,255,0.55)" strokeWidth="2" strokeLinejoin="round" />
         </svg>
-        <p className="text-[11px] font-semibold text-white/60">
+        <p className="text-[11px] font-semibold text-white/65">
           Precio igualado automáticamente
         </p>
       </div>
@@ -119,7 +119,7 @@ export default function HeroSection() {
             </h1>
 
             <p
-              className="leading-relaxed max-w-xl text-white/60"
+              className="leading-relaxed max-w-xl text-white/65"
               style={{ fontSize: 'clamp(16px, 1.6vw, 18px)' }}
             >
               Gestiona compraventas, poderes notariales e hipotecas en Lima desde tu celular.
@@ -148,7 +148,7 @@ export default function HeroSection() {
             </div>
 
             <div className="pt-1 space-y-2 border-t border-white/8">
-              <p className="text-[10px] font-black uppercase tracking-[0.15em] text-white/30 pt-3">
+              <p className="text-[10px] font-black uppercase tracking-[0.15em] text-white/45 pt-3">
                 Qué pasa después
               </p>
               {[
@@ -158,15 +158,15 @@ export default function HeroSection() {
               ].map(step => (
                 <div key={step.n} className="flex items-center gap-3">
                   <span className="text-xs font-black w-6 text-brand-blue/50">{step.n}</span>
-                  <span className="text-xs flex-1 text-white/55">{step.label}</span>
-                  <span className="text-xs font-bold text-white/30">{step.time}</span>
+                  <span className="text-xs flex-1 text-white/65">{step.label}</span>
+                  <span className="text-xs font-bold text-white/45">{step.time}</span>
                 </div>
               ))}
             </div>
 
             <div className="flex flex-wrap gap-6">
               {['Sin tarjeta requerida', 'Gratis para brokers', 'Activo en Lima'].map(item => (
-                <span key={item} className="flex items-center gap-1.5 text-sm font-medium text-white/50">
+                <span key={item} className="flex items-center gap-1.5 text-sm font-medium text-white/45">
                   <svg aria-hidden="true" width="13" height="13" viewBox="0 0 24 24" fill="none" className="text-brand-success">
                     <path d="M5 13l4 4L19 7" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
                   </svg>

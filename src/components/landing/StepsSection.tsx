@@ -61,7 +61,7 @@ function DashboardMockup() {
 
       {/* Activity feed */}
       <div className="px-4 py-4">
-        <p className="text-[11px] font-black uppercase tracking-widest mb-3 text-white/50">
+        <p className="text-[11px] font-black uppercase tracking-widest mb-3 text-white/45">
           Actividad reciente
         </p>
         <div className="space-y-2">
@@ -94,7 +94,7 @@ function DashboardMockup() {
               <div className="flex-1 min-w-0">
                 <p className="text-xs font-bold text-white leading-tight">{item.title}</p>
                 <p className="text-[11px] font-medium mt-0.5 truncate text-white/65">{item.case}</p>
-                <p className="text-[11px] mt-1 text-white/40">{item.meta}</p>
+                <p className="text-[11px] mt-1 text-white/45">{item.meta}</p>
               </div>
             </div>
           ))}
@@ -103,7 +103,7 @@ function DashboardMockup() {
 
       {/* Footer action bar */}
       <div className="px-4 pb-4 pt-0 flex gap-2">
-        <div className="flex-1 px-3 py-2 rounded-lg text-center text-[11px] font-semibold bg-white/6 text-white/55">
+        <div className="flex-1 px-3 py-2 rounded-lg text-center text-[11px] font-semibold bg-white/6 text-white/65">
           Ver todos los trámites
         </div>
         <div className="px-3 py-2 rounded-lg text-[11px] font-bold text-white bg-brand-blue">
@@ -125,19 +125,19 @@ export default function StepsSection() {
           <Reveal direction="up" delay={0}>
             <div>
               <div className="inline-flex items-center px-3 py-1 rounded-full border mb-6 bg-white/5 border-white/12">
-                <span className="text-xs text-white/50 font-bold tracking-widest uppercase">Cómo funciona</span>
+                <span className="text-xs text-white/45 font-bold tracking-widest uppercase">Cómo funciona</span>
               </div>
               <h2
                 className="text-heading-lg tracking-tight text-white"
               >
                 <span className="font-black">De la operación a la firma </span>
-                <span className="block font-extralight text-white/55">en tres pasos.</span>
+                <span className="block font-extralight text-white/65">en tres pasos.</span>
               </h2>
             </div>
           </Reveal>
 
           <Reveal direction="up" delay={100}>
-            <p className="text-xl leading-relaxed font-light text-white/50">
+            <p className="text-xl leading-relaxed font-light text-white/45">
               Sin llamadas a notarías. Sin documentos extraviados. Sin "¿cómo va mi trámite?".
               Todo en una sola plataforma.
             </p>
@@ -152,7 +152,7 @@ export default function StepsSection() {
                 </div>
                 <div>
                   <h4 className="font-bold text-lg text-white">{b.title}</h4>
-                  <p className="mt-0.5 font-light text-white/50">{b.body}</p>
+                  <p className="mt-0.5 font-light text-white/45">{b.body}</p>
                 </div>
               </div>
             ))}

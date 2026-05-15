@@ -23,37 +23,35 @@
 ### Brand Palette
 
 ```
-Primary:    #1a365d  — Navy blue (trust, authority, legal weight)
-Secondary:  #2d3748  — Charcoal (text, secondary UI)
-Accent:     #38a169  — Emerald green (CTAs, success, savings)
-Warning:    #d69e2e  — Amber (document pending, review states)
-Error:      #e53e3e  — Red (errors, rejection, cancellation)
-Background: #f7fafc  — Off-white (main page bg)
-Surface:    #ffffff  — White (cards, modals, inputs)
+Navy (primary):     #020952  — Deep royal navy (logo exact, backgrounds, trust anchor)
+Blue CTA (dark bg): #4D78FF  — Bright blue, use ONLY on dark/navy backgrounds
+Blue CTA (light bg):#2855E0  — Saturated blue, use ONLY on white/light backgrounds
+Success:            #1C7A52  — Emerald green (confirmed states, savings)
+Warning:            #C9880E  — Amber (pending review, documents)
+Error:              #D93B3B  — Red (errors, rejection, cancellation)
+Background (light): #F5F7FF  — Cool off-white (light section backgrounds)
+Surface:            #ffffff  — White (cards, modals, inputs)
 ```
 
-### Semantic Tokens (use these in components — never raw hex)
+### Tailwind Token Reference (use these — never raw hex in components)
 
-```css
-/* Tailwind config tokens */
---color-primary:        #1a365d;
---color-primary-light:  #2a4a7f;   /* hover states */
---color-primary-dark:   #122540;   /* active/pressed */
---color-secondary:      #2d3748;
---color-accent:         #38a169;
---color-accent-light:   #48bb78;   /* hover */
---color-accent-dark:    #276749;   /* active */
---color-warning:        #d69e2e;
---color-warning-light:  #f6e05e;
---color-error:          #e53e3e;
---color-error-light:    #fed7d7;
---color-bg:             #f7fafc;
---color-surface:        #ffffff;
---color-border:         #e2e8f0;
---color-text-primary:   #1a202c;
---color-text-secondary: #718096;
---color-text-muted:     #a0aec0;
---color-text-inverse:   #ffffff;
+```typescript
+// tailwind.config.ts brand tokens
+brand.navy          = '#020952'  // dominant background, nav
+brand.blue          = '#4D78FF'  // accent text/icons on DARK backgrounds only
+brand['blue-cta']   = '#2855E0'  // CTAs and accent on LIGHT backgrounds only
+brand['blue-light'] = '#92B3FF'  // very light blue tint
+brand.success       = '#1C7A52'  // confirmed/done states
+brand.red           = '#D93B3B'  // error/cancellation
+brand.gold          = '#C9880E'  // Oro tier, premium indicators
+brand.bg            = '#F5F7FF'  // light section background
+brand['border-light']= '#E0E4F0' // borders on light sections
+brand.muted         = '#6B7A9A'  // muted text on light sections
+brand.text          = '#1A2050'  // body text on light sections
+
+// Top-level aliases
+ink                 = '#020952'  // body text on dark backgrounds (full opacity)
+parchment           = '#F5F7FF'  // light section bg alias
 ```
 
 ### Status Badge Colors (trámite states)

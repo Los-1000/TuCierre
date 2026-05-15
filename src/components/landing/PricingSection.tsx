@@ -1,4 +1,4 @@
-import Link from 'next/link'
+﻿import Link from 'next/link'
 import Reveal from '@/components/landing/Reveal'
 
 const TIERS = [
@@ -41,7 +41,7 @@ export default function PricingSection() {
             >
               El Sistema.
             </h2>
-            <p className="font-light text-lg max-w-md text-white/60">
+            <p className="font-light text-lg max-w-md text-white/65">
               Tu comisión sube sola cada mes según volumen. Sin formularios. Sin aprobaciones.
             </p>
           </div>
@@ -107,7 +107,7 @@ export default function PricingSection() {
                   <div className="flex flex-col md:flex-row md:items-center gap-6 md:gap-0">
                     <div className="md:w-48 shrink-0">
                       <div className="font-black text-xl tracking-tight text-white">{tier.level}</div>
-                      <div className="text-sm font-light mt-0.5 text-white/55">{tier.range}</div>
+                      <div className="text-sm font-light mt-0.5 text-white/65">{tier.range}</div>
                     </div>
 
                     <div className="flex-1 md:text-center">
@@ -121,7 +121,7 @@ export default function PricingSection() {
 
                     <div className="md:w-64 shrink-0 space-y-1.5">
                       {tier.benefits.map(b => (
-                        <div key={b} className="text-sm font-light text-white/60">
+                        <div key={b} className="text-sm font-light text-white/65">
                           {b}
                         </div>
                       ))}
@@ -130,7 +130,7 @@ export default function PricingSection() {
                     <div className="md:w-40 md:text-right shrink-0">
                       <Link
                         href="/register"
-                        className="text-sm font-bold tracking-wide hover:text-white transition-colors text-white/60"
+                        className="text-sm font-bold tracking-wide hover:text-white transition-colors text-white/65"
                       >
                         Comenzar <span aria-hidden="true">→</span>
                       </Link>
