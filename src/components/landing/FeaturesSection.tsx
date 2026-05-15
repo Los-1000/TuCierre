@@ -2,19 +2,19 @@
 
 export default function FeaturesSection() {
   return (
-    <section id="features" className="py-28 bg-brand-navy border-t border-white/6">
+    <section id="features" className="py-28 bg-white border-t border-[#EDE9E0]">
       <div className="max-w-screen-xl mx-auto px-6 md:px-10">
 
         <div className="mb-16 flex flex-col lg:flex-row lg:items-end justify-between gap-6">
           <Reveal direction="up" delay={0}>
             <h2
-              className="font-black text-heading-2xl tracking-tight max-w-2xl text-white/95"
+              className="font-black text-heading-2xl tracking-tight max-w-2xl text-brand-navy"
             >
               Todo lo que necesitas<br />para cerrar sin fricciones
             </h2>
           </Reveal>
           <Reveal direction="up" delay={100}>
-            <p className="text-sm font-medium leading-relaxed max-w-xs text-white/45">
+            <p className="text-sm font-medium leading-relaxed max-w-xs text-brand-muted">
               Una sola plataforma. Desde la cotización hasta la firma.
             </p>
           </Reveal>
@@ -25,7 +25,7 @@ export default function FeaturesSection() {
           {/* Feature 01 — spans 2 cols */}
           <Reveal className="md:col-span-2" direction="up" delay={150}>
             <div
-              className="rounded-2xl p-10 md:p-14 flex flex-col justify-between h-full bg-white/7"
+              className="rounded-2xl p-10 md:p-14 flex flex-col justify-between h-full bg-brand-navy"
               style={{ minHeight: '340px' }}
             >
               <p className="text-xs font-black uppercase tracking-[0.25em] text-white/45">01</p>
@@ -47,7 +47,7 @@ export default function FeaturesSection() {
           {/* Feature 02 — process flow */}
           <Reveal direction="up" delay={200}>
             <div
-              className="rounded-2xl p-8 flex flex-col justify-between gap-6 h-full bg-white/7"
+              className="rounded-2xl p-8 flex flex-col justify-between gap-6 h-full bg-brand-navy"
               style={{ minHeight: '340px' }}
             >
               <p className="text-xs font-black uppercase tracking-[0.25em] text-white/45">02</p>
@@ -89,7 +89,7 @@ export default function FeaturesSection() {
           {/* Feature 03 — full width bottom */}
           <Reveal className="md:col-span-3" direction="up" delay={100}>
             <div className="rounded-2xl overflow-hidden">
-              <div className="grid md:grid-cols-[5fr_7fr] bg-white/7">
+              <div className="grid md:grid-cols-[5fr_7fr] bg-brand-navy">
                 <div className="p-10 md:p-14 flex flex-col justify-between gap-6 border-b md:border-b-0 md:border-r border-white/12">
                   <p className="text-xs font-black uppercase tracking-[0.25em] text-white/45">03</p>
                   <h3
