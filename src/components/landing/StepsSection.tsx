@@ -8,13 +8,13 @@ const STEPS = [
   },
   {
     num: '02',
-    title: 'Tu cliente sube los documentos',
-    body: 'El cliente carga todo directamente desde su teléfono. Sin imprimir, sin trasladarse antes de tiempo.',
+    title: 'TuCierre coordina todo',
+    body: 'Gestionamos los documentos, coordinamos con la notaría y preparamos cada detalle para la firma. Tú ves el estado en tiempo real.',
   },
   {
     num: '03',
-    title: 'TuCierre coordina — tu cliente firma',
-    body: 'Verificamos los documentos, coordinamos con la notaría y avisamos a tu cliente cuándo y dónde firmar. Tú supervisas el estado en tiempo real.',
+    title: 'Tu cliente solo firma',
+    body: 'Le avisamos cuándo y dónde aparecer. Nada más. Tu reputación queda impecable en cada operación.',
   },
 ]
 
@@ -117,8 +117,7 @@ export default function StepsSection() {
 
           <Reveal direction="up" delay={100}>
             <p className="text-xl leading-relaxed font-light text-white/45">
-              Tú registras la operación. Tu cliente sube los documentos y asiste a firmar.
-              TuCierre coordina todo lo demás.
+              Tú registras. TuCierre coordina. Tu cliente solo firma.
             </p>
           </Reveal>
 
