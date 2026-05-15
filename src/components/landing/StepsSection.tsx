@@ -3,18 +3,18 @@ import Reveal from '@/components/landing/Reveal'
 const STEPS = [
   {
     num: '01',
-    title: 'Registra tu operación',
-    body: 'Crea el trámite en minutos. Sube los datos del cliente y el tipo de operación — nosotros asignamos la notaría.',
+    title: 'El broker registra la operación',
+    body: 'Crea el trámite en minutos desde tu celular. Ingresas los datos del cliente y el tipo de operación — nosotros asignamos la notaría.',
   },
   {
     num: '02',
-    title: 'Sube los documentos',
-    body: 'Tu cliente carga los documentos directamente desde su teléfono. Sin imprimir, sin ir a la notaría antes de tiempo.',
+    title: 'Tu cliente sube los documentos',
+    body: 'El cliente carga todo directamente desde su teléfono. Sin imprimir, sin trasladarse antes de tiempo.',
   },
   {
     num: '03',
-    title: 'Solo apareces a firmar',
-    body: 'TuCierre coordina con la notaría, valida los documentos y te avisa cuando es hora. Tú ganas tiempo; tu cliente, tranquilidad.',
+    title: 'TuCierre coordina — tu cliente firma',
+    body: 'Verificamos los documentos, coordinamos con la notaría y avisamos a tu cliente cuándo y dónde firmar. Tú supervisas el estado en tiempo real.',
   },
 ]
 
@@ -117,8 +117,8 @@ export default function StepsSection() {
 
           <Reveal direction="up" delay={100}>
             <p className="text-xl leading-relaxed font-light text-white/45">
-              Tú registras la operación y tu cliente sube los documentos desde su celular.
-              TuCierre coordina con la notaría — tú solo apareces a firmar.
+              Tú registras la operación. Tu cliente sube los documentos y asiste a firmar.
+              TuCierre coordina todo lo demás.
             </p>
           </Reveal>
 
