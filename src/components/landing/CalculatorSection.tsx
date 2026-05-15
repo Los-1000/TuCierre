@@ -24,8 +24,7 @@ export default function CalculatorSection() {
               Calculadora de ganancias
             </p>
             <h2
-              className="font-black tracking-tight text-brand-navy"
-              style={{ fontSize: 'clamp(28px, 4vw, 48px)' }}
+              className="font-black text-heading-md tracking-tight text-brand-navy"
             >
               Calcula cuánto ganas al mes
             </h2>

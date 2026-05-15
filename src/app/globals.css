@@ -44,7 +44,7 @@
     @apply bg-[#020952] text-white font-sans antialiased;
     font-feature-settings: 'kern' 1, 'liga' 1;
   }
-  h1, h2 { @apply font-display; }
+  h1, h2 { @apply font-sans; }
   .tabular-nums {
     font-variant-numeric: tabular-nums;
     font-feature-settings: 'tnum';
@@ -57,13 +57,6 @@
 
 @layer components {
   /* noise-overlay fue eliminado por alto consumo de GPU */
-
-  .glass-pill {
-    @apply bg-[#F0F3FF]/80 backdrop-blur-md border border-[#18181B]/10 shadow-[0_8px_32px_rgba(0,0,0,0.06)];
-  }
-  .glass-pill-dark {
-    @apply bg-[#18181B]/80 backdrop-blur-md border border-white/10 shadow-[0_8px_32px_rgba(0,0,0,0.2)];
-  }
 
   ::selection {
     background: rgba(40, 85, 224, 0.18);
@@ -99,14 +92,6 @@
 @keyframes float {
   0%, 100% { transform: translateY(0px) rotate(0deg); }
   50% { transform: translateY(-10px) rotate(0.5deg); }
-}
-
-@keyframes text-swirl {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
-}
-.animate-text-swirl {
-  animation: text-swirl 60s linear infinite;
 }
 
 @keyframes marquee {

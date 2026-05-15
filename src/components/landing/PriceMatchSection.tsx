@@ -27,8 +27,7 @@ export default function PriceMatchSection() {
                 Igualador de precio
               </p>
               <h2
-                className="tracking-tight leading-tight"
-                style={{ fontSize: 'clamp(32px, 4.5vw, 58px)' }}
+                className="text-heading-xl tracking-tight"
               >
                 <span className="font-extralight text-brand-navy">Si encuentras un precio menor, </span>
                 <span className="font-black font-display italic text-brand-blue">lo igualamos.</span>
@@ -82,8 +81,8 @@ export default function PriceMatchSection() {
                   {TABLE_ROWS.map((row, i) => (
                     <tr key={i} className="hover:bg-brand-navy/5 transition-colors">
                       <td className="px-7 py-5 text-sm font-medium text-brand-navy">{row.tramite}</td>
-                      <td className="px-7 py-5 text-sm line-through text-brand-navy/40">{row.mercado}</td>
-                      <td className="px-7 py-5 text-sm font-black text-brand-navy">{row.tucierre}</td>
+                      <td className="px-7 py-5 text-sm tabular-nums line-through text-brand-navy/40">{row.mercado}</td>
+                      <td className="px-7 py-5 text-sm tabular-nums font-black text-brand-navy">{row.tucierre}</td>
                     </tr>
                   ))}
                 </tbody>

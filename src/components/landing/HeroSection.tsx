@@ -109,8 +109,7 @@ export default function HeroSection() {
             </div>
 
             <h1
-              className="leading-[0.93] tracking-tighter text-white/95"
-              style={{ fontSize: 'clamp(48px, 7vw, 96px)' }}
+              className="text-display-hero tracking-tighter text-white/95"
             >
               <span className="block font-extralight">El trámite notarial</span>
               <span className="block font-extralight">de tu cliente,</span>

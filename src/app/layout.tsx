@@ -1,23 +1,25 @@
 import type { Metadata } from 'next'
-import { Playfair_Display, Inter, JetBrains_Mono } from 'next/font/google'
+import { Playfair_Display, DM_Sans, JetBrains_Mono } from 'next/font/google'
 import './globals.css'
 import { Toaster } from 'sonner'
 
 const playfair = Playfair_Display({
   subsets: ['latin'],
-  weight: ['400', '700'],
+  weight: ['400', '500', '700', '900'],
   style: ['normal', 'italic'],
   variable: '--font-display',
   display: 'swap',
-  preload: false,
+  preload: true,
   fallback: ['Georgia', 'serif'],
 })
 
-const inter = Inter({
+const dmSans = DM_Sans({
   subsets: ['latin'],
+  weight: ['300', '400', '500', '600', '700'],
+  style: ['normal', 'italic'],
   variable: '--font-sans',
   display: 'swap',
-  preload: false,
+  preload: true,
   fallback: ['system-ui', 'sans-serif'],
 })
 
@@ -31,7 +33,7 @@ const jetbrains = JetBrains_Mono({
 })
 
 export const metadata: Metadata = {
-  title: 'TuCierre — Trámites Notariales para Brokers',
+  title: 'TuCierre – Trámites Notariales para Brokers',
   description: 'Gestiona tus trámites notariales de forma digital. Gratis para brokers inmobiliarios en Perú.',
   keywords: ['notaria', 'broker', 'inmobiliaria', 'peru', 'tramites', 'compraventa'],
   openGraph: {
@@ -45,7 +47,7 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="es" suppressHydrationWarning>
-      <body className={`${playfair.variable} ${inter.variable} ${jetbrains.variable} font-sans`}>
+      <body className={`${playfair.variable} ${dmSans.variable} ${jetbrains.variable} font-sans`}>
         {children}
         <Toaster
           position="top-right"

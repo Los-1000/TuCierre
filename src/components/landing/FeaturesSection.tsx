@@ -8,8 +8,7 @@ export default function FeaturesSection() {
         <div className="mb-16 flex flex-col lg:flex-row lg:items-end justify-between gap-6">
           <Reveal direction="up" delay={0}>
             <h2
-              className="font-black leading-tight tracking-tight max-w-2xl text-white/95"
-              style={{ fontSize: 'clamp(32px, 4.5vw, 62px)' }}
+              className="font-black text-heading-2xl tracking-tight max-w-2xl text-white/95"
             >
               Todo lo que necesitas<br />para cerrar sin fricciones
             </h2>

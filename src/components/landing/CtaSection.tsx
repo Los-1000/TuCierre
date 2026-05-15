@@ -13,8 +13,8 @@ export default function CtaSection() {
 
         <Reveal direction="up" delay={0}>
           <h2
-            className="leading-none tracking-tighter mx-auto text-white"
-            style={{ fontSize: 'clamp(48px, 9vw, 120px)', maxWidth: '900px' }}
+            className="text-display-cta tracking-tighter mx-auto text-white"
+            style={{ maxWidth: '900px' }}
           >
             <span className="font-extralight">Tu próximo trámite </span>
             <span className="font-black font-display italic text-brand-blue">empieza aquí.</span>

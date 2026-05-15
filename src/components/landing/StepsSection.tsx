@@ -128,8 +128,7 @@ export default function StepsSection() {
                 <span className="text-xs text-white/50 font-bold tracking-widest uppercase">Cómo funciona</span>
               </div>
               <h2
-                className="tracking-tight leading-tight text-white"
-                style={{ fontSize: 'clamp(30px, 4vw, 52px)' }}
+                className="text-heading-lg tracking-tight text-white"
               >
                 <span className="font-black">De la operación a la firma </span>
                 <span className="block font-extralight text-white/55">en tres pasos.</span>

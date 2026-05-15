@@ -37,8 +37,7 @@ export default function PricingSection() {
           <div className="mb-20">
             <p className="text-xs font-black uppercase tracking-[0.2em] mb-4 text-white/45">Comisiones</p>
             <h2
-              className="font-black tracking-tighter leading-none text-white mb-4"
-              style={{ fontSize: 'clamp(56px, 9vw, 112px)' }}
+              className="font-black text-display-xl tracking-tighter text-white mb-4"
             >
               El Sistema.
             </h2>

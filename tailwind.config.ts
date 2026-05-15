@@ -89,6 +89,18 @@ const config: Config = {
         sans: ['var(--font-sans)', 'system-ui', 'sans-serif'],
         mono: ['var(--font-mono)', 'monospace'],
       },
+      fontSize: {
+        'display-hero': ['clamp(48px,7vw,96px)',    '0.93'],
+        'display-cta':  ['clamp(48px,9vw,120px)',   '1'],
+        'display-xl':   ['clamp(56px,9vw,112px)',   '1'],
+        'heading-2xl':  ['clamp(40px,5.5vw,72px)',  '1.05'],
+        'heading-xl':   ['clamp(32px,4.5vw,62px)',  '1.1'],
+        'heading-lg':   ['clamp(30px,4vw,52px)',    '1.1'],
+        'heading-md':   ['clamp(24px,3vw,40px)',    '1.2'],
+        'heading-sm':   ['clamp(20px,2.5vw,36px)',  '1.25'],
+        'body-xl':      ['clamp(18px,2vw,20px)',    '1.7'],
+        'body-lg':      ['clamp(16px,1.6vw,18px)',  '1.65'],
+      },
       keyframes: {
         'accordion-down': { from: { height: '0' }, to: { height: 'var(--radix-accordion-content-height)' } },
         'accordion-up': { from: { height: 'var(--radix-accordion-content-height)' }, to: { height: '0' } },
