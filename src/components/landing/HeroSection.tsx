@@ -1,4 +1,4 @@
-﻿import Link from 'next/link'
+import Link from 'next/link'
 
 const STEPS = [
   { label: 'Documentos cargados',       state: 'done'    },
@@ -86,7 +86,7 @@ export default function HeroSection() {
   return (
     <section
       className="relative overflow-hidden pt-[64px] flex items-center bg-brand-navy"
-      style={{ minHeight: '88vh' }}
+      style={{ minHeight: 'clamp(600px, 88vh, 100vh)' }}
     >
       <div
         className="absolute inset-0 pointer-events-none"
@@ -97,10 +97,11 @@ export default function HeroSection() {
         style={{ background: 'linear-gradient(to right, transparent, rgba(255,255,255,0.15), transparent)' }}
       />
 
-      <div className="max-w-screen-xl mx-auto px-6 md:px-10 py-20 w-full">
-        <div className="grid md:grid-cols-[1fr_340px] lg:grid-cols-[1fr_400px] gap-16 xl:gap-24 items-center">
+      <div className="max-w-screen-xl mx-auto px-6 md:px-10 py-12 md:py-20 w-full">
+        <div className="grid md:grid-cols-[1fr_340px] lg:grid-cols-[1fr_400px] gap-10 md:gap-16 xl:gap-24 items-center">
 
-          <div className="space-y-8">
+          {/* Text column */}
+          <div className="space-y-6 md:space-y-8">
             <div className="inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-full border bg-white/6 border-white/15">
               <span className="w-1.5 h-1.5 rounded-full shrink-0 bg-white/50" aria-hidden="true" />
               <span className="text-xs font-bold tracking-[0.18em] uppercase text-white/65">
@@ -108,9 +109,7 @@ export default function HeroSection() {
               </span>
             </div>
 
-            <h1
-              className="text-display-hero tracking-tighter text-white/95"
-            >
+            <h1 className="text-display-hero tracking-tighter text-white/95">
               <span className="block font-extralight">El trámite notarial</span>
               <span className="block font-extralight">de tu cliente,</span>
               <span className="block font-black font-display italic text-brand-gold-light">
@@ -120,17 +119,17 @@ export default function HeroSection() {
 
             <p
               className="leading-relaxed max-w-xl text-white/65"
-              style={{ fontSize: 'clamp(16px, 1.6vw, 18px)' }}
+              style={{ fontSize: 'clamp(15px, 1.6vw, 18px)' }}
             >
               Gestiona compraventas, poderes notariales e hipotecas en Lima desde tu celular.
               Sube los documentos, coordinamos con la notaría y avisamos cuándo firmar.{' '}
               <strong className="text-white/95 font-semibold">Gratis para brokers.</strong>
             </p>
 
-            <div className="flex flex-col sm:flex-row gap-4 pt-2">
+            <div className="flex flex-col sm:flex-row gap-3 pt-1">
               <Link
                 href="/register"
-                className="inline-flex items-center justify-center gap-2.5 px-8 py-4 text-brand-navy font-bold rounded-xl shadow-lg hover:brightness-110 active:scale-95 transition-all duration-200 bg-brand-gold"
+                className="inline-flex items-center justify-center gap-2.5 px-7 py-4 text-brand-navy font-bold rounded-xl shadow-lg hover:brightness-110 active:scale-95 transition-all duration-200 bg-brand-gold"
                 style={{ fontSize: '1rem' }}
               >
                 Crear mi cuenta gratis
@@ -140,14 +139,13 @@ export default function HeroSection() {
               </Link>
               <a
                 href="#como-funciona"
-                className="inline-flex items-center justify-center px-8 py-4 font-semibold rounded-xl border border-white/12 hover:bg-white/5 active:scale-95 transition-all duration-200 text-white/95"
-                style={{ fontSize: '1rem' }}
+                className="inline-flex items-center justify-center px-7 py-4 font-semibold rounded-xl border border-white/12 hover:bg-white/5 active:scale-95 transition-all duration-200 text-white/80 text-sm"
               >
                 Ver cómo funciona
               </a>
             </div>
 
-            <div className="flex flex-wrap gap-6">
+            <div className="flex flex-wrap gap-5">
               {['Sin tarjeta requerida', 'Gratis para brokers', 'Activo en Lima'].map(item => (
                 <span key={item} className="flex items-center gap-1.5 text-sm font-medium text-white/45">
                   <svg aria-hidden="true" width="13" height="13" viewBox="0 0 24 24" fill="none" className="text-brand-success">
@@ -157,9 +155,29 @@ export default function HeroSection() {
                 </span>
               ))}
             </div>
+
+            {/* Mobile-only: compact proof chip instead of full TramiteCard */}
+            <div className="md:hidden flex items-center gap-3 rounded-xl px-4 py-3 border border-white/10" style={{ background: 'rgba(255,255,255,0.05)' }}>
+              <div className="w-8 h-8 rounded-lg flex items-center justify-center shrink-0" style={{ background: 'rgba(40,85,224,0.25)' }}>
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                  <path d="M5 13l4 4L19 7" stroke="rgba(150,185,255,0.9)" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+              </div>
+              <div className="flex-1 min-w-0">
+                <p className="text-xs font-bold text-white/90 leading-tight">Compraventa García-Flores</p>
+                <p className="text-[11px] text-white/45 mt-0.5">Notaría Central Lima · 2 h</p>
+              </div>
+              <span
+                className="shrink-0 text-[10px] font-black uppercase tracking-widest px-2 py-1 rounded-full"
+                style={{ background: 'rgba(40,85,224,0.25)', color: 'rgba(150,185,255,0.9)' }}
+              >
+                En firma
+              </span>
+            </div>
           </div>
 
-          <div>
+          {/* TramiteCard — desktop only */}
+          <div className="hidden md:block">
             <TramiteCard />
           </div>
 

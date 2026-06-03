@@ -1,4 +1,4 @@
-﻿import Link from 'next/link'
+import Link from 'next/link'
 import { Logo } from '@/components/ui/Logo'
 
 const COLS = [
@@ -7,6 +7,7 @@ const COLS = [
     links: [
       ['Cómo funciona', '#como-funciona'],
       ['Precios',        '#precios'],
+      ['Price Match',    '#pricematch'],
       ['Registrarme',    '/register'],
     ],
   },
@@ -17,23 +18,16 @@ const COLS = [
       ['Términos',   '/terminos'],
     ],
   },
-  {
-    heading: 'Acceso',
-    links: [
-      ['Ingresar',      '/login'],
-      ['Crear cuenta',  '/register'],
-    ],
-  },
 ]
 
 export default function LandingFooter() {
   return (
     <footer className="w-full border-t border-white/6 bg-brand-navy-deep">
-      <div className="max-w-screen-xl mx-auto px-6 md:px-10 py-16 grid grid-cols-1 md:grid-cols-4 gap-12">
+      <div className="max-w-screen-xl mx-auto px-6 md:px-10 py-14 md:py-16 grid grid-cols-1 md:grid-cols-3 gap-10 md:gap-12">
 
-        <div className="space-y-5">
+        <div className="space-y-5 md:col-span-1">
           <Logo variant="light" size="md" href="/" />
-          <p className="text-sm leading-relaxed text-white/65">
+          <p className="text-sm leading-relaxed text-white/65 max-w-xs">
             Infraestructura digital para transacciones notariales en Lima. Gratis para brokers.
           </p>
           <div className="inline-flex items-center gap-2 px-3 py-2 rounded-lg border text-sm font-semibold bg-brand-blue/8 border-white/15 text-white/65">
@@ -62,12 +56,21 @@ export default function LandingFooter() {
             </div>
           </div>
         ))}
+
       </div>
 
-      <div className="max-w-screen-xl mx-auto px-6 md:px-10 py-8 border-t border-white/6 flex flex-col md:flex-row justify-between items-center gap-4">
+      <div className="max-w-screen-xl mx-auto px-6 md:px-10 py-6 border-t border-white/6 flex flex-col md:flex-row justify-between items-center gap-4">
         <p className="text-xs font-medium text-white/65">
           © 2026 Tu Cierre · Plataforma notarial para brokers inmobiliarios en Perú
         </p>
+        <div className="flex items-center gap-5">
+          <Link href="/login" className="text-xs font-semibold text-white/45 hover:text-white transition-colors">
+            Ingresar
+          </Link>
+          <Link href="/register" className="text-xs font-semibold text-white/65 hover:text-white transition-colors">
+            Crear cuenta
+          </Link>
+        </div>
       </div>
     </footer>
   )

@@ -9,7 +9,7 @@ const navItems = [
   { href: '/dashboard', label: 'Inicio', icon: LayoutDashboard },
   { href: '/tramites', label: 'Trámites', icon: FileText },
   { href: '/cotizar', label: 'Cotizar', icon: Calculator, primary: true },
-  { href: '/price-match', label: 'P. Match', icon: ArrowLeftRight },
+  { href: '/price-match', label: 'Comparar', icon: ArrowLeftRight },
   { href: '/perfil', label: 'Perfil', icon: User },
 ]
 
@@ -36,7 +36,7 @@ export default function BottomNav() {
                 >
                   <item.icon size={20} className="text-white" />
                 </div>
-                <span className="text-[10px] font-medium text-navy-400 mt-1">{item.label}</span>
+                <span className="text-[11px] font-medium text-navy-400 mt-1">{item.label}</span>
               </Link>
             )
           }
@@ -52,9 +52,9 @@ export default function BottomNav() {
               )}
             >
               <item.icon size={18} style={isActive ? { color: '#2c4dfb' } : {}} />
-              <span className="text-[10px] font-medium" style={isActive ? { color: '#2c4dfb' } : {}}>{item.label}</span>
+              <span className="text-[11px] font-medium" style={isActive ? { color: '#2c4dfb' } : {}}>{item.label}</span>
               {isActive && (
-                <div className="absolute bottom-1.5 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full" style={{ background: '#2c4dfb' }} />
+                <div className="absolute bottom-1.5 left-1/2 -translate-x-1/2 w-4 h-0.5 rounded-full" style={{ background: '#2c4dfb' }} />
               )}
             </Link>
           )
