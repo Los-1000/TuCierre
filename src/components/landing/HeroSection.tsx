@@ -102,12 +102,7 @@ export default function HeroSection() {
 
           {/* Text column */}
           <div className="space-y-6 md:space-y-8">
-            <div className="inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-full border bg-white/6 border-white/15">
-              <span className="w-1.5 h-1.5 rounded-full shrink-0 bg-white/50" aria-hidden="true" />
-              <span className="text-xs font-bold tracking-[0.18em] uppercase text-white/65">
-                Plataforma Notarial · Lima, Perú
-              </span>
-            </div>
+            <p className="text-xs font-black tracking-[0.3em] uppercase text-white/30">2026</p>
 
             <h1 className="text-display-hero tracking-tighter text-white/95">
               <span className="block font-extralight">El trámite notarial</span>
