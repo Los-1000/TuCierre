@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TuCierre — Dashboard</title>
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { font-family:'Inter',-apple-system,sans-serif; background:#f4f6fb; color:#0f1d3d; font-size:13px; height:100vh; display:flex; flex-direction:column; }
+
+  /* LAYOUT */
+  .app { display:flex; height:100vh; overflow:hidden; }
+
+  /* SIDEBAR */
+  .sidebar {
+    width:220px; min-width:220px;
+    background:white; border-right:1px solid #e1e7f3;
+    display:flex; flex-direction:column;
+    padding:0;
+  }
+  .sidebar-logo {
+    padding:18px 20px 16px;
+    border-bottom:1px solid #e1e7f3;
+    display:flex; align-items:center; gap:10px;
+  }
+  .logo-mark {
+    width:30px; height:30px; background:#0f1d3d; border-radius:7px;
+    display:flex; align-items:center; justify-content:center;
+    font-weight:800; color:#4D78FF; font-size:14px; flex-shrink:0;
+  }
+  .logo-name { font-weight:700; font-size:14px; color:#0f1d3d; letter-spacing:-0.3px; }
+  .sidebar-nav { padding:12px 10px; flex:1; overflow-y:auto; }
+  .nav-section-label {
+    font-size:10px; font-weight:700; text-transform:uppercase;
+    letter-spacing:0.8px; color:#97aed4; padding:8px 10px 4px;
+  }
+  .nav-item {
+    display:flex; align-items:center; gap:9px;
+    padding:7px 10px; border-radius:6px; cursor:pointer;
+    color:#6b8bbf; font-size:12.5px; font-weight:500;
+    margin-bottom:1px; text-decoration:none;
+    transition:all 100ms;
+  }
+  .nav-item:hover { background:#f0f3f9; color:#0f1d3d; }
+  .nav-item.active {
+    background:#eff2ff; color:#2c4dfb;
+    border:1px solid #dbe3fe; font-weight:600;
+  }
+  .nav-icon { width:15px; height:15px; opacity:0.7; flex-shrink:0; }
+  .nav-item.active .nav-icon { opacity:1; }
+  .nav-badge {
+    margin-left:auto; background:#f0f3f9; color:#97aed4;
+    font-size:10px; font-weight:600; padding:1px 6px; border-radius:4px;
+  }
+  .nav-item.active .nav-badge { background:#dbe3fe; color:#2c4dfb; }
+  .sidebar-user {
+    padding:14px 14px; border-top:1px solid #e1e7f3;
+    display:flex; align-items:center; gap:10px;
+  }
+  .avatar {
+    width:32px; height:32px; background:#e1e7f3; border-radius:50%;
+    display:flex; align-items:center; justify-content:center;
+    font-weight:700; font-size:12px; color:#4a6da8; flex-shrink:0;
+  }
+  .user-name { font-size:12px; font-weight:600; color:#0f1d3d; }
+  .user-tier {
+    display:inline-block; background:#fdf8ee; border:1px solid #f5e2b3;
+    color:#b2832e; font-size:9px; font-weight:700;
+    padding:1px 6px; border-radius:10px; text-transform:uppercase;
+  }
+
+  /* MAIN */
+  .main { flex:1; display:flex; flex-direction:column; overflow:hidden; }
+
+  /* TOPBAR */
+  .topbar {
+    background:white; border-bottom:1px solid #e1e7f3;
+    padding:0 28px; height:56px;
+    display:flex; align-items:center; justify-content:space-between;
+    flex-shrink:0;
+  }
+  .topbar-title { font-size:14px; font-weight:700; color:#0f1d3d; }
+  .topbar-sub { font-size:12px; color:#97aed4; margin-top:1px; }
+  .topbar-actions { display:flex; align-items:center; gap:8px; }
+  .btn-primary {
+    background:#0f1d3d; color:white;
+    padding:7px 16px; border-radius:6px;
+    font-size:12px; font-weight:600; border:none; cursor:pointer;
+    display:flex; align-items:center; gap:5px;
+  }
+  .btn-outline {
+    background:white; color:#2a4472; border:1px solid #e1e7f3;
+    padding:7px 14px; border-radius:6px;
+    font-size:12px; font-weight:500; cursor:pointer;
+  }
+
+  /* CONTENT */
+  .content { flex:1; overflow-y:auto; padding:24px 28px; }
+
+  /* STATS */
+  .stats-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:12px; margin-bottom:20px; }
+  .stat-card {
+    background:white; border:1px solid #e1e7f3; border-radius:10px; padding:16px;
+  }
+  .stat-label { font-size:10px; font-weight:600; text-transform:uppercase; letter-spacing:0.6px; color:#97aed4; margin-bottom:6px; }
+  .stat-value { font-size:24px; font-weight:800; color:#0f1d3d; letter-spacing:-0.5px; }
+  .stat-sub { font-size:11px; color:#4a6da8; margin-top:3px; }
+  .stat-change-up { color:#059669; font-weight:600; }
+  .stat-change-warn { color:#d97706; font-weight:600; }
+
+  /* TIER PROGRESS */
+  .tier-bar-wrap { margin-top:10px; }
+  .tier-bar-bg { height:4px; background:#e1e7f3; border-radius:2px; margin-top:6px; }
+  .tier-bar-fill { height:100%; background:#d4a23c; border-radius:2px; width:62%; }
+  .tier-bar-label { display:flex; justify-content:space-between; font-size:10px; color:#97aed4; margin-top:3px; }
+
+  /* TWO COL */
+  .two-col { display:grid; grid-template-columns:1fr 320px; gap:16px; }
+
+  /* TABLE CARD */
+  .card { background:white; border:1px solid #e1e7f3; border-radius:10px; overflow:hidden; }
+  .card-header {
+    padding:14px 18px; border-bottom:1px solid #e1e7f3;
+    display:flex; align-items:center; justify-content:space-between;
+  }
+  .card-title { font-size:13px; font-weight:700; color:#0f1d3d; }
+  .card-action { font-size:11px; color:#2c4dfb; font-weight:600; cursor:pointer; }
+  table { width:100%; border-collapse:collapse; }
+  thead th {
+    text-align:left; padding:8px 14px;
+    font-size:10px; text-transform:uppercase; letter-spacing:0.7px; color:#97aed4;
+    background:#f0f3f9; border-bottom:1px solid #e1e7f3;
+  }
+  tbody td { padding:10px 14px; border-bottom:1px solid #f0f3f9; color:#2a4472; font-size:12px; }
+  tbody tr:last-child td { border-bottom:none; }
+  tbody tr:hover td { background:#f8f9fd; }
+  .ref-code { font-weight:700; color:#0f1d3d; font-size:11px; font-family:monospace; }
+  .status-pill {
+    display:inline-flex; align-items:center; gap:5px;
+    font-size:10px; font-weight:600; padding:2px 8px;
+    border-radius:20px;
+  }
+  .pill-blue { background:#eff2ff; color:#2c4dfb; border:1px solid #dbe3fe; }
+  .pill-green { background:#ecfdf5; color:#059669; border:1px solid #a7f3d0; }
+  .pill-amber { background:#fffbeb; color:#d97706; border:1px solid #fde68a; }
+  .pill-gray { background:#f3f4f6; color:#6b7280; border:1px solid #e5e7eb; }
+  .dot { width:5px; height:5px; border-radius:50%; display:inline-block; }
+  .dot-blue { background:#2c4dfb; }
+  .dot-green { background:#059669; }
+  .dot-amber { background:#d97706; }
+  .dot-gray { background:#9ca3af; }
+
+  /* RIGHT COLUMN */
+  .right-col { display:flex; flex-direction:column; gap:12px; }
+
+  /* TIER CARD */
+  .tier-summary { background:white; border:1px solid #e1e7f3; border-radius:10px; padding:18px; }
+  .tier-header { display:flex; align-items:center; justify-content:space-between; margin-bottom:14px; }
+  .tier-badge-oro {
+    background:#fdf8ee; border:1px solid #f5e2b3;
+    color:#b2832e; font-size:10px; font-weight:800;
+    padding:3px 10px; border-radius:20px; text-transform:uppercase; letter-spacing:0.5px;
+  }
+  .tier-progress-label { font-size:11px; color:#4a6da8; margin-bottom:6px; }
+  .progress-bar { height:6px; background:#f0f3f9; border-radius:3px; }
+  .progress-fill { height:100%; background:linear-gradient(90deg,#d4a23c,#F0AA20); border-radius:3px; width:75%; }
+  .tier-stats { display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-top:14px; }
+  .tier-stat { background:#f4f6fb; border-radius:8px; padding:10px; }
+  .tier-stat-label { font-size:9px; text-transform:uppercase; letter-spacing:0.5px; color:#97aed4; margin-bottom:3px; }
+  .tier-stat-value { font-size:16px; font-weight:800; color:#0f1d3d; }
+
+  /* QUICK ACTIONS */
+  .quick-actions { background:white; border:1px solid #e1e7f3; border-radius:10px; padding:18px; }
+  .qa-title { font-size:12px; font-weight:700; color:#0f1d3d; margin-bottom:12px; }
+  .qa-btn {
+    display:flex; align-items:center; gap:10px;
+    padding:9px 12px; border-radius:7px;
+    border:1px solid #e1e7f3; background:white;
+    cursor:pointer; margin-bottom:6px; width:100%;
+    font-size:12px; font-weight:500; color:#2a4472;
+  }
+  .qa-btn:hover { background:#f4f6fb; border-color:#c3cfe7; }
+  .qa-btn:first-of-type { background:#0f1d3d; color:white; border-color:#0f1d3d; }
+  .qa-btn:first-of-type:hover { background:#1e3460; }
+  .qa-icon { width:28px; height:28px; border-radius:6px; background:#f0f3f9; display:flex; align-items:center; justify-content:center; font-size:13px; flex-shrink:0; }
+  .qa-btn:first-of-type .qa-icon { background:rgba(255,255,255,0.15); }
+
+  /* COMMISSION */
+  .commission-card {
+    background:white; border:1px solid #e1e7f3; border-radius:10px; padding:18px;
+  }
+  .commission-amount { font-size:26px; font-weight:800; color:#0f1d3d; letter-spacing:-0.5px; }
+  .commission-label { font-size:10px; text-transform:uppercase; letter-spacing:0.6px; color:#97aed4; margin-bottom:4px; }
+  .commission-change { font-size:11px; color:#059669; font-weight:600; margin-top:4px; }
+</style>
+</head>
+<body>
+<div class="app">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="sidebar-logo">
+      <div class="logo-mark">T</div>
+      <span class="logo-name">TuCierre</span>
+    </div>
+    <nav class="sidebar-nav">
+      <div class="nav-section-label">Principal</div>
+      <a class="nav-item active" href="#">
+        <svg class="nav-icon" fill="none" viewBox="0 0 16 16" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="5" height="5" rx="1"/><rect x="9" y="2" width="5" height="5" rx="1"/><rect x="2" y="9" width="5" height="5" rx="1"/><rect x="9" y="9" width="5" height="5" rx="1"/></svg>
+        Dashboard
+      </a>
+      <div class="nav-section-label">Trámites</div>
+      <a class="nav-item" href="#">
+        <svg class="nav-icon" fill="none" viewBox="0 0 16 16" stroke="currentColor" stroke-width="1.5"><path d="M3 4h10M3 8h10M3 12h6"/></svg>
+        Mis trámites
+        <span class="nav-badge">12</span>
+      </a>
+      <a class="nav-item" href="#">
+        <svg class="nav-icon" fill="none" viewBox="0 0 16 16" stroke="currentColor" stroke-width="1.5"><circle cx="8" cy="8" r="5"/><path d="M8 5v3l2 1"/></svg>
+        Cotizar
+      </a>
+      <a class="nav-item" href="#">
+        <svg class="nav-icon" fill="none" viewBox="0 0 16 16" stroke="currentColor" stroke-width="1.5"><path d="M8 2l1.5 3 3.5.5-2.5 2.5.5 3.5L8 10 5 12l.5-3.5L3 6l3.5-.5z"/></svg>
+        Price Match
+      </a>
+      <div class="nav-section-label">Cuenta</div>
+      <a class="nav-item" href="#">
+        <svg class="nav-icon" fill="none" viewBox="0 0 16 16" stroke="currentColor" stroke-width="1.5"><circle cx="8" cy="5" r="3"/><path d="M2 14c0-3 2.7-5 6-5s6 2 6 5"/></svg>
+        Perfil
+      </a>
+      <a class="nav-item" href="#">
+        <svg class="nav-icon" fill="none" viewBox="0 0 16 16" stroke="currentColor" stroke-width="1.5"><circle cx="8" cy="8" r="5"/><path d="M8 5v3"/><circle cx="8" cy="11" r="0.5" fill="currentColor"/></svg>
+        Referidos
+      </a>
+    </nav>
+    <div class="sidebar-user">
+      <div class="avatar">CF</div>
+      <div>
+        <div class="user-name">Carlos Flores</div>
+        <span class="user-tier">Oro</span>
+      </div>
+    </div>
+  </aside>
+
+  <!-- MAIN -->
+  <div class="main">
+    <div class="topbar">
+      <div>
+        <div class="topbar-title">Buenos días, Carlos</div>
+        <div class="topbar-sub">Lunes 2 de junio · Lima, Perú</div>
+      </div>
+      <div class="topbar-actions">
+        <button class="btn-outline">Mis referidos</button>
+        <button class="btn-primary">+ Nuevo trámite</button>
+      </div>
+    </div>
+
+    <div class="content">
+      <!-- STATS -->
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-label">Trámites activos</div>
+          <div class="stat-value">12</div>
+          <div class="stat-sub"><span class="stat-change-up">↑ 3</span> esta semana</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Completados (mes)</div>
+          <div class="stat-value">8</div>
+          <div class="stat-sub"><span class="stat-change-up">↑ 2</span> vs mes anterior</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Total gestionado</div>
+          <div class="stat-value" style="font-size:19px;">S/ 2.4M</div>
+          <div class="stat-sub">en valor de propiedades</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Ahorro acumulado</div>
+          <div class="stat-value" style="font-size:19px; color:#059669;">S/ 840</div>
+          <div class="stat-sub">con tier <span style="color:#b2832e;font-weight:700;">Oro</span></div>
+        </div>
+      </div>
+
+      <!-- TWO COLUMNS -->
+      <div class="two-col">
+        <!-- LEFT: TABLE -->
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title">Trámites recientes</span>
+            <span class="card-action">Ver todos →</span>
+          </div>
+          <table>
+            <thead>
+              <tr>
+                <th>Referencia</th>
+                <th>Tipo</th>
+                <th>Notaría</th>
+                <th>Estado</th>
+                <th>Monto</th>
+                <th>Fecha</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><span class="ref-code">TC-2024-012</span></td>
+                <td>Compraventa</td>
+                <td>Notaría Paino</td>
+                <td><span class="status-pill pill-blue"><span class="dot dot-blue"></span>En proceso</span></td>
+                <td style="font-weight:600;">S/ 1,200</td>
+                <td style="color:#97aed4;">Hoy</td>
+              </tr>
+              <tr>
+                <td><span class="ref-code">TC-2024-011</span></td>
+                <td>Arrendamiento</td>
+                <td>Notaría Lamas</td>
+                <td><span class="status-pill pill-amber"><span class="dot dot-amber"></span>En revisión</span></td>
+                <td style="font-weight:600;">S/ 480</td>
+                <td style="color:#97aed4;">Ayer</td>
+              </tr>
+              <tr>
+                <td><span class="ref-code">TC-2024-010</span></td>
+                <td>Compraventa</td>
+                <td>Notaría Paino</td>
+                <td><span class="status-pill pill-green"><span class="dot dot-green"></span>Completado</span></td>
+                <td style="font-weight:600;">S/ 1,200</td>
+                <td style="color:#97aed4;">28 may</td>
+              </tr>
+              <tr>
+                <td><span class="ref-code">TC-2024-009</span></td>
+                <td>Poder notarial</td>
+                <td>Notaría Lamas</td>
+                <td><span class="status-pill pill-blue"><span class="dot dot-blue"></span>En firma</span></td>
+                <td style="font-weight:600;">S/ 220</td>
+                <td style="color:#97aed4;">27 may</td>
+              </tr>
+              <tr>
+                <td><span class="ref-code">TC-2024-008</span></td>
+                <td>Hipoteca</td>
+                <td>Notaría Paino</td>
+                <td><span class="status-pill pill-gray"><span class="dot dot-gray"></span>Cotizado</span></td>
+                <td style="font-weight:600;">S/ 950</td>
+                <td style="color:#97aed4;">25 may</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- RIGHT COL -->
+        <div class="right-col">
+          <!-- TIER -->
+          <div class="tier-summary">
+            <div class="tier-header">
+              <div>
+                <div style="font-size:11px;font-weight:700;color:#0f1d3d;">Tu tier</div>
+                <div style="font-size:10px;color:#97aed4;margin-top:1px;">actualizado automáticamente</div>
+              </div>
+              <span class="tier-badge-oro">✦ Oro</span>
+            </div>
+            <div class="tier-progress-label">8 trámites completados este mes</div>
+            <div class="progress-bar"><div class="progress-fill"></div></div>
+            <div style="display:flex;justify-content:space-between;font-size:10px;color:#97aed4;margin-top:4px;">
+              <span>Oro (8+)</span>
+              <span>Mantener nivel</span>
+            </div>
+            <div class="tier-stats">
+              <div class="tier-stat">
+                <div class="tier-stat-label">Descuento</div>
+                <div class="tier-stat-value" style="color:#b2832e;">15%</div>
+              </div>
+              <div class="tier-stat">
+                <div class="tier-stat-label">Ahorro mes</div>
+                <div class="tier-stat-value" style="color:#059669;font-size:14px;">S/420</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- COMMISSION -->
+          <div class="commission-card">
+            <div class="commission-label">Comisión este mes</div>
+            <div class="commission-amount">S/ 4,200</div>
+            <div class="commission-change">↑ 18% vs mes anterior</div>
+          </div>
+
+          <!-- QUICK ACTIONS -->
+          <div class="quick-actions">
+            <div class="qa-title">Acciones rápidas</div>
+            <button class="qa-btn">
+              <div class="qa-icon">+</div>
+              Nuevo trámite
+            </button>
+            <button class="qa-btn">
+              <div class="qa-icon">💬</div>
+              Mis chats activos
+            </button>
+            <button class="qa-btn">
+              <div class="qa-icon">🤝</div>
+              Solicitar price match
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TuCierre — Detalle Trámite</title>
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { font-family:'Inter',-apple-system,sans-serif; background:#f4f6fb; color:#0f1d3d; font-size:13px; height:100vh; display:flex; }
+
+  .sidebar { width:220px;min-width:220px;background:white;border-right:1px solid #e1e7f3;display:flex;flex-direction:column; }
+  .sidebar-logo { padding:18px 20px 16px;border-bottom:1px solid #e1e7f3;display:flex;align-items:center;gap:10px; }
+  .logo-mark { width:30px;height:30px;background:#0f1d3d;border-radius:7px;display:flex;align-items:center;justify-content:center;font-weight:800;color:#4D78FF;font-size:14px;flex-shrink:0; }
+  .logo-name { font-weight:700;font-size:14px;color:#0f1d3d; }
+  .sidebar-nav { padding:12px 10px;flex:1; }
+  .nav-section-label { font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.8px;color:#97aed4;padding:8px 10px 4px; }
+  .nav-item { display:flex;align-items:center;gap:9px;padding:7px 10px;border-radius:6px;color:#6b8bbf;font-size:12.5px;font-weight:500;margin-bottom:1px; }
+  .nav-item.active { background:#eff2ff;color:#2c4dfb;border:1px solid #dbe3fe;font-weight:600; }
+  .nav-badge { margin-left:auto;background:#dbe3fe;color:#2c4dfb;font-size:10px;font-weight:600;padding:1px 6px;border-radius:4px; }
+  .sidebar-user { padding:14px;border-top:1px solid #e1e7f3;display:flex;align-items:center;gap:10px; }
+  .avatar { width:32px;height:32px;background:#e1e7f3;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:12px;color:#4a6da8; }
+  .user-tier { display:inline-block;background:#fdf8ee;border:1px solid #f5e2b3;color:#b2832e;font-size:9px;font-weight:700;padding:1px 6px;border-radius:10px;text-transform:uppercase; }
+
+  .main { flex:1;display:flex;flex-direction:column;overflow:hidden; }
+  .topbar { background:white;border-bottom:1px solid #e1e7f3;padding:0 28px;height:56px;display:flex;align-items:center;justify-content:space-between; }
+  .breadcrumb { font-size:12px;color:#97aed4; }
+  .breadcrumb span { color:#0f1d3d;font-weight:600; }
+  .topbar-actions { display:flex;gap:8px; }
+  .btn-outline { background:white;color:#2a4472;border:1px solid #e1e7f3;padding:7px 14px;border-radius:6px;font-size:12px;font-weight:500;cursor:pointer; }
+  .btn-danger { background:white;color:#dc2626;border:1px solid #fecaca;padding:7px 14px;border-radius:6px;font-size:12px;font-weight:500;cursor:pointer; }
+
+  .content { flex:1;overflow-y:auto;padding:24px 28px; }
+  .page-header { display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:20px; }
+  .page-title { font-size:18px;font-weight:800;color:#0f1d3d;letter-spacing:-0.3px;margin-bottom:4px; }
+
+  .status-pill { display:inline-flex;align-items:center;gap:5px;font-size:11px;font-weight:600;padding:3px 10px;border-radius:20px; }
+  .pill-blue { background:#eff2ff;color:#2c4dfb;border:1px solid #dbe3fe; }
+  .pill-green { background:#ecfdf5;color:#059669;border:1px solid #a7f3d0; }
+  .pill-amber { background:#fffbeb;color:#d97706;border:1px solid #fde68a; }
+  .dot { width:6px;height:6px;border-radius:50%;display:inline-block; }
+  .dot-blue { background:#2c4dfb; }
+  .dot-amber { background:#d97706; }
+
+  .main-grid { display:grid;grid-template-columns:1fr 340px;gap:16px; }
+  .left-col { display:flex;flex-direction:column;gap:14px; }
+  .right-col { display:flex;flex-direction:column;gap:14px; }
+
+  .card { background:white;border:1px solid #e1e7f3;border-radius:10px;overflow:hidden; }
+  .card-header { padding:14px 18px;border-bottom:1px solid #e1e7f3;display:flex;align-items:center;justify-content:space-between; }
+  .card-title { font-size:13px;font-weight:700;color:#0f1d3d; }
+  .card-body { padding:18px; }
+
+  /* INFO GRID */
+  .info-grid { display:grid;grid-template-columns:1fr 1fr;gap:14px; }
+  .info-item {}
+  .info-label { font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:0.6px;color:#97aed4;margin-bottom:4px; }
+  .info-value { font-size:13px;font-weight:600;color:#0f1d3d; }
+  .info-value.mono { font-family:monospace;font-size:12px; }
+
+  /* TIMELINE */
+  .timeline { padding:4px 0; }
+  .timeline-item { display:flex;gap:14px;margin-bottom:16px;position:relative; }
+  .timeline-item:last-child { margin-bottom:0; }
+  .timeline-left { display:flex;flex-direction:column;align-items:center;width:24px;flex-shrink:0; }
+  .tl-dot { width:10px;height:10px;border-radius:50%;flex-shrink:0;margin-top:3px; }
+  .tl-dot.done { background:#0f1d3d; }
+  .tl-dot.active { background:#2c4dfb;box-shadow:0 0 0 3px #dbe3fe; }
+  .tl-dot.pending { background:#e1e7f3;border:2px solid #c3cfe7; }
+  .tl-line { width:1px;background:#e1e7f3;flex:1;margin-top:4px; }
+  .tl-label { font-size:12px;font-weight:600;color:#0f1d3d;margin-bottom:2px; }
+  .tl-label.pending-label { color:#97aed4; }
+  .tl-date { font-size:10px;color:#97aed4; }
+  .tl-badge { display:inline-flex;align-items:center;gap:4px;background:#eff2ff;color:#2c4dfb;border:1px solid #dbe3fe;border-radius:20px;padding:1px 7px;font-size:10px;font-weight:600;margin-top:3px; }
+
+  /* DOCUMENTS */
+  .doc-item { display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid #f0f3f9; }
+  .doc-item:last-child { border-bottom:none; }
+  .doc-icon { width:32px;height:32px;background:#f0f3f9;border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0; }
+  .doc-name { font-size:12px;font-weight:600;color:#0f1d3d; }
+  .doc-desc { font-size:11px;color:#97aed4;margin-top:1px; }
+  .doc-status { margin-left:auto;font-size:10px;font-weight:600; }
+  .doc-status.pending { color:#d97706; }
+  .doc-status.uploaded { color:#2c4dfb; }
+  .doc-status.approved { color:#059669; }
+
+  /* CHAT */
+  .chat-body { padding:14px 18px;display:flex;flex-direction:column;gap:10px; }
+  .msg { max-width:80%; }
+  .msg.notaria { align-self:flex-start; }
+  .msg.broker { align-self:flex-end; }
+  .msg-bubble {
+    padding:9px 13px;border-radius:10px;font-size:12px;line-height:1.5;
+  }
+  .msg.notaria .msg-bubble { background:#f0f3f9;color:#2a4472;border-bottom-left-radius:3px; }
+  .msg.broker .msg-bubble { background:#0f1d3d;color:white;border-bottom-right-radius:3px; }
+  .msg-time { font-size:10px;color:#97aed4;margin-top:3px; }
+  .msg.broker .msg-time { text-align:right; }
+  .chat-input-row { padding:10px 14px;border-top:1px solid #e1e7f3;display:flex;gap:8px; }
+  .chat-input { flex:1;height:36px;border:1px solid #c3cfe7;border-radius:7px;padding:0 12px;font-size:12px;color:#0f1d3d;background:#f4f6fb;outline:none;font-family:inherit; }
+  .chat-send { background:#0f1d3d;color:white;border:none;border-radius:7px;padding:0 14px;font-size:12px;font-weight:600;cursor:pointer; }
+
+  /* PRICE CARD */
+  .price-card { background:white;border:1px solid #e1e7f3;border-radius:10px;padding:18px; }
+  .price-main { font-size:28px;font-weight:800;color:#0f1d3d;letter-spacing:-0.5px; }
+  .price-label { font-size:10px;text-transform:uppercase;letter-spacing:0.6px;color:#97aed4;margin-bottom:6px; }
+  .price-breakdown { margin-top:14px;border-top:1px solid #e1e7f3;padding-top:14px; }
+  .price-row { display:flex;justify-content:space-between;margin-bottom:7px;font-size:12px; }
+  .price-key { color:#4a6da8; }
+  .price-val { font-weight:600;color:#0f1d3d; }
+  .price-val.green { color:#059669; }
+
+  .notaria-card { background:white;border:1px solid #e1e7f3;border-radius:10px;padding:18px; }
+  .notaria-name { font-size:13px;font-weight:700;color:#0f1d3d;margin-bottom:3px; }
+  .notaria-addr { font-size:11px;color:#97aed4; }
+</style>
+</head>
+<body>
+  <aside class="sidebar">
+    <div class="sidebar-logo">
+      <div class="logo-mark">T</div>
+      <span class="logo-name">TuCierre</span>
+    </div>
+    <nav class="sidebar-nav">
+      <div class="nav-section-label">Principal</div>
+      <div class="nav-item">Dashboard</div>
+      <div class="nav-section-label">Trámites</div>
+      <div class="nav-item active">Mis trámites <span class="nav-badge">12</span></div>
+      <div class="nav-item">Cotizar</div>
+      <div class="nav-item">Price Match</div>
+      <div class="nav-section-label">Cuenta</div>
+      <div class="nav-item">Perfil</div>
+      <div class="nav-item">Referidos</div>
+    </nav>
+    <div class="sidebar-user">
+      <div class="avatar">CF</div>
+      <div>
+        <div style="font-size:12px;font-weight:600;color:#0f1d3d;">Carlos Flores</div>
+        <span class="user-tier">Oro</span>
+      </div>
+    </div>
+  </aside>
+
+  <div class="main">
+    <div class="topbar">
+      <div class="breadcrumb">Mis trámites → <span>TC-2024-012</span></div>
+      <div class="topbar-actions">
+        <button class="btn-outline">Solicitar price match</button>
+        <button class="btn-danger">Cancelar trámite</button>
+      </div>
+    </div>
+
+    <div class="content">
+      <div class="page-header">
+        <div>
+          <div class="page-title">TC-2024-012 · Compraventa</div>
+          <div style="font-size:12px;color:#97aed4;margin-top:3px;">Creado el 2 de junio de 2024</div>
+        </div>
+        <span class="status-pill pill-blue"><span class="dot dot-blue"></span> En proceso</span>
+      </div>
+
+      <div class="main-grid">
+        <!-- LEFT -->
+        <div class="left-col">
+
+          <!-- INFO -->
+          <div class="card">
+            <div class="card-header">
+              <span class="card-title">Información del trámite</span>
+            </div>
+            <div class="card-body">
+              <div class="info-grid">
+                <div class="info-item">
+                  <div class="info-label">Referencia</div>
+                  <div class="info-value mono">TC-2024-012</div>
+                </div>
+                <div class="info-item">
+                  <div class="info-label">Tipo</div>
+                  <div class="info-value">Compraventa</div>
+                </div>
+                <div class="info-item">
+                  <div class="info-label">Dirección del inmueble</div>
+                  <div class="info-value">Av. Javier Prado 1240</div>
+                </div>
+                <div class="info-item">
+                  <div class="info-label">Distrito</div>
+                  <div class="info-value">San Isidro</div>
+                </div>
+                <div class="info-item">
+                  <div class="info-label">Valor del bien</div>
+                  <div class="info-value">S/ 320,000</div>
+                </div>
+                <div class="info-item">
+                  <div class="info-label">Notaría</div>
+                  <div class="info-value">Notaría Paino</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- DOCUMENTS -->
+          <div class="card">
+            <div class="card-header">
+              <span class="card-title">Documentos requeridos</span>
+              <span style="font-size:11px;color:#d97706;font-weight:600;">2 pendientes</span>
+            </div>
+            <div class="card-body" style="padding:14px 18px;">
+              <div class="doc-item">
+                <div class="doc-icon">📄</div>
+                <div>
+                  <div class="doc-name">DNI del vendedor</div>
+                  <div class="doc-desc">Copia simple ambos lados</div>
+                </div>
+                <span class="doc-status approved">✓ Aprobado</span>
+              </div>
+              <div class="doc-item">
+                <div class="doc-icon">📄</div>
+                <div>
+                  <div class="doc-name">DNI del comprador</div>
+                  <div class="doc-desc">Copia simple ambos lados</div>
+                </div>
+                <span class="doc-status approved">✓ Aprobado</span>
+              </div>
+              <div class="doc-item">
+                <div class="doc-icon">🏠</div>
+                <div>
+                  <div class="doc-name">Partida registral SUNARP</div>
+                  <div class="doc-desc">Copia literal actualizada</div>
+                </div>
+                <span class="doc-status uploaded">↑ Subido</span>
+              </div>
+              <div class="doc-item">
+                <div class="doc-icon">📋</div>
+                <div>
+                  <div class="doc-name">HR y PU de la propiedad</div>
+                  <div class="doc-desc">Municipalidad correspondiente</div>
+                </div>
+                <span class="doc-status pending">Pendiente</span>
+              </div>
+              <div class="doc-item">
+                <div class="doc-icon">💰</div>
+                <div>
+                  <div class="doc-name">Voucher de pago de alcabala</div>
+                  <div class="doc-desc">Comprobante SAT Lima</div>
+                </div>
+                <span class="doc-status pending">Pendiente</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- CHAT -->
+          <div class="card">
+            <div class="card-header">
+              <span class="card-title">Chat con la notaría</span>
+              <span style="font-size:10px;background:#ecfdf5;color:#059669;border:1px solid #a7f3d0;padding:2px 8px;border-radius:20px;font-weight:600;">En línea</span>
+            </div>
+            <div class="chat-body">
+              <div class="msg notaria">
+                <div class="msg-bubble">Buenos días, hemos recibido la partida de SUNARP. Falta subir el HR y PU para continuar con el proceso.</div>
+                <div class="msg-time">Notaría Paino · 10:24 am</div>
+              </div>
+              <div class="msg broker">
+                <div class="msg-bubble">Entendido, lo tendremos listo hoy por la tarde.</div>
+                <div class="msg-time">11:02 am</div>
+              </div>
+              <div class="msg notaria">
+                <div class="msg-bubble">Perfecto, en cuanto lo recibamos iniciamos la revisión. Tiempo estimado: 48 horas.</div>
+                <div class="msg-time">Notaría Paino · 11:05 am</div>
+              </div>
+            </div>
+            <div class="chat-input-row">
+              <input class="chat-input" placeholder="Escribe un mensaje...">
+              <button class="chat-send">Enviar</button>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- RIGHT -->
+        <div class="right-col">
+
+          <!-- PRICE -->
+          <div class="price-card">
+            <div class="price-label">Total del trámite</div>
+            <div class="price-main">S/ 1,190</div>
+            <div class="price-breakdown">
+              <div class="price-row">
+                <span class="price-key">Precio base</span>
+                <span class="price-val">S/ 1,400</span>
+              </div>
+              <div class="price-row">
+                <span class="price-key">Descuento Oro (15%)</span>
+                <span class="price-val green">− S/ 210</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- TIMELINE -->
+          <div class="card">
+            <div class="card-header">
+              <span class="card-title">Estado del proceso</span>
+            </div>
+            <div class="card-body">
+              <div class="timeline">
+                <div class="timeline-item">
+                  <div class="timeline-left">
+                    <div class="tl-dot done"></div>
+                    <div class="tl-line"></div>
+                  </div>
+                  <div>
+                    <div class="tl-label">Cotizado</div>
+                    <div class="tl-date">1 jun · 3:20 pm</div>
+                  </div>
+                </div>
+                <div class="timeline-item">
+                  <div class="timeline-left">
+                    <div class="tl-dot done"></div>
+                    <div class="tl-line"></div>
+                  </div>
+                  <div>
+                    <div class="tl-label">Solicitado</div>
+                    <div class="tl-date">1 jun · 3:45 pm</div>
+                  </div>
+                </div>
+                <div class="timeline-item">
+                  <div class="timeline-left">
+                    <div class="tl-dot done"></div>
+                    <div class="tl-line"></div>
+                  </div>
+                  <div>
+                    <div class="tl-label">Docs. pendientes</div>
+                    <div class="tl-date">2 jun · 9:00 am</div>
+                  </div>
+                </div>
+                <div class="timeline-item">
+                  <div class="timeline-left">
+                    <div class="tl-dot active"></div>
+                    <div class="tl-line"></div>
+                  </div>
+                  <div>
+                    <div class="tl-label">En proceso</div>
+                    <div class="tl-badge">Actual</div>
+                  </div>
+                </div>
+                <div class="timeline-item">
+                  <div class="timeline-left">
+                    <div class="tl-dot pending"></div>
+                    <div class="tl-line"></div>
+                  </div>
+                  <div>
+                    <div class="tl-label pending-label">En firma</div>
+                  </div>
+                </div>
+                <div class="timeline-item">
+                  <div class="timeline-left">
+                    <div class="tl-dot pending"></div>
+                    <div class="tl-line"></div>
+                  </div>
+                  <div>
+                    <div class="tl-label pending-label">En registro</div>
+                  </div>
+                </div>
+                <div class="timeline-item">
+                  <div class="timeline-left">
+                    <div class="tl-dot pending"></div>
+                  </div>
+                  <div>
+                    <div class="tl-label pending-label">Completado</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- NOTARIA -->
+          <div class="notaria-card">
+            <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.6px;color:#97aed4;margin-bottom:10px;">Notaría asignada</div>
+            <div class="notaria-name">Notaría Paino</div>
+            <div class="notaria-addr">Av. Arequipa 2955, Lince</div>
+            <div style="margin-top:10px;padding-top:10px;border-top:1px solid #e1e7f3;font-size:11px;color:#4a6da8;">
+              Notario a cargo: <strong style="color:#0f1d3d;">Dr. Jorge Paino</strong>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

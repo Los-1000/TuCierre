@@ -1,18 +1,11 @@
 'use client'
 
-import { Logo } from '@/components/ui/Logo'
-
 import Link from 'next/link'
 import { usePathname, useRouter } from 'next/navigation'
-import {
-  LayoutDashboard, FileText, Calculator, Gift, ArrowLeftRight,
-  Settings, LogOut
-} from 'lucide-react'
-import { cn } from '@/lib/utils'
-import { generateInitials } from '@/lib/utils'
-import { TIER_CONFIG } from '@/lib/constants'
-import { createClient } from '@/lib/supabase/client'
-import type { Broker } from '@/types/database'
+import { LayoutDashboard, FileText, Calculator, Gift, ArrowLeftRight, LogOut } from 'lucide-react'
+import { cn, generateInitials } from '@/lib/utils'
+import { api } from '@/lib/api'
+import type { ApiBroker } from '@/types/api'
 
 const navItems = [
   { href: '/dashboard', label: 'Dashboard', icon: LayoutDashboard },
@@ -22,95 +15,90 @@ const navItems = [
   { href: '/price-match', label: 'Price Match', icon: ArrowLeftRight },
 ]
 
-interface SidebarProps {
-  broker: Broker | null
+const TIER_STYLES: Record<string, { dot: string; text: string }> = {
+  bronce: { dot: 'bg-tier-bronce', text: 'text-tier-bronce' },
+  plata:  { dot: 'bg-tier-plata',  text: 'text-tier-plata'  },
+  oro:    { dot: 'bg-tier-oro',    text: 'text-tier-oro'    },
 }
+
+interface SidebarProps { broker: ApiBroker | null }
 
 export default function Sidebar({ broker }: SidebarProps) {
   const pathname = usePathname()
   const router = useRouter()
-  const supabase = createClient()
 
   const handleSignOut = async () => {
-    await supabase.auth.signOut()
+    await api.auth.logout().catch(() => {})
     router.push('/login')
   }
 
-  const tier = broker?.tier ?? 'bronce'
-  const tierConfig = TIER_CONFIG[tier]
+  const tier = broker?.tierName?.toLowerCase() ?? 'bronce'
+  const tierStyle = TIER_STYLES[tier] ?? TIER_STYLES.bronce
 
   return (
-    <aside className="hidden lg:flex w-60 flex-col fixed left-0 top-0 h-full bg-[#020952] border-r border-white/8 z-20">
+    <aside className="hidden lg:flex w-60 flex-col fixed left-0 top-0 h-full bg-white border-r border-navy-100 z-20">
       {/* Logo */}
-      <div className="px-6 h-16 flex items-center border-b border-white/8">
-        <Logo size="md" />
+      <div className="px-6 h-16 flex items-center border-b border-navy-100">
+        <div className="flex items-center gap-2">
+          <div className="w-7 h-7 rounded-lg flex items-center justify-center font-black text-sm" style={{ background: '#0f1d3d', color: '#2c4dfb' }}>
+            T
+          </div>
+          <span className="font-bold text-navy-900 tracking-tight">TuCierre</span>
+        </div>
       </div>
 
-      {/* Broker info */}
+      {/* Broker chip */}
       {broker && (
         <Link
           href="/perfil"
-          className="mx-3 mt-4 flex items-center gap-3 px-3 py-2.5 rounded-2xl hover:bg-white/6 transition-colors group"
+          className="mx-3 mt-4 flex items-center gap-3 px-3 py-2.5 rounded-xl hover:bg-navy-50 transition-colors group"
         >
-          <div className="w-9 h-9 rounded-full bg-white/15 flex items-center justify-center text-white font-semibold text-xs shrink-0">
-            {generateInitials(broker.full_name)}
+          <div
+            className="w-9 h-9 rounded-full flex items-center justify-center font-semibold text-xs shrink-0 text-white"
+            style={{ background: '#2c4dfb' }}
+          >
+            {generateInitials(broker.fullName)}
           </div>
           <div className="flex-1 min-w-0">
-            <div className="text-sm font-semibold text-white truncate leading-none">
-              {broker.full_name.split(' ')[0]}
+            <div className="text-sm font-semibold text-navy-900 truncate leading-none">
+              {broker.fullName.split(' ')[0]}
             </div>
-            <div className={cn('text-xs font-medium mt-0.5 leading-none', tierConfig.color)}>
-              {tierConfig.icon} {tierConfig.label}
-              {tierConfig.discount > 0 && ` · ${tierConfig.discount}%`}
+            <div className={cn('flex items-center gap-1.5 text-xs mt-1 font-semibold capitalize', tierStyle.text)}>
+              <span className={cn('w-1.5 h-1.5 rounded-full', tierStyle.dot)} />
+              {broker.tierName}
             </div>
           </div>
         </Link>
       )}
 
-      {/* Divider */}
-      <div className="mx-5 my-3 h-px bg-white/8" />
-
-      {/* Navigation */}
-      <nav className="flex-1 px-3 space-y-0.5 overflow-y-auto">
-        {navItems.map(item => {
-          const isActive = pathname === item.href || (item.href !== '/dashboard' && pathname.startsWith(item.href + '/'))
+      {/* Nav */}
+      <nav className="flex-1 px-3 mt-4 space-y-0.5">
+        {navItems.map(({ href, label, icon: Icon }) => {
+          const active = pathname === href || (href !== '/dashboard' && pathname.startsWith(href))
           return (
             <Link
-              key={item.href}
-              href={item.href}
-              aria-current={isActive ? 'page' : undefined}
+              key={href}
+              href={href}
               className={cn(
-                'flex items-center gap-3 px-4 py-2.5 text-sm font-medium transition-all',
-                isActive
-                  ? 'bg-white/10 border-l-[3px] border-[#2855E0] text-white font-semibold rounded-r-xl'
-                  : 'text-white/60 hover:text-white hover:bg-white/6 rounded-xl'
+                'flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-colors',
+                active
+                  ? 'text-navy-900 font-semibold'
+                  : 'text-navy-500 hover:bg-navy-50 hover:text-navy-900'
               )}
+              style={active ? { background: '#eff2ff', color: '#2c4dfb' } : {}}
             >
-              <item.icon size={16} className={isActive ? 'text-[#2855E0]' : ''} />
-              {item.label}
+              <Icon size={16} style={active ? { color: '#2c4dfb' } : {}} />
+              {label}
             </Link>
           )
         })}
       </nav>
 
-      {/* Bottom actions */}
-      <div className="mx-3 mb-3 space-y-0.5 border-t border-white/8 pt-3">
-        <Link
-          href="/perfil"
-          aria-current={pathname === '/perfil' ? 'page' : undefined}
-          className={cn(
-            'flex items-center gap-3 px-4 py-2.5 text-sm font-medium transition-all',
-            pathname === '/perfil'
-              ? 'bg-white/10 border-l-[3px] border-[#2855E0] text-white font-semibold rounded-r-xl'
-              : 'text-white/60 hover:text-white hover:bg-white/6 rounded-xl'
-          )}
-        >
-          <Settings size={16} />
-          Configuración
-        </Link>
+      {/* Sign out */}
+      <div className="px-3 pb-6">
         <button
           onClick={handleSignOut}
-          className="flex items-center gap-3 px-4 py-2.5 w-full rounded-xl text-sm font-medium text-white/50 hover:text-red-400 hover:bg-red-500/10 transition-all"
+          className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-navy-400 hover:bg-navy-50 hover:text-navy-700 transition-colors"
         >
           <LogOut size={16} />
           Cerrar sesión

@@ -1,31 +1,24 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { createClient } from '@/lib/supabase/client'
-import type { User } from '@supabase/supabase-js'
+import { api } from '@/lib/api'
+import type { ApiBroker } from '@/types/api'
 
 export function useAuth() {
-  const [user, setUser] = useState<User | null>(null)
+  const [broker, setBroker] = useState<ApiBroker | null>(null)
   const [loading, setLoading] = useState(true)
-  const supabase = createClient()
 
   useEffect(() => {
-    supabase.auth.getUser().then(({ data: { user } }) => {
-      setUser(user)
-      setLoading(false)
-    })
-
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
-      setUser(session?.user ?? null)
-    })
-
-    return () => subscription.unsubscribe()
+    api.brokers.me()
+      .then((b) => setBroker(b))
+      .catch(() => setBroker(null))
+      .finally(() => setLoading(false))
   }, [])
 
   const signOut = async () => {
-    await supabase.auth.signOut()
+    await api.auth.logout().catch(() => {})
     window.location.href = '/login'
   }
 
-  return { user, loading, signOut }
+  return { broker, loading, signOut }
 }

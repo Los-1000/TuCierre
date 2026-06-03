@@ -1,20 +1,18 @@
 'use client'
 
-import { CheckCircle2, ExternalLink } from 'lucide-react'
-import { cn, formatDate, formatPrice } from '@/lib/utils'
-import EmptyState from '@/components/shared/EmptyState'
-import { CardSkeleton } from '@/components/shared/SkeletonCard'
-import type { PriceMatchRequest, PriceMatchStatus, TramiteType } from '@/types/database'
+import { CheckCircle2, Clock, XCircle, ExternalLink } from 'lucide-react'
+import { formatDate, formatPrice } from '@/lib/utils'
+import type { PriceMatchRequest, TramiteType } from '@/types/database'
 
 export type PriceMatchRow = PriceMatchRequest & {
   tramite_types?: TramiteType | null
 }
 
-const STATUS_CONFIG: Record<PriceMatchStatus, { label: string; className: string }> = {
-  pending:  { label: 'Pendiente',  className: 'bg-amber-50 text-amber-700 border-amber-200' },
-  approved: { label: 'Aprobado',   className: 'bg-green-50 text-green-700 border-green-200' },
-  rejected: { label: 'Rechazado',  className: 'bg-red-50 text-red-700 border-red-200' },
-}
+const STATUS_CONFIG = {
+  pending:  { label: 'Pendiente',  bg: '#fef9ee', text: '#b2832e', Icon: Clock },
+  approved: { label: 'Aprobado',   bg: '#ecfdf5', text: '#059669', Icon: CheckCircle2 },
+  rejected: { label: 'Rechazado',  bg: '#fef2f2', text: '#dc2626', Icon: XCircle },
+} as const
 
 interface Props {
   requests: PriceMatchRow[]
@@ -22,103 +20,111 @@ interface Props {
 }
 
 export default function PriceMatchHistoryList({ requests, requestsLoading }: Props) {
+  if (requestsLoading) {
+    return (
+      <div className="space-y-3">
+        <div className="h-4 w-32 bg-navy-100 rounded animate-pulse" />
+        {[1, 2].map((i) => (
+          <div key={i} className="bg-white rounded-xl border border-navy-100 p-5 space-y-3 animate-pulse">
+            <div className="flex justify-between">
+              <div className="h-4 w-40 bg-navy-100 rounded" />
+              <div className="h-6 w-20 bg-navy-100 rounded-full" />
+            </div>
+            <div className="h-3 w-28 bg-navy-50 rounded" />
+            <div className="grid grid-cols-2 gap-3">
+              <div className="h-10 bg-navy-50 rounded-lg" />
+              <div className="h-10 bg-navy-50 rounded-lg" />
+            </div>
+          </div>
+        ))}
+      </div>
+    )
+  }
+
+  if (requests.length === 0) {
+    return (
+      <div className="bg-white rounded-xl border border-navy-100 p-10 text-center">
+        <p className="text-navy-400 text-sm font-medium">Sin solicitudes previas</p>
+        <p className="text-navy-300 text-xs mt-1">Tus solicitudes de price match aparecerán aquí.</p>
+      </div>
+    )
+  }
+
   return (
-    <div>
-      <h2 className="text-lg font-semibold text-white mb-4">Mis solicitudes previas</h2>
+    <div className="space-y-3">
+      <h2 className="text-sm font-bold text-navy-900">Mis solicitudes</h2>
 
-      {requestsLoading ? (
-        <div className="space-y-3">
-          {[1, 2].map((i) => (
-            <CardSkeleton key={i} />
-          ))}
-        </div>
-      ) : requests.length === 0 ? (
-        <EmptyState
-          title="Sin solicitudes aún"
-          description="Cuando envíes una solicitud de price match, aparecerá aquí con su estado actual."
-        />
-      ) : (
-        <div className="space-y-3">
-          {requests.map((req) => {
-            const statusConf = STATUS_CONFIG[req.status]
-            return (
-              <div key={req.id} className="rounded-3xl border border-[#18181B]/8 bg-white p-5">
-                <div className="flex items-start justify-between gap-3 mb-3">
-                  <div className="min-w-0">
-                    <div className="font-semibold text-[#18181B] text-sm truncate">
-                      {req.tramite_types?.display_name ?? 'Trámite notarial'}
-                    </div>
-                    <div className="text-xs text-[#6B7A9A] mt-0.5">
-                      Enviado {formatDate(req.created_at)}
-                    </div>
-                  </div>
-                  <span
-                    className={cn(
-                      'inline-flex items-center text-xs font-medium px-2.5 py-1 rounded-full border shrink-0',
-                      statusConf.className
-                    )}
-                  >
-                    {statusConf.label}
-                  </span>
+      {requests.map((req) => {
+        const conf = STATUS_CONFIG[req.status] ?? STATUS_CONFIG.pending
+        const { Icon } = conf
+        return (
+          <div key={req.id} className="bg-white rounded-xl border border-navy-100 p-5 space-y-4">
+            {/* Top row */}
+            <div className="flex items-start justify-between gap-3">
+              <div className="min-w-0">
+                <div className="text-sm font-semibold text-navy-900 truncate">
+                  {req.tramite_types?.display_name ?? 'Trámite notarial'}
                 </div>
-
-                {req.status === 'approved' && req.our_matched_price != null && (
-                  <div className="bg-[#2855E0]/8 border border-[#2855E0]/20 rounded-2xl px-4 py-3 mb-3 flex items-center justify-between">
-                    <div>
-                      <div className="text-xs text-[#2855E0] font-medium mb-0.5">
-                        Precio igualado
-                      </div>
-                      <div className="text-xl font-bold text-[#2855E0] tabular-nums font-mono">
-                        {formatPrice(req.our_matched_price)}
-                      </div>
-                    </div>
-                    <CheckCircle2 size={28} className="text-[#2855E0] shrink-0" />
-                  </div>
-                )}
-
-                <div className="grid grid-cols-2 gap-x-4 gap-y-1.5 text-xs text-[#18181B]/60">
-                  <div>
-                    <span className="text-[#6B7A9A]">Notaría competidora</span>
-                    <div className="font-medium text-[#18181B] mt-0.5">
-                      {req.competitor_name}
-                    </div>
-                  </div>
-                  <div>
-                    <span className="text-[#6B7A9A]">Precio cotizado</span>
-                    <div className="font-semibold text-[#18181B] tabular-nums font-mono mt-0.5">
-                      {formatPrice(req.competitor_price)}
-                    </div>
-                  </div>
-                  {req.reviewed_at && (
-                    <div>
-                      <span className="text-[#6B7A9A]">Revisado</span>
-                      <div className="font-medium text-[#18181B] mt-0.5">
-                        {formatDate(req.reviewed_at)}
-                      </div>
-                    </div>
-                  )}
-                  {req.evidence_url && (
-                    <div>
-                      <span className="text-[#6B7A9A]">Evidencia</span>
-                      <div className="mt-0.5">
-                        <a
-                          href={req.evidence_url}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="inline-flex items-center gap-1 text-[#2855E0] hover:underline font-medium"
-                        >
-                          Ver documento
-                          <ExternalLink size={11} />
-                        </a>
-                      </div>
-                    </div>
-                  )}
+                <div className="text-xs text-navy-400 mt-0.5">
+                  Enviado el {formatDate(req.created_at)}
                 </div>
               </div>
-            )
-          })}
-        </div>
-      )}
+              <span
+                className="inline-flex items-center gap-1.5 text-xs font-semibold px-2.5 py-1 rounded-full shrink-0"
+                style={{ background: conf.bg, color: conf.text }}
+              >
+                <Icon size={11} />
+                {conf.label}
+              </span>
+            </div>
+
+            {/* Approved price banner */}
+            {req.status === 'approved' && req.our_matched_price != null && (
+              <div className="flex items-center justify-between px-4 py-3 rounded-lg" style={{ background: '#eff2ff' }}>
+                <div>
+                  <div className="text-xs font-semibold mb-0.5" style={{ color: '#2c4dfb' }}>Precio igualado</div>
+                  <div className="text-xl font-bold tabular-nums font-mono" style={{ color: '#2c4dfb' }}>
+                    {formatPrice(req.our_matched_price)}
+                  </div>
+                </div>
+                <CheckCircle2 size={26} style={{ color: '#2c4dfb' }} className="opacity-70" />
+              </div>
+            )}
+
+            {/* Details grid */}
+            <div className="grid grid-cols-2 gap-3">
+              <div className="bg-navy-50 rounded-lg px-3 py-2.5">
+                <div className="text-xs text-navy-400 mb-0.5">Notaría competidora</div>
+                <div className="text-sm font-semibold text-navy-900 truncate">{req.competitor_name}</div>
+              </div>
+              <div className="bg-navy-50 rounded-lg px-3 py-2.5">
+                <div className="text-xs text-navy-400 mb-0.5">Precio cotizado</div>
+                <div className="text-sm font-semibold text-navy-900 tabular-nums font-mono">{formatPrice(req.competitor_price)}</div>
+              </div>
+              {req.reviewed_at && (
+                <div className="bg-navy-50 rounded-lg px-3 py-2.5">
+                  <div className="text-xs text-navy-400 mb-0.5">Revisado</div>
+                  <div className="text-sm font-medium text-navy-900">{formatDate(req.reviewed_at)}</div>
+                </div>
+              )}
+              {req.evidence_url && (
+                <div className="bg-navy-50 rounded-lg px-3 py-2.5">
+                  <div className="text-xs text-navy-400 mb-0.5">Evidencia</div>
+                  <a
+                    href={req.evidence_url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-1 text-sm font-semibold"
+                    style={{ color: '#2c4dfb' }}
+                  >
+                    Ver documento <ExternalLink size={11} />
+                  </a>
+                </div>
+              )}
+            </div>
+          </div>
+        )
+      })}
     </div>
   )
 }

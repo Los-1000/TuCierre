@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TuCierre — Auth</title>
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { font-family:'Inter',-apple-system,sans-serif; background:#f4f6fb; color:#0f1d3d; font-size:13px; }
+
+  .split { display:grid; grid-template-columns:1fr 1fr; height:100vh; }
+
+  /* LEFT PANEL */
+  .left-panel {
+    background:#0f1d3d;
+    padding:48px;
+    display:flex; flex-direction:column; justify-content:space-between;
+    position:relative; overflow:hidden;
+  }
+  .left-panel::before {
+    content:''; position:absolute; top:-80px; right:-80px;
+    width:300px; height:300px;
+    background:rgba(44,77,251,0.12); border-radius:50%;
+  }
+  .left-panel::after {
+    content:''; position:absolute; bottom:-60px; left:-40px;
+    width:200px; height:200px;
+    background:rgba(212,162,60,0.08); border-radius:50%;
+  }
+  .panel-logo { display:flex; align-items:center; gap:10px; position:relative; z-index:1; }
+  .logo-mark { width:34px;height:34px;background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.15);border-radius:8px;display:flex;align-items:center;justify-content:center;font-weight:800;color:#4D78FF;font-size:16px; }
+  .logo-name { font-weight:700;font-size:16px;color:white; }
+
+  .panel-content { position:relative;z-index:1; }
+  .panel-title { font-size:28px;font-weight:800;color:white;line-height:1.2;letter-spacing:-0.5px;margin-bottom:14px; }
+  .panel-title span { color:#4D78FF; }
+  .panel-desc { font-size:13px;color:rgba(255,255,255,0.5);line-height:1.7;margin-bottom:32px; }
+
+  .testimonial {
+    background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);
+    border-radius:10px;padding:18px;
+  }
+  .testimonial-text { font-size:12px;color:rgba(255,255,255,0.75);line-height:1.65;font-style:italic;margin-bottom:12px; }
+  .testimonial-author { display:flex;align-items:center;gap:10px; }
+  .testimonial-avatar { width:30px;height:30px;background:rgba(44,77,251,0.3);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#4D78FF; }
+  .testimonial-name { font-size:12px;font-weight:600;color:white; }
+  .testimonial-role { font-size:10px;color:rgba(255,255,255,0.4); }
+
+  .panel-stats { display:flex;gap:28px;position:relative;z-index:1; }
+  .panel-stat-val { font-size:22px;font-weight:800;color:white;letter-spacing:-0.5px; }
+  .panel-stat-label { font-size:10px;color:rgba(255,255,255,0.4);text-transform:uppercase;letter-spacing:0.5px;margin-top:2px; }
+
+  /* RIGHT PANEL */
+  .right-panel {
+    background:white;
+    display:flex; align-items:center; justify-content:center;
+    padding:48px;
+  }
+  .form-wrap { width:100%;max-width:360px; }
+  .form-heading { font-size:22px;font-weight:800;color:#0f1d3d;letter-spacing:-0.3px;margin-bottom:6px; }
+  .form-sub { font-size:13px;color:#97aed4;margin-bottom:28px; }
+
+  /* TABS */
+  .tabs { display:flex;background:#f4f6fb;border-radius:8px;padding:3px;margin-bottom:28px; }
+  .tab { flex:1;text-align:center;padding:7px;border-radius:6px;font-size:12px;font-weight:600;cursor:pointer;color:#97aed4; }
+  .tab.active { background:white;color:#0f1d3d;box-shadow:0 1px 3px rgba(15,29,61,0.08); }
+
+  .field { margin-bottom:16px; }
+  .field-label { font-size:12px;font-weight:600;color:#2a4472;margin-bottom:6px;display:block; }
+  .field-input {
+    width:100%;height:40px;border:1px solid #c3cfe7;border-radius:8px;
+    padding:0 12px;font-size:13px;color:#0f1d3d;background:#f4f6fb;
+    outline:none;font-family:inherit;
+  }
+  .field-input.focused { border-color:#2c4dfb;box-shadow:0 0 0 2px #dbe3fe;background:white; }
+  .field-row { display:grid;grid-template-columns:1fr 1fr;gap:12px; }
+
+  .field-hint { font-size:11px;color:#97aed4;margin-top:4px; }
+  .forgot { float:right;font-size:11px;color:#2c4dfb;font-weight:600;cursor:pointer; }
+
+  .btn-submit {
+    width:100%;height:42px;background:#0f1d3d;color:white;
+    border:none;border-radius:8px;font-size:13px;font-weight:700;
+    cursor:pointer;margin-top:8px;font-family:inherit;
+    letter-spacing:0.1px;
+  }
+  .btn-submit:hover { background:#1e3460; }
+
+  .divider { display:flex;align-items:center;gap:12px;margin:18px 0; }
+  .divider-line { flex:1;height:1px;background:#e1e7f3; }
+  .divider-text { font-size:11px;color:#97aed4; }
+
+  .terms { font-size:11px;color:#97aed4;text-align:center;margin-top:20px;line-height:1.6; }
+  .terms a { color:#2c4dfb; }
+
+  /* REFERRAL BADGE */
+  .referral-badge {
+    background:#eff2ff;border:1px solid #dbe3fe;border-radius:8px;
+    padding:10px 14px;margin-bottom:20px;
+    display:flex;align-items:center;gap:10px;
+  }
+  .referral-icon { font-size:16px; }
+  .referral-text { font-size:11px;color:#2c4dfb;font-weight:600; }
+  .referral-sub { font-size:10px;color:#6b8bbf;margin-top:1px; }
+</style>
+</head>
+<body>
+<div class="split">
+
+  <!-- LEFT -->
+  <div class="left-panel">
+    <div class="panel-logo">
+      <div class="logo-mark">T</div>
+      <span class="logo-name">TuCierre</span>
+    </div>
+
+    <div class="panel-content">
+      <div class="panel-title">La plataforma que <span>potencia</span> tu carrera notarial</div>
+      <div class="panel-desc">Únete a más de 200 corredores que gestionan sus trámites con eficiencia y ahorran en cada operación.</div>
+      <div class="testimonial">
+        <div class="testimonial-text">"Antes tardaba 3 días en coordinar con la notaría. Ahora cierro en un día y sé exactamente en qué etapa está cada trámite."</div>
+        <div class="testimonial-author">
+          <div class="testimonial-avatar">MR</div>
+          <div>
+            <div class="testimonial-name">María Ríos</div>
+            <div class="testimonial-role">Corredora · Miraflores, Lima · Tier Oro</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="panel-stats">
+      <div>
+        <div class="panel-stat-val">200+</div>
+        <div class="panel-stat-label">Corredores activos</div>
+      </div>
+      <div>
+        <div class="panel-stat-val">S/2M+</div>
+        <div class="panel-stat-label">Gestionado</div>
+      </div>
+      <div>
+        <div class="panel-stat-val">15%</div>
+        <div class="panel-stat-label">Ahorro máximo</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- RIGHT -->
+  <div class="right-panel">
+    <div class="form-wrap">
+
+      <!-- TABS -->
+      <div class="tabs">
+        <div class="tab active">Ingresar</div>
+        <div class="tab">Registrarse</div>
+      </div>
+
+      <!-- LOGIN FORM -->
+      <div id="login-form">
+        <div class="field">
+          <label class="field-label">Correo electrónico</label>
+          <input class="field-input focused" type="email" value="carlos@example.com">
+        </div>
+        <div class="field">
+          <label class="field-label">
+            Contraseña
+            <span class="forgot">¿Olvidaste tu contraseña?</span>
+          </label>
+          <input class="field-input" type="password" value="••••••••">
+        </div>
+        <button class="btn-submit">Ingresar a TuCierre</button>
+      </div>
+
+      <!-- SIGNUP PREVIEW (shown below as reference) -->
+      <div style="margin-top:28px;padding-top:24px;border-top:1px solid #e1e7f3;">
+        <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.8px;color:#97aed4;margin-bottom:14px;">Vista: Registrarse</div>
+
+        <div class="referral-badge">
+          <div class="referral-icon">🎁</div>
+          <div>
+            <div class="referral-text">Invitado por María Ríos</div>
+            <div class="referral-sub">Empiezas directamente en tier Bronce con primer trámite bonificado</div>
+          </div>
+        </div>
+
+        <div class="field-row" style="margin-bottom:14px;">
+          <div class="field">
+            <label class="field-label">Nombre</label>
+            <input class="field-input" type="text" placeholder="Carlos">
+          </div>
+          <div class="field">
+            <label class="field-label">Apellido</label>
+            <input class="field-input" type="text" placeholder="Flores">
+          </div>
+        </div>
+        <div class="field" style="margin-bottom:14px;">
+          <label class="field-label">Correo electrónico</label>
+          <input class="field-input" type="email" placeholder="tu@correo.com">
+        </div>
+        <div class="field" style="margin-bottom:6px;">
+          <label class="field-label">Contraseña</label>
+          <input class="field-input" type="password" placeholder="Mínimo 8 caracteres">
+          <div class="field-hint">Mínimo 8 caracteres, una mayúscula y un número</div>
+        </div>
+        <button class="btn-submit" style="margin-top:14px;">Crear cuenta</button>
+        <div class="terms">Al registrarte aceptas nuestros <a href="#">Términos de servicio</a> y <a href="#">Política de privacidad</a></div>
+      </div>
+
+    </div>
+  </div>
+
+</div>
+</body>
+</html>

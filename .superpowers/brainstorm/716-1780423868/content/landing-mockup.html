@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TuCierre — Landing Mockup</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Inter', -apple-system, sans-serif; background: #f4f6fb; color: #0f1d3d; font-size: 14px; }
+
+  /* NAV */
+  nav {
+    background: white;
+    border-bottom: 1px solid #e1e7f3;
+    padding: 0 48px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky; top: 0; z-index: 10;
+  }
+  .logo {
+    display: flex; align-items: center; gap: 10px;
+  }
+  .logo-mark {
+    width: 32px; height: 32px;
+    background: #0f1d3d;
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .logo-mark span { color: #4D78FF; font-weight: 800; font-size: 16px; }
+  .logo-name { font-weight: 700; font-size: 15px; color: #0f1d3d; letter-spacing: -0.3px; }
+  .nav-links { display: flex; align-items: center; gap: 8px; }
+  .nav-link { padding: 6px 14px; color: #4a6da8; font-size: 13px; font-weight: 500; text-decoration: none; border-radius: 6px; }
+  .nav-link:hover { background: #f0f3f9; color: #0f1d3d; }
+  .btn-primary {
+    background: #0f1d3d; color: white;
+    padding: 7px 18px; border-radius: 6px;
+    font-size: 13px; font-weight: 600;
+    text-decoration: none; border: none; cursor: pointer;
+  }
+  .btn-primary:hover { background: #1e3460; }
+  .btn-outline {
+    background: white; color: #0f1d3d;
+    border: 1px solid #e1e7f3;
+    padding: 7px 18px; border-radius: 6px;
+    font-size: 13px; font-weight: 500;
+    text-decoration: none; cursor: pointer;
+  }
+
+  /* HERO */
+  .hero {
+    padding: 80px 48px 64px;
+    max-width: 1100px; margin: 0 auto;
+    display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: center;
+  }
+  .badge {
+    display: inline-flex; align-items: center; gap: 6px;
+    background: #eff2ff; border: 1px solid #dbe3fe;
+    color: #2c4dfb; font-size: 11px; font-weight: 600;
+    padding: 4px 10px; border-radius: 20px;
+    text-transform: uppercase; letter-spacing: 0.5px;
+    margin-bottom: 20px;
+  }
+  .badge-dot { width: 6px; height: 6px; background: #2c4dfb; border-radius: 50%; }
+  .hero h1 {
+    font-size: 38px; font-weight: 800; line-height: 1.15;
+    color: #0f1d3d; letter-spacing: -1px;
+    margin-bottom: 16px;
+  }
+  .hero h1 span { color: #2c4dfb; }
+  .hero p {
+    font-size: 15px; color: #4a6da8; line-height: 1.65;
+    margin-bottom: 28px; max-width: 420px;
+  }
+  .hero-actions { display: flex; align-items: center; gap: 12px; }
+  .btn-hero {
+    background: #0f1d3d; color: white;
+    padding: 10px 24px; border-radius: 8px;
+    font-size: 14px; font-weight: 600;
+    text-decoration: none; border: none; cursor: pointer;
+  }
+  .btn-hero-outline {
+    background: white; color: #0f1d3d;
+    border: 1px solid #e1e7f3;
+    padding: 10px 20px; border-radius: 8px;
+    font-size: 14px; font-weight: 500;
+    text-decoration: none; cursor: pointer;
+  }
+  .trust-line {
+    margin-top: 28px; font-size: 12px; color: #97aed4;
+    display: flex; align-items: center; gap: 6px;
+  }
+  .trust-dot { width: 4px; height: 4px; background: #97aed4; border-radius: 50%; }
+
+  /* HERO CARD (right side) */
+  .hero-visual {
+    background: white;
+    border: 1px solid #e1e7f3;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 4px 24px rgba(15,29,61,0.08);
+  }
+  .card-header {
+    background: #f0f3f9;
+    border-bottom: 1px solid #e1e7f3;
+    padding: 14px 20px;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .card-header span { font-size: 12px; font-weight: 600; color: #2a4472; }
+  .card-body { padding: 20px; }
+  .stat-row { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-bottom: 16px; }
+  .stat-card {
+    background: #f4f6fb; border: 1px solid #e1e7f3;
+    border-radius: 10px; padding: 12px;
+  }
+  .stat-label { font-size: 10px; color: #97aed4; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px; }
+  .stat-value { font-size: 20px; font-weight: 700; color: #0f1d3d; }
+  .stat-sub { font-size: 10px; color: #4a6da8; margin-top: 2px; }
+  .tier-pill {
+    display: inline-block;
+    background: #fdf8ee; border: 1px solid #f5e2b3;
+    color: #b2832e; font-size: 10px; font-weight: 700;
+    padding: 2px 8px; border-radius: 20px;
+    text-transform: uppercase;
+  }
+
+  /* MINI TABLE */
+  .mini-table { width: 100%; border-collapse: collapse; }
+  .mini-table th {
+    text-align: left; padding: 6px 8px;
+    font-size: 10px; text-transform: uppercase; letter-spacing: 0.7px;
+    color: #97aed4; border-bottom: 1px solid #e1e7f3;
+  }
+  .mini-table td {
+    padding: 8px 8px; font-size: 11px; color: #2a4472;
+    border-bottom: 1px solid #f0f3f9;
+  }
+  .status-dot {
+    display: inline-flex; align-items: center; gap: 5px;
+    font-size: 10px; font-weight: 500;
+  }
+  .dot { width: 6px; height: 6px; border-radius: 50%; display: inline-block; }
+  .dot-blue { background: #2c4dfb; }
+  .dot-green { background: #059669; }
+  .dot-amber { background: #d97706; }
+
+  /* FEATURES */
+  .features {
+    padding: 64px 48px;
+    max-width: 1100px; margin: 0 auto;
+  }
+  .section-label {
+    font-size: 11px; font-weight: 700; text-transform: uppercase;
+    letter-spacing: 1px; color: #97aed4; margin-bottom: 10px;
+  }
+  .section-title {
+    font-size: 26px; font-weight: 800; color: #0f1d3d;
+    letter-spacing: -0.5px; margin-bottom: 8px;
+  }
+  .section-sub { font-size: 14px; color: #4a6da8; margin-bottom: 40px; }
+  .features-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  .feature-card {
+    background: white; border: 1px solid #e1e7f3;
+    border-radius: 12px; padding: 24px;
+  }
+  .feature-icon {
+    width: 36px; height: 36px;
+    background: #f0f3f9; border: 1px solid #e1e7f3;
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    margin-bottom: 14px;
+    font-size: 16px;
+  }
+  .feature-title { font-size: 14px; font-weight: 700; color: #0f1d3d; margin-bottom: 6px; }
+  .feature-desc { font-size: 12px; color: #4a6da8; line-height: 1.6; }
+
+  /* TIER SECTION */
+  .tiers {
+    padding: 64px 48px;
+    max-width: 1100px; margin: 0 auto;
+  }
+  .tiers-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  .tier-card {
+    background: white; border: 1px solid #e1e7f3;
+    border-radius: 12px; padding: 24px;
+    position: relative;
+  }
+  .tier-card.highlight {
+    border-color: #d4a23c;
+    box-shadow: 0 0 0 1px #d4a23c;
+  }
+  .tier-name { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; }
+  .tier-name.bronce { color: #b45309; }
+  .tier-name.plata { color: #6b7280; }
+  .tier-name.oro { color: #b2832e; }
+  .tier-price { font-size: 28px; font-weight: 800; color: #0f1d3d; margin-bottom: 4px; }
+  .tier-price span { font-size: 14px; font-weight: 500; color: #97aed4; }
+  .tier-desc { font-size: 12px; color: #4a6da8; margin-bottom: 16px; }
+  .tier-feature { font-size: 12px; color: #2a4472; padding: 4px 0; display: flex; align-items: center; gap: 8px; }
+  .tier-feature::before { content: "✓"; color: #059669; font-weight: 700; font-size: 11px; }
+
+  /* FOOTER */
+  footer {
+    border-top: 1px solid #e1e7f3; background: white;
+    padding: 28px 48px;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  footer p { font-size: 12px; color: #97aed4; }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="logo">
+    <div class="logo-mark"><span>T</span></div>
+    <span class="logo-name">TuCierre</span>
+  </div>
+  <div class="nav-links">
+    <a href="#" class="nav-link">Cómo funciona</a>
+    <a href="#" class="nav-link">Tarifas</a>
+    <a href="#" class="nav-link">Contáctanos</a>
+    <a href="#" class="btn-outline" style="margin-right:4px;">Ingresar</a>
+    <a href="#" class="btn-primary">Registrarse</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section>
+  <div class="hero">
+    <div>
+      <div class="badge"><span class="badge-dot"></span> Plataforma para corredores</div>
+      <h1>Cotiza y gestiona tus <span>trámites notariales</span> en un solo lugar</h1>
+      <p>TuCierre conecta a los corredores inmobiliarios con las mejores notarías de Lima. Cotiza en segundos, haz seguimiento en tiempo real y crece con cada operación.</p>
+      <div class="hero-actions">
+        <a href="#" class="btn-hero">Empezar gratis</a>
+        <a href="#" class="btn-hero-outline">Ver demo</a>
+      </div>
+      <div class="trust-line">
+        <span class="trust-dot"></span>
+        Sin tarjeta de crédito · Acceso inmediato
+        <span class="trust-dot"></span>
+        Más de 200 corredores activos
+      </div>
+    </div>
+
+    <!-- Dashboard preview card -->
+    <div class="hero-visual">
+      <div class="card-header">
+        <div class="logo-mark" style="width:22px;height:22px;border-radius:5px;"><span style="font-size:11px;">T</span></div>
+        <span>Mi Dashboard</span>
+        <span class="tier-pill" style="margin-left:auto;">Oro</span>
+      </div>
+      <div class="card-body">
+        <div class="stat-row">
+          <div class="stat-card">
+            <div class="stat-label">Activos</div>
+            <div class="stat-value">12</div>
+            <div class="stat-sub">↑ 3 esta semana</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">Completados</div>
+            <div class="stat-value">8</div>
+            <div class="stat-sub">este mes</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">Ahorro</div>
+            <div class="stat-value" style="color:#059669;">S/420</div>
+            <div class="stat-sub">con tier Oro</div>
+          </div>
+        </div>
+        <table class="mini-table">
+          <thead>
+            <tr>
+              <th>Ref.</th>
+              <th>Tipo</th>
+              <th>Estado</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td style="font-weight:600;">TC-2024-001</td>
+              <td>Compraventa</td>
+              <td><span class="status-dot"><span class="dot dot-blue"></span> En proceso</span></td>
+            </tr>
+            <tr>
+              <td style="font-weight:600;">TC-2024-002</td>
+              <td>Arrendamiento</td>
+              <td><span class="status-dot"><span class="dot dot-amber"></span> Revisión</span></td>
+            </tr>
+            <tr>
+              <td style="font-weight:600;">TC-2024-003</td>
+              <td>Compraventa</td>
+              <td><span class="status-dot"><span class="dot dot-green"></span> Completado</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section class="features">
+  <div class="section-label">Funcionalidades</div>
+  <div class="section-title">Todo lo que necesitas para cerrar más operaciones</div>
+  <div class="section-sub">Desde la cotización hasta la firma, sin salir de la plataforma.</div>
+  <div class="features-grid">
+    <div class="feature-card">
+      <div class="feature-icon">📋</div>
+      <div class="feature-title">Cotización instantánea</div>
+      <div class="feature-desc">Obtén el precio exacto del trámite notarial en segundos. Descuentos automáticos según tu tier.</div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">📡</div>
+      <div class="feature-title">Seguimiento en tiempo real</div>
+      <div class="feature-desc">Recibe notificaciones al instante cuando el estado de tu trámite cambia. Chat directo con la notaría.</div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">🏆</div>
+      <div class="feature-title">Sistema de tiers</div>
+      <div class="feature-desc">Mientras más operas, más descuento obtienes. Bronce, Plata y Oro — con beneficios reales.</div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">🤝</div>
+      <div class="feature-title">Price Match</div>
+      <div class="feature-desc">¿Encontraste un precio mejor? Solicita price match y la notaría lo evalúa directamente.</div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">📄</div>
+      <div class="feature-title">Gestión documental</div>
+      <div class="feature-desc">Sube los documentos requeridos directo en la plataforma. Sin emails, sin pérdidas.</div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">💰</div>
+      <div class="feature-title">Comisiones y referidos</div>
+      <div class="feature-desc">Invita colegas y gana comisiones por cada trámite que cierren. Tu red trabaja para ti.</div>
+    </div>
+  </div>
+</section>
+
+<!-- TIERS -->
+<section class="tiers">
+  <div class="section-label">Tiers</div>
+  <div class="section-title">Más operas, más ahorras</div>
+  <div class="section-sub">Tu nivel sube automáticamente según tu actividad mensual.</div>
+  <div class="tiers-grid">
+    <div class="tier-card">
+      <div class="tier-name bronce">Bronce</div>
+      <div class="tier-price">5% <span>descuento</span></div>
+      <div class="tier-desc">0 – 3 trámites al mes</div>
+      <div class="tier-feature">Cotización instantánea</div>
+      <div class="tier-feature">Seguimiento en tiempo real</div>
+      <div class="tier-feature">Chat con notaría</div>
+    </div>
+    <div class="tier-card">
+      <div class="tier-name plata">Plata</div>
+      <div class="tier-price">10% <span>descuento</span></div>
+      <div class="tier-desc">4 – 7 trámites al mes</div>
+      <div class="tier-feature">Todo lo de Bronce</div>
+      <div class="tier-feature">Price Match disponible</div>
+      <div class="tier-feature">Comisiones por referidos</div>
+    </div>
+    <div class="tier-card highlight">
+      <div class="tier-name oro">Oro ✦</div>
+      <div class="tier-price">15% <span>descuento</span></div>
+      <div class="tier-desc">8+ trámites al mes</div>
+      <div class="tier-feature">Todo lo de Plata</div>
+      <div class="tier-feature">Prioridad en atención</div>
+      <div class="tier-feature">Reporte mensual de ahorro</div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="logo">
+    <div class="logo-mark"><span>T</span></div>
+    <span class="logo-name">TuCierre</span>
+  </div>
+  <p>© 2024 TuCierre · Lima, Perú</p>
+  <p style="font-size:11px; color:#c3cfe7;">Plataforma para corredores inmobiliarios</p>
+</footer>
+
+</body>
+</html>

@@ -48,6 +48,28 @@ const config: Config = {
           DEFAULT: 'hsl(var(--card))',
           foreground: 'hsl(var(--card-foreground))',
         },
+        // NotaryOs design system tokens
+        navy: {
+          50:  '#f4f6fb',
+          100: '#e1e7f3',
+          200: '#c3cfe7',
+          300: '#97aed4',
+          400: '#6b8bbf',
+          500: '#4a6da8',
+          600: '#2a4472',
+          700: '#1e3460',
+          800: '#162850',
+          900: '#0f1d3d',
+          950: '#080f20',
+        },
+        'brand-new': {
+          50:  '#eff2ff',
+          100: '#dbe3fe',
+          500: '#4d78ff',
+          600: '#2c4dfb',
+          700: '#1e3460',
+        },
+
         // TuCierre brand — #020952 exact logo navy
         ink: '#020952',
         parchment: '#FDFAF4',
@@ -88,6 +110,7 @@ const config: Config = {
         sm: 'calc(var(--radius) - 4px)',
       },
       fontFamily: {
+        inter: ['var(--font-inter)', 'system-ui', 'sans-serif'],
         display: ['var(--font-display)', 'Georgia', 'serif'],
         sans: ['var(--font-sans)', 'system-ui', 'sans-serif'],
         mono: ['var(--font-mono)', 'monospace'],

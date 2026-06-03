@@ -1,230 +1,165 @@
 'use client'
 
-import { useState, useMemo } from 'react'
+import { useState, useCallback } from 'react'
 import Link from 'next/link'
-import { Search, Plus, FileText, ArrowRight } from 'lucide-react'
-import { Input } from '@/components/ui/input'
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select'
-import { TRAMITE_STATUS_CONFIG } from '@/lib/constants'
-import StatusBadge from '@/components/tramites/StatusBadge'
-import EmptyState from '@/components/shared/EmptyState'
-import type { Tramite, TramiteStatus } from '@/types/database'
+import { Search, ChevronRight, Plus } from 'lucide-react'
+import { api } from '@/lib/api'
 import { formatPrice, formatDate } from '@/lib/utils'
+import type { ApiTramiteListItem, ApiTramiteStatus } from '@/types/api'
 
-type DateRange = 'todos' | 'esta_semana' | 'este_mes'
+const STATUS_FILTERS = [
+  { label: 'Todos', value: '' },
+  { label: 'Solicitado', value: 'SOLICITADO' },
+  { label: 'En proceso', value: 'EN_REVISION' },
+  { label: 'En firma', value: 'EN_FIRMA' },
+  { label: 'Completado', value: 'COMPLETADO' },
+  { label: 'Cancelado', value: 'CANCELADO' },
+]
 
-interface TramitesClientProps {
-  initialTramites: Tramite[]
+const STATUS_COLORS: Record<string, { bg: string; text: string }> = {
+  SOLICITADO:       { bg: '#eff2ff', text: '#2c4dfb' },
+  COTIZADO:         { bg: '#eff2ff', text: '#2c4dfb' },
+  DOCS_PENDIENTES:  { bg: '#fef9ee', text: '#b2832e' },
+  EN_REVISION:      { bg: '#fff7ed', text: '#c2410c' },
+  EN_FIRMA:         { bg: '#ecfdf5', text: '#059669' },
+  EN_REGISTRO:      { bg: '#f0fdf4', text: '#15803d' },
+  COMPLETADO:       { bg: '#f0fdf4', text: '#15803d' },
+  CANCELADO:        { bg: '#fef2f2', text: '#dc2626' },
 }
 
-export default function TramitesClient({ initialTramites }: TramitesClientProps) {
-  const [statusFilter, setStatusFilter] = useState<'all' | TramiteStatus>('all')
-  const [dateRange, setDateRange] = useState<DateRange>('todos')
+const STATUS_LABELS: Record<string, string> = {
+  SOLICITADO: 'Solicitado', COTIZADO: 'Cotizado', DOCS_PENDIENTES: 'Docs. Pendientes',
+  EN_REVISION: 'En Revisión', EN_FIRMA: 'En Firma', EN_REGISTRO: 'En Registro',
+  COMPLETADO: 'Completado', CANCELADO: 'Cancelado',
+}
+
+interface Props {
+  initialTramites: ApiTramiteListItem[]
+}
+
+export default function TramitesClient({ initialTramites }: Props) {
+  const [tramites, setTramites] = useState(initialTramites)
   const [search, setSearch] = useState('')
+  const [activeFilter, setActiveFilter] = useState('')
+  const [loading, setLoading] = useState(false)
 
-  const filtered = useMemo(() => {
-    const now = new Date()
-    const startOfWeek = new Date(now)
-    startOfWeek.setDate(now.getDate() - now.getDay())
-    startOfWeek.setHours(0, 0, 0, 0)
-    const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1)
+  const applyFilter = useCallback(async (status: string) => {
+    setActiveFilter(status)
+    setLoading(true)
+    try {
+      const result = await api.tramites.list({ status: status || undefined, size: 50 })
+      setTramites(result?.content ?? [])
+    } finally {
+      setLoading(false)
+    }
+  }, [])
 
-    return initialTramites.filter((t) => {
-      // Status filter
-      if (statusFilter !== 'all' && t.status !== statusFilter) return false
-
-      // Date range filter
-      if (dateRange !== 'todos') {
-        const created = new Date(t.created_at)
-        if (dateRange === 'esta_semana' && created < startOfWeek) return false
-        if (dateRange === 'este_mes' && created < startOfMonth) return false
-      }
-
-      // Search filter
-      if (search.trim()) {
-        const q = search.toLowerCase()
-        const matchesRef = t.reference_code.toLowerCase().includes(q)
-        const matchesType = t.tramite_types?.display_name?.toLowerCase().includes(q) ?? false
-        const matchesParty = t.parties?.some((p) =>
-          p.name.toLowerCase().includes(q)
-        ) ?? false
-        const matchesDistrict = t.property_district?.toLowerCase().includes(q) ?? false
-        if (!matchesRef && !matchesType && !matchesParty && !matchesDistrict) return false
-      }
-
-      return true
-    })
-  }, [initialTramites, statusFilter, dateRange, search])
-
-  const handleClearFilters = () => {
-    setSearch('')
-    setStatusFilter('all')
-    setDateRange('todos')
-  }
-
-  const hasActiveFilters = search || statusFilter !== 'all' || dateRange !== 'todos'
+  const filtered = search
+    ? tramites.filter(t =>
+        t.tramiteType.toLowerCase().includes(search.toLowerCase()) ||
+        t.propertyAddress?.toLowerCase().includes(search.toLowerCase()) ||
+        t.propertyDistrictAddress?.toLowerCase().includes(search.toLowerCase())
+      )
+    : tramites
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-5">
       {/* Header */}
-      <div className="flex items-center justify-between gap-4 flex-wrap">
-        <div className="flex items-center gap-3">
-          <h1 className="text-4xl font-bold font-display text-white tracking-tight">Mis Trámites</h1>
-          <span className="inline-flex items-center justify-center px-3 py-1 rounded-full bg-white/10 text-white/70 text-sm font-bold">
-            {filtered.length}
-          </span>
-        </div>
-        <div className="flex items-center gap-3">
-          <Link
-            href="/cotizar"
-            className="flex items-center gap-2 bg-[#2855E0] hover:bg-[#1E46C7] text-white rounded-full px-6 py-3 font-semibold text-sm transition-all motion-reduce:transition-none"
-          >
-            <Plus size={15} />
-            Nueva cotización
-          </Link>
-        </div>
+      <div className="flex items-center justify-between">
+        <h1 className="text-2xl font-bold text-navy-900 font-inter tracking-tight">Mis Trámites</h1>
+        <Link
+          href="/cotizar"
+          className="flex items-center gap-2 text-white text-sm font-semibold rounded-lg px-4 py-2.5 transition-colors"
+          style={{ background: '#2c4dfb' }}
+        >
+          <Plus size={15} />
+          Nuevo
+        </Link>
       </div>
 
-      {/* Filter bar */}
-      <div className="bg-white rounded-3xl border border-[#18181B]/8 shadow-[0_4px_24px_rgba(18,18,27,0.06)] p-4">
-        <div className="flex flex-col sm:flex-row gap-3">
-          {/* Search */}
-          <div className="relative flex-1">
-            <Search
-              size={16}
-              className="absolute left-4 top-1/2 -translate-y-1/2 text-[#18181B]/40 pointer-events-none"
-              aria-hidden="true"
-            />
-            <label htmlFor="tramites-search" className="sr-only">Buscar trámites</label>
-            <input
-              id="tramites-search"
-              type="text"
-              placeholder="Buscar por código, tipo o parte..."
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-              className="w-full h-11 pl-11 pr-4 rounded-2xl border border-[#18181B]/15 bg-white text-sm text-[#18181B] placeholder:text-[#6B7A9A] focus:outline-none focus:ring-2 focus:ring-[#2855E0]/30 focus:border-[#2855E0] transition-colors"
-            />
-          </div>
-
-          {/* Status select */}
-          <Select
-            value={statusFilter}
-            onValueChange={(v) => setStatusFilter(v as 'all' | TramiteStatus)}
-          >
-            <SelectTrigger aria-label="Filtrar por estado" className="w-full sm:w-48 h-11 rounded-2xl border-[#18181B]/15 text-sm">
-              <SelectValue placeholder="Estado" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="all">Todos los estados</SelectItem>
-              {(Object.keys(TRAMITE_STATUS_CONFIG) as TramiteStatus[]).map((status) => (
-                <SelectItem key={status} value={status}>
-                  {TRAMITE_STATUS_CONFIG[status].label}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-
-          {/* Date range select */}
-          <Select
-            value={dateRange}
-            onValueChange={(v) => setDateRange(v as DateRange)}
-          >
-            <SelectTrigger aria-label="Filtrar por período" className="w-full sm:w-44 h-11 rounded-2xl border-[#18181B]/15 text-sm">
-              <SelectValue placeholder="Período" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="todos">Todos</SelectItem>
-              <SelectItem value="esta_semana">Esta semana</SelectItem>
-              <SelectItem value="este_mes">Este mes</SelectItem>
-            </SelectContent>
-          </Select>
-
-          {/* Clear filters */}
-          {hasActiveFilters && (
-            <button
-              onClick={handleClearFilters}
-              className="text-[#2855E0] text-sm font-semibold hover:underline underline-offset-4 px-2 whitespace-nowrap"
-            >
-              Limpiar
-            </button>
-          )}
-        </div>
-      </div>
-
-      {/* Table / Empty state */}
-      {filtered.length === 0 ? (
-        <div className="bg-white rounded-3xl border border-[#18181B]/8 shadow-[0_4px_24px_rgba(18,18,27,0.06)] p-10">
-          <EmptyState
-            icon={<FileText size={28} className="text-[#6B7A9A]" />}
-            title={
-              hasActiveFilters
-                ? 'Sin resultados'
-                : 'Aún no tienes trámites'
-            }
-            description={
-              hasActiveFilters
-                ? 'Intenta ajustar los filtros para encontrar lo que buscas.'
-                : 'Empieza cotizando tu primer trámite notarial en minutos.'
-            }
-            actionLabel="Cotizar ahora"
-            actionHref="/cotizar"
+      {/* Filters + Search */}
+      <div className="bg-white rounded-xl border border-navy-100 p-4 space-y-3">
+        <div className="relative">
+          <Search size={15} className="absolute left-3 top-1/2 -translate-y-1/2 text-navy-300" />
+          <input
+            type="text"
+            placeholder="Buscar por tipo, dirección..."
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            className="w-full h-9 pl-9 pr-4 text-sm border border-navy-100 rounded-lg bg-navy-50 text-navy-900 placeholder:text-navy-300 outline-none focus:border-blue-400"
           />
         </div>
-      ) : (
-        <div className="bg-white rounded-3xl border border-[#18181B]/8 shadow-[0_4px_24px_rgba(18,18,27,0.06)] overflow-hidden">
-          <div className="overflow-x-auto">
-            <table className="w-full text-left border-collapse">
-              <thead>
-                <tr className="border-b border-[#18181B]/8">
-                  <th scope="col" className="px-6 py-4 text-xs font-bold uppercase tracking-widest text-[#6B7A9A]">Código</th>
-                  <th scope="col" className="px-6 py-4 text-xs font-bold uppercase tracking-widest text-[#6B7A9A]">Tipo</th>
-                  <th scope="col" className="px-6 py-4 text-xs font-bold uppercase tracking-widest text-[#6B7A9A]">Estado</th>
-                  <th scope="col" className="px-6 py-4 text-xs font-bold uppercase tracking-widest text-[#6B7A9A] hidden md:table-cell">Fecha</th>
-                  <th scope="col" className="px-6 py-4 text-xs font-bold uppercase tracking-widest text-[#6B7A9A] text-right hidden sm:table-cell">Monto</th>
-                  <th scope="col" className="px-6 py-4 text-xs font-bold uppercase tracking-widest text-[#6B7A9A] text-right">Acción</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-[#18181B]/5">
-                {filtered.map((tramite) => (
-                  <tr key={tramite.id} className="hover:bg-[#18181B]/3 transition-colors motion-reduce:transition-none group">
-                    <td className="px-6 py-4">
-                      <code className="font-mono text-xs bg-[#18181B]/6 text-[#18181B]/70 px-2.5 py-1 rounded-full font-semibold">
-                        {tramite.reference_code}
-                      </code>
-                    </td>
-                    <td className="px-6 py-4 text-sm text-[#18181B]/70 font-medium">
-                      {tramite.tramite_types?.display_name ?? 'Trámite notarial'}
-                    </td>
-                    <td className="px-6 py-4">
-                      <StatusBadge status={tramite.status} size="sm" />
-                    </td>
-                    <td className="px-6 py-4 text-xs text-[#6B7A9A] hidden md:table-cell">
-                      {formatDate(tramite.created_at)}
-                    </td>
-                    <td className="px-6 py-4 text-right font-semibold text-[#18181B] text-sm tabular-nums hidden sm:table-cell">
-                      {formatPrice(tramite.final_price)}
-                    </td>
-                    <td className="px-6 py-4 text-right">
-                      <Link
-                        href={`/tramites/${tramite.id}`}
-                        className="inline-flex items-center gap-1.5 text-[#18181B]/60 border border-[#18181B]/15 rounded-full px-3.5 py-1.5 text-xs font-semibold hover:border-[#2855E0]/30 hover:text-[#2855E0] transition-all motion-reduce:transition-none group-hover:translate-x-0.5 motion-reduce:group-hover:translate-x-0"
-                      >
-                        Ver <ArrowRight size={12} />
-                      </Link>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+
+        <div className="flex flex-wrap gap-2">
+          {STATUS_FILTERS.map((f) => (
+            <button
+              key={f.value}
+              onClick={() => applyFilter(f.value)}
+              className="px-3 py-1.5 rounded-full text-xs font-semibold transition-colors"
+              style={
+                activeFilter === f.value
+                  ? { background: '#0f1d3d', color: 'white' }
+                  : { background: '#f4f6fb', color: '#4a6da8' }
+              }
+            >
+              {f.label}
+            </button>
+          ))}
         </div>
-      )}
+      </div>
+
+      {/* Table */}
+      <div className="bg-white rounded-xl border border-navy-100 overflow-hidden">
+        {loading ? (
+          <div className="p-10 text-center text-navy-400 text-sm">Cargando...</div>
+        ) : filtered.length === 0 ? (
+          <div className="p-10 text-center">
+            <p className="text-navy-400 text-sm">No hay trámites que coincidan.</p>
+          </div>
+        ) : (
+          <>
+            <div className="hidden md:grid grid-cols-[1fr_1fr_140px_100px_40px] gap-4 px-5 py-3 border-b border-navy-50 bg-navy-50">
+              {['Tipo', 'Dirección', 'Estado', 'Monto', ''].map((h) => (
+                <span key={h} className="text-xs font-bold text-navy-400 uppercase tracking-wide">{h}</span>
+              ))}
+            </div>
+            <div className="divide-y divide-navy-50">
+              {filtered.map((t) => {
+                const colors = STATUS_COLORS[t.statusTramite] ?? { bg: '#f4f6fb', text: '#4a6da8' }
+                return (
+                  <Link
+                    key={t.id}
+                    href={`/tramites/${t.id}`}
+                    className="flex md:grid md:grid-cols-[1fr_1fr_140px_100px_40px] items-center gap-4 px-5 py-4 hover:bg-navy-50 transition-colors"
+                  >
+                    <div>
+                      <div className="text-sm font-medium text-navy-900">{t.tramiteType}</div>
+                      <div className="text-xs text-navy-400 mt-0.5 md:hidden">{t.propertyDistrictAddress ?? '—'}</div>
+                    </div>
+                    <div className="hidden md:block text-sm text-navy-500 truncate">
+                      {t.propertyAddress ?? t.propertyDistrictAddress ?? '—'}
+                    </div>
+                    <div>
+                      <span
+                        className="text-xs font-semibold px-2.5 py-1 rounded-full whitespace-nowrap"
+                        style={{ background: colors.bg, color: colors.text }}
+                      >
+                        {STATUS_LABELS[t.statusTramite] ?? t.statusTramite}
+                      </span>
+                    </div>
+                    <div className="hidden md:block text-sm font-semibold text-navy-900 tabular-nums">
+                      {t.finalFee != null ? formatPrice(t.finalFee) : '—'}
+                    </div>
+                    <div className="flex justify-end">
+                      <ChevronRight size={15} className="text-navy-300" />
+                    </div>
+                  </Link>
+                )
+              })}
+            </div>
+          </>
+        )}
+      </div>
     </div>
   )
 }

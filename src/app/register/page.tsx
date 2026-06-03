@@ -1,274 +1,158 @@
 'use client'
 
-import { Logo } from '@/components/ui/Logo'
 import { useState, useEffect, Suspense } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import Link from 'next/link'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { Shield, Eye, EyeOff, Loader2, CheckCircle2, ArrowRight, Check, Gift } from 'lucide-react'
-import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
-import { Label } from '@/components/ui/label'
-import { createClient } from '@/lib/supabase/client'
-import { registerSchema, type RegisterInput } from '@/lib/validations'
+import { z } from 'zod'
+import { Loader2 } from 'lucide-react'
+import { api } from '@/lib/api'
 import { toast } from 'sonner'
-import { cn } from '@/lib/utils'
+
+const signupSchema = z.object({
+  fullName: z.string().min(2, 'Ingresa tu nombre completo'),
+  email: z.string().email('Email inválido'),
+  password: z.string().min(8, 'Mínimo 8 caracteres').regex(/[A-Z]/, 'Debe tener al menos una mayúscula').regex(/[0-9]/, 'Debe tener al menos un número'),
+  referralCode: z.string().optional(),
+})
+type SignupInput = z.infer<typeof signupSchema>
 
 function RegisterForm() {
   const router = useRouter()
   const searchParams = useSearchParams()
-  const supabase = createClient()
-  const [showPassword, setShowPassword] = useState(false)
-  const [showConfirm, setShowConfirm] = useState(false)
   const [loading, setLoading] = useState(false)
-  const [success, setSuccess] = useState(false)
+  const [referredBy, setReferredBy] = useState<string | null>(null)
 
-  const { register, handleSubmit, setValue, watch, formState: { errors } } = useForm<RegisterInput>({
-    resolver: zodResolver(registerSchema),
+  const { register, handleSubmit, setValue, formState: { errors } } = useForm<SignupInput>({
+    resolver: zodResolver(signupSchema),
   })
-
-  const refCode = watch('referral_code')
 
   useEffect(() => {
     const ref = searchParams.get('ref')
-    if (ref) setValue('referral_code', ref)
+    if (ref) {
+      setValue('referralCode', ref)
+      setReferredBy(ref)
+    }
   }, [searchParams, setValue])
 
-  const onSubmit = async (data: RegisterInput) => {
+  const onSubmit = async (data: SignupInput) => {
     setLoading(true)
-    const { error } = await supabase.auth.signUp({
-      email: data.email,
-      password: data.password,
-      options: {
-        data: {
-          full_name: data.full_name,
-          phone: data.phone,
-          dni: data.dni,
-          company_name: data.company_name || null,
-          referral_code_used: data.referral_code || null,
-        },
-        emailRedirectTo: `${process.env.NEXT_PUBLIC_APP_URL ?? window.location.origin}/auth/callback`,
-      },
-    })
-    setLoading(false)
-
-    if (error) {
-      if (error.message.includes('already registered')) {
-        toast.error('Este email ya está registrado. Intenta iniciar sesión.')
+    try {
+      await api.auth.signup({
+        fullName: data.fullName,
+        email: data.email,
+        password: data.password,
+        referralCode: data.referralCode,
+      })
+      router.push('/dashboard')
+    } catch (err: any) {
+      if (err.message?.includes('already registered') || err.message?.includes('409')) {
+        toast.error('Este email ya está registrado.')
       } else {
-        console.error('Sign up error:', error)
-        toast.error(`Error al registrarse: ${error.message}`)
+        toast.error('Error al registrarse. Intenta de nuevo.')
       }
-      return
+    } finally {
+      setLoading(false)
     }
-    setSuccess(true)
-  }
-
-  if (success) {
-    return (
-      <div className="min-h-screen bg-[#F0F3FF] flex flex-col items-center justify-center px-4 font-sans">
-        <div className="w-full max-w-sm text-center">
-          <div className="w-16 h-16 rounded-full bg-emerald-100 flex items-center justify-center mx-auto mb-5">
-            <CheckCircle2 size={30} className="text-emerald-600" />
-          </div>
-          <h2 className="font-display text-3xl font-semibold text-[#18181B] mb-2">¡Casi listo!</h2>
-          <p className="text-muted-foreground text-sm mb-7 leading-relaxed">
-            Te enviamos un email de confirmación. Revisa tu bandeja de entrada y confirma tu cuenta para comenzar.
-          </p>
-          <Button asChild variant="outline">
-            <Link href="/login">Ir a iniciar sesión</Link>
-          </Button>
-        </div>
-      </div>
-    )
   }
 
   return (
-    <div className="min-h-screen flex font-sans">
-      {/* Left brand panel */}
-      <div className="hidden lg:flex w-[38%] flex-col bg-[#18181B] relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-b from-[#0D1628] to-[#18181B]" />
-        <div
-          className="absolute inset-0 opacity-[0.04]"
-          style={{
-            backgroundImage: 'linear-gradient(rgba(201,136,14,0.5) 1px, transparent 1px), linear-gradient(90deg, rgba(201,136,14,0.5) 1px, transparent 1px)',
-            backgroundSize: '48px 48px',
-          }}
-        />
-        <div className="absolute top-1/3 right-0 w-64 h-64 bg-[#2855E0]/10 rounded-full blur-3xl pointer-events-none" />
+    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', height: '100vh', fontFamily: 'Inter, system-ui, sans-serif' }}>
 
-        <div className="relative z-10 flex flex-col h-full p-10">
-          <Logo variant="light" size="lg" href="/" />
-
-          <div className="flex-1 flex flex-col justify-center">
-            <h1 className="font-display text-3xl font-light text-[#EDE8DF] leading-[1.2] mb-4">
-              Únete a los brokers<br />
-              que cierran<br />
-              <em className="text-gold-gradient not-italic font-semibold">más rápido.</em>
-            </h1>
-            <p className="text-[#EDE8DF]/45 text-sm leading-relaxed mb-8 max-w-[220px]">
-              Gratis para siempre. Sin comisión de plataforma.
-            </p>
-            <div className="space-y-3">
-              {[
-                'Cotización en menos de 1 minuto',
-                'Seguimiento en tiempo real',
-                'Price Match garantizado',
-                'Gana bonos por referidos',
-              ].map(p => (
-                <div key={p} className="flex items-start gap-2.5">
-                  <Check size={12} className="text-[#2855E0] mt-0.5 shrink-0" />
-                  <span className="text-xs text-[#EDE8DF]/50 leading-relaxed">{p}</span>
-                </div>
-              ))}
-            </div>
+      {/* LEFT PANEL — same as login */}
+      <div style={{ background: '#0f1d3d', padding: '48px', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', position: 'relative', overflow: 'hidden' }}>
+        <div style={{ position: 'absolute', top: '-80px', right: '-80px', width: '300px', height: '300px', background: 'rgba(44,77,251,0.12)', borderRadius: '50%' }} />
+        <div style={{ display: 'flex', alignItems: 'center', gap: '10px', position: 'relative', zIndex: 1 }}>
+          <div style={{ width: '34px', height: '34px', background: 'rgba(255,255,255,0.1)', border: '1px solid rgba(255,255,255,0.15)', borderRadius: '8px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 800, color: '#4D78FF', fontSize: '16px' }}>T</div>
+          <span style={{ fontWeight: 700, fontSize: '16px', color: 'white' }}>TuCierre</span>
+        </div>
+        <div style={{ position: 'relative', zIndex: 1 }}>
+          <div style={{ fontSize: '28px', fontWeight: 800, color: 'white', lineHeight: 1.2, letterSpacing: '-0.5px', marginBottom: '14px' }}>
+            Empieza a <span style={{ color: '#4D78FF' }}>cerrar más</span> con menos esfuerzo
           </div>
-
-          <p className="text-xs text-[#EDE8DF]/25 leading-relaxed">
-            Al registrarte aceptas los{' '}
-            <Link href="/terminos" className="text-[#EDE8DF]/45 hover:text-[#EDE8DF] underline">Términos</Link>
-            {' '}y la{' '}
-            <Link href="/privacidad" className="text-[#EDE8DF]/45 hover:text-[#EDE8DF] underline">Política de privacidad</Link>.
-          </p>
+          <div style={{ fontSize: '13px', color: 'rgba(255,255,255,0.5)', lineHeight: 1.7 }}>
+            Gestiona tus trámites notariales, ahorra en tarifas y cobra comisiones por referidos.
+          </div>
+        </div>
+        <div style={{ display: 'flex', gap: '28px', position: 'relative', zIndex: 1 }}>
+          {[{ val: '200+', label: 'Corredores activos' }, { val: 'S/2M+', label: 'Gestionado' }, { val: '15%', label: 'Ahorro máximo' }].map(s => (
+            <div key={s.label}>
+              <div style={{ fontSize: '22px', fontWeight: 800, color: 'white', letterSpacing: '-0.5px' }}>{s.val}</div>
+              <div style={{ fontSize: '10px', color: 'rgba(255,255,255,0.4)', textTransform: 'uppercase', letterSpacing: '0.5px', marginTop: '2px' }}>{s.label}</div>
+            </div>
+          ))}
         </div>
       </div>
 
-      {/* Right form panel */}
-      <div className="flex-1 bg-[#F0F3FF] overflow-y-auto">
-        <div className="min-h-full flex flex-col items-center justify-center px-6 py-10">
-          <div className="mb-7 lg:hidden">
-            <Logo size="sm" href="/" />
+      {/* RIGHT PANEL */}
+      <div style={{ background: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '48px' }}>
+        <div style={{ width: '100%', maxWidth: '360px' }}>
+          {/* Tabs */}
+          <div style={{ display: 'flex', background: '#f4f6fb', borderRadius: '8px', padding: '3px', marginBottom: '28px' }}>
+            <Link href="/login" style={{ flex: 1, textAlign: 'center', padding: '7px', borderRadius: '6px', fontSize: '12px', fontWeight: 600, color: '#97aed4', textDecoration: 'none', display: 'block' }}>Ingresar</Link>
+            <div style={{ flex: 1, textAlign: 'center', padding: '7px', borderRadius: '6px', fontSize: '12px', fontWeight: 600, color: '#0f1d3d', background: 'white', boxShadow: '0 1px 3px rgba(15,29,61,0.08)' }}>Registrarse</div>
           </div>
 
-          <div className="w-full max-w-md">
-            <div className="mb-7">
-              <h2 className="font-display text-3xl font-semibold text-[#18181B]">Crea tu cuenta</h2>
-              <p className="text-muted-foreground text-sm mt-1.5">Gratis para brokers inmobiliarios</p>
+          {referredBy && (
+            <div style={{ background: '#eff2ff', border: '1px solid #dbe3fe', borderRadius: '8px', padding: '10px 14px', marginBottom: '20px', display: 'flex', alignItems: 'center', gap: '10px' }}>
+              <span style={{ fontSize: '16px' }}>🎁</span>
+              <div>
+                <div style={{ fontSize: '11px', color: '#2c4dfb', fontWeight: 600 }}>Invitado por un corredor</div>
+                <div style={{ fontSize: '10px', color: '#6b8bbf', marginTop: '1px' }}>Empiezas con tu primer trámite bonificado</div>
+              </div>
+            </div>
+          )}
+
+          <form onSubmit={handleSubmit(onSubmit)} noValidate>
+            <div style={{ marginBottom: '14px' }}>
+              <label style={{ fontSize: '12px', fontWeight: 600, color: '#2a4472', marginBottom: '6px', display: 'block' }}>Nombre completo</label>
+              <input
+                type="text"
+                style={{ width: '100%', height: '40px', border: '1px solid #c3cfe7', borderRadius: '8px', padding: '0 12px', fontSize: '13px', color: '#0f1d3d', background: '#f4f6fb', outline: 'none', fontFamily: 'inherit', boxSizing: 'border-box' }}
+                placeholder="Carlos Flores"
+                {...register('fullName')}
+              />
+              {errors.fullName && <p style={{ fontSize: '11px', color: '#dc2626', marginTop: '4px' }}>{errors.fullName.message}</p>}
             </div>
 
-            <form onSubmit={handleSubmit(onSubmit)} noValidate className="space-y-4">
-              {/* Name + DNI */}
-              <div className="grid grid-cols-2 gap-3">
-                <div className="col-span-2">
-                  <Label htmlFor="full_name" className="text-sm font-medium text-[#18181B]/80">
-                    Nombre completo <span className="text-destructive">*</span>
-                  </Label>
-                  <Input id="full_name" type="text" placeholder="Juan García Pérez" autoComplete="name"
-                    className="mt-1.5 bg-white border-border focus:border-[#2855E0] h-10" {...register('full_name')} />
-                  {errors.full_name && <p className="text-destructive text-xs mt-1">{errors.full_name.message}</p>}
-                </div>
-                <div>
-                  <Label htmlFor="dni" className="text-sm font-medium text-[#18181B]/80">
-                    DNI <span className="text-destructive">*</span>
-                  </Label>
-                  <Input id="dni" type="text" placeholder="12345678" maxLength={8} inputMode="numeric"
-                    className="mt-1.5 bg-white border-border focus:border-[#2855E0] h-10 font-mono" {...register('dni')} />
-                  {errors.dni && <p className="text-destructive text-xs mt-1">{errors.dni.message}</p>}
-                </div>
-                <div>
-                  <Label htmlFor="phone" className="text-sm font-medium text-[#18181B]/80">
-                    Teléfono <span className="text-destructive">*</span>
-                  </Label>
-                  <Input id="phone" type="tel" placeholder="987 654 321" autoComplete="tel"
-                    className="mt-1.5 bg-white border-border focus:border-[#2855E0] h-10" {...register('phone')} />
-                  {errors.phone && <p className="text-destructive text-xs mt-1">{errors.phone.message}</p>}
-                </div>
-              </div>
+            <div style={{ marginBottom: '14px' }}>
+              <label style={{ fontSize: '12px', fontWeight: 600, color: '#2a4472', marginBottom: '6px', display: 'block' }}>Correo electrónico</label>
+              <input
+                type="email"
+                style={{ width: '100%', height: '40px', border: '1px solid #c3cfe7', borderRadius: '8px', padding: '0 12px', fontSize: '13px', color: '#0f1d3d', background: '#f4f6fb', outline: 'none', fontFamily: 'inherit', boxSizing: 'border-box' }}
+                placeholder="tu@correo.com"
+                {...register('email')}
+              />
+              {errors.email && <p style={{ fontSize: '11px', color: '#dc2626', marginTop: '4px' }}>{errors.email.message}</p>}
+            </div>
 
-              {/* Email */}
-              <div>
-                <Label htmlFor="email" className="text-sm font-medium text-[#18181B]/80">
-                  Email <span className="text-destructive">*</span>
-                </Label>
-                <Input id="email" type="email" placeholder="tu@email.com" autoComplete="email"
-                  className="mt-1.5 bg-white border-border focus:border-[#2855E0] h-10" {...register('email')} />
-                {errors.email && <p className="text-destructive text-xs mt-1">{errors.email.message}</p>}
-              </div>
+            <div style={{ marginBottom: '6px' }}>
+              <label style={{ fontSize: '12px', fontWeight: 600, color: '#2a4472', marginBottom: '6px', display: 'block' }}>Contraseña</label>
+              <input
+                type="password"
+                style={{ width: '100%', height: '40px', border: '1px solid #c3cfe7', borderRadius: '8px', padding: '0 12px', fontSize: '13px', color: '#0f1d3d', background: '#f4f6fb', outline: 'none', fontFamily: 'inherit', boxSizing: 'border-box' }}
+                placeholder="Mínimo 8 caracteres"
+                {...register('password')}
+              />
+              <p style={{ fontSize: '11px', color: '#97aed4', marginTop: '4px' }}>Mínimo 8 caracteres, una mayúscula y un número</p>
+              {errors.password && <p style={{ fontSize: '11px', color: '#dc2626', marginTop: '2px' }}>{errors.password.message}</p>}
+            </div>
 
-              {/* Company (optional) */}
-              <div>
-                <Label htmlFor="company_name" className="text-sm font-medium text-[#18181B]/80">
-                  Inmobiliaria / empresa <span className="text-muted-foreground text-xs">(opcional)</span>
-                </Label>
-                <Input id="company_name" type="text" placeholder="Inmobiliaria XYZ S.A.C."
-                  className="mt-1.5 bg-white border-border focus:border-[#2855E0] h-10" {...register('company_name')} />
-              </div>
+            <button
+              type="submit"
+              disabled={loading}
+              style={{ width: '100%', height: '42px', background: '#0f1d3d', color: 'white', border: 'none', borderRadius: '8px', fontSize: '13px', fontWeight: 700, cursor: 'pointer', marginTop: '14px', fontFamily: 'inherit', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', opacity: loading ? 0.7 : 1 }}
+            >
+              {loading ? <><Loader2 size={15} className="animate-spin" /> Creando cuenta...</> : 'Crear cuenta'}
+            </button>
+          </form>
 
-              {/* Referral code */}
-              <div>
-                <Label htmlFor="referral_code" className="text-sm font-medium text-[#18181B]/80 flex items-center gap-1.5">
-                  <Gift size={13} className="text-[#2855E0]" />
-                  Código de referido <span className="text-muted-foreground text-xs">(opcional)</span>
-                </Label>
-                <div className="relative mt-1.5">
-                  <Input id="referral_code" type="text" placeholder="TC-ABC123"
-                    className={cn(
-                      'bg-white border-border focus:border-[#2855E0] h-10 font-mono uppercase',
-                      refCode && 'border-[#2855E0]/50 bg-amber-50/50'
-                    )}
-                    {...register('referral_code')}
-                  />
-                  {refCode && (
-                    <Check size={14} className="absolute right-3 top-1/2 -translate-y-1/2 text-[#2855E0]" />
-                  )}
-                </div>
-                {refCode && (
-                  <p className="text-xs text-[#2855E0] mt-1 flex items-center gap-1">
-                    <Check size={11} />Código aplicado — ganarás S/. 50 de bono al completar tu primer trámite
-                  </p>
-                )}
-              </div>
-
-              {/* Passwords */}
-              <div className="grid grid-cols-2 gap-3">
-                <div>
-                  <Label htmlFor="password" className="text-sm font-medium text-[#18181B]/80">
-                    Contraseña <span className="text-destructive">*</span>
-                  </Label>
-                  <div className="relative mt-1.5">
-                    <Input id="password" type={showPassword ? 'text' : 'password'} placeholder="Mín. 8 caracteres"
-                      autoComplete="new-password"
-                      className="bg-white border-border focus:border-[#2855E0] h-10 pr-9" {...register('password')} />
-                    <button type="button" onClick={() => setShowPassword(!showPassword)}
-                      className="absolute right-2.5 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-[#18181B] transition-colors">
-                      {showPassword ? <EyeOff size={14} /> : <Eye size={14} />}
-                    </button>
-                  </div>
-                  {errors.password && <p className="text-destructive text-xs mt-1">{errors.password.message}</p>}
-                </div>
-                <div>
-                  <Label htmlFor="confirm_password" className="text-sm font-medium text-[#18181B]/80">
-                    Confirmar <span className="text-destructive">*</span>
-                  </Label>
-                  <div className="relative mt-1.5">
-                    <Input id="confirm_password" type={showConfirm ? 'text' : 'password'} placeholder="Repite"
-                      autoComplete="new-password"
-                      className="bg-white border-border focus:border-[#2855E0] h-10 pr-9" {...register('confirm_password')} />
-                    <button type="button" onClick={() => setShowConfirm(!showConfirm)}
-                      className="absolute right-2.5 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-[#18181B] transition-colors">
-                      {showConfirm ? <EyeOff size={14} /> : <Eye size={14} />}
-                    </button>
-                  </div>
-                  {errors.confirm_password && <p className="text-destructive text-xs mt-1">{errors.confirm_password.message}</p>}
-                </div>
-              </div>
-
-              <Button type="submit" disabled={loading}
-                className="w-full h-11 bg-[#18181B] hover:bg-[#2D2D30] text-white font-medium gap-2">
-                {loading
-                  ? <><Loader2 size={15} className="animate-spin" />Creando cuenta...</>
-                  : <><span>Crear cuenta gratis</span><ArrowRight size={15} /></>
-                }
-              </Button>
-            </form>
-
-            <p className="text-center text-sm text-muted-foreground mt-5">
-              ¿Ya tienes cuenta?{' '}
-              <Link href="/login" className="text-[#2855E0] font-medium hover:text-[#1E46C7] transition-colors">
-                Iniciar sesión
-              </Link>
-            </p>
+          <div style={{ fontSize: '11px', color: '#97aed4', textAlign: 'center', marginTop: '20px', lineHeight: 1.6 }}>
+            Al registrarte aceptas nuestros{' '}
+            <Link href="/terminos" style={{ color: '#2c4dfb' }}>Términos de servicio</Link>
+            {' '}y{' '}
+            <Link href="/privacidad" style={{ color: '#2c4dfb' }}>Política de privacidad</Link>
           </div>
         </div>
       </div>
@@ -278,7 +162,7 @@ function RegisterForm() {
 
 export default function RegisterPage() {
   return (
-    <Suspense>
+    <Suspense fallback={<div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100vh' }}>Cargando...</div>}>
       <RegisterForm />
     </Suspense>
   )

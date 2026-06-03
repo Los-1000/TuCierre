@@ -1,20 +1,15 @@
 import { redirect } from 'next/navigation'
-import { createClient } from '@/lib/supabase/server'
+import { cookies } from 'next/headers'
+import { getTramites } from '@/lib/server-api'
 import TramitesClient from './TramitesClient'
-import type { Tramite } from '@/types/database'
 
 export const metadata = { title: 'Mis Trámites · TuCierre' }
 
 export default async function TramitesPage() {
-  const supabase = await createClient()
-  const { data: { user } } = await supabase.auth.getUser()
-  if (!user) redirect('/login')
+  const cookieStore = await cookies()
+  const accessToken = cookieStore.get('access_token')?.value
+  if (!accessToken) redirect('/login')
 
-  const { data } = await supabase
-    .from('tramites')
-    .select('*, tramite_types(*)')
-    .eq('broker_id', user.id)
-    .order('created_at', { ascending: false })
-
-  return <TramitesClient initialTramites={(data as Tramite[]) ?? []} />
+  const result = await getTramites(accessToken, { size: 20 })
+  return <TramitesClient initialTramites={result?.content ?? []} />
 }

@@ -1,5 +1,12 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  async rewrites() {
+    return [
+      { source: '/api/:path*', destination: 'http://localhost:8080/api/:path*' },
+      { source: '/auth/:path*', destination: 'http://localhost:8080/auth/:path*' },
+      { source: '/ws/:path*', destination: 'http://localhost:8080/ws/:path*' },
+    ]
+  },
   // Pre-existing ESLint + TypeScript warnings in the codebase — don't block production builds
   eslint: {
     ignoreDuringBuilds: true,

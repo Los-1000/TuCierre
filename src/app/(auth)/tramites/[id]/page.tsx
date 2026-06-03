@@ -1,407 +1,351 @@
 'use client'
 
-import { useState, useTransition } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { useParams, useRouter } from 'next/navigation'
 import Link from 'next/link'
+import { ArrowLeft, Loader2, Send, MessageSquare, Info, Users, RefreshCw, AlertCircle } from 'lucide-react'
+import { api } from '@/lib/api'
+import { useAuth } from '@/hooks/useAuth'
+import { useTramiteStatusRealtime, useChatRealtime } from '@/hooks/useRealtime'
+import { formatPrice } from '@/lib/utils'
 import { toast } from 'sonner'
-import { cn, formatPrice, generateInitials } from '@/lib/utils'
-import { cancelTramite } from './actions'
-import { useTramite } from '@/hooks/useTramites'
-import { useTramiteStatusRealtime } from '@/hooks/useRealtime'
-import { CardSkeleton } from '@/components/shared/SkeletonCard'
-import StatusBadge from '@/components/tramites/StatusBadge'
-import TramiteTimeline from '@/components/tramites/TramiteTimeline'
-import DocumentUpload from '@/components/tramites/DocumentUpload'
-import ChatWindow from '@/components/chat/ChatWindow'
-import { Button } from '@/components/ui/button'
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-  AlertDialogTrigger,
-} from '@/components/ui/alert-dialog'
-import { ArrowLeft, ExternalLink, Loader2, ChevronRight } from 'lucide-react'
-import type { TramiteDocument, TramiteStatus } from '@/types/database'
+import type { ApiTramiteDetail, ApiMessage } from '@/types/api'
+
+const STATUS_LABELS: Record<string, string> = {
+  SOLICITADO: 'Solicitado', COTIZADO: 'Cotizado', DOCS_PENDIENTES: 'Docs. Pendientes',
+  EN_REVISION: 'En Revisión', EN_FIRMA: 'En Firma', EN_REGISTRO: 'En Registro',
+  COMPLETADO: 'Completado', CANCELADO: 'Cancelado',
+}
+
+const STATUS_COLORS: Record<string, { bg: string; text: string }> = {
+  SOLICITADO: { bg: '#eff2ff', text: '#2c4dfb' }, COTIZADO: { bg: '#eff2ff', text: '#2c4dfb' },
+  DOCS_PENDIENTES: { bg: '#fef9ee', text: '#b2832e' }, EN_REVISION: { bg: '#fff7ed', text: '#c2410c' },
+  EN_FIRMA: { bg: '#ecfdf5', text: '#059669' }, EN_REGISTRO: { bg: '#f0fdf4', text: '#15803d' },
+  COMPLETADO: { bg: '#f0fdf4', text: '#15803d' }, CANCELADO: { bg: '#fef2f2', text: '#dc2626' },
+}
+
+const STEPS = ['SOLICITADO', 'COTIZADO', 'DOCS_PENDIENTES', 'EN_REVISION', 'EN_FIRMA', 'EN_REGISTRO', 'COMPLETADO']
+
+type MessageWithState = ApiMessage & { failed?: boolean; tempId?: string }
+
+function formatTime(iso: string) {
+  return new Date(iso).toLocaleTimeString('es-PE', { hour: '2-digit', minute: '2-digit' })
+}
+
+function formatDay(iso: string) {
+  return new Date(iso).toLocaleDateString('es-PE', { day: 'numeric', month: 'short' })
+}
 
 export default function TramiteDetailPage() {
   const { id } = useParams<{ id: string }>()
-  const router = useRouter()
-  const [isPending, startTransition] = useTransition()
+  const { broker } = useAuth()
+  const [tramite, setTramite] = useState<ApiTramiteDetail | null>(null)
+  const [messages, setMessages] = useState<MessageWithState[]>([])
+  const [loading, setLoading] = useState(true)
+  const [messageText, setMessageText] = useState('')
+  const [sending, setSending] = useState(false)
+  const [activeTab, setActiveTab] = useState<'info' | 'chat' | 'parties'>('info')
+  const chatEndRef = useRef<HTMLDivElement>(null)
 
-  const { tramite, history, loading, refresh } = useTramite(id)
-  const [liveStatus, setLiveStatus] = useState<TramiteStatus | null>(null)
+  useEffect(() => {
+    const isMock = document.cookie.includes('mock-demo-token')
+    if (isMock) {
+      import('@/lib/server-api').then(({ getTramiteById }) =>
+        getTramiteById('mock-demo-token', id)
+      ).then((t) => {
+        setTramite(t)
+        setMessages([
+          { id: 1, tramiteId: Number(id), senderId: 99, senderName: 'Notaría Central Lima', content: 'Hola, hemos recibido su expediente. Procederemos a revisarlo en breve.', createdAt: '2024-05-20T10:00:00' },
+          { id: 2, tramiteId: Number(id), senderId: 1, senderName: 'María Ríos', content: 'Gracias, ¿cuánto tiempo tomará la revisión?', createdAt: '2024-05-20T10:05:00' },
+          { id: 3, tramiteId: Number(id), senderId: 99, senderName: 'Notaría Central Lima', content: 'Aproximadamente 2 días hábiles. Le notificaremos cuando esté listo.', createdAt: '2024-05-20T10:08:00' },
+          { id: 4, tramiteId: Number(id), senderId: 1, senderName: 'María Ríos', content: 'Perfecto, gracias por la respuesta rápida.', createdAt: '2024-05-20T10:10:00' },
+        ])
+      }).finally(() => setLoading(false))
+      return
+    }
+    Promise.all([
+      api.tramites.getById(Number(id)),
+      api.messages.list(Number(id)),
+    ]).then(([t, msgs]) => {
+      setTramite(t)
+      setMessages(msgs?.content ?? [])
+    }).finally(() => setLoading(false))
+  }, [id])
 
-  // Subscribe to real-time status updates
-  useTramiteStatusRealtime(id, (newStatus) => {
-    setLiveStatus(newStatus)
-    refresh()
+  useEffect(() => {
+    if (activeTab === 'chat') {
+      setTimeout(() => chatEndRef.current?.scrollIntoView({ behavior: 'smooth' }), 50)
+    }
+  }, [activeTab, messages.length])
+
+  useTramiteStatusRealtime(Number(id), (status) => {
+    setTramite((prev) => prev ? { ...prev, statusTramite: status as any } : null)
+    toast.info(`Estado actualizado: ${STATUS_LABELS[status] ?? status}`)
   })
 
-  const effectiveStatus = (liveStatus ?? tramite?.status) as TramiteStatus | undefined
+  useChatRealtime(Number(id), (msg: ApiMessage) => {
+    setMessages((prev) => [...prev, msg])
+  })
 
-  const handleCancelTramite = () => {
-    if (!tramite) return
-    startTransition(async () => {
-      const result = await cancelTramite(tramite.id)
-      if (result.error) { toast.error(result.error); return }
-      toast.success('Trámite cancelado.')
-      router.push('/tramites')
-    })
+  const handleSend = async () => {
+    if (!messageText.trim()) return
+    const tempId = `temp-${Date.now()}`
+    const optimistic: MessageWithState = {
+      id: Date.now(), tramiteId: Number(id),
+      senderId: broker?.id ?? 1, senderName: broker?.fullName ?? 'Tú',
+      content: messageText.trim(), createdAt: new Date().toISOString(), tempId,
+    }
+    setMessages((prev) => [...prev, optimistic])
+    setMessageText('')
+    setSending(true)
+    try {
+      const msg = await api.messages.send(Number(id), optimistic.content)
+      setMessages((prev) => prev.map((m) => m.tempId === tempId ? { ...msg } : m))
+    } catch {
+      setMessages((prev) => prev.map((m) => m.tempId === tempId ? { ...m, failed: true } : m))
+    } finally {
+      setSending(false)
+    }
   }
 
-  const handleDocumentUpload = (
-    index: number,
-    docData: { name: string; url: string; uploaded_at: string; status: 'pending' }
-  ) => {
-    refresh()
+  const handleRetry = async (msg: MessageWithState) => {
+    setMessages((prev) => prev.map((m) => m.tempId === msg.tempId ? { ...m, failed: false } : m))
+    try {
+      const sent = await api.messages.send(Number(id), msg.content)
+      setMessages((prev) => prev.map((m) => m.tempId === msg.tempId ? { ...sent } : m))
+    } catch {
+      setMessages((prev) => prev.map((m) => m.tempId === msg.tempId ? { ...m, failed: true } : m))
+    }
   }
 
   if (loading) {
     return (
-      <div className="space-y-4">
-        <CardSkeleton />
-        <CardSkeleton />
-        <CardSkeleton />
+      <div className="flex items-center justify-center h-64">
+        <Loader2 size={24} className="animate-spin text-navy-300" />
       </div>
     )
   }
 
-  if (!tramite) {
-    return (
-      <div className="flex flex-col items-center justify-center py-24 text-center">
-        <p className="text-[#18181B]/50">Trámite no encontrado.</p>
-        <Link
-          href="/tramites"
-          className="mt-4 inline-flex items-center gap-2 border border-[#18181B]/15 text-[#18181B] rounded-full px-5 py-2 text-sm font-semibold hover:bg-[#18181B]/5 transition-colors"
-        >
-          <ArrowLeft size={15} />
-          Volver a Mis Trámites
-        </Link>
-      </div>
-    )
-  }
-
-  const requiredDocs = tramite.tramite_types?.required_documents ?? []
-  const currentDocs = tramite.documents ?? []
-  const isCancelled = effectiveStatus === 'cancelado'
-  const isCompleted = effectiveStatus === 'completado'
-
-  // --- Sub-sections ---
-
-  const TimelineSection = (
-    <section aria-labelledby="timeline-heading" className="bg-white rounded-3xl border border-[#18181B]/8 shadow-[0_4px_24px_rgba(18,18,27,0.06)] p-6">
-      <h2 id="timeline-heading" className="text-xs font-bold uppercase tracking-widest text-[#6B7A9A] mb-6">
-        Estado del proceso
-      </h2>
-      {effectiveStatus && (
-        <TramiteTimeline
-          currentStatus={effectiveStatus}
-          statusHistory={history}
-          estimatedCompletion={tramite.estimated_completion}
-        />
-      )}
-    </section>
+  if (!tramite) return (
+    <div className="text-center py-16">
+      <p className="text-navy-400">Trámite no encontrado.</p>
+      <Link href="/tramites" className="text-sm font-semibold mt-2 inline-block" style={{ color: '#2c4dfb' }}>Volver</Link>
+    </div>
   )
 
-  const DocumentsSection = (
-    <section aria-labelledby="docs-heading" className="bg-white rounded-3xl border border-[#18181B]/8 shadow-[0_4px_24px_rgba(18,18,27,0.06)] p-6 mt-4">
-      <div className="flex items-center justify-between mb-5">
-        <div>
-          <h2 id="docs-heading" className="text-base font-semibold text-[#18181B]">
-            Documentación
-          </h2>
-          <p className="text-sm text-[#18181B]/50 mt-0.5">
-            {currentDocs.filter(d => d.status === 'approved').length} de {requiredDocs.length} documentos aprobados
-          </p>
-        </div>
-      </div>
-      {requiredDocs.length === 0 ? (
-        <p className="text-sm text-[#6B7A9A]">No se requieren documentos para este trámite.</p>
-      ) : (
-        <div className="space-y-2">
-          {requiredDocs.map((req, i) => {
-            const uploaded = currentDocs.find((d) => d.name === req.name) ?? null
-            return (
-              <DocumentUpload
-                key={i}
-                tramiteId={tramite.id}
-                documentName={req.name}
-                documentIndex={i}
-                currentDoc={
-                  uploaded
-                    ? {
-                        name: uploaded.name,
-                        url: uploaded.url ?? '',
-                        uploaded_at: uploaded.uploaded_at ?? new Date().toISOString(),
-                        status: uploaded.status as 'pending' | 'approved' | 'rejected',
-                        rejection_note: (uploaded as any).rejection_note,
-                      }
-                    : null
-                }
-                onUploadComplete={(docData) => handleDocumentUpload(i, docData)}
-              />
-            )
-          })}
-        </div>
-      )}
-    </section>
-  )
-
-  const PartesSection = (
-    <section aria-labelledby="partes-heading" className="space-y-3">
-      <h2 id="partes-heading" className="text-xs font-bold uppercase tracking-widest text-[#6B7A9A]">
-        Partes
-      </h2>
-      {tramite.parties?.length === 0 ? (
-        <p className="text-sm text-[#6B7A9A]">No hay partes registradas.</p>
-      ) : (
-        <div className="space-y-2">
-          {tramite.parties?.map((party, i) => (
-            <div
-              key={i}
-              className="flex items-start gap-3 p-4 bg-slate-50 rounded-2xl border border-[#18181B]/8"
-            >
-              <div className="w-9 h-9 rounded-full bg-[#2855E0]/10 text-[#2855E0] font-semibold text-sm flex items-center justify-center shrink-0">
-                {generateInitials(party.name)}
-              </div>
-              <div className="flex-1 min-w-0">
-                <div className="flex items-center gap-2 flex-wrap">
-                  <span className="text-sm font-semibold text-[#18181B] truncate">
-                    {party.name}
-                  </span>
-                  <span className="inline-flex items-center rounded-full border border-[#18181B]/10 bg-white px-2 py-0.5 text-xs text-[#18181B]/60 font-medium capitalize">
-                    {party.role}
-                  </span>
-                </div>
-                <p className="text-xs text-[#18181B]/50 mt-0.5">DNI: {party.dni}</p>
-                {party.email && (
-                  <p className="text-xs text-[#6B7A9A] truncate">{party.email}</p>
-                )}
-                {party.phone && (
-                  <p className="text-xs text-[#6B7A9A]">{party.phone}</p>
-                )}
-              </div>
-            </div>
-          ))}
-        </div>
-      )}
-    </section>
-  )
-
-  const DetallesSection = (
-    <section aria-labelledby="detalles-heading" className="bg-white rounded-3xl border border-[#18181B]/8 shadow-[0_4px_24px_rgba(18,18,27,0.06)] p-6">
-      <h2 id="detalles-heading" className="text-xs font-bold uppercase tracking-widest text-[#6B7A9A] mb-5">
-        Detalles Financieros
-      </h2>
-      <div className="space-y-0">
-        {[
-          { label: 'Tipo', value: tramite.tramite_types?.display_name ?? 'Trámite notarial' },
-          { label: 'Precio base', value: formatPrice(tramite.quoted_price), mono: true },
-          ...(tramite.discount_applied > 0 ? [{
-            label: `Descuento (${tramite.discount_applied}%)`,
-            value: `-${formatPrice(tramite.quoted_price * (tramite.discount_applied / 100))}`,
-            green: true,
-            mono: true,
-          }] : []),
-          ...(tramite.property_address ? [{ label: 'Inmueble', value: tramite.property_address }] : []),
-          ...(tramite.property_district ? [{ label: 'Distrito', value: tramite.property_district }] : []),
-        ].map((row, i, arr) => (
-          <div key={i} className={cn('flex justify-between items-center py-3', i < arr.length - 1 && 'border-b border-[#18181B]/6')}>
-            <span className="text-sm text-[#18181B]/60">{row.label}</span>
-            <span className={cn(
-              'text-sm font-semibold',
-              (row as any).green ? 'text-emerald-600' : 'text-[#18181B]',
-              (row as any).mono && 'font-mono tabular-nums',
-            )}>
-              {row.value}
-            </span>
-          </div>
-        ))}
-
-        {/* Total */}
-        <div className="flex justify-between items-center pt-4 mt-1 border-t-2 border-[#18181B]/10">
-          <span className="font-bold text-[#18181B]">Total</span>
-          <span className="text-2xl font-bold text-[#18181B] tabular-nums font-mono">
-            {formatPrice(tramite.final_price)}
-          </span>
-        </div>
-
-        {/* Commission highlight */}
-        {tramite.discount_applied > 0 && (
-          <div className="mt-4 p-4 bg-[#2855E0]/5 rounded-2xl border border-[#2855E0]/15 flex items-center justify-between">
-            <div>
-              <p className="text-xs font-bold uppercase tracking-widest text-[#2855E0]">
-                Tu Comisión ({tramite.discount_applied}%)
-              </p>
-              <p className="text-xl font-bold text-[#2855E0] tabular-nums">
-                {formatPrice(tramite.final_price * (tramite.discount_applied / 100))}
-              </p>
-            </div>
-          </div>
-        )}
-
-        {tramite.price_matched && tramite.price_match_reference?.startsWith('https://') && (
-          <div className="pt-2">
-            <a
-              href={tramite.price_match_reference}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-1 text-xs text-[#2855E0] hover:underline font-medium"
-            >
-              <ExternalLink size={12} />
-              Ver cotización igualada
-            </a>
-          </div>
-        )}
-      </div>
-    </section>
-  )
-
-  const ChatSection = (
-    <section aria-labelledby="chat-heading" className="bg-white rounded-3xl border border-[#18181B]/8 shadow-[0_4px_24px_rgba(18,18,27,0.06)] mt-4 overflow-hidden">
-      <div className="px-5 py-4 border-b border-[#18181B]/8">
-        <h2 id="chat-heading" className="text-sm font-semibold text-[#18181B]">
-          Chat con Notaría
-        </h2>
-      </div>
-      <ChatWindow tramiteId={tramite.id} senderType="broker" />
-    </section>
-  )
+  const colors = STATUS_COLORS[tramite.statusTramite] ?? { bg: '#f4f6fb', text: '#4a6da8' }
+  const currentStep = STEPS.indexOf(tramite.statusTramite)
+  const brokerId = broker?.id ?? 1
 
   return (
-    <div className="space-y-6">
-      {/* Breadcrumb */}
-      <div className="flex items-center gap-2 text-sm text-[#18181B]/50">
-        <Link href="/tramites" className="hover:text-[#2855E0] transition-colors flex items-center gap-1">
-          <ArrowLeft size={14} />
-          Mis Trámites
+    <div className="space-y-4">
+      {/* Header */}
+      <div className="flex items-center gap-3">
+        <Link href="/tramites" className="w-9 h-9 flex items-center justify-center rounded-xl bg-white border border-navy-100 text-navy-500 hover:bg-navy-50 transition-colors shrink-0">
+          <ArrowLeft size={16} />
         </Link>
-        <ChevronRight size={14} />
-        <span className="text-[#18181B] font-medium">{tramite.reference_code}</span>
+        <div className="flex-1 min-w-0">
+          <h1 className="text-base font-bold text-navy-900 font-inter truncate">{tramite.tramiteType}</h1>
+          <p className="text-xs text-navy-400 truncate">{tramite.propertyAddress ?? tramite.propertyDistrictAddress}</p>
+        </div>
+        <span className="text-xs font-semibold px-3 py-1.5 rounded-full shrink-0" style={{ background: colors.bg, color: colors.text }}>
+          {STATUS_LABELS[tramite.statusTramite] ?? tramite.statusTramite}
+        </span>
       </div>
 
-      {/* Header card */}
-      <div className="bg-white rounded-3xl border border-[#18181B]/8 shadow-[0_4px_24px_rgba(18,18,27,0.06)] p-6">
-        <div className="flex flex-wrap items-start justify-between gap-4">
-          <div className="space-y-3">
-            <div className="flex items-center gap-3 flex-wrap">
-              <code className="font-mono text-xs bg-[#18181B]/6 text-[#18181B]/70 px-3 py-1.5 rounded-full font-semibold">
-                {tramite.reference_code}
-              </code>
-              {effectiveStatus && <StatusBadge status={effectiveStatus} />}
-            </div>
-            <h1 className="text-2xl font-bold text-[#18181B] tracking-tight leading-none">
-              {tramite.tramite_types?.display_name ?? 'Trámite notarial'}
-            </h1>
-            {tramite.parties && tramite.parties.length > 0 && (
-              <div className="flex items-center gap-2 text-[#18181B]/60 text-sm flex-wrap">
-                {tramite.parties.slice(0, 2).map((p, i) => (
-                  <span key={i} className="flex items-center gap-1">
-                    {i > 0 && <span className="text-[#18181B]/30 mx-1">→</span>}
-                    {p.name}
-                  </span>
-                ))}
+      {/* Progress stepper */}
+      {tramite.statusTramite !== 'CANCELADO' && (
+        <div className="bg-white rounded-xl border border-navy-100 px-4 py-4">
+          <div className="flex items-center">
+            {STEPS.map((step, i) => {
+              const done = i < currentStep
+              const active = i === currentStep
+              const c = STATUS_COLORS[step] ?? { bg: '#f4f6fb', text: '#4a6da8' }
+              return (
+                <div key={step} className="flex items-center flex-1 min-w-0">
+                  <div className="flex flex-col items-center flex-1">
+                    <div
+                      className="w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold shrink-0"
+                      style={done ? { background: '#2c4dfb', color: 'white' } : active ? { background: c.bg, color: c.text, border: `2px solid ${c.text}` } : { background: '#f4f6fb', color: '#97aed4' }}
+                    >
+                      {done ? '✓' : i + 1}
+                    </div>
+                    <span className="text-[9px] text-navy-300 mt-1 text-center leading-tight hidden sm:block">
+                      {STATUS_LABELS[step]?.split(' ')[0]}
+                    </span>
+                  </div>
+                  {i < STEPS.length - 1 && (
+                    <div className="h-px flex-1 mx-1" style={{ background: done ? '#2c4dfb' : '#e1e7f3' }} />
+                  )}
+                </div>
+              )
+            })}
+          </div>
+        </div>
+      )}
+
+      {/* Tabs */}
+      <div className="flex gap-1 bg-white border border-navy-100 rounded-xl p-1">
+        {[
+          { key: 'info', label: 'Información', icon: Info },
+          { key: 'chat', label: `Chat${messages.length > 0 ? ` (${messages.length})` : ''}`, icon: MessageSquare },
+          { key: 'parties', label: 'Partes', icon: Users },
+        ].map(({ key, label, icon: Icon }) => (
+          <button
+            key={key}
+            onClick={() => setActiveTab(key as any)}
+            className="flex-1 flex items-center justify-center gap-1.5 py-2 px-2 rounded-lg text-xs font-semibold transition-colors"
+            style={activeTab === key ? { background: '#0f1d3d', color: 'white' } : { color: '#4a6da8' }}
+          >
+            <Icon size={13} /> {label}
+          </button>
+        ))}
+      </div>
+
+      {/* Info tab */}
+      {activeTab === 'info' && (
+        <div className="grid md:grid-cols-2 gap-4">
+          <div className="bg-white rounded-xl border border-navy-100 p-5 space-y-3">
+            <h3 className="text-xs font-bold text-navy-500 uppercase tracking-wide">Detalles</h3>
+            {[
+              { label: 'Tipo', value: tramite.tramiteType },
+              { label: 'Dirección', value: tramite.propertyAddress ?? '—' },
+              { label: 'Distrito', value: tramite.propertyDistrictAddress ?? '—' },
+              { label: 'Valor del inmueble', value: tramite.quotedPriceProperty != null ? formatPrice(tramite.quotedPriceProperty) : '—' },
+            ].map(({ label, value }) => (
+              <div key={label} className="flex justify-between py-1 border-b border-navy-50 last:border-0">
+                <span className="text-xs text-navy-400">{label}</span>
+                <span className="text-xs font-medium text-navy-900">{value}</span>
               </div>
+            ))}
+          </div>
+          <div className="bg-white rounded-xl border border-navy-100 p-5 space-y-3">
+            <h3 className="text-xs font-bold text-navy-500 uppercase tracking-wide">Honorarios</h3>
+            {[
+              { label: 'Tarifa base', value: tramite.baseFee != null ? formatPrice(tramite.baseFee) : '—' },
+              { label: 'Adicional', value: tramite.additionalFee != null ? formatPrice(tramite.additionalFee) : '—' },
+              { label: 'Total final', value: tramite.finalFee != null ? formatPrice(tramite.finalFee) : '—', bold: true },
+            ].map(({ label, value, bold }) => (
+              <div key={label} className={`flex justify-between py-1 border-b border-navy-50 last:border-0 ${bold ? 'pt-2 mt-1 border-t border-navy-100' : ''}`}>
+                <span className={`text-xs ${bold ? 'font-semibold text-navy-700' : 'text-navy-400'}`}>{label}</span>
+                <span className={`text-xs ${bold ? 'font-bold text-navy-900' : 'font-medium text-navy-900'}`}>{value}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* Parties tab */}
+      {activeTab === 'parties' && (
+        <div className="bg-white rounded-xl border border-navy-100 p-5">
+          <h3 className="text-xs font-bold text-navy-500 uppercase tracking-wide mb-4">Partes del trámite</h3>
+          {tramite.parties.length === 0 ? (
+            <p className="text-navy-400 text-sm">No hay partes registradas.</p>
+          ) : (
+            <div className="space-y-3">
+              {tramite.parties.map((p, i) => (
+                <div key={i} className="flex items-center gap-3 p-3 rounded-xl bg-navy-50">
+                  <div className="w-9 h-9 rounded-full flex items-center justify-center text-xs font-bold shrink-0 text-white" style={{ background: '#2c4dfb' }}>
+                    {p.fullName.split(' ').map((n: string) => n[0]).join('').slice(0, 2)}
+                  </div>
+                  <div>
+                    <div className="text-sm font-medium text-navy-900">{p.fullName}</div>
+                    <div className="text-xs text-navy-400 capitalize">{p.role} · {p.idDocumentNumber}</div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+      )}
+
+      {/* Chat tab */}
+      {activeTab === 'chat' && (
+        <div className="bg-white rounded-xl border border-navy-100 overflow-hidden flex flex-col" style={{ height: '460px' }}>
+          <div className="flex-1 overflow-y-auto p-4 space-y-4">
+            {messages.length === 0 ? (
+              <div className="flex flex-col items-center justify-center h-full text-center">
+                <MessageSquare size={28} className="text-navy-200 mb-2" />
+                <p className="text-navy-400 text-sm font-medium">Aún no hay mensajes</p>
+                <p className="text-navy-300 text-xs mt-1">Escribe abajo para contactar a la notaría</p>
+              </div>
+            ) : (
+              <>
+                {messages.map((m, i) => {
+                  const isOwn = m.senderId === brokerId
+                  const prevMsg = messages[i - 1]
+                  const showDay = !prevMsg || formatDay(m.createdAt) !== formatDay(prevMsg.createdAt)
+                  return (
+                    <div key={m.id}>
+                      {showDay && (
+                        <div className="flex items-center gap-3 my-2">
+                          <div className="flex-1 h-px bg-navy-100" />
+                          <span className="text-[10px] text-navy-300 font-medium">{formatDay(m.createdAt)}</span>
+                          <div className="flex-1 h-px bg-navy-100" />
+                        </div>
+                      )}
+                      <div className={`flex flex-col gap-0.5 ${isOwn ? 'items-end' : 'items-start'}`}>
+                        {!isOwn && (
+                          <span className="text-[10px] text-navy-400 font-semibold ml-1">{m.senderName}</span>
+                        )}
+                        <div className={`flex items-end gap-2 ${isOwn ? 'flex-row-reverse' : 'flex-row'}`}>
+                          {!isOwn && (
+                            <div className="w-6 h-6 rounded-full shrink-0 flex items-center justify-center text-[9px] font-bold text-white mb-1" style={{ background: '#0f1d3d' }}>
+                              {m.senderName.split(' ').map(n => n[0]).join('').slice(0, 2)}
+                            </div>
+                          )}
+                          <div
+                            className="rounded-2xl px-3 py-2 text-sm max-w-[75%]"
+                            style={isOwn
+                              ? { background: '#2c4dfb', color: 'white', borderBottomRightRadius: '4px' }
+                              : { background: '#f4f6fb', color: '#0f1d3d', borderBottomLeftRadius: '4px' }
+                            }
+                          >
+                            {m.content}
+                          </div>
+                        </div>
+                        <div className={`flex items-center gap-1 ${isOwn ? 'flex-row-reverse' : ''} px-1`}>
+                          <span className="text-[10px] text-navy-300">{formatTime(m.createdAt)}</span>
+                          {isOwn && m.failed && (
+                            <button
+                              onClick={() => handleRetry(m)}
+                              className="flex items-center gap-1 text-[10px] text-red-500 font-medium hover:text-red-700"
+                            >
+                              <AlertCircle size={10} />
+                              Error · Reintentar
+                              <RefreshCw size={10} />
+                            </button>
+                          )}
+                        </div>
+                      </div>
+                    </div>
+                  )
+                })}
+                <div ref={chatEndRef} />
+              </>
             )}
           </div>
 
-          {/* Cancel button */}
-          {!isCancelled && !isCompleted && (
-            <AlertDialog>
-              <AlertDialogTrigger asChild>
-                <button className="border border-red-200 text-red-600 rounded-full px-5 py-2 text-sm font-semibold hover:bg-red-50 transition-colors shrink-0">
-                  Cancelar trámite
-                </button>
-              </AlertDialogTrigger>
-              <AlertDialogContent className="rounded-3xl">
-                <AlertDialogHeader>
-                  <AlertDialogTitle>¿Cancelar este trámite?</AlertDialogTitle>
-                  <AlertDialogDescription>
-                    Esta acción no se puede deshacer. El trámite{' '}
-                    <strong>{tramite.reference_code}</strong> quedará cancelado y no podrá
-                    reactivarse.
-                  </AlertDialogDescription>
-                </AlertDialogHeader>
-                <AlertDialogFooter>
-                  <AlertDialogCancel className="rounded-full">Volver</AlertDialogCancel>
-                  <AlertDialogAction
-                    onClick={handleCancelTramite}
-                    disabled={isPending}
-                    className="bg-red-600 hover:bg-red-700 rounded-full"
-                  >
-                    {isPending ? <><Loader2 size={14} className="animate-spin mr-1.5" />Cancelando...</> : 'Sí, cancelar'}
-                  </AlertDialogAction>
-                </AlertDialogFooter>
-              </AlertDialogContent>
-            </AlertDialog>
-          )}
-        </div>
-      </div>
-
-      {/* ─── Desktop layout: 7:5 two-column grid ─── */}
-      <div className="hidden lg:grid lg:grid-cols-12 lg:gap-6">
-        {/* Left column (7) */}
-        <div className="col-span-7 space-y-0">
-          {TimelineSection}
-          {DocumentsSection}
-          <div className="bg-white rounded-3xl border border-[#18181B]/8 shadow-[0_4px_24px_rgba(18,18,27,0.06)] p-6 mt-4">
-            {PartesSection}
+          <div className="border-t border-navy-100 p-3 flex gap-2">
+            <input
+              type="text"
+              value={messageText}
+              onChange={(e) => setMessageText(e.target.value)}
+              onKeyDown={(e) => e.key === 'Enter' && !e.shiftKey && handleSend()}
+              placeholder="Escribe un mensaje..."
+              className="flex-1 h-9 px-3 text-sm border border-navy-100 rounded-lg bg-navy-50 text-navy-900 placeholder:text-navy-300 outline-none focus:border-blue-400"
+            />
+            <button
+              onClick={handleSend}
+              disabled={sending || !messageText.trim()}
+              className="w-9 h-9 flex items-center justify-center rounded-lg text-white disabled:opacity-40 transition-opacity"
+              style={{ background: '#2c4dfb' }}
+            >
+              {sending ? <Loader2 size={14} className="animate-spin" /> : <Send size={14} />}
+            </button>
           </div>
         </div>
-
-        {/* Right column (5) */}
-        <div className="col-span-5">
-          <div className="sticky top-6 space-y-0">
-            {DetallesSection}
-            {ChatSection}
-          </div>
-        </div>
-      </div>
-
-      {/* ─── Mobile layout: Tabs ─── */}
-      <div className="lg:hidden">
-        <Tabs defaultValue="seguimiento">
-          <TabsList className="w-full grid grid-cols-4 h-auto bg-slate-50 rounded-2xl p-1">
-            <TabsTrigger value="seguimiento" className="text-xs py-2 rounded-xl data-[state=active]:bg-white data-[state=active]:shadow-sm">
-              Seguimiento
-            </TabsTrigger>
-            <TabsTrigger value="documentos" className="text-xs py-2 rounded-xl data-[state=active]:bg-white data-[state=active]:shadow-sm">
-              Documentos
-            </TabsTrigger>
-            <TabsTrigger value="chat" className="text-xs py-2 rounded-xl data-[state=active]:bg-white data-[state=active]:shadow-sm">
-              Chat
-            </TabsTrigger>
-            <TabsTrigger value="detalles" className="text-xs py-2 rounded-xl data-[state=active]:bg-white data-[state=active]:shadow-sm">
-              Detalles
-            </TabsTrigger>
-          </TabsList>
-
-          <TabsContent value="seguimiento" className="mt-4 space-y-4">
-            {TimelineSection}
-            <div className="bg-white rounded-3xl border border-[#18181B]/8 shadow-[0_4px_24px_rgba(18,18,27,0.06)] p-6">
-              {PartesSection}
-            </div>
-          </TabsContent>
-
-          <TabsContent value="documentos" className="mt-4">
-            {DocumentsSection}
-          </TabsContent>
-
-          <TabsContent value="chat" className="mt-4">
-            {ChatSection}
-          </TabsContent>
-
-          <TabsContent value="detalles" className="mt-4">
-            {DetallesSection}
-          </TabsContent>
-        </Tabs>
-      </div>
+      )}
     </div>
   )
 }
