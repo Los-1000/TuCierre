@@ -52,7 +52,7 @@ export default function PriceMatchSection() {
             </ul>
 
             <p className="text-sm text-brand-muted">
-              Disponible desde Nivel Plata · Se solicita vía plataforma · Sin papeleo
+              Disponible para todos los brokers · Se solicita vía plataforma · Sin papeleo
             </p>
           </div>
         </Reveal>

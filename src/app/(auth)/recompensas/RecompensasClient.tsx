@@ -1,25 +1,18 @@
 'use client'
 
 import { useRouter } from 'next/navigation'
-import { Star, Users, PiggyBank, TrendingUp, Award, CheckCircle, Wallet, Clock, ArrowDownCircle, DollarSign, Lock } from 'lucide-react'
-import { calculateMonthlyCommission, COMMISSION_TIER_CONFIG } from '@/lib/commission'
-import { TIER_CONFIG } from '@/lib/constants'
+import { Users, PiggyBank, TrendingUp, Award, Wallet, Clock, ArrowDownCircle, DollarSign } from 'lucide-react'
+import { calculateMonthlyCommission } from '@/lib/commission'
 import { formatPrice, formatDate, cn } from '@/lib/utils'
 import ReferralCode from '@/components/shared/ReferralCode'
 import EmptyState from '@/components/shared/EmptyState'
 import CashoutDialog from '@/components/recompensas/CashoutDialog'
-import type { Broker, Reward, BrokerTier, CashoutRequest, CashoutStatus } from '@/types/database'
+import type { Broker, Reward, CashoutRequest, CashoutStatus } from '@/types/database'
 
 const REWARD_TYPE_CONFIG: Record<string, { label: string; badgeClass: string }> = {
-  volume_discount: { label: 'Descuento por volumen', badgeClass: 'bg-[#2855E0]/8 text-[#2855E0] border-[#2855E0]/20' },
-  referral_bonus:  { label: 'Bono de referido',      badgeClass: 'bg-[#2855E0]/8 text-[#2855E0] border-[#2855E0]/20' },
-  price_match:     { label: 'Price match',            badgeClass: 'bg-[#2855E0]/8 text-[#2855E0] border-[#2855E0]/20' },
-}
-
-const TIER_COLOR: Record<BrokerTier, string> = {
-  bronce: '#B5540E',
-  plata:  '#6B7F99',
-  oro:    '#C9880E',
+  volume_discount: { label: 'Cashback por trámite', badgeClass: 'bg-[#2855E0]/8 text-[#2855E0] border-[#2855E0]/20' },
+  referral_bonus:  { label: 'Bono de referido',     badgeClass: 'bg-[#2855E0]/8 text-[#2855E0] border-[#2855E0]/20' },
+  price_match:     { label: 'Price match',           badgeClass: 'bg-[#2855E0]/8 text-[#2855E0] border-[#2855E0]/20' },
 }
 
 const CASHOUT_STATUS_CONFIG: Record<CashoutStatus, { label: string; badgeClass: string }> = {
@@ -50,6 +43,7 @@ interface RecompensasClientProps {
   initialCashouts: CashoutRequest[]
   referralCount: number
   referralSavings: number
+  referralCashback: number
   initialCommissionMonths: CommissionMonth[]
 }
 
@@ -59,14 +53,10 @@ export default function RecompensasClient({
   initialCashouts,
   referralCount,
   referralSavings,
+  referralCashback,
   initialCommissionMonths,
 }: RecompensasClientProps) {
   const router = useRouter()
-
-  const tier = (broker?.tier ?? 'bronce') as BrokerTier
-  const tierConfig = TIER_CONFIG[tier]
-  const monthCount = broker?.total_tramites_month ?? 0
-  const tierColor = TIER_COLOR[tier]
 
   const lockedAmount = initialCashouts
     .filter(c => c.status === 'pending')
@@ -77,202 +67,34 @@ export default function RecompensasClient({
   const availableBalance = Math.max(0, referralSavings - lockedAmount - withdrawnAmount)
   const hasPendingCashout = initialCashouts.some(c => c.status === 'pending')
 
-  let progressPercent = 0
-  let nextTierLabel = ''
-  let tramitesToNext = 0
-
-  if (tier === 'bronce') {
-    progressPercent = Math.min((monthCount / 4) * 100, 100)
-    nextTierLabel = 'Plata'
-    tramitesToNext = Math.max(4 - monthCount, 0)
-  } else if (tier === 'plata') {
-    progressPercent = Math.min(((monthCount - 4) / 4) * 100, 100)
-    nextTierLabel = 'Oro'
-    tramitesToNext = Math.max(8 - monthCount, 0)
-  } else {
-    progressPercent = 100
-  }
-
-  const tierBenefits: Record<BrokerTier, string[]> = {
-    bronce: [
-      '3% de comisión por cada trámite completado',
-      'Soporte básico por mensajería',
-      'Price matching disponible',
-    ],
-    plata: [
-      '5% de comisión por cada trámite completado',
-      'Prioridad media en revisión',
-      'Soporte preferente',
-    ],
-    oro: [
-      '8% de comisión por cada trámite completado',
-      'Prioridad máxima en revisión',
-      'Atención dedicada',
-      'Gestor asignado',
-    ],
-  }
-
   return (
     <div className="space-y-8">
       {/* Header */}
       <div>
         <h1 className="text-4xl font-bold font-display text-white tracking-tight">Recompensas</h1>
         <p className="text-white/50 text-sm mt-1">
-          Tu nivel de fidelidad, beneficios y ahorro acumulado.
+          Tu cashback, tus referidos y tus retiros — todo en un lugar.
         </p>
       </div>
 
-      {/* ── Tier hero card ── */}
-      <div className="bg-white rounded-3xl border border-[#18181B]/8 shadow-[0_4px_24px_rgba(18,18,27,0.06)] p-6">
-        <div className="flex flex-col md:flex-row md:items-center gap-6">
-          {/* Left: tier badge */}
-          <div className="flex items-center gap-4 min-w-0">
-            <div
-              className="w-14 h-14 rounded-2xl flex items-center justify-center text-3xl font-bold text-white shrink-0"
-              style={{ backgroundColor: tierColor }}
-            >
-              {tierConfig.icon}
-            </div>
-            <div>
-              <div className="text-2xl font-bold" style={{ color: tierColor }}>{tierConfig.label}</div>
-              <p className="text-sm text-[#18181B]/50 mt-0.5">
-                {monthCount} trámite{monthCount !== 1 ? 's' : ''} este mes
-              </p>
-            </div>
+      {/* ── Cashback model card (flat, no levels) ── */}
+      <div className="bg-white rounded-3xl border border-[#18181B]/8 shadow-[0_4px_24px_rgba(18,18,27,0.06)] p-6 md:p-8">
+        <h2 className="text-base font-semibold text-[#18181B]">Cómo ganas con TuCierre</h2>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-5">
+          <div className="rounded-2xl border border-[#2855E0]/15 bg-[#2855E0]/5 p-5">
+            <div className="text-4xl font-black tracking-tight text-[#2855E0] tabular-nums">5%</div>
+            <p className="text-sm font-semibold text-[#18181B] mt-1">de cashback por cada trámite</p>
+            <p className="text-xs text-[#18181B]/55 mt-0.5">Sobre cada trámite que cierras, desde el primero.</p>
           </div>
-
-          {/* Center: progress bar */}
-          <div className="flex-1">
-            {tier !== 'oro' ? (
-              <>
-                <div className="flex justify-between items-center mb-2">
-                  <span className="text-xs text-[#18181B]/50 font-medium">Progreso hacia {nextTierLabel}</span>
-                  <span className="text-xs font-semibold text-[#18181B]">
-                    {monthCount} / {tier === 'bronce' ? 4 : 8}
-                  </span>
-                </div>
-                <div className="h-2.5 bg-[#18181B]/8 rounded-full overflow-hidden">
-                  <div
-                    className="h-full rounded-full transition-all duration-700 motion-reduce:transition-none"
-                    style={{ width: `${progressPercent}%`, backgroundColor: tierColor }}
-                  />
-                </div>
-                <p className="text-xs text-[#18181B]/50 mt-2">
-                  {tramitesToNext > 0 ? (
-                    <><span className="font-semibold text-[#18181B]">{tramitesToNext} trámite{tramitesToNext !== 1 ? 's' : ''} más</span>{' '}para subir a {nextTierLabel}</>
-                  ) : (
-                    <span className="font-semibold text-[#2855E0]">¡Estás a punto de subir a {nextTierLabel}!</span>
-                  )}
-                </p>
-              </>
-            ) : (
-              <div className="flex items-center gap-2 bg-[#C9880E]/10 border border-[#C9880E]/20 rounded-xl px-4 py-2.5 w-fit">
-                <Star size={14} className="text-[#C9880E] fill-[#C9880E] shrink-0" />
-                <span className="text-sm text-[#C9880E] font-semibold">Máximo nivel alcanzado</span>
-              </div>
-            )}
+          <div className="rounded-2xl border border-[#1C7A52]/20 bg-[#1C7A52]/5 p-5">
+            <div className="text-4xl font-black tracking-tight text-[#1C7A52] tabular-nums">1%</div>
+            <p className="text-sm font-semibold text-[#18181B] mt-1">por los trámites de tus referidos</p>
+            <p className="text-xs text-[#18181B]/55 mt-0.5">Por cada trámite que cierran los brokers que invitas.</p>
           </div>
-
-          {/* Right: discount callout */}
-          {tier !== 'oro' && tierConfig.discount > 0 && (
-            <div className="bg-amber-50 border border-amber-200 rounded-2xl px-5 py-4 text-center shrink-0">
-              <div className="text-2xl font-bold text-amber-700">{tierConfig.discount}%</div>
-              <div className="text-xs text-amber-600 font-medium mt-0.5">descuento</div>
-            </div>
-          )}
         </div>
-      </div>
-
-      {/* ── 3 tier cards ── */}
-      <div>
-        <h2 className="text-lg font-semibold text-white mb-4">Beneficios del programa</h2>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
-          {(['bronce', 'plata', 'oro'] as BrokerTier[]).map((t) => {
-            const config = TIER_CONFIG[t]
-            const isActive = tier === t
-            const color = TIER_COLOR[t]
-            const isLocked = (t === 'plata' && tier === 'bronce') || (t === 'oro' && tier !== 'oro')
-            const TierIcon = t === 'oro' ? Award : t === 'plata' ? Star : TrendingUp
-
-            return (
-              <div
-                key={t}
-                className={cn(
-                  'rounded-2xl p-5 transition-all duration-200',
-                  isActive
-                    ? 'bg-white border-2 shadow-[0_8px_28px_rgba(0,0,0,0.10)]'
-                    : isLocked
-                    ? 'bg-white/80 border border-[#18181B]/5'
-                    : 'bg-white border border-[#18181B]/8',
-                )}
-                style={isActive ? { borderColor: color } : {}}
-              >
-                <div className="flex items-start justify-between mb-4">
-                  <div
-                    className="w-9 h-9 rounded-xl flex items-center justify-center"
-                    style={{
-                      background: isActive ? `${color}18` : 'rgba(24,24,27,0.05)',
-                      color: isActive ? color : 'rgba(24,24,27,0.5)',
-                    }}
-                  >
-                    <TierIcon size={17} />
-                  </div>
-                  {isActive ? (
-                    <span
-                      className="text-xs font-black uppercase tracking-widest px-2 py-1 rounded-full text-white"
-                      style={{ backgroundColor: color }}
-                    >
-                      Actual
-                    </span>
-                  ) : isLocked ? (
-                    <Lock size={13} className="text-[#18181B]/45 mt-1" />
-                  ) : null}
-                </div>
-
-                <div className="mb-3">
-                  <span
-                    className={cn('font-black text-lg tracking-tight')}
-                    style={{ color: isActive ? color : isLocked ? 'rgba(24,24,27,0.55)' : '#18181B' }}
-                  >
-                    {config.label}
-                  </span>
-                  {config.discount > 0 && (
-                    <p className="text-xs text-[#18181B]/55 mt-0.5">
-                      {TIER_CONFIG[t].minTramites}+ trámites/mes
-                    </p>
-                  )}
-                </div>
-
-                <div className="space-y-2">
-                  {tierBenefits[t].map((benefit, i) => (
-                    <div key={i} className="flex items-start gap-2">
-                      <CheckCircle
-                        size={13}
-                        className="mt-0.5 shrink-0"
-                        style={{ color: isActive ? color : 'rgba(24,24,27,0.45)' }}
-                      />
-                      <span
-                        className="text-sm leading-snug"
-                        style={{ color: isActive ? 'rgba(24,24,27,0.75)' : 'rgba(24,24,27,0.65)' }}
-                      >
-                        {benefit}
-                      </span>
-                    </div>
-                  ))}
-                </div>
-
-                {isLocked && tramitesToNext > 0 && (
-                  <div
-                    className="mt-4 text-center py-1.5 rounded-full text-xs font-semibold"
-                    style={{ backgroundColor: `${color}10`, color }}
-                  >
-                    Faltan {tramitesToNext} trámite{tramitesToNext !== 1 ? 's' : ''}
-                  </div>
-                )}
-              </div>
-            )
-          })}
-        </div>
+        <p className="text-xs text-[#18181B]/50 mt-4">
+          Sin niveles. Sin mínimos. Tu cashback se acumula solo y se paga a fin de mes.
+        </p>
       </div>
 
       {/* ── Referral code ── */}
@@ -282,7 +104,7 @@ export default function RecompensasClient({
           <h2 className="text-base font-semibold text-[#18181B]">Código de referido</h2>
         </div>
         <p className="text-sm text-[#18181B]/50 mb-5">
-          Comparte tu código y gana beneficios adicionales cuando tus referidos completen trámites.
+          Comparte tu código y gana 1% de cada trámite que cierren tus referidos.
         </p>
         {broker?.referral_code ? (
           <ReferralCode code={broker.referral_code} />
@@ -300,19 +122,19 @@ export default function RecompensasClient({
           </div>
           <div className="bg-[#18181B]/4 border border-[#18181B]/8 rounded-2xl p-4 text-center">
             <div className="flex items-center justify-center gap-1.5 mb-1">
-              <PiggyBank size={15} className="text-[#2855E0]" />
+              <PiggyBank size={15} className="text-[#1C7A52]" />
             </div>
-            <div className="text-lg font-bold text-[#18181B] tabular-nums">{formatPrice(referralSavings)}</div>
-            <div className="text-xs text-[#18181B]/50 mt-0.5">ahorro por referidos</div>
+            <div className="text-lg font-bold text-[#18181B] tabular-nums font-mono">{formatPrice(referralCashback)}</div>
+            <div className="text-xs text-[#18181B]/50 mt-0.5">ganado por referidos (1%)</div>
           </div>
         </div>
       </div>
 
-      {/* ── Retiro de referidos ── */}
+      {/* ── Retiro de saldo ── */}
       <div>
         <div className="flex items-center gap-2 mb-4">
           <Wallet size={17} className="text-white/60" />
-          <h2 className="text-lg font-semibold text-white">Retiro de referidos</h2>
+          <h2 className="text-lg font-semibold text-white">Retiro de saldo</h2>
         </div>
 
         <div className="bg-white rounded-3xl border border-[#18181B]/8 shadow-[0_4px_24px_rgba(18,18,27,0.06)] p-6">
@@ -395,17 +217,17 @@ export default function RecompensasClient({
         </div>
       </div>
 
-      {/* ── Comisiones ── */}
+      {/* ── Cashback ── */}
       <div>
         <div className="flex items-center gap-2 mb-4">
           <DollarSign size={17} className="text-white/60" />
-          <h2 className="text-lg font-semibold text-white">Comisiones</h2>
+          <h2 className="text-lg font-semibold text-white">Cashback</h2>
         </div>
 
         {initialCommissionMonths.length === 0 ? (
           <div className="bg-white rounded-3xl border border-[#18181B]/8 shadow-[0_4px_24px_rgba(18,18,27,0.06)] py-10 text-center">
             <DollarSign size={28} className="mx-auto text-[#18181B]/20 mb-2" />
-            <p className="text-sm text-[#6B7A9A]">Aún no tienes comisiones generadas.</p>
+            <p className="text-sm text-[#6B7A9A]">Aún no tienes cashback generado.</p>
           </div>
         ) : (
           <div className="bg-white rounded-3xl border border-[#18181B]/8 shadow-[0_4px_24px_rgba(18,18,27,0.06)] overflow-hidden">
@@ -423,15 +245,13 @@ export default function RecompensasClient({
               return (
                 <div className="grid grid-cols-2 gap-3 p-5 border-b border-[#18181B]/6">
                   <div className="bg-green-50 border border-green-200 rounded-2xl p-4">
-                    <div className="text-xs text-[#18181B]/50 font-medium mb-1">Comisión este mes</div>
+                    <div className="text-xs text-[#18181B]/50 font-medium mb-1">Cashback este mes</div>
                     <div className="text-xl font-bold text-green-700 tabular-nums font-mono">
                       {currentCommission ? formatPrice(currentCommission.amount) : 'S/. 0.00'}
                     </div>
                     {currentCommission && currentCommission.count > 0 && (
                       <div className="text-xs text-[#18181B]/50 mt-0.5">
-                        {COMMISSION_TIER_CONFIG[currentCommission.tier].icon}{' '}
-                        {COMMISSION_TIER_CONFIG[currentCommission.tier].label}{' '}·{' '}
-                        {COMMISSION_TIER_CONFIG[currentCommission.tier].ratePercent}%
+                        {currentCommission.count} trámite{currentCommission.count !== 1 ? 's' : ''} · 5%
                       </div>
                     )}
                   </div>
@@ -450,7 +270,7 @@ export default function RecompensasClient({
               <table className="w-full text-sm">
                 <thead>
                   <tr className="border-b border-[#18181B]/8">
-                    {['Mes', 'Clientes', 'Nivel', '%', 'Monto', 'Estado'].map(h => (
+                    {['Mes', 'Trámites', '%', 'Monto', 'Estado'].map(h => (
                       <th key={h} scope="col" className="text-left text-xs font-bold uppercase tracking-widest text-[#6B7A9A] px-5 py-3">{h}</th>
                     ))}
                   </tr>
@@ -458,7 +278,6 @@ export default function RecompensasClient({
                 <tbody className="divide-y divide-[#18181B]/5">
                   {initialCommissionMonths.map(month => {
                     const r = calculateMonthlyCommission(month.tramites)
-                    const tc = COMMISSION_TIER_CONFIG[r.tier]
                     const [year, mo] = month.yearMonth.split('-')
                     const label = new Date(parseInt(year), parseInt(mo) - 1, 1)
                       .toLocaleDateString('es-PE', { month: 'long', year: 'numeric' })
@@ -466,8 +285,7 @@ export default function RecompensasClient({
                       <tr key={month.yearMonth} className="hover:bg-[#18181B]/3 transition-colors motion-reduce:transition-none">
                         <td className="px-5 py-3.5 font-medium text-[#18181B] capitalize">{label}</td>
                         <td className="px-5 py-3.5 text-[#18181B]/60">{r.count}</td>
-                        <td className="px-5 py-3.5">{tc.icon} {tc.label}</td>
-                        <td className="px-5 py-3.5 text-[#18181B]/60">{tc.ratePercent}%</td>
+                        <td className="px-5 py-3.5 text-[#18181B]/60">{Math.round(r.rate * 100)}%</td>
                         <td className="px-5 py-3.5 font-mono font-semibold text-[#18181B] tabular-nums">{formatPrice(r.amount)}</td>
                         <td className="px-5 py-3.5">
                           {month.cashoutStatus === 'completed' ? (
@@ -499,7 +317,7 @@ export default function RecompensasClient({
           <EmptyState
             icon={<Award size={28} className="text-[#18181B]/30" />}
             title="Sin recompensas aún"
-            description="Completa trámites y sube de nivel para empezar a acumular recompensas y descuentos."
+            description="Cierra trámites e invita referidos para empezar a acumular cashback."
           />
         ) : (
           <div className="bg-white rounded-3xl border border-[#18181B]/8 shadow-[0_4px_24px_rgba(18,18,27,0.06)] overflow-hidden">

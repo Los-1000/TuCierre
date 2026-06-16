@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Copy, Check, Share2, Link as LinkIcon } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { toast } from 'sonner'
@@ -13,7 +13,12 @@ export default function ReferralCode({ code }: ReferralCodeProps) {
   const [copied, setCopied] = useState(false)
   const [linkCopied, setLinkCopied] = useState(false)
 
-  const referralUrl = `${window.location.origin}/register?ref=${code}`
+  // window is unavailable during SSR — resolve the origin after mount, with a
+  // relative fallback so the first render (server) stays valid.
+  const [origin, setOrigin] = useState('')
+  useEffect(() => { setOrigin(window.location.origin) }, [])
+
+  const referralUrl = `${origin}/register?ref=${code}`
 
   const handleCopy = async () => {
     await navigator.clipboard.writeText(code)

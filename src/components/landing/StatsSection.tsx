@@ -79,14 +79,9 @@ export default function StatsSection() {
                 <p className="text-base leading-relaxed text-brand-text/75 mb-6">
                   &ldquo;{t.quote}&rdquo;
                 </p>
-                <div className="flex items-center justify-between">
-                  <div>
-                    <p className="text-sm font-bold text-brand-navy">{t.name}</p>
-                    <p className="text-xs text-brand-muted mt-0.5">{t.role}</p>
-                  </div>
-                  <span className="text-xs font-black uppercase tracking-widest px-2.5 py-1 rounded-full bg-brand-navy/6 text-brand-navy/55">
-                    {t.tier}
-                  </span>
+                <div>
+                  <p className="text-sm font-bold text-brand-navy">{t.name}</p>
+                  <p className="text-xs text-brand-muted mt-0.5">{t.role}</p>
                 </div>
               </div>
             </Reveal>

@@ -39,7 +39,6 @@ export default function CashoutDialog({
   onSuccess,
 }: CashoutDialogProps) {
   const [open, setOpen] = useState(false)
-  const supabase = createClient()
 
   const {
     register,
@@ -55,6 +54,9 @@ export default function CashoutDialog({
   const method = watch('method') as CashoutMethod | undefined
 
   const onSubmit = async (data: CashoutFormInput) => {
+    // Created here (not at render) so the browser client is never constructed
+    // during SSR, where Supabase env vars are unavailable.
+    const supabase = createClient()
     let payment_details: BankTransferDetails | WalletDetails
 
     if (data.method === 'bank_transfer') {

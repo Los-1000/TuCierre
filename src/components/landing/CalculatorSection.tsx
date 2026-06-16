@@ -29,7 +29,7 @@ export default function CalculatorSection() {
               Calcula cuánto ganas al mes
             </h2>
             <p className="text-lg text-brand-muted">
-              Ajusta cuántos trámites cierras y ve tu comisión exacta según tu nivel.
+              Ajusta tus trámites y los de tus referidos para ver tu cashback exacto.
             </p>
           </div>
         </Reveal>

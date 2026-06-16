@@ -141,7 +141,12 @@
       "Bash(xargs cat)",
       "Bash(echo \"EXIT CODE: $?\")",
       "Read(//tmp/**)",
-      "Bash(git push *)"
+      "Bash(git push *)",
+      "Bash(curl -s -o /dev/null -D - \"http://localhost:3000/recompensas\")",
+      "Bash(curl -s -D - -b \"access_token=mock-demo-token\" \"http://localhost:3000/recompensas\" -o /tmp/recompensas.html)",
+      "Bash(taskkill //F //IM node.exe //T)",
+      "Bash(pkill -f \"next dev\")",
+      "Bash(echo \"EXIT: $?\")"
     ]
   }
 }
