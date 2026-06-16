@@ -2,7 +2,7 @@ import { createClient } from '@/lib/supabase/server'
 import { redirect } from 'next/navigation'
 import Link from 'next/link'
 import StatusBadge from '@/components/tramites/StatusBadge'
-import { formatPrice, formatDate } from '@/lib/utils'
+import { formatPrice, formatDate, type Currency } from '@/lib/utils'
 import { TRAMITE_STATUS_CONFIG } from '@/lib/constants'
 import type { TramiteStatus } from '@/types/database'
 import {
@@ -35,7 +35,7 @@ async function fetchDashboard() {
     supabase.from('tramites').select('status, final_price, broker_id, updated_at'),
     supabase
       .from('tramites')
-      .select('broker_id, final_price, status')
+      .select('broker_id, final_price, status, currency')
       .gte('created_at', startOfMonth),
     supabase
       .from('tramites')
@@ -50,22 +50,21 @@ async function fetchDashboard() {
     byStatus[t.status] = (byStatus[t.status] || 0) + 1
   }
 
-  let incomeThisMonth = 0
-  const monthTramites = (monthTramitesRes.data ?? []) as { broker_id: string; final_price: number; status: string }[]
-  incomeThisMonth = monthTramites
-    .filter(t => t.status === 'completado')
-    .reduce((sum, t) => sum + (t.final_price || 0), 0)
+  const monthTramites = (monthTramitesRes.data ?? []) as { broker_id: string; final_price: number; status: string; currency: Currency }[]
+  const completedMonth = monthTramites.filter(t => t.status === 'completado')
+  const incomePEN = completedMonth.filter(t => (t.currency ?? 'PEN') !== 'USD').reduce((sum, t) => sum + (t.final_price || 0), 0)
+  const incomeUSD = completedMonth.filter(t => t.currency === 'USD').reduce((sum, t) => sum + (t.final_price || 0), 0)
 
   const activeBrokerIds = new Set(monthTramites.map(t => t.broker_id))
   const activeBrokers = activeBrokerIds.size
 
   const recentTramites = (recentRes.data ?? []) as unknown as RecentTramite[]
 
-  return { byStatus, incomeThisMonth, activeBrokers, recentTramites }
+  return { byStatus, incomePEN, incomeUSD, activeBrokers, recentTramites }
 }
 
 export default async function AdminDashboardPage() {
-  const { byStatus, incomeThisMonth, activeBrokers, recentTramites } =
+  const { byStatus, incomePEN, incomeUSD, activeBrokers, recentTramites } =
     await fetchDashboard()
 
   const activeCount =
@@ -157,7 +156,8 @@ export default async function AdminDashboardPage() {
         {/* Ingresos — dark card */}
         <div className="bg-[#18181B] rounded-3xl shadow-xl p-6">
           <p className="text-xs font-bold uppercase tracking-wider text-zinc-400 mb-1">Ingresos del mes</p>
-          <h3 className="text-3xl font-black text-white tracking-tighter">{formatPrice(incomeThisMonth)}</h3>
+          <h3 className="text-2xl font-black text-white tracking-tighter">{formatPrice(incomePEN, 'PEN')}</h3>
+          <p className="text-sm font-bold text-white/80 tracking-tight tabular-nums">{formatPrice(incomeUSD, 'USD')}</p>
           <p className="text-xs text-zinc-500 mt-1">Trámites completados</p>
         </div>
       </div>

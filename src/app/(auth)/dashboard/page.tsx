@@ -179,10 +179,10 @@ export default async function DashboardPage() {
       {/* Stats — secondary, 2-col on mobile */}
       <div className="grid grid-cols-2 gap-3">
         {[
-          { label: 'Activos', value: stats?.activeCount ?? 0, icon: Clock, color: '#2c4dfb', bg: '#eff2ff' },
-          { label: 'Completados / mes', value: stats?.completedThisMonth ?? 0, icon: CheckCircle, color: '#16a34a', bg: '#f0fdf4' },
-          { label: 'Monto gestionado', value: formatPrice(stats?.totalValue ?? 0), icon: Wallet, color: '#2c4dfb', bg: '#eff2ff' },
-          { label: 'Cashback acumulado', value: formatPrice(stats?.commissionEarned ?? 0), icon: TrendingUp, color: '#16a34a', bg: '#f0fdf4' },
+          { label: 'Activos', value: String(stats?.activeCount ?? 0), value2: null, icon: Clock, color: '#2c4dfb', bg: '#eff2ff' },
+          { label: 'Completados / mes', value: String(stats?.completedThisMonth ?? 0), value2: null, icon: CheckCircle, color: '#16a34a', bg: '#f0fdf4' },
+          { label: 'Monto gestionado', value: formatPrice(stats?.totalValuePEN ?? 0, 'PEN'), value2: formatPrice(stats?.totalValueUSD ?? 0, 'USD'), icon: Wallet, color: '#2c4dfb', bg: '#eff2ff' },
+          { label: 'Cashback acumulado', value: formatPrice(stats?.commissionEarnedPEN ?? 0, 'PEN'), value2: formatPrice(stats?.commissionEarnedUSD ?? 0, 'USD'), icon: TrendingUp, color: '#16a34a', bg: '#f0fdf4' },
         ].map((s) => (
           <div key={s.label} className="bg-white rounded-xl border border-navy-100 p-4">
             <div className="flex items-center gap-2 mb-2">
@@ -192,6 +192,9 @@ export default async function DashboardPage() {
               <span className="text-xs font-medium text-navy-400 leading-tight">{s.label}</span>
             </div>
             <span className="text-lg font-bold text-navy-900 tabular-nums">{s.value}</span>
+            {s.value2 && (
+              <span className="block text-sm font-semibold text-navy-500 tabular-nums mt-0.5">{s.value2}</span>
+            )}
           </div>
         ))}
       </div>

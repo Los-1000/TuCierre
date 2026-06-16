@@ -1,7 +1,7 @@
 import { redirect } from 'next/navigation'
 import { cookies } from 'next/headers'
 import { Card, CardContent } from '@/components/ui/card'
-import { formatPrice } from '@/lib/utils'
+import { formatPrice, type Currency } from '@/lib/utils'
 import Link from 'next/link'
 import { Users, FileText, DollarSign, ArrowDownCircle, GitCompare, Building2 } from 'lucide-react'
 import { MOCK_SUPERADMIN_TOKEN, MOCK_SUPERADMIN_STATS } from '@/lib/server-api'
@@ -37,39 +37,41 @@ async function fetchSuperDashboard() {
     adminClient.from('brokers').select('id', { count: 'exact', head: true }).eq('is_admin', false).eq('is_superadmin', false),
     adminClient.from('brokers').select('id', { count: 'exact', head: true }).eq('is_admin', true),
     adminClient.from('tramites').select('status'),
-    adminClient.from('tramites').select('status, final_price').gte('created_at', startOfMonth),
+    adminClient.from('tramites').select('status, final_price, currency').gte('created_at', startOfMonth),
     adminClient.from('cashout_requests').select('id', { count: 'exact', head: true }).eq('status', 'pending'),
     adminClient.from('price_match_requests').select('id', { count: 'exact', head: true }).eq('status', 'pending'),
-    adminClient.from('tramites').select('id, reference_code, status, final_price, updated_at, tramite_types!tramite_type_id(display_name), brokers!broker_id(full_name)').order('updated_at', { ascending: false }).limit(10),
+    adminClient.from('tramites').select('id, reference_code, status, final_price, currency, updated_at, tramite_types!tramite_type_id(display_name), brokers!broker_id(full_name)').order('updated_at', { ascending: false }).limit(10),
   ])
 
   const allTramites = (allTramitesRes.data ?? []) as { status: string }[]
   const activeTramites = allTramites.filter(t => ['solicitado', 'documentos_pendientes', 'en_revision', 'en_firma', 'en_registro'].includes(t.status)).length
-  const monthTramites = (monthTramitesRes.data ?? []) as { status: string; final_price: number }[]
-  const incomeThisMonth = monthTramites.filter(t => t.status === 'completado').reduce((sum, t) => sum + (t.final_price || 0), 0)
+  const monthTramites = (monthTramitesRes.data ?? []) as { status: string; final_price: number; currency: Currency }[]
+  const completedMonth = monthTramites.filter(t => t.status === 'completado')
+  const incomePEN = completedMonth.filter(t => (t.currency ?? 'PEN') !== 'USD').reduce((sum, t) => sum + (t.final_price || 0), 0)
+  const incomeUSD = completedMonth.filter(t => t.currency === 'USD').reduce((sum, t) => sum + (t.final_price || 0), 0)
 
   const recent = ((recentRes.data ?? []) as any[]).map(t => ({
     id: t.id, referenceCode: t.reference_code, status: t.status?.toUpperCase(),
-    finalFee: t.final_price, updatedAt: t.updated_at,
+    finalFee: t.final_price, currency: (t.currency ?? 'PEN') as Currency, updatedAt: t.updated_at,
     tramiteType: t.tramite_types?.display_name ?? '—', brokerName: t.brokers?.full_name ?? '—',
   }))
 
   return {
     totalBrokers: brokersRes.count ?? 0, totalNotarias: notariasRes.count ?? 0,
-    activeTramites, incomeThisMonth,
+    activeTramites, incomePEN, incomeUSD,
     pendingCashouts: cashoutPendingRes.count ?? 0, pendingPriceMatch: priceMatchPendingRes.count ?? 0,
     recentTramites: recent,
   }
 }
 
 export default async function SuperAdminDashboard() {
-  const { totalBrokers, totalNotarias, activeTramites, incomeThisMonth, pendingCashouts, pendingPriceMatch, recentTramites } = await fetchSuperDashboard()
+  const { totalBrokers, totalNotarias, activeTramites, incomePEN, incomeUSD, pendingCashouts, pendingPriceMatch, recentTramites } = await fetchSuperDashboard()
 
   const kpis = [
     { title: 'Brokers registrados', value: totalBrokers.toString(), icon: Users, iconColor: 'text-purple-600', iconBg: 'bg-purple-50', sub: 'Total en la plataforma', href: '/superadmin/brokers', badge: null },
     { title: 'Notarías activas', value: totalNotarias.toString(), icon: Building2, iconColor: 'text-blue-600', iconBg: 'bg-blue-50', sub: 'Administradores registrados', href: '/superadmin/notarias', badge: null },
     { title: 'Trámites activos', value: activeTramites.toString(), icon: FileText, iconColor: 'text-sky-600', iconBg: 'bg-sky-50', sub: 'En proceso actualmente', href: '/superadmin/tramites', badge: null },
-    { title: 'Ingresos del mes', value: formatPrice(incomeThisMonth), icon: DollarSign, iconColor: 'text-emerald-600', iconBg: 'bg-emerald-50', sub: 'Trámites completados', href: null, badge: null },
+    { title: 'Ingresos del mes', value: formatPrice(incomePEN, 'PEN'), icon: DollarSign, iconColor: 'text-emerald-600', iconBg: 'bg-emerald-50', sub: formatPrice(incomeUSD, 'USD'), href: null, badge: null },
     { title: 'Cashouts pendientes', value: pendingCashouts.toString(), icon: ArrowDownCircle, iconColor: pendingCashouts > 0 ? 'text-red-600' : 'text-gray-500', iconBg: pendingCashouts > 0 ? 'bg-red-50' : 'bg-gray-50', sub: 'Solicitudes por procesar', href: '/superadmin/cashouts', badge: pendingCashouts > 0 ? pendingCashouts : null },
     { title: 'Price Match pendientes', value: pendingPriceMatch.toString(), icon: GitCompare, iconColor: pendingPriceMatch > 0 ? 'text-red-600' : 'text-gray-500', iconBg: pendingPriceMatch > 0 ? 'bg-red-50' : 'bg-gray-50', sub: 'Solicitudes por revisar', href: '/superadmin/price-match', badge: pendingPriceMatch > 0 ? pendingPriceMatch : null },
   ]
@@ -127,7 +129,7 @@ export default async function SuperAdminDashboard() {
                         {STATUS_LABELS[t.status] ?? t.status}
                       </span>
                       <div className="shrink-0 text-right hidden sm:block">
-                        <p className="text-sm font-semibold text-gray-800">{formatPrice(t.finalFee)}</p>
+                        <p className="text-sm font-semibold text-gray-800">{formatPrice(t.finalFee, t.currency)}</p>
                       </div>
                     </div>
                   )

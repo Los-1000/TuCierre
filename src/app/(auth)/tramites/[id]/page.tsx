@@ -211,7 +211,7 @@ export default function TramiteDetailPage() {
               { label: 'Tipo', value: tramite.tramiteType },
               { label: 'Dirección', value: tramite.propertyAddress ?? '—' },
               { label: 'Distrito', value: tramite.propertyDistrictAddress ?? '—' },
-              { label: 'Valor del inmueble', value: tramite.quotedPriceProperty != null ? formatPrice(tramite.quotedPriceProperty) : '—' },
+              { label: 'Valor del inmueble', value: tramite.quotedPriceProperty != null ? formatPrice(tramite.quotedPriceProperty, tramite.currency) : '—' },
             ].map(({ label, value }) => (
               <div key={label} className="flex justify-between py-1 border-b border-navy-50 last:border-0">
                 <span className="text-xs text-navy-400">{label}</span>
@@ -222,9 +222,9 @@ export default function TramiteDetailPage() {
           <div className="bg-white rounded-xl border border-navy-100 p-5 space-y-3">
             <h3 className="text-xs font-bold text-navy-500 uppercase tracking-wide">Honorarios</h3>
             {[
-              { label: 'Tarifa base', value: tramite.baseFee != null ? formatPrice(tramite.baseFee) : '—' },
-              { label: 'Adicional', value: tramite.additionalFee != null ? formatPrice(tramite.additionalFee) : '—' },
-              { label: 'Total final', value: tramite.finalFee != null ? formatPrice(tramite.finalFee) : '—', bold: true },
+              { label: 'Tarifa base', value: tramite.baseFee != null ? formatPrice(tramite.baseFee, tramite.currency) : '—' },
+              { label: 'Adicional', value: tramite.additionalFee != null ? formatPrice(tramite.additionalFee, tramite.currency) : '—' },
+              { label: 'Total final', value: tramite.finalFee != null ? formatPrice(tramite.finalFee, tramite.currency) : '—', bold: true },
             ].map(({ label, value, bold }) => (
               <div key={label} className={`flex justify-between py-1 border-b border-navy-50 last:border-0 ${bold ? 'pt-2 mt-1 border-t border-navy-100' : ''}`}>
                 <span className={`text-xs ${bold ? 'font-semibold text-navy-700' : 'text-navy-400'}`}>{label}</span>

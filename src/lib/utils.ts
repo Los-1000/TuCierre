@@ -7,8 +7,20 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
 }
 
-export function formatPrice(amount: number): string {
-  return `S/. ${amount.toLocaleString('es-PE', {
+export type Currency = 'PEN' | 'USD'
+
+export const CURRENCY_SYMBOL: Record<Currency, string> = {
+  PEN: 'S/.',
+  USD: 'US$',
+}
+
+export const CURRENCY_LABEL: Record<Currency, string> = {
+  PEN: 'Soles',
+  USD: 'Dólares',
+}
+
+export function formatPrice(amount: number, currency: Currency = 'PEN'): string {
+  return `${CURRENCY_SYMBOL[currency]} ${amount.toLocaleString('es-PE', {
     minimumFractionDigits: 2,
     maximumFractionDigits: 2,
   })}`

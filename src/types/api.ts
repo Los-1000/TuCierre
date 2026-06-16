@@ -1,3 +1,5 @@
+import type { Currency } from '@/lib/utils'
+
 export type ApiBroker = {
   id: number
   fullName: string
@@ -25,6 +27,7 @@ export type ApiTramiteListItem = {
   propertyAddress: string | null
   propertyDistrictAddress: string | null
   finalFee: number | null
+  currency: Currency
   statusTramite: ApiTramiteStatus
   createdAt: string
 }
@@ -49,6 +52,7 @@ export type ApiTramiteDetail = {
   baseFee: number | null
   additionalFee: number | null
   finalFee: number | null
+  currency: Currency
   createdAt: string
   parties: ApiParty[]
 }
@@ -56,9 +60,11 @@ export type ApiTramiteDetail = {
 export type ApiDashboardStats = {
   activeCount: number
   completedThisMonth: number
-  totalValue: number
+  totalValuePEN: number
+  totalValueUSD: number
   totalSavings: number
-  commissionEarned: number
+  commissionEarnedPEN: number
+  commissionEarnedUSD: number
   tramitesThisMonth: number
 }
 

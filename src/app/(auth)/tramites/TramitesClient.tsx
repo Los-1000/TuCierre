@@ -148,7 +148,7 @@ export default function TramitesClient({ initialTramites }: Props) {
                       </span>
                     </div>
                     <div className="hidden md:block text-sm font-semibold text-navy-900 tabular-nums">
-                      {t.finalFee != null ? formatPrice(t.finalFee) : '—'}
+                      {t.finalFee != null ? formatPrice(t.finalFee, t.currency) : '—'}
                     </div>
                     <div className="flex justify-end">
                       <ChevronRight size={15} className="text-navy-300" />

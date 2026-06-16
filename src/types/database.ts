@@ -1,3 +1,5 @@
+import type { Currency } from '@/lib/utils'
+
 export type TramiteStatus =
   | 'cotizado'
   | 'solicitado'
@@ -114,6 +116,7 @@ export type Tramite = {
   quoted_price: number
   discount_applied: number
   final_price: number
+  currency: Currency
   price_matched: boolean
   price_match_reference: string | null
   documents: TramiteDocument[]

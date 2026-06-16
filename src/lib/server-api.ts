@@ -30,25 +30,29 @@ const MOCK_BROKER: ApiBroker = {
 }
 
 const MOCK_TRAMITES: ApiTramiteListItem[] = [
-  { id: 1, tramiteType: 'COMPRAVENTA', propertyAddress: 'Av. Larco 1234', propertyDistrictAddress: 'Miraflores', finalFee: 1200, statusTramite: 'EN_FIRMA', createdAt: '2024-05-20T09:00:00' },
-  { id: 2, tramiteType: 'HIPOTECA', propertyAddress: 'Calle Los Pinos 56', propertyDistrictAddress: 'San Isidro', finalFee: 900, statusTramite: 'EN_REVISION', createdAt: '2024-05-18T10:00:00' },
-  { id: 3, tramiteType: 'DONACION', propertyAddress: 'Jr. Cusco 890', propertyDistrictAddress: 'San Borja', finalFee: 700, statusTramite: 'COTIZADO', createdAt: '2024-05-15T11:00:00' },
-  { id: 4, tramiteType: 'SUCESION', propertyAddress: 'Av. Brasil 320', propertyDistrictAddress: 'Pueblo Libre', finalFee: 950, statusTramite: 'COMPLETADO', createdAt: '2024-05-10T09:00:00' },
-  { id: 5, tramiteType: 'COMPRAVENTA', propertyAddress: 'Calle Las Flores 77', propertyDistrictAddress: 'La Molina', finalFee: 1800, statusTramite: 'SOLICITADO', createdAt: '2024-05-22T14:00:00' },
-  { id: 6, tramiteType: 'HIPOTECA', propertyAddress: 'Av. Javier Prado 450', propertyDistrictAddress: 'San Borja', finalFee: 1400, statusTramite: 'EN_REGISTRO', createdAt: '2024-05-12T08:00:00' },
-  { id: 7, tramiteType: 'COMPRAVENTA', propertyAddress: 'Calle Schell 200', propertyDistrictAddress: 'Miraflores', finalFee: 2500, statusTramite: 'COMPLETADO', createdAt: '2024-04-30T09:00:00' },
-  { id: 8, tramiteType: 'DONACION', propertyAddress: 'Av. Arequipa 1500', propertyDistrictAddress: 'Lince', finalFee: 700, statusTramite: 'CANCELADO', createdAt: '2024-05-05T16:00:00' },
+  { id: 1, tramiteType: 'COMPRAVENTA', propertyAddress: 'Av. Larco 1234', propertyDistrictAddress: 'Miraflores', finalFee: 1200, currency: 'USD', statusTramite: 'EN_FIRMA', createdAt: '2024-05-20T09:00:00' },
+  { id: 2, tramiteType: 'HIPOTECA', propertyAddress: 'Calle Los Pinos 56', propertyDistrictAddress: 'San Isidro', finalFee: 900, currency: 'PEN', statusTramite: 'EN_REVISION', createdAt: '2024-05-18T10:00:00' },
+  { id: 3, tramiteType: 'DONACION', propertyAddress: 'Jr. Cusco 890', propertyDistrictAddress: 'San Borja', finalFee: 700, currency: 'PEN', statusTramite: 'COTIZADO', createdAt: '2024-05-15T11:00:00' },
+  { id: 4, tramiteType: 'SUCESION', propertyAddress: 'Av. Brasil 320', propertyDistrictAddress: 'Pueblo Libre', finalFee: 950, currency: 'PEN', statusTramite: 'COMPLETADO', createdAt: '2024-05-10T09:00:00' },
+  { id: 5, tramiteType: 'COMPRAVENTA', propertyAddress: 'Calle Las Flores 77', propertyDistrictAddress: 'La Molina', finalFee: 1800, currency: 'USD', statusTramite: 'SOLICITADO', createdAt: '2024-05-22T14:00:00' },
+  { id: 6, tramiteType: 'HIPOTECA', propertyAddress: 'Av. Javier Prado 450', propertyDistrictAddress: 'San Borja', finalFee: 1400, currency: 'PEN', statusTramite: 'EN_REGISTRO', createdAt: '2024-05-12T08:00:00' },
+  { id: 7, tramiteType: 'COMPRAVENTA', propertyAddress: 'Calle Schell 200', propertyDistrictAddress: 'Miraflores', finalFee: 2500, currency: 'USD', statusTramite: 'COMPLETADO', createdAt: '2024-04-30T09:00:00' },
+  { id: 8, tramiteType: 'DONACION', propertyAddress: 'Av. Arequipa 1500', propertyDistrictAddress: 'Lince', finalFee: 700, currency: 'PEN', statusTramite: 'CANCELADO', createdAt: '2024-05-05T16:00:00' },
 ]
 
 const MOCK_STATS: ApiDashboardStats = {
-  activeCount: 5, completedThisMonth: 3, totalValue: 124000,
-  totalSavings: 2480, commissionEarned: 1240, tramitesThisMonth: 5,
+  activeCount: 5, completedThisMonth: 3,
+  totalValuePEN: 124000, totalValueUSD: 32000,
+  totalSavings: 2480,
+  commissionEarnedPEN: 1240, commissionEarnedUSD: 320,
+  tramitesThisMonth: 5,
 }
 
 export const MOCK_TRAMITE_DETAIL: ApiTramiteDetail = {
   id: 1, tramiteType: 'COMPRAVENTA',
   propertyAddress: 'Av. Larco 1234', propertyDistrictAddress: 'Miraflores',
   quotedPriceProperty: 250000, baseFee: 1200, additionalFee: 0, finalFee: 1080,
+  currency: 'USD',
   statusTramite: 'EN_FIRMA', createdAt: '2024-05-20T09:00:00',
   idNotary: 1, brokerIdDocumentNumber: '12345678',
   parties: [

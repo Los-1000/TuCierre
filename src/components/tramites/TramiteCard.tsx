@@ -44,7 +44,7 @@ export default function TramiteCard({ tramite }: TramiteCardProps) {
 
       <div className="flex items-center justify-between">
         <span className="text-sm font-semibold text-slate-900 tabular-nums">
-          {formatPrice(tramite.final_price)}
+          {formatPrice(tramite.final_price, tramite.currency)}
         </span>
         <div className="flex items-center gap-1.5 text-xs text-slate-400">
           <span>{formatDate(tramite.created_at)}</span>
