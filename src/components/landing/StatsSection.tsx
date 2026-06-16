@@ -1,7 +1,7 @@
 import Reveal from '@/components/landing/Reveal'
 
 const SECONDARY_STATS = [
-  { value: '500+', label: 'Trámites gestionados', sub: 'Lima Metropolitana' },
+  { value: '1,000+', label: 'Trámites gestionados', sub: 'Lima Metropolitana' },
   { value: '120+', label: 'Brokers activos',      sub: 'En la plataforma'   },
   { value: '48 h', label: 'Cierre promedio',      sub: 'Solicitud → firma'  },
 ]
