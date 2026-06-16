@@ -15,12 +15,6 @@ const navItems = [
   { href: '/price-match', label: 'Price Match', icon: ArrowLeftRight },
 ]
 
-const TIER_STYLES: Record<string, { dot: string; text: string }> = {
-  bronce: { dot: 'bg-tier-bronce', text: 'text-tier-bronce' },
-  plata:  { dot: 'bg-tier-plata',  text: 'text-tier-plata'  },
-  oro:    { dot: 'bg-tier-oro',    text: 'text-tier-oro'    },
-}
-
 interface SidebarProps { broker: ApiBroker | null }
 
 export default function Sidebar({ broker }: SidebarProps) {
@@ -31,9 +25,6 @@ export default function Sidebar({ broker }: SidebarProps) {
     await api.auth.logout().catch(() => {})
     router.push('/login')
   }
-
-  const tier = broker?.tierName?.toLowerCase() ?? 'bronce'
-  const tierStyle = TIER_STYLES[tier] ?? TIER_STYLES.bronce
 
   return (
     <aside className="hidden lg:flex w-60 flex-col fixed left-0 top-0 h-full bg-white border-r border-navy-100 z-20">
@@ -63,9 +54,8 @@ export default function Sidebar({ broker }: SidebarProps) {
             <div className="text-sm font-semibold text-navy-900 truncate leading-none">
               {broker.fullName.split(' ')[0]}
             </div>
-            <div className={cn('flex items-center gap-1.5 text-xs mt-1 font-semibold capitalize', tierStyle.text)}>
-              <span className={cn('w-1.5 h-1.5 rounded-full', tierStyle.dot)} />
-              {broker.tierName}
+            <div className="text-xs mt-1 text-navy-400">
+              Ver mi perfil
             </div>
           </div>
         </Link>

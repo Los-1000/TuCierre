@@ -43,7 +43,6 @@ const MOCK_TRAMITES: ApiTramiteListItem[] = [
 const MOCK_STATS: ApiDashboardStats = {
   activeCount: 5, completedThisMonth: 3, totalValue: 124000,
   totalSavings: 2480, commissionEarned: 1240, tramitesThisMonth: 5,
-  currentTier: 'Plata', tierDiscountPercent: 10,
 }
 
 export const MOCK_TRAMITE_DETAIL: ApiTramiteDetail = {

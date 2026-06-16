@@ -45,12 +45,6 @@ export default async function DashboardPage() {
   const firstName = broker.fullName.split(' ')[0]
   const hour = new Date().getHours()
   const greeting = hour < 12 ? 'Buenos días' : hour < 19 ? 'Buenas tardes' : 'Buenas noches'
-  const tier = broker.tierName?.toLowerCase() ?? 'bronce'
-
-  const tierNextLabel = tier === 'bronce' ? 'Plata' : tier === 'plata' ? 'Oro' : null
-  const tierThreshold = tier === 'bronce' ? 4 : 8
-  const tramitesThisMonth = stats?.tramitesThisMonth ?? 0
-  const progressPct = tier === 'oro' ? 100 : Math.min((tramitesThisMonth / tierThreshold) * 100, 100)
 
   return (
     <div className="space-y-5">
@@ -165,31 +159,22 @@ export default async function DashboardPage() {
         )}
       </div>
 
-      {/* Tier progress */}
-      <div className="bg-white rounded-xl border border-navy-100 p-5">
-        <div className="flex items-center justify-between mb-3">
-          <div>
-            <span className="text-sm font-semibold text-navy-900 capitalize">{broker.tierName}</span>
-            <span className="text-navy-400 text-sm"> · {tramitesThisMonth} trámite{tramitesThisMonth !== 1 ? 's' : ''} este mes</span>
+      {/* Cashback model */}
+      <Link
+        href="/recompensas"
+        className="flex items-center justify-between gap-3 bg-white rounded-xl border border-navy-100 p-4 hover:bg-navy-50 transition-colors motion-reduce:transition-none"
+      >
+        <div className="flex items-center gap-3 min-w-0">
+          <div className="w-9 h-9 rounded-lg flex items-center justify-center shrink-0" style={{ background: '#f0fdf4' }}>
+            <TrendingUp size={16} style={{ color: '#16a34a' }} />
           </div>
-          {tierNextLabel ? (
-            <span className="text-xs text-navy-400">
-              {Math.max(tierThreshold - tramitesThisMonth, 0)} más → <span className="font-semibold text-navy-600">{tierNextLabel}</span>
-            </span>
-          ) : (
-            <span className="text-xs font-bold" style={{ color: '#b2832e' }}>Nivel Oro ✓</span>
-          )}
+          <div className="min-w-0">
+            <p className="text-sm font-semibold text-navy-900">Ganas 5% de cashback por cada trámite</p>
+            <p className="text-xs text-navy-400 mt-0.5">+ 1% por los trámites de tus referidos</p>
+          </div>
         </div>
-        <div className="w-full h-1.5 bg-navy-100 rounded-full overflow-hidden">
-          <div
-            className="h-full rounded-full transition-all duration-700 motion-reduce:transition-none"
-            style={{ width: `${progressPct}%`, background: tier === 'oro' ? '#b2832e' : '#2c4dfb' }}
-          />
-        </div>
-        <div className="flex justify-between text-xs text-navy-300 mt-1.5">
-          <span>0</span><span>{tier === 'oro' ? '✓' : `${tierThreshold} trámites`}</span>
-        </div>
-      </div>
+        <span className="text-xs font-medium shrink-0" style={{ color: '#2c4dfb' }}>Ver →</span>
+      </Link>
 
       {/* Stats — secondary, 2-col on mobile */}
       <div className="grid grid-cols-2 gap-3">
@@ -197,7 +182,7 @@ export default async function DashboardPage() {
           { label: 'Activos', value: stats?.activeCount ?? 0, icon: Clock, color: '#2c4dfb', bg: '#eff2ff' },
           { label: 'Completados / mes', value: stats?.completedThisMonth ?? 0, icon: CheckCircle, color: '#16a34a', bg: '#f0fdf4' },
           { label: 'Monto gestionado', value: formatPrice(stats?.totalValue ?? 0), icon: Wallet, color: '#2c4dfb', bg: '#eff2ff' },
-          { label: 'Ahorro acumulado', value: formatPrice(stats?.totalSavings ?? 0), icon: TrendingUp, color: '#b2832e', bg: '#fdf8ee' },
+          { label: 'Cashback acumulado', value: formatPrice(stats?.commissionEarned ?? 0), icon: TrendingUp, color: '#16a34a', bg: '#f0fdf4' },
         ].map((s) => (
           <div key={s.label} className="bg-white rounded-xl border border-navy-100 p-4">
             <div className="flex items-center gap-2 mb-2">

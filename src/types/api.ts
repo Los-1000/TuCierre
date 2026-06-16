@@ -60,8 +60,6 @@ export type ApiDashboardStats = {
   totalSavings: number
   commissionEarned: number
   tramitesThisMonth: number
-  currentTier: string
-  tierDiscountPercent: number
 }
 
 export type ApiMessage = {

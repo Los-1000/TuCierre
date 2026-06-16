@@ -10,7 +10,6 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import ReferralCode from '@/components/shared/ReferralCode'
-import { TIER_CONFIG } from '@/lib/constants'
 import { generateInitials, cn } from '@/lib/utils'
 import { Loader2, User, Phone, Building2, Gift, RefreshCw, Lock, Users, PiggyBank, Landmark } from 'lucide-react'
 import { formatPrice } from '@/lib/utils'
@@ -156,9 +155,6 @@ export default function PerfilPage() {
     )
   }
 
-  const tier = broker?.tier ?? 'bronce'
-  const tierConfig = TIER_CONFIG[tier]
-
   return (
     <div className="space-y-6 max-w-2xl">
       <div>
@@ -175,10 +171,6 @@ export default function PerfilPage() {
           <div>
             <p className="text-lg font-semibold text-[#18181B]">{broker?.full_name}</p>
             <p className="text-sm text-[#18181B]/50">{broker?.email}</p>
-            <span className={cn("inline-flex items-center gap-1 text-xs font-semibold mt-1", tierConfig.color)}>
-              {tierConfig.icon} {tierConfig.label}
-              {tierConfig.discount > 0 && ` · ${tierConfig.discount}% descuento`}
-            </span>
           </div>
         </div>
       </div>
