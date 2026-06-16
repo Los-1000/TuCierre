@@ -6,21 +6,6 @@ const SECONDARY_STATS = [
   { value: '48 h', label: 'Cierre promedio',      sub: 'Solicitud → firma'  },
 ]
 
-const TESTIMONIALS = [
-  {
-    quote: 'Antes coordinaba con la notaría por WhatsApp y siempre había algo perdido. Con TuCierre subo los documentos y me avisan cuando hay que ir a firmar. Así de simple.',
-    name: 'Carmen R.',
-    role: 'Broker Inmobiliaria · San Isidro',
-    tier: 'Plata',
-  },
-  {
-    quote: 'El price match es real. Presenté una cotización de otra notaría y la igualaron al día siguiente. Mis clientes lo notan y confían más en mí.',
-    name: 'Marco V.',
-    role: 'Corredor Independiente · Miraflores',
-    tier: 'Oro',
-  },
-]
-
 export default function StatsSection() {
   return (
     <section className="py-24 md:py-32 bg-brand-bg border-t border-brand-border-light">
@@ -33,7 +18,7 @@ export default function StatsSection() {
         </Reveal>
 
         {/* Asymmetric stats: big anchor stat left, three secondary right */}
-        <div className="grid md:grid-cols-2 gap-10 md:gap-0 mb-20 md:mb-24 items-end">
+        <div className="grid md:grid-cols-2 gap-10 md:gap-0 items-end">
 
           <Reveal direction="up" delay={0}>
             <div className="md:pr-16">
@@ -69,23 +54,6 @@ export default function StatsSection() {
             ))}
           </div>
 
-        </div>
-
-        {/* Testimonials */}
-        <div className="grid md:grid-cols-2 gap-5">
-          {TESTIMONIALS.map((t, i) => (
-            <Reveal key={t.name} direction="up" delay={i * 100}>
-              <div className="rounded-2xl p-7 md:p-8 bg-white border border-brand-border-light">
-                <p className="text-base leading-relaxed text-brand-text/75 mb-6">
-                  &ldquo;{t.quote}&rdquo;
-                </p>
-                <div>
-                  <p className="text-sm font-bold text-brand-navy">{t.name}</p>
-                  <p className="text-xs text-brand-muted mt-0.5">{t.role}</p>
-                </div>
-              </div>
-            </Reveal>
-          ))}
         </div>
 
       </div>
