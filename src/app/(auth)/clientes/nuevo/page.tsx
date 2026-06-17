@@ -18,6 +18,7 @@ import type { TramiteType } from '@/types/database'
 
 const schema = z.object({
   tramite_type_id: z.string().min(1, 'Selecciona un tipo de trámite'),
+  currency: z.enum(['PEN', 'USD']).default('PEN'),
   final_price: z.number({ invalid_type_error: 'Ingresa un precio válido' }).positive('El precio debe ser mayor a 0'),
   client_dni: z.string().length(8, 'El DNI debe tener 8 dígitos').regex(/^\d{8}$/, 'Solo dígitos'),
   client_name: z.string().min(2, 'Ingresa el nombre del cliente'),
@@ -35,7 +36,10 @@ export default function NuevoClientePage() {
 
   const { register, handleSubmit, setValue, watch, formState: { errors } } = useForm<FormValues>({
     resolver: zodResolver(schema),
+    defaultValues: { currency: 'PEN' },
   })
+
+  const currency = watch('currency') ?? 'PEN'
 
   const selectedTypeId = watch('tramite_type_id')
 
@@ -95,6 +99,7 @@ export default function NuevoClientePage() {
           quoted_price: type.base_price,
           discount_applied: 0,
           final_price: values.final_price,
+          currency: values.currency,
           price_matched: false,
           parties: [{
             name: values.client_name,
@@ -190,11 +195,32 @@ export default function NuevoClientePage() {
               )}
             </div>
 
+            {/* Moneda */}
+            <div className="space-y-1.5">
+              <Label>Moneda</Label>
+              <div className="grid grid-cols-2 gap-2">
+                {([['PEN', 'S/ Soles'], ['USD', 'US$ Dólares']] as const).map(([val, label]) => (
+                  <button
+                    key={val}
+                    type="button"
+                    onClick={() => setValue('currency', val)}
+                    className={`h-10 rounded-lg text-sm font-semibold border transition-colors ${
+                      currency === val
+                        ? 'border-[#2855E0] bg-[#2855E0]/8 text-[#2855E0]'
+                        : 'border-[#18181B]/15 bg-[#18181B]/3 text-[#18181B]/60'
+                    }`}
+                  >
+                    {label}
+                  </button>
+                ))}
+              </div>
+            </div>
+
             {/* Precio */}
             <div className="space-y-1.5">
-              <Label>Precio (S/.)</Label>
+              <Label>Precio ({currency === 'USD' ? 'US$' : 'S/.'})</Label>
               <div className="relative">
-                <span className="absolute left-3 top-1/2 -translate-y-1/2 text-sm text-muted-foreground font-medium">S/.</span>
+                <span className="absolute left-3 top-1/2 -translate-y-1/2 text-sm text-muted-foreground font-medium">{currency === 'USD' ? 'US$' : 'S/.'}</span>
                 <Input
                   type="number"
                   min={0}

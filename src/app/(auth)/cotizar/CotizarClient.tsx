@@ -4,8 +4,7 @@ import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { ArrowLeft, ArrowRight, Check, Home, FileText, Heart, Users, ChevronRight } from 'lucide-react'
 import { api } from '@/lib/api'
-import { formatPrice } from '@/lib/utils'
-import { useAuth } from '@/hooks/useAuth'
+import { formatPrice, type Currency } from '@/lib/utils'
 import { toast } from 'sonner'
 
 const TRAMITE_TYPES = [
@@ -21,32 +20,27 @@ const DISTRICTS = [
   'Santiago de Surco', 'Surquillo',
 ]
 
-const TIER_DISCOUNT: Record<string, number> = { bronce: 0.05, plata: 0.10, oro: 0.15 }
-const TIER_LABEL: Record<string, string> = { bronce: 'Bronce', plata: 'Plata', oro: 'Oro' }
+const CURRENCIES: { value: Currency; label: string }[] = [
+  { value: 'PEN', label: 'S/ Soles' },
+  { value: 'USD', label: 'US$ Dólares' },
+]
 
-function calcFees(propertyValue: number) {
-  const base = Math.max(propertyValue * 0.008, 500)
-  return {
-    base,
-    bronce: base * (1 - TIER_DISCOUNT.bronce),
-    plata: base * (1 - TIER_DISCOUNT.plata),
-    oro: base * (1 - TIER_DISCOUNT.oro),
-  }
+function calcFee(propertyValue: number) {
+  return Math.max(propertyValue * 0.008, 500)
 }
 
 export default function CotizarClient() {
   const router = useRouter()
-  const { broker } = useAuth()
   const [step, setStep] = useState(1)
   const [tramiteType, setTramiteType] = useState('')
   const [address, setAddress] = useState('')
   const [district, setDistrict] = useState('')
   const [propertyValue, setPropertyValue] = useState('')
+  const [currency, setCurrency] = useState<Currency>('PEN')
   const [submitting, setSubmitting] = useState(false)
 
   const numValue = parseFloat(propertyValue.replace(/,/g, '')) || 0
-  const fees = calcFees(numValue)
-  const brokerTier = broker?.tierName?.toLowerCase() ?? 'bronce'
+  const fee = calcFee(numValue)
 
   const handleSubmit = async () => {
     setSubmitting(true)
@@ -56,6 +50,7 @@ export default function CotizarClient() {
         propertyAddress: address,
         propertyDistrictAddress: district,
         quotedPriceProperty: numValue,
+        currency,
       })
       toast.success('Trámite creado correctamente')
       router.push('/tramites')
@@ -155,8 +150,34 @@ export default function CotizarClient() {
                 {DISTRICTS.map((d) => <option key={d} value={d}>{d}</option>)}
               </select>
             </div>
+
+            {/* Currency selector */}
             <div className="space-y-1">
-              <label className="text-xs font-medium text-navy-600">Valor del inmueble (S/)</label>
+              <label className="text-xs font-medium text-navy-600">Moneda</label>
+              <div className="grid grid-cols-2 gap-2">
+                {CURRENCIES.map((c) => {
+                  const active = currency === c.value
+                  return (
+                    <button
+                      key={c.value}
+                      type="button"
+                      onClick={() => setCurrency(c.value)}
+                      className="h-10 rounded-lg text-sm font-semibold border transition-colors"
+                      style={active
+                        ? { background: '#eff2ff', borderColor: '#2c4dfb', color: '#2c4dfb' }
+                        : { background: '#f8f9fc', borderColor: '#e1e7f3', color: '#6b7fa8' }}
+                    >
+                      {c.label}
+                    </button>
+                  )
+                })}
+              </div>
+            </div>
+
+            <div className="space-y-1">
+              <label className="text-xs font-medium text-navy-600">
+                Valor del inmueble ({currency === 'USD' ? 'US$' : 'S/'})
+              </label>
               <input
                 type="number"
                 value={propertyValue}
@@ -169,31 +190,16 @@ export default function CotizarClient() {
           </div>
 
           {numValue > 0 && (
-            <div className="bg-white rounded-xl border border-navy-100 p-5 space-y-2">
-              <div className="flex items-center justify-between mb-1">
-                <h3 className="text-xs font-bold text-navy-500 uppercase tracking-wide">Estimado de honorarios</h3>
-                <span className="text-xs text-navy-400">Tu nivel: <span className="font-semibold capitalize text-navy-700">{TIER_LABEL[brokerTier]}</span></span>
+            <div className="bg-white rounded-xl border border-navy-100 p-5">
+              <div className="flex items-center justify-between">
+                <h3 className="text-xs font-bold text-navy-500 uppercase tracking-wide">Tarifa estimada</h3>
+                <span className="text-lg font-bold tabular-nums" style={{ color: '#2c4dfb' }}>
+                  {formatPrice(fee, currency)}
+                </span>
               </div>
-              {(['bronce', 'plata', 'oro'] as const).map((tier) => {
-                const isMyTier = tier === brokerTier
-                const feeValue = fees[tier]
-                const discount = Math.round(TIER_DISCOUNT[tier] * 100)
-                return (
-                  <div
-                    key={tier}
-                    className="flex justify-between items-center px-3 py-2.5 rounded-lg"
-                    style={isMyTier ? { background: '#eff2ff', outline: '1.5px solid #2c4dfb' } : { background: '#f8f9fc' }}
-                  >
-                    <div className="flex items-center gap-2">
-                      <span className="text-xs font-semibold capitalize" style={{ color: isMyTier ? '#2c4dfb' : '#6b7fa8' }}>{TIER_LABEL[tier]}</span>
-                      <span className="text-xs" style={{ color: isMyTier ? '#4d6aff' : '#9baecf' }}>{discount}% desc.</span>
-                      {isMyTier && <span className="text-[10px] font-bold px-1.5 py-0.5 rounded" style={{ background: '#2c4dfb', color: 'white' }}>TU NIVEL</span>}
-                    </div>
-                    <span className="text-sm font-bold tabular-nums" style={{ color: isMyTier ? '#2c4dfb' : '#4a5c7a' }}>{formatPrice(feeValue)}</span>
-                  </div>
-                )
-              })}
-              <p className="text-xs text-navy-300 pt-1">Tarifa base sin descuento: {formatPrice(fees.base)}</p>
+              <p className="text-xs text-navy-300 pt-2">
+                Estimado sobre el valor del inmueble. La tarifa final la confirma el notario asignado.
+              </p>
             </div>
           )}
 
@@ -217,7 +223,8 @@ export default function CotizarClient() {
               { label: 'Tipo', value: TRAMITE_TYPES.find((t) => t.value === tramiteType)?.label ?? tramiteType },
               { label: 'Dirección', value: address },
               { label: 'Distrito', value: district },
-              { label: 'Valor del inmueble', value: formatPrice(numValue) },
+              { label: 'Moneda', value: currency === 'USD' ? 'Dólares (US$)' : 'Soles (S/)' },
+              { label: 'Valor del inmueble', value: formatPrice(numValue, currency) },
             ].map(({ label, value }) => (
               <div key={label} className="flex justify-between py-1 border-b border-navy-50 last:border-0">
                 <span className="text-xs text-navy-400">{label}</span>
@@ -225,8 +232,8 @@ export default function CotizarClient() {
               </div>
             ))}
             <div className="flex justify-between pt-1">
-              <span className="text-xs text-navy-400">Tarifa estimada ({TIER_LABEL[brokerTier]})</span>
-              <span className="text-sm font-bold tabular-nums" style={{ color: '#2c4dfb' }}>{formatPrice(fees[brokerTier as keyof typeof fees] as number)}</span>
+              <span className="text-xs text-navy-400">Tarifa estimada</span>
+              <span className="text-sm font-bold tabular-nums" style={{ color: '#2c4dfb' }}>{formatPrice(fee, currency)}</span>
             </div>
           </div>
 

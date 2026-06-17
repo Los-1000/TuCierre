@@ -1,4 +1,5 @@
 import type { ApiBroker, ApiTramiteListItem, ApiTramiteDetail, ApiDashboardStats, ApiMessage, ApiPage } from '@/types/api'
+import type { Currency } from '@/lib/utils'
 
 function isMockMode() {
   if (typeof document === 'undefined') return false
@@ -88,7 +89,7 @@ export const api = {
       apiFetch(`/api/tramites/${id}/status`, { method: 'PATCH', body: JSON.stringify({ status }) }),
     cancel: (id: number): Promise<void> =>
       apiFetch(`/api/tramites/${id}`, { method: 'DELETE' }),
-    create: (data: { tramiteType: string; propertyAddress: string; propertyDistrictAddress: string; quotedPriceProperty: number }): Promise<ApiTramiteDetail> =>
+    create: (data: { tramiteType: string; propertyAddress: string; propertyDistrictAddress: string; quotedPriceProperty: number; currency: Currency }): Promise<ApiTramiteDetail> =>
       apiFetch('/api/tramites', { method: 'POST', body: JSON.stringify(data) }),
   },
   dashboard: {
