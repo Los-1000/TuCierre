@@ -71,8 +71,8 @@ export default function RecompensasClient({
     <div className="space-y-8">
       {/* Header */}
       <div>
-        <h1 className="text-4xl font-bold font-display text-white tracking-tight">Recompensas</h1>
-        <p className="text-white/50 text-sm mt-1">
+        <h1 className="text-4xl font-bold font-display text-navy-900 tracking-tight">Recompensas</h1>
+        <p className="text-navy-400 text-sm mt-1">
           Tu cashback, tus referidos y tus retiros — todo en un lugar.
         </p>
       </div>
@@ -133,8 +133,8 @@ export default function RecompensasClient({
       {/* ── Retiro de saldo ── */}
       <div>
         <div className="flex items-center gap-2 mb-4">
-          <Wallet size={17} className="text-white/60" />
-          <h2 className="text-lg font-semibold text-white">Retiro de saldo</h2>
+          <Wallet size={17} className="text-navy-400" />
+          <h2 className="text-lg font-semibold text-navy-900">Retiro de saldo</h2>
         </div>
 
         <div className="bg-white rounded-3xl border border-[#18181B]/8 shadow-[0_4px_24px_rgba(18,18,27,0.06)] p-6">
@@ -220,8 +220,8 @@ export default function RecompensasClient({
       {/* ── Cashback ── */}
       <div>
         <div className="flex items-center gap-2 mb-4">
-          <DollarSign size={17} className="text-white/60" />
-          <h2 className="text-lg font-semibold text-white">Cashback</h2>
+          <DollarSign size={17} className="text-navy-400" />
+          <h2 className="text-lg font-semibold text-navy-900">Cashback</h2>
         </div>
 
         {initialCommissionMonths.length === 0 ? (
@@ -309,8 +309,8 @@ export default function RecompensasClient({
       {/* ── Historial de recompensas ── */}
       <div>
         <div className="flex items-center gap-2 mb-4">
-          <TrendingUp size={17} className="text-white/60" />
-          <h2 className="text-lg font-semibold text-white">Historial de recompensas</h2>
+          <TrendingUp size={17} className="text-navy-400" />
+          <h2 className="text-lg font-semibold text-navy-900">Historial de recompensas</h2>
         </div>
 
         {initialRewards.length === 0 ? (
