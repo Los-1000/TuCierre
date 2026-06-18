@@ -65,7 +65,7 @@ export default async function AdminLayout({ children }: { children: React.ReactN
           <form action={signOutAction}>
             <button
               type="submit"
-              className="flex items-center gap-3 px-4 py-2.5 w-full text-white/60 hover:text-white hover:bg-white/8 transition-all text-sm font-medium rounded-lg"
+              className="flex items-center gap-3 px-4 py-2.5 w-full text-white/60 hover:text-white hover:bg-white/8 transition-all motion-reduce:transition-none text-sm font-medium rounded-lg"
             >
               <LogOut size={18} className="shrink-0" />
               Cerrar sesión

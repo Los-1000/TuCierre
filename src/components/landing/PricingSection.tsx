@@ -74,7 +74,7 @@ export default function PricingSection() {
             </div>
             <Link
               href="/register"
-              className="inline-block text-center rounded-full px-8 py-3.5 text-sm font-black tracking-wide text-white hover:opacity-90 active:scale-95 transition-all bg-brand-navy shrink-0"
+              className="inline-block text-center rounded-full px-8 py-3.5 text-sm font-black tracking-wide text-white hover:opacity-90 active:scale-95 transition-all motion-reduce:transition-none bg-brand-navy shrink-0"
             >
               Empezar gratis
             </Link>

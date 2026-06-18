@@ -86,7 +86,7 @@ export default function CotizarClient() {
         {[1, 2, 3].map((s) => (
           <div
             key={s}
-            className="h-1 flex-1 rounded-full transition-all duration-300"
+            className="h-1 flex-1 rounded-full transition-all motion-reduce:transition-none duration-300"
             style={{ background: s <= step ? '#2c4dfb' : '#e1e7f3' }}
           />
         ))}
@@ -103,7 +103,7 @@ export default function CotizarClient() {
                 <button
                   key={value}
                   onClick={() => { setTramiteType(value); setStep(2) }}
-                  className="w-full bg-white border rounded-xl p-4 text-left transition-all hover:border-blue-300 flex items-center gap-4"
+                  className="w-full bg-white border rounded-xl p-4 text-left transition-all motion-reduce:transition-none hover:border-blue-300 flex items-center gap-4"
                   style={{ borderColor: selected ? '#2c4dfb' : '#e1e7f3', background: selected ? '#f9faff' : 'white' }}
                 >
                   <div

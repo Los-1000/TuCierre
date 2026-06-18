@@ -28,7 +28,7 @@ export default function TramiteTypeCard({ tramiteType, selected, onSelect }: Tra
       role="radio"
       aria-checked={selected}
       className={cn(
-        'w-full text-left rounded-xl border-2 p-4 transition-all duration-150 focus:outline-none focus-visible:ring-2 focus-visible:ring-navy-900/70',
+        'w-full text-left rounded-xl border-2 p-4 transition-all motion-reduce:transition-none duration-150 focus:outline-none focus-visible:ring-2 focus-visible:ring-navy-900/70',
         selected
           ? 'border-navy-900 bg-navy-900/5 shadow-md'
           : 'border-navy-200 bg-white hover:border-navy-900/40 hover:shadow-sm'

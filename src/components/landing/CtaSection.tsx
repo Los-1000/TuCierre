@@ -33,7 +33,7 @@ export default function CtaSection() {
             <div className="flex flex-col gap-3 md:items-end">
               <Link
                 href="/register"
-                className="px-10 py-4 text-brand-navy font-black text-base rounded-xl hover:brightness-110 active:scale-95 transition-all duration-200 bg-brand-gold text-center"
+                className="px-10 py-4 text-brand-navy font-black text-base rounded-xl hover:brightness-110 active:scale-95 transition-all motion-reduce:transition-none duration-200 bg-brand-gold text-center"
               >
                 Crear mi cuenta gratis
               </Link>

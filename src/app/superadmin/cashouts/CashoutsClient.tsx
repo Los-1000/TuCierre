@@ -178,7 +178,7 @@ export default function CashoutsClient({
                 key={s}
                 onClick={() => setFilterStatus(filterStatus === s ? 'all' : s)}
                 className={cn(
-                  'p-3 rounded-xl border-2 text-left transition-all',
+                  'p-3 rounded-xl border-2 text-left transition-all motion-reduce:transition-none',
                   filterStatus === s
                     ? 'border-navy-900 bg-navy-900/5'
                     : 'border-navy-200 bg-white hover:border-navy-300'

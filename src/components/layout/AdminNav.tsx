@@ -27,7 +27,7 @@ export function AdminNav({ onNavigate }: { onNavigate?: () => void } = {}) {
             href={item.href}
             aria-current={isActive ? 'page' : undefined}
             onClick={onNavigate}
-            className={`flex items-center gap-3 px-4 py-3 text-sm font-medium tracking-tight transition-all rounded-lg ${
+            className={`flex items-center gap-3 px-4 py-3 text-sm font-medium tracking-tight transition-all motion-reduce:transition-none rounded-lg ${
               isActive
                 ? 'bg-white/15 text-white'
                 : 'text-white/60 hover:text-white hover:bg-white/8'

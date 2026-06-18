@@ -187,7 +187,7 @@ export default async function AdminDashboardPage() {
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <Link
                 href="/admin/tramites?status=solicitado"
-                className="group flex items-center gap-3 p-4 rounded-2xl border border-navy-900/10 hover:border-[#2855E0]/40 hover:bg-[#2855E0]/5 transition-all"
+                className="group flex items-center gap-3 p-4 rounded-2xl border border-navy-900/10 hover:border-[#2855E0]/40 hover:bg-[#2855E0]/5 transition-all motion-reduce:transition-none"
               >
                 <div className="p-2 bg-[#2855E0]/10 rounded-xl">
                   <FileText size={18} className="text-[#2855E0]" />
@@ -201,7 +201,7 @@ export default async function AdminDashboardPage() {
 
               <Link
                 href="/admin/brokers"
-                className="group flex items-center gap-3 p-4 rounded-2xl border border-navy-900/10 hover:border-[#2855E0]/40 hover:bg-[#2855E0]/5 transition-all"
+                className="group flex items-center gap-3 p-4 rounded-2xl border border-navy-900/10 hover:border-[#2855E0]/40 hover:bg-[#2855E0]/5 transition-all motion-reduce:transition-none"
               >
                 <div className="p-2 bg-[#020952]/10 rounded-xl">
                   <Users size={18} className="text-[#020952]" />

@@ -14,7 +14,7 @@ export default function TramiteCard({ tramite }: TramiteCardProps) {
   return (
     <Link
       href={`/tramites/${tramite.id}`}
-      className="block bg-white rounded-xl border border-navy-200 p-4 hover:shadow-md hover:border-navy-300 transition-all duration-200 group"
+      className="block bg-white rounded-xl border border-navy-200 p-4 hover:shadow-md hover:border-navy-300 transition-all motion-reduce:transition-none duration-200 group"
     >
       <div className="flex items-start justify-between gap-3 mb-3">
         <div>

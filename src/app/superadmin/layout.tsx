@@ -94,7 +94,7 @@ export default async function SuperAdminLayout({
             <Link
               key={item.href}
               href={item.href}
-              className="flex items-center justify-between px-4 py-2.5 text-sm font-medium transition-all border-l-[3px] border-transparent text-white/60 hover:text-white hover:bg-white/6 rounded-r-xl"
+              className="flex items-center justify-between px-4 py-2.5 text-sm font-medium transition-all motion-reduce:transition-none border-l-[3px] border-transparent text-white/60 hover:text-white hover:bg-white/6 rounded-r-xl"
             >
               <div className="flex items-center gap-3">
                 <item.icon size={16} className="shrink-0" />
@@ -112,7 +112,7 @@ export default async function SuperAdminLayout({
         <div className="px-3 pb-3 border-t border-white/8 pt-3">
           <Link
             href="/login"
-            className="flex items-center gap-3 px-4 py-2.5 w-full rounded-xl text-sm font-medium text-white/50 hover:text-red-400 hover:bg-red-500/8 transition-all"
+            className="flex items-center gap-3 px-4 py-2.5 w-full rounded-xl text-sm font-medium text-white/50 hover:text-red-400 hover:bg-red-500/8 transition-all motion-reduce:transition-none"
           >
             <LogOut size={16} />
             Cerrar sesión

@@ -143,7 +143,7 @@ export default function PriceMatchModal({ open, onClose, tramiteTypeId }: PriceM
             </label>
             <label
               htmlFor="evidence-modal"
-              className="flex flex-col items-center justify-center gap-2 border-2 border-dashed border-navy-900/20 rounded-2xl p-6 cursor-pointer hover:border-[#2855E0]/40 hover:bg-[#2855E0]/3 transition-all"
+              className="flex flex-col items-center justify-center gap-2 border-2 border-dashed border-navy-900/20 rounded-2xl p-6 cursor-pointer hover:border-[#2855E0]/40 hover:bg-[#2855E0]/3 transition-all motion-reduce:transition-none"
             >
               <Upload size={22} className="text-[#2855E0]" />
               <span className="text-sm text-navy-900/70">

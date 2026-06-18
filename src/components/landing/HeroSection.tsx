@@ -124,7 +124,7 @@ export default function HeroSection() {
             <div className="flex flex-col sm:flex-row gap-3 pt-1">
               <Link
                 href="/register"
-                className="inline-flex items-center justify-center gap-2.5 px-7 py-4 text-brand-navy font-bold rounded-xl shadow-lg hover:brightness-110 active:scale-95 transition-all duration-200 bg-brand-gold"
+                className="inline-flex items-center justify-center gap-2.5 px-7 py-4 text-brand-navy font-bold rounded-xl shadow-lg hover:brightness-110 active:scale-95 transition-all motion-reduce:transition-none duration-200 bg-brand-gold"
                 style={{ fontSize: '1rem' }}
               >
                 Crear mi cuenta gratis
@@ -134,7 +134,7 @@ export default function HeroSection() {
               </Link>
               <a
                 href="#como-funciona"
-                className="inline-flex items-center justify-center px-7 py-4 font-semibold rounded-xl border border-white/12 hover:bg-white/5 active:scale-95 transition-all duration-200 text-white/80 text-sm"
+                className="inline-flex items-center justify-center px-7 py-4 font-semibold rounded-xl border border-white/12 hover:bg-white/5 active:scale-95 transition-all motion-reduce:transition-none duration-200 text-white/80 text-sm"
               >
                 Ver cómo funciona
               </a>

@@ -214,7 +214,11 @@ export default function ChatWindow({ tramiteId, senderType }: ChatWindowProps) {
                       // eslint-disable-next-line @next/next/no-img-element
                       <img
                         src={att.url}
-                        alt={att.name}
+                        alt={att.name || 'Imagen adjunta'}
+                        width={200}
+                        height={200}
+                        loading="lazy"
+                        decoding="async"
                         className="max-w-[200px] max-h-[200px] object-cover"
                       />
                     ) : (
@@ -312,7 +316,7 @@ export default function ChatWindow({ tramiteId, senderType }: ChatWindowProps) {
             'flex-1 resize-none rounded-lg border border-navy-200 bg-navy-50 px-3 py-2',
             'text-sm text-navy-900 placeholder:text-navy-400',
             'focus:outline-none focus:ring-2 focus:ring-navy-900/70 focus:border-navy-900/30',
-            'disabled:opacity-50 transition-all'
+            'disabled:opacity-50 transition-all motion-reduce:transition-none'
           )}
           style={{ minHeight: '40px', maxHeight: `${4 * 24 + 16}px` }}
         />

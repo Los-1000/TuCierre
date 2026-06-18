@@ -289,7 +289,7 @@ export default function AdminBrokersPage() {
                   <button
                     key={tab}
                     onClick={() => setActiveTab(tab)}
-                    className={`py-4 text-sm font-bold capitalize transition-all border-b-2 ${
+                    className={`py-4 text-sm font-bold capitalize transition-all motion-reduce:transition-none border-b-2 ${
                       activeTab === tab
                         ? 'text-navy-900 border-[#2855E0]'
                         : 'text-navy-900/70 border-transparent hover:text-navy-900/70'
@@ -376,7 +376,7 @@ export default function AdminBrokersPage() {
                           return (
                             <label
                               key={tier}
-                              className={`flex items-center justify-between p-4 rounded-2xl border cursor-pointer transition-all ${
+                              className={`flex items-center justify-between p-4 rounded-2xl border cursor-pointer transition-all motion-reduce:transition-none ${
                                 isSelected
                                   ? 'bg-[#2855E0] text-white border-[#2855E0]'
                                   : 'bg-white border-navy-900/10 hover:border-navy-900/20'

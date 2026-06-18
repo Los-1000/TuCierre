@@ -64,7 +64,7 @@ export default function Reveal({
     <div
       ref={ref}
       className={cn(
-        'transition-all',
+        'transition-all motion-reduce:transition-none',
         visible ? 'opacity-100 translate-x-0 translate-y-0' : `opacity-0 ${translate}`,
         className
       )}
