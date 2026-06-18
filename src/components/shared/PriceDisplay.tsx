@@ -20,7 +20,7 @@ export default function PriceDisplay({ amount, size = 'md', className, strikethr
       className={cn(
         'tabular-nums font-mono',
         sizeClasses[size],
-        strikethrough && 'line-through text-slate-400',
+        strikethrough && 'line-through text-navy-400',
         className
       )}
     >
@@ -38,8 +38,8 @@ interface PriceBreakdownRowProps {
 
 export function PriceBreakdownRow({ label, amount, isDiscount, isTotal }: PriceBreakdownRowProps) {
   return (
-    <div className={cn('flex justify-between items-center py-2', isTotal && 'border-t border-slate-200 pt-3 mt-1')}>
-      <span className={cn('text-sm', isTotal ? 'font-semibold text-slate-900' : 'text-slate-600')}>
+    <div className={cn('flex justify-between items-center py-2', isTotal && 'border-t border-navy-200 pt-3 mt-1')}>
+      <span className={cn('text-sm', isTotal ? 'font-semibold text-navy-900' : 'text-navy-600')}>
         {label}
       </span>
       <span

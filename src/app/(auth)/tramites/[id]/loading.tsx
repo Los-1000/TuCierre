@@ -5,12 +5,12 @@ export default function TramiteDetailLoading() {
       <div className="space-y-2">
         <div className="h-8 w-32 bg-[#E0E4F0] rounded animate-pulse" />
         <div className="flex items-center gap-2">
-          <div className="h-5 w-24 bg-[#18181B]/8 rounded animate-pulse" />
+          <div className="h-5 w-24 bg-navy-900/8 rounded animate-pulse" />
           <div className="h-5 w-40 bg-[#E0E4F0] rounded animate-pulse" />
         </div>
         <div className="flex items-center gap-2">
-          <div className="h-5 w-32 bg-[#18181B]/8 rounded animate-pulse" />
-          <div className="h-5 w-16 bg-[#18181B]/8 rounded-full animate-pulse" />
+          <div className="h-5 w-32 bg-navy-900/8 rounded animate-pulse" />
+          <div className="h-5 w-16 bg-navy-900/8 rounded-full animate-pulse" />
         </div>
       </div>
 
@@ -19,7 +19,7 @@ export default function TramiteDetailLoading() {
         {/* Left column */}
         <div className="lg:col-span-7 space-y-4">
           {/* Tabs skeleton */}
-          <div className="h-10 bg-[#18181B]/8 rounded-lg animate-pulse" />
+          <div className="h-10 bg-navy-900/8 rounded-lg animate-pulse" />
           {/* Timeline skeleton */}
           <div className="space-y-3">
             {Array.from({ length: 7 }).map((_, i) => (
@@ -30,7 +30,7 @@ export default function TramiteDetailLoading() {
                 />
                 <div className="flex-1 space-y-1">
                   <div className="h-4 w-28 bg-[#E0E4F0] rounded animate-pulse" />
-                  <div className="h-3 w-20 bg-[#18181B]/8 rounded animate-pulse" />
+                  <div className="h-3 w-20 bg-navy-900/8 rounded animate-pulse" />
                 </div>
               </div>
             ))}

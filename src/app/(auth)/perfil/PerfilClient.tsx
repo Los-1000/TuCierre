@@ -150,7 +150,7 @@ export default function PerfilPage() {
   if (loading) {
     return (
       <div className="flex items-center justify-center py-20">
-        <Loader2 size={24} className="animate-spin text-[#18181B]/30" />
+        <Loader2 size={24} className="animate-spin text-navy-900/30" />
       </div>
     )
   }
@@ -163,52 +163,52 @@ export default function PerfilPage() {
       </div>
 
       {/* Avatar + tier */}
-      <div className="rounded-3xl border border-[#18181B]/8 bg-white p-5">
+      <div className="rounded-3xl border border-navy-900/8 bg-white p-5">
         <div className="flex items-center gap-4">
-          <div className="w-16 h-16 rounded-full bg-[#18181B]/8 flex items-center justify-center text-[#18181B] font-bold text-xl">
+          <div className="w-16 h-16 rounded-full bg-navy-900/8 flex items-center justify-center text-navy-900 font-bold text-xl">
             {broker ? generateInitials(broker.full_name) : '?'}
           </div>
           <div>
-            <p className="text-lg font-semibold text-[#18181B]">{broker?.full_name}</p>
-            <p className="text-sm text-[#18181B]/50">{broker?.email}</p>
+            <p className="text-lg font-semibold text-navy-900">{broker?.full_name}</p>
+            <p className="text-sm text-navy-900/50">{broker?.email}</p>
           </div>
         </div>
       </div>
 
       {/* Profile form */}
-      <div className="rounded-3xl border border-[#18181B]/8 bg-white p-6">
+      <div className="rounded-3xl border border-navy-900/8 bg-white p-6">
         <div className="flex items-center gap-2 mb-5">
-          <User size={16} className="text-[#18181B]/40" />
-          <h2 className="text-base font-semibold text-[#18181B]">Información personal</h2>
+          <User size={16} className="text-navy-900/40" />
+          <h2 className="text-base font-semibold text-navy-900">Información personal</h2>
         </div>
         <form onSubmit={handleSubmit(onSaveProfile)} className="space-y-4">
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
-              <Label htmlFor="full_name" className="text-[#18181B] font-medium">Nombre completo</Label>
-              <Input id="full_name" className="mt-1 rounded-xl border-[#18181B]/15" {...register('full_name')} />
+              <Label htmlFor="full_name" className="text-navy-900 font-medium">Nombre completo</Label>
+              <Input id="full_name" className="mt-1 rounded-xl border-navy-900/15" {...register('full_name')} />
               {errors.full_name && <p className="text-red-500 text-xs mt-1">{errors.full_name.message}</p>}
             </div>
             <div>
-              <Label htmlFor="phone" className="text-[#18181B] font-medium">
+              <Label htmlFor="phone" className="text-navy-900 font-medium">
                 <Phone size={13} className="inline mr-1" />Teléfono
               </Label>
-              <Input id="phone" className="mt-1 rounded-xl border-[#18181B]/15" {...register('phone')} />
+              <Input id="phone" className="mt-1 rounded-xl border-navy-900/15" {...register('phone')} />
               {errors.phone && <p className="text-red-500 text-xs mt-1">{errors.phone.message}</p>}
             </div>
             <div className="sm:col-span-2">
-              <Label htmlFor="company_name" className="text-[#18181B] font-medium">
+              <Label htmlFor="company_name" className="text-navy-900 font-medium">
                 <Building2 size={13} className="inline mr-1" />Inmobiliaria / empresa
                 <span className="text-[#6B7A9A] text-xs ml-1">(opcional)</span>
               </Label>
-              <Input id="company_name" className="mt-1 rounded-xl border-[#18181B]/15" {...register('company_name')} />
+              <Input id="company_name" className="mt-1 rounded-xl border-navy-900/15" {...register('company_name')} />
             </div>
             <div>
-              <Label className="text-[#18181B] font-medium">DNI</Label>
-              <Input value={broker?.dni ?? ''} disabled className="mt-1 rounded-xl bg-[#18181B]/3 text-[#18181B]/40 border-[#18181B]/8" />
+              <Label className="text-navy-900 font-medium">DNI</Label>
+              <Input value={broker?.dni ?? ''} disabled className="mt-1 rounded-xl bg-navy-900/3 text-navy-900/40 border-navy-900/8" />
             </div>
             <div>
-              <Label className="text-[#18181B] font-medium">Email</Label>
-              <Input value={broker?.email ?? ''} disabled className="mt-1 rounded-xl bg-[#18181B]/3 text-[#18181B]/40 border-[#18181B]/8" />
+              <Label className="text-navy-900 font-medium">Email</Label>
+              <Input value={broker?.email ?? ''} disabled className="mt-1 rounded-xl bg-navy-900/3 text-navy-900/40 border-navy-900/8" />
             </div>
           </div>
           <div className="flex justify-end">
@@ -225,12 +225,12 @@ export default function PerfilPage() {
       </div>
 
       {/* Referral code */}
-      <div className="rounded-3xl border border-[#18181B]/8 bg-white p-6">
+      <div className="rounded-3xl border border-navy-900/8 bg-white p-6">
         <div className="flex items-center gap-2 mb-1">
-          <Gift size={16} className="text-[#18181B]/40" />
-          <h2 className="text-base font-semibold text-[#18181B]">Código de referido</h2>
+          <Gift size={16} className="text-navy-900/40" />
+          <h2 className="text-base font-semibold text-navy-900">Código de referido</h2>
         </div>
-        <p className="text-sm text-[#18181B]/50 mb-4">
+        <p className="text-sm text-navy-900/50 mb-4">
           Comparte tu código con otros brokers. Ganas S/. 50 cada vez que alguien se registra con él y completa un trámite.
         </p>
 
@@ -238,11 +238,11 @@ export default function PerfilPage() {
           <ReferralCode code={broker.referral_code} />
         ) : (
           <div className="text-center py-4 space-y-3">
-            <p className="text-sm text-[#18181B]/50">Aún no tienes un código de referido.</p>
+            <p className="text-sm text-navy-900/50">Aún no tienes un código de referido.</p>
             <button
               onClick={generateReferralCode}
               disabled={generatingCode}
-              className="inline-flex items-center gap-2 border border-[#18181B]/15 text-[#18181B] text-sm font-medium px-4 py-2 rounded-full hover:bg-[#18181B]/5 transition-colors disabled:opacity-40"
+              className="inline-flex items-center gap-2 border border-navy-900/15 text-navy-900 text-sm font-medium px-4 py-2 rounded-full hover:bg-navy-900/5 transition-colors disabled:opacity-40"
             >
               {generatingCode
                 ? <><Loader2 size={14} className="animate-spin" />Generando...</>
@@ -252,45 +252,45 @@ export default function PerfilPage() {
           </div>
         )}
         <div className="grid grid-cols-2 gap-3 mt-4">
-          <div className="bg-[#18181B]/4 border border-[#18181B]/8 rounded-2xl p-4 text-center">
+          <div className="bg-navy-900/4 border border-navy-900/8 rounded-2xl p-4 text-center">
             <Users size={15} className="mx-auto text-[#2855E0] mb-1" />
-            <p className="text-2xl font-bold text-[#18181B]">{referralCount}</p>
+            <p className="text-2xl font-bold text-navy-900">{referralCount}</p>
             <p className="text-xs text-[#6B7A9A] mt-0.5">Personas referidas</p>
           </div>
-          <div className="bg-[#18181B]/4 border border-[#18181B]/8 rounded-2xl p-4 text-center">
+          <div className="bg-navy-900/4 border border-navy-900/8 rounded-2xl p-4 text-center">
             <PiggyBank size={15} className="mx-auto text-[#2855E0] mb-1" />
-            <p className="text-lg font-bold text-[#18181B] tabular-nums">{formatPrice(referralBonuses)}</p>
+            <p className="text-lg font-bold text-navy-900 tabular-nums">{formatPrice(referralBonuses)}</p>
             <p className="text-xs text-[#6B7A9A] mt-0.5">Bonos ganados</p>
           </div>
         </div>
       </div>
 
       {/* Bank details */}
-      <div className="rounded-3xl border border-[#18181B]/8 bg-white p-6">
+      <div className="rounded-3xl border border-navy-900/8 bg-white p-6">
         <div className="flex items-center gap-2 mb-1">
-          <Landmark size={16} className="text-[#18181B]/40" />
-          <h2 className="text-base font-semibold text-[#18181B]">Datos bancarios</h2>
+          <Landmark size={16} className="text-navy-900/40" />
+          <h2 className="text-base font-semibold text-navy-900">Datos bancarios</h2>
         </div>
-        <p className="text-sm text-[#18181B]/50 mb-4">
+        <p className="text-sm text-navy-900/50 mb-4">
           Se usarán automáticamente al generar tu pago de comisiones mensual.
         </p>
         <form onSubmit={handleSubmitBank(onSaveBankDetails)} className="space-y-4">
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div className="sm:col-span-2">
-              <Label htmlFor="bank_cci" className="text-[#18181B] font-medium">
+              <Label htmlFor="bank_cci" className="text-navy-900 font-medium">
                 Número CCI <span className="text-[#6B7A9A] text-xs">(20 dígitos)</span>
               </Label>
-              <Input id="bank_cci" className="mt-1 font-mono rounded-xl border-[#18181B]/15" placeholder="00219300000000000000" maxLength={20} {...registerBank('bank_cci')} />
+              <Input id="bank_cci" className="mt-1 font-mono rounded-xl border-navy-900/15" placeholder="00219300000000000000" maxLength={20} {...registerBank('bank_cci')} />
               {bankErrors.bank_cci && <p className="text-red-500 text-xs mt-1">{bankErrors.bank_cci.message}</p>}
             </div>
             <div>
-              <Label htmlFor="bank_name" className="text-[#18181B] font-medium">Banco</Label>
-              <Input id="bank_name" className="mt-1 rounded-xl border-[#18181B]/15" placeholder="BCP, Interbank, BBVA..." {...registerBank('bank_name')} />
+              <Label htmlFor="bank_name" className="text-navy-900 font-medium">Banco</Label>
+              <Input id="bank_name" className="mt-1 rounded-xl border-navy-900/15" placeholder="BCP, Interbank, BBVA..." {...registerBank('bank_name')} />
               {bankErrors.bank_name && <p className="text-red-500 text-xs mt-1">{bankErrors.bank_name.message}</p>}
             </div>
             <div>
-              <Label htmlFor="bank_titular" className="text-[#18181B] font-medium">Titular de la cuenta</Label>
-              <Input id="bank_titular" className="mt-1 rounded-xl border-[#18181B]/15" placeholder="Nombre completo" {...registerBank('bank_titular')} />
+              <Label htmlFor="bank_titular" className="text-navy-900 font-medium">Titular de la cuenta</Label>
+              <Input id="bank_titular" className="mt-1 rounded-xl border-navy-900/15" placeholder="Nombre completo" {...registerBank('bank_titular')} />
               {bankErrors.bank_titular && <p className="text-red-500 text-xs mt-1">{bankErrors.bank_titular.message}</p>}
             </div>
           </div>
@@ -308,21 +308,21 @@ export default function PerfilPage() {
       </div>
 
       {/* Change password */}
-      <div className="rounded-3xl border border-[#18181B]/8 bg-white p-6">
+      <div className="rounded-3xl border border-navy-900/8 bg-white p-6">
         <div className="flex items-center gap-2 mb-5">
-          <Lock size={16} className="text-[#18181B]/40" />
-          <h2 className="text-base font-semibold text-[#18181B]">Cambiar contraseña</h2>
+          <Lock size={16} className="text-navy-900/40" />
+          <h2 className="text-base font-semibold text-navy-900">Cambiar contraseña</h2>
         </div>
         <form onSubmit={handleSubmitPwd(onChangePassword)} className="space-y-4">
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
-              <Label htmlFor="password" className="text-[#18181B] font-medium">Nueva contraseña</Label>
-              <Input id="password" type="password" className="mt-1 rounded-xl border-[#18181B]/15" placeholder="Mínimo 8 caracteres" {...registerPwd('password')} />
+              <Label htmlFor="password" className="text-navy-900 font-medium">Nueva contraseña</Label>
+              <Input id="password" type="password" className="mt-1 rounded-xl border-navy-900/15" placeholder="Mínimo 8 caracteres" {...registerPwd('password')} />
               {pwdErrors.password && <p className="text-red-500 text-xs mt-1">{pwdErrors.password.message}</p>}
             </div>
             <div>
-              <Label htmlFor="confirm_password" className="text-[#18181B] font-medium">Confirmar contraseña</Label>
-              <Input id="confirm_password" type="password" className="mt-1 rounded-xl border-[#18181B]/15" placeholder="Repite la contraseña" {...registerPwd('confirm_password')} />
+              <Label htmlFor="confirm_password" className="text-navy-900 font-medium">Confirmar contraseña</Label>
+              <Input id="confirm_password" type="password" className="mt-1 rounded-xl border-navy-900/15" placeholder="Repite la contraseña" {...registerPwd('confirm_password')} />
               {pwdErrors.confirm_password && <p className="text-red-500 text-xs mt-1">{pwdErrors.confirm_password.message}</p>}
             </div>
           </div>
@@ -330,7 +330,7 @@ export default function PerfilPage() {
             <button
               type="submit"
               disabled={changingPassword}
-              className="inline-flex items-center gap-2 border border-[#18181B]/15 text-[#18181B] text-sm font-semibold px-5 py-3 rounded-full hover:bg-[#18181B]/5 transition-colors motion-reduce:transition-none disabled:opacity-40 disabled:cursor-not-allowed"
+              className="inline-flex items-center gap-2 border border-navy-900/15 text-navy-900 text-sm font-semibold px-5 py-3 rounded-full hover:bg-navy-900/5 transition-colors motion-reduce:transition-none disabled:opacity-40 disabled:cursor-not-allowed"
             >
               {changingPassword && <Loader2 size={14} className="animate-spin" />}
               Actualizar contraseña

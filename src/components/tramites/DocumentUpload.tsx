@@ -107,9 +107,9 @@ export default function DocumentUpload({
   const statusDisplay = () => {
     if (!currentDoc) {
       return (
-        <div className="flex items-center gap-2 text-slate-400">
+        <div className="flex items-center gap-2 text-navy-400">
           <Circle size={16} />
-          <span className="text-sm text-slate-500">Sin documento</span>
+          <span className="text-sm text-navy-500">Sin documento</span>
         </div>
       )
     }
@@ -141,12 +141,12 @@ export default function DocumentUpload({
   }
 
   return (
-    <div className="border border-slate-200 rounded-lg p-4 bg-white space-y-3">
+    <div className="border border-navy-200 rounded-lg p-4 bg-white space-y-3">
       {/* Document name row */}
       <div className="flex items-start justify-between gap-3">
         <div className="flex items-start gap-2 min-w-0">
-          <FileText size={16} className="text-slate-400 mt-0.5 shrink-0" />
-          <span className="text-sm font-medium text-slate-800 leading-snug">
+          <FileText size={16} className="text-navy-400 mt-0.5 shrink-0" />
+          <span className="text-sm font-medium text-navy-800 leading-snug">
             {documentName}
           </span>
         </div>
@@ -157,7 +157,7 @@ export default function DocumentUpload({
       {uploading && (
         <div className="space-y-1">
           <Progress value={progress} className="h-1.5" />
-          <p className="text-xs text-slate-400">Subiendo... {progress}%</p>
+          <p className="text-xs text-navy-400">Subiendo... {progress}%</p>
         </div>
       )}
 
@@ -225,7 +225,7 @@ export default function DocumentUpload({
             href={currentDoc.url}
             target="_blank"
             rel="noopener noreferrer"
-            className="text-xs text-slate-500 hover:text-slate-700 hover:underline truncate max-w-[180px]"
+            className="text-xs text-navy-500 hover:text-navy-700 hover:underline truncate max-w-[180px]"
           >
             {currentDoc.name}
           </a>

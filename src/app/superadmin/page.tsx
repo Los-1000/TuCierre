@@ -68,25 +68,25 @@ export default async function SuperAdminDashboard() {
   const { totalBrokers, totalNotarias, activeTramites, incomePEN, incomeUSD, pendingCashouts, pendingPriceMatch, recentTramites } = await fetchSuperDashboard()
 
   const kpis = [
-    { title: 'Brokers registrados', value: totalBrokers.toString(), icon: Users, iconColor: 'text-purple-600', iconBg: 'bg-purple-50', sub: 'Total en la plataforma', href: '/superadmin/brokers', badge: null },
+    { title: 'Brokers registrados', value: totalBrokers.toString(), icon: Users, iconColor: 'text-navy-700', iconBg: 'bg-navy-100', sub: 'Total en la plataforma', href: '/superadmin/brokers', badge: null },
     { title: 'Notarías activas', value: totalNotarias.toString(), icon: Building2, iconColor: 'text-blue-600', iconBg: 'bg-blue-50', sub: 'Administradores registrados', href: '/superadmin/notarias', badge: null },
-    { title: 'Trámites activos', value: activeTramites.toString(), icon: FileText, iconColor: 'text-sky-600', iconBg: 'bg-sky-50', sub: 'En proceso actualmente', href: '/superadmin/tramites', badge: null },
+    { title: 'Trámites activos', value: activeTramites.toString(), icon: FileText, iconColor: 'text-[#2855E0]', iconBg: 'bg-[#2855E0]/10', sub: 'En proceso actualmente', href: '/superadmin/tramites', badge: null },
     { title: 'Ingresos del mes', value: formatPrice(incomePEN, 'PEN'), icon: DollarSign, iconColor: 'text-emerald-600', iconBg: 'bg-emerald-50', sub: formatPrice(incomeUSD, 'USD'), href: null, badge: null },
-    { title: 'Cashouts pendientes', value: pendingCashouts.toString(), icon: ArrowDownCircle, iconColor: pendingCashouts > 0 ? 'text-red-600' : 'text-gray-500', iconBg: pendingCashouts > 0 ? 'bg-red-50' : 'bg-gray-50', sub: 'Solicitudes por procesar', href: '/superadmin/cashouts', badge: pendingCashouts > 0 ? pendingCashouts : null },
-    { title: 'Price Match pendientes', value: pendingPriceMatch.toString(), icon: GitCompare, iconColor: pendingPriceMatch > 0 ? 'text-red-600' : 'text-gray-500', iconBg: pendingPriceMatch > 0 ? 'bg-red-50' : 'bg-gray-50', sub: 'Solicitudes por revisar', href: '/superadmin/price-match', badge: pendingPriceMatch > 0 ? pendingPriceMatch : null },
+    { title: 'Cashouts pendientes', value: pendingCashouts.toString(), icon: ArrowDownCircle, iconColor: pendingCashouts > 0 ? 'text-red-600' : 'text-navy-500', iconBg: pendingCashouts > 0 ? 'bg-red-50' : 'bg-navy-50', sub: 'Solicitudes por procesar', href: '/superadmin/cashouts', badge: pendingCashouts > 0 ? pendingCashouts : null },
+    { title: 'Price Match pendientes', value: pendingPriceMatch.toString(), icon: GitCompare, iconColor: pendingPriceMatch > 0 ? 'text-red-600' : 'text-navy-500', iconBg: pendingPriceMatch > 0 ? 'bg-red-50' : 'bg-navy-50', sub: 'Solicitudes por revisar', href: '/superadmin/price-match', badge: pendingPriceMatch > 0 ? pendingPriceMatch : null },
   ]
 
   return (
     <div className="space-y-8">
       <div>
-        <h1 className="text-2xl font-bold text-gray-900">Dashboard Global</h1>
-        <p className="text-sm text-gray-500 mt-1">Vista de toda la plataforma TuCierre</p>
+        <h1 className="text-2xl font-bold text-navy-900">Dashboard Global</h1>
+        <p className="text-sm text-navy-500 mt-1">Vista de toda la plataforma TuCierre</p>
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
         {kpis.map((kpi) => {
           const card = (
-            <Card className="border border-gray-200 shadow-sm hover:shadow-md transition-shadow h-full">
+            <Card className="border border-navy-200 shadow-sm hover:shadow-md transition-shadow h-full">
               <CardContent className="p-5">
                 <div className="flex items-start justify-between">
                   <div className={`p-2 rounded-lg ${kpi.iconBg}`}>
@@ -97,9 +97,9 @@ export default async function SuperAdminDashboard() {
                   )}
                 </div>
                 <div className="mt-3">
-                  <p className="text-xs text-gray-500 font-medium uppercase tracking-wide">{kpi.title}</p>
-                  <p className="text-2xl font-bold text-gray-900 mt-1">{kpi.value}</p>
-                  <p className="text-xs text-gray-400 mt-1">{kpi.sub}</p>
+                  <p className="text-xs text-navy-500 font-medium uppercase tracking-wide">{kpi.title}</p>
+                  <p className="text-2xl font-bold text-navy-900 mt-1">{kpi.value}</p>
+                  <p className="text-xs text-navy-400 mt-1">{kpi.sub}</p>
                 </div>
               </CardContent>
             </Card>
@@ -109,27 +109,27 @@ export default async function SuperAdminDashboard() {
       </div>
 
       <div>
-        <h2 className="text-base font-semibold text-gray-800 mb-3">Actividad reciente (todas las notarías)</h2>
-        <Card className="border border-gray-200 shadow-sm">
+        <h2 className="text-base font-semibold text-navy-800 mb-3">Actividad reciente (todas las notarías)</h2>
+        <Card className="border border-navy-200 shadow-sm">
           <CardContent className="p-0">
             {recentTramites.length === 0 ? (
-              <div className="p-8 text-center text-gray-400 text-sm">Sin actividad reciente</div>
+              <div className="p-8 text-center text-navy-400 text-sm">Sin actividad reciente</div>
             ) : (
-              <div className="divide-y divide-gray-100">
+              <div className="divide-y divide-navy-100">
                 {recentTramites.map((t) => {
                   const colors = STATUS_COLORS[t.status] ?? { bg: '#f4f6fb', text: '#4a6da8' }
                   return (
-                    <div key={t.id} className="flex items-center gap-4 px-5 py-3 hover:bg-gray-50 transition-colors">
-                      <p className="text-xs font-mono font-semibold text-gray-700 shrink-0">{t.referenceCode}</p>
+                    <div key={t.id} className="flex items-center gap-4 px-5 py-3 hover:bg-navy-50 transition-colors">
+                      <p className="text-xs font-mono font-semibold text-navy-700 shrink-0">{t.referenceCode}</p>
                       <div className="flex-1 min-w-0">
-                        <p className="text-sm font-medium text-gray-900 truncate">{t.brokerName}</p>
-                        <p className="text-xs text-gray-400">{t.tramiteType}</p>
+                        <p className="text-sm font-medium text-navy-900 truncate">{t.brokerName}</p>
+                        <p className="text-xs text-navy-400">{t.tramiteType}</p>
                       </div>
                       <span className="text-xs font-semibold px-2.5 py-1 rounded-full whitespace-nowrap" style={{ background: colors.bg, color: colors.text }}>
                         {STATUS_LABELS[t.status] ?? t.status}
                       </span>
                       <div className="shrink-0 text-right hidden sm:block">
-                        <p className="text-sm font-semibold text-gray-800">{formatPrice(t.finalFee, t.currency)}</p>
+                        <p className="text-sm font-semibold text-navy-800">{formatPrice(t.finalFee, t.currency)}</p>
                       </div>
                     </div>
                   )

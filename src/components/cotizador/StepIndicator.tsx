@@ -24,8 +24,8 @@ export default function StepIndicator({ steps, currentStep }: StepIndicatorProps
                 className={cn(
                   'w-9 h-9 rounded-full flex items-center justify-center text-sm font-semibold transition-colors',
                   isCompleted && 'bg-brand-green text-white',
-                  isCurrent && 'bg-[#18181B] text-white ring-4 ring-[#18181B]/20',
-                  !isCompleted && !isCurrent && 'bg-slate-100 text-slate-400'
+                  isCurrent && 'bg-navy-900 text-white ring-4 ring-navy-900/20',
+                  !isCompleted && !isCurrent && 'bg-navy-100 text-navy-400'
                 )}
               >
                 {isCompleted ? <Check size={16} /> : step.number}
@@ -33,7 +33,7 @@ export default function StepIndicator({ steps, currentStep }: StepIndicatorProps
               <span
                 className={cn(
                   'text-xs font-medium mt-1.5 hidden sm:block',
-                  isCurrent ? 'text-[#18181B]' : isCompleted ? 'text-brand-green' : 'text-slate-400'
+                  isCurrent ? 'text-navy-900' : isCompleted ? 'text-brand-green' : 'text-navy-400'
                 )}
               >
                 {step.label}
@@ -43,7 +43,7 @@ export default function StepIndicator({ steps, currentStep }: StepIndicatorProps
               <div
                 className={cn(
                   'h-0.5 w-12 sm:w-20 mx-2 mb-4 transition-colors',
-                  step.number < currentStep ? 'bg-brand-green' : 'bg-slate-200'
+                  step.number < currentStep ? 'bg-brand-green' : 'bg-navy-200'
                 )}
               />
             )}

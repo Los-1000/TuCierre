@@ -55,8 +55,8 @@ export default async function SuperAdminTramitesPage({
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-2xl font-bold text-gray-900">Trámites</h1>
-        <p className="text-sm text-gray-500 mt-1">
+        <h1 className="text-2xl font-bold text-navy-900">Trámites</h1>
+        <p className="text-sm text-navy-500 mt-1">
           Todos los trámites de la plataforma ({tramites.length})
         </p>
       </div>
@@ -71,8 +71,8 @@ export default async function SuperAdminTramitesPage({
             }
             className={`text-xs px-3 py-1.5 rounded-full border font-medium transition-colors ${
               currentStatus === s
-                ? 'bg-[#18181B] text-white border-[#18181B]'
-                : 'bg-white text-slate-600 border-slate-200 hover:border-slate-400'
+                ? 'bg-navy-900 text-white border-navy-900'
+                : 'bg-white text-navy-600 border-navy-200 hover:border-navy-400'
             }`}
           >
             {STATUS_LABELS[s]}
@@ -81,51 +81,51 @@ export default async function SuperAdminTramitesPage({
       </div>
 
       {/* Table */}
-      <div className="overflow-x-auto rounded-xl border border-slate-200 shadow-sm">
+      <div className="overflow-x-auto rounded-xl border border-navy-200 shadow-sm">
         <table className="w-full text-sm">
           <thead>
-            <tr className="border-b border-slate-200 bg-slate-50">
+            <tr className="border-b border-navy-200 bg-navy-50">
               {['Código', 'Broker', 'Tipo', 'Notaría', 'Estado', 'Monto', 'Fecha'].map(h => (
                 <th
                   key={h}
-                  className="text-left text-xs font-semibold text-slate-500 uppercase tracking-wide px-4 py-3"
+                  className="text-left text-xs font-semibold text-navy-500 uppercase tracking-wide px-4 py-3"
                 >
                   {h}
                 </th>
               ))}
             </tr>
           </thead>
-          <tbody className="divide-y divide-slate-100 bg-white">
+          <tbody className="divide-y divide-navy-100 bg-white">
             {tramites.length === 0 ? (
               <tr>
-                <td colSpan={7} className="px-4 py-8 text-center text-slate-400">
+                <td colSpan={7} className="px-4 py-8 text-center text-navy-400">
                   No hay trámites
                 </td>
               </tr>
             ) : (
               tramites.map(t => (
-                <tr key={t.id} className="hover:bg-slate-50/60 transition-colors">
+                <tr key={t.id} className="hover:bg-navy-50/60 transition-colors">
                   <td className="px-4 py-3">
-                    <code className="text-xs font-mono text-slate-600 bg-slate-50 border border-slate-200 px-1.5 py-0.5 rounded">
+                    <code className="text-xs font-mono text-navy-600 bg-navy-50 border border-navy-200 px-1.5 py-0.5 rounded">
                       {t.reference_code}
                     </code>
                   </td>
-                  <td className="px-4 py-3 text-slate-700 font-medium text-xs">
+                  <td className="px-4 py-3 text-navy-700 font-medium text-xs">
                     {t.brokers?.full_name ?? '—'}
                   </td>
-                  <td className="px-4 py-3 text-slate-600 text-xs">
+                  <td className="px-4 py-3 text-navy-600 text-xs">
                     {t.tramite_types?.display_name ?? '—'}
                   </td>
-                  <td className="px-4 py-3 text-slate-500 text-xs">
+                  <td className="px-4 py-3 text-navy-500 text-xs">
                     {t.notaria?.notaria_name ?? t.notaria?.full_name ?? '—'}
                   </td>
                   <td className="px-4 py-3">
                     <StatusBadge status={t.status} size="sm" />
                   </td>
-                  <td className="px-4 py-3 font-semibold text-slate-800 tabular-nums font-mono text-xs">
+                  <td className="px-4 py-3 font-semibold text-navy-800 tabular-nums font-mono text-xs">
                     {formatPrice(t.final_price)}
                   </td>
-                  <td className="px-4 py-3 text-slate-400 text-xs">
+                  <td className="px-4 py-3 text-navy-400 text-xs">
                     {formatDate(t.created_at)}
                   </td>
                 </tr>

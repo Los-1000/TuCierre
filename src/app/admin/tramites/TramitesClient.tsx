@@ -48,7 +48,7 @@ function StatusCell({ status }: { status: string }) {
   const cfg = TRAMITE_STATUS_CONFIG[status as TramiteStatus]
   if (!cfg) {
     return (
-      <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#18181B]/5 text-[#18181B]/60 text-xs font-bold uppercase tracking-tight border border-[#18181B]/10">
+      <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-navy-900/5 text-navy-900/60 text-xs font-bold uppercase tracking-tight border border-navy-900/10">
         {status}
       </span>
     )
@@ -176,14 +176,14 @@ export default function TramitesClient({
       {/* Page Header */}
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-3">
-          <h1 className="text-3xl font-bold tracking-tight text-[#18181B]">Todos los trámites</h1>
-          <span className="px-3 py-1 bg-[#18181B]/8 rounded-full text-xs font-bold text-[#18181B]/60">
+          <h1 className="text-3xl font-bold tracking-tight text-navy-900">Todos los trámites</h1>
+          <span className="px-3 py-1 bg-navy-900/8 rounded-full text-xs font-bold text-navy-900/60">
             {tramites.length}
           </span>
         </div>
         <Link
           href="/admin/tramites/nuevo-broker"
-          className="bg-[#18181B] text-white rounded-full px-6 py-2.5 font-semibold text-sm inline-flex items-center gap-2 hover:opacity-90 transition-opacity"
+          className="bg-navy-900 text-white rounded-full px-6 py-2.5 font-semibold text-sm inline-flex items-center gap-2 hover:opacity-90 transition-opacity"
         >
           <UserPlus size={16} />
           Trámite de broker
@@ -209,16 +209,16 @@ export default function TramitesClient({
       )}
 
       {/* Filter bar */}
-      <div className="bg-white rounded-3xl border border-[#18181B]/8 shadow-[0_4px_24px_rgba(18,18,27,0.06)] p-4 flex flex-wrap items-center gap-3">
+      <div className="bg-white rounded-3xl border border-navy-900/8 shadow-[0_4px_24px_rgba(18,18,27,0.06)] p-4 flex flex-wrap items-center gap-3">
         {/* Search */}
         <div className="relative flex-1 min-w-[200px]">
-          <Search size={15} className="absolute left-3 top-1/2 -translate-y-1/2 text-[#18181B]/40" />
+          <Search size={15} className="absolute left-3 top-1/2 -translate-y-1/2 text-navy-900/40" />
           <input
             type="text"
             placeholder="Buscar por código o broker..."
             value={search}
             onChange={e => setSearch(e.target.value)}
-            className="w-full border border-[#18181B]/15 rounded-2xl h-11 pl-9 pr-4 text-sm focus:outline-none focus:ring-2 focus:ring-[#2855E0]/30 bg-transparent text-[#18181B] placeholder:text-[#18181B]/40"
+            className="w-full border border-navy-900/15 rounded-2xl h-11 pl-9 pr-4 text-sm focus:outline-none focus:ring-2 focus:ring-[#2855E0]/30 bg-transparent text-navy-900 placeholder:text-navy-900/40"
           />
         </div>
 
@@ -226,7 +226,7 @@ export default function TramitesClient({
         <select
           value={statusFilter}
           onChange={e => setStatusFilter(e.target.value)}
-          className="border border-[#18181B]/15 rounded-2xl h-11 px-4 text-sm focus:outline-none focus:ring-2 focus:ring-[#2855E0]/30 bg-transparent text-[#18181B]"
+          className="border border-navy-900/15 rounded-2xl h-11 px-4 text-sm focus:outline-none focus:ring-2 focus:ring-[#2855E0]/30 bg-transparent text-navy-900"
         >
           <option value="all">Todos los estados</option>
           {ALL_STATUSES.map(s => (
@@ -247,10 +247,10 @@ export default function TramitesClient({
       </div>
 
       {/* Table */}
-      <div className="bg-white rounded-3xl border border-[#18181B]/8 shadow-[0_4px_24px_rgba(18,18,27,0.06)] overflow-hidden">
+      <div className="bg-white rounded-3xl border border-navy-900/8 shadow-[0_4px_24px_rgba(18,18,27,0.06)] overflow-hidden">
         <table className="w-full text-left border-collapse">
           <thead>
-            <tr className="bg-slate-50">
+            <tr className="bg-navy-50">
               <th className="py-4 pl-6 w-10">
                 <Checkbox
                   checked={filtered.length > 0 && selected.size === filtered.length}
@@ -258,40 +258,40 @@ export default function TramitesClient({
                   aria-label="Seleccionar todos"
                 />
               </th>
-              <th className="py-4 px-4 text-xs font-bold uppercase tracking-wider text-[#18181B]/60">
-                <button className="flex items-center hover:text-[#18181B] transition-colors" onClick={() => handleSort('reference_code')}>
+              <th className="py-4 px-4 text-xs font-bold uppercase tracking-wider text-navy-900/60">
+                <button className="flex items-center hover:text-navy-900 transition-colors" onClick={() => handleSort('reference_code')}>
                   Código <SortIcon field="reference_code" sortField={sortField} sortDir={sortDir} />
                 </button>
               </th>
-              <th className="py-4 px-4 text-xs font-bold uppercase tracking-wider text-[#18181B]/60">
+              <th className="py-4 px-4 text-xs font-bold uppercase tracking-wider text-navy-900/60">
                 Broker
               </th>
-              <th className="py-4 px-4 text-xs font-bold uppercase tracking-wider text-[#18181B]/60">
+              <th className="py-4 px-4 text-xs font-bold uppercase tracking-wider text-navy-900/60">
                 Tipo
               </th>
-              <th className="py-4 px-4 text-xs font-bold uppercase tracking-wider text-[#18181B]/60">
-                <button className="flex items-center hover:text-[#18181B] transition-colors" onClick={() => handleSort('created_at')}>
+              <th className="py-4 px-4 text-xs font-bold uppercase tracking-wider text-navy-900/60">
+                <button className="flex items-center hover:text-navy-900 transition-colors" onClick={() => handleSort('created_at')}>
                   Fecha <SortIcon field="created_at" sortField={sortField} sortDir={sortDir} />
                 </button>
               </th>
-              <th className="py-4 px-4 text-xs font-bold uppercase tracking-wider text-[#18181B]/60">
+              <th className="py-4 px-4 text-xs font-bold uppercase tracking-wider text-navy-900/60">
                 Estado
               </th>
-              <th className="py-4 px-4 text-xs font-bold uppercase tracking-wider text-[#18181B]/60">
-                <button className="flex items-center hover:text-[#18181B] transition-colors" onClick={() => handleSort('final_price')}>
+              <th className="py-4 px-4 text-xs font-bold uppercase tracking-wider text-navy-900/60">
+                <button className="flex items-center hover:text-navy-900 transition-colors" onClick={() => handleSort('final_price')}>
                   Precio <SortIcon field="final_price" sortField={sortField} sortDir={sortDir} />
                 </button>
               </th>
-              <th className="py-4 pr-6 text-right text-xs font-bold uppercase tracking-wider text-[#18181B]/60">
+              <th className="py-4 pr-6 text-right text-xs font-bold uppercase tracking-wider text-navy-900/60">
                 Acciones
               </th>
             </tr>
           </thead>
 
-          <tbody className="divide-y divide-[#18181B]/5">
+          <tbody className="divide-y divide-navy-900/5">
             {filtered.length === 0 ? (
               <tr>
-                <td colSpan={8} className="text-center py-16 text-[#18181B]/40 text-sm">
+                <td colSpan={8} className="text-center py-16 text-navy-900/40 text-sm">
                   {tramites.length === 0
                     ? 'No hay trámites registrados aún.'
                     : 'No hay trámites con ese filtro.'}
@@ -303,23 +303,23 @@ export default function TramitesClient({
                 const type = unwrap(t.tramite_types)
                 const isUnassigned = t.status === 'solicitado'
                 return (
-                  <tr key={t.id} className="hover:bg-slate-50/60 transition-colors">
+                  <tr key={t.id} className="hover:bg-navy-50/60 transition-colors">
                     <td className="py-5 pl-6">
                       <Checkbox checked={selected.has(t.id)} onCheckedChange={() => toggleSelect(t.id)} />
                     </td>
                     <td className="py-5 px-4">
-                      <span className="font-mono text-xs font-bold text-[#18181B]">
+                      <span className="font-mono text-xs font-bold text-navy-900">
                         {t.reference_code || '—'}
                       </span>
                     </td>
                     <td className="py-5 px-4">
-                      <p className="text-sm font-bold text-[#18181B]">{broker?.full_name ?? '—'}</p>
-                      <p className="text-xs text-[#18181B]/50">{broker?.email ?? ''}</p>
+                      <p className="text-sm font-bold text-navy-900">{broker?.full_name ?? '—'}</p>
+                      <p className="text-xs text-navy-900/50">{broker?.email ?? ''}</p>
                     </td>
-                    <td className="py-5 px-4 text-sm text-[#18181B]/70">
+                    <td className="py-5 px-4 text-sm text-navy-900/70">
                       {type?.display_name ?? '—'}
                     </td>
-                    <td className="py-5 px-4 text-sm text-[#18181B]/60">
+                    <td className="py-5 px-4 text-sm text-navy-900/60">
                       {t.created_at ? formatDate(t.created_at) : '—'}
                     </td>
                     <td className="py-5 px-4">
@@ -332,20 +332,20 @@ export default function TramitesClient({
                         <StatusCell status={t.status} />
                       )}
                     </td>
-                    <td className="py-5 px-4 text-sm font-semibold text-[#18181B]">
+                    <td className="py-5 px-4 text-sm font-semibold text-navy-900">
                       {formatPrice(t.final_price ?? 0)}
                     </td>
                     <td className="py-5 pr-6">
                       <div className="flex items-center justify-end gap-2">
                         <Link
                           href={`/admin/tramites/${t.id}`}
-                          className="border border-[#18181B]/15 text-[#18181B] rounded-full px-4 py-1.5 text-xs font-semibold bg-transparent hover:bg-[#18181B]/5 transition-colors inline-flex items-center gap-1"
+                          className="border border-navy-900/15 text-navy-900 rounded-full px-4 py-1.5 text-xs font-semibold bg-transparent hover:bg-navy-900/5 transition-colors inline-flex items-center gap-1"
                         >
                           Ver <ExternalLink size={11} />
                         </Link>
                         <button
                           onClick={() => openDialog([t.id])}
-                          className="bg-[#18181B] text-white rounded-full px-4 py-1.5 text-xs font-semibold hover:opacity-90 transition-opacity"
+                          className="bg-navy-900 text-white rounded-full px-4 py-1.5 text-xs font-semibold hover:opacity-90 transition-opacity"
                         >
                           Estado
                         </button>
@@ -359,14 +359,14 @@ export default function TramitesClient({
         </table>
 
         {/* Footer row */}
-        <div className="px-6 py-4 border-t border-[#18181B]/5 flex items-center justify-between">
-          <p className="text-xs text-[#18181B]/50 font-medium">
+        <div className="px-6 py-4 border-t border-navy-900/5 flex items-center justify-between">
+          <p className="text-xs text-navy-900/50 font-medium">
             Mostrando {filtered.length} de {tramites.length} trámite{tramites.length !== 1 ? 's' : ''}
           </p>
           {selected.size > 0 && (
             <button
               onClick={() => openDialog(Array.from(selected))}
-              className="bg-[#18181B] text-white rounded-full px-5 py-2 text-xs font-semibold hover:opacity-90 transition-opacity"
+              className="bg-navy-900 text-white rounded-full px-5 py-2 text-xs font-semibold hover:opacity-90 transition-opacity"
             >
               Cambiar estado ({selected.size} seleccionados)
             </button>
@@ -379,7 +379,7 @@ export default function TramitesClient({
         <DialogContent className="sm:max-w-lg rounded-3xl border-0 shadow-2xl p-0 overflow-hidden">
           <div className="p-8">
             <DialogHeader className="mb-6">
-              <DialogTitle className="text-2xl font-bold tracking-tight text-[#18181B]">
+              <DialogTitle className="text-2xl font-bold tracking-tight text-navy-900">
                 Cambiar estado
               </DialogTitle>
             </DialogHeader>
@@ -387,15 +387,15 @@ export default function TramitesClient({
             <div className="space-y-5">
               {/* Summary */}
               {dialogTarget.length > 0 && (
-                <div className="p-4 bg-slate-50 rounded-2xl flex items-center gap-4">
+                <div className="p-4 bg-navy-50 rounded-2xl flex items-center gap-4">
                   <div className="w-10 h-10 rounded-full bg-[#2855E0]/10 flex items-center justify-center shrink-0">
                     <FileText size={18} className="text-[#2855E0]" />
                   </div>
                   <div>
-                    <p className="text-xs font-bold text-[#18181B]/60 uppercase tracking-wider">
+                    <p className="text-xs font-bold text-navy-900/60 uppercase tracking-wider">
                       {dialogTarget.length > 1 ? `${dialogTarget.length} trámites seleccionados` : 'Trámite seleccionado'}
                     </p>
-                    <p className="text-sm font-bold text-[#18181B]">
+                    <p className="text-sm font-bold text-navy-900">
                       {dialogTarget.length === 1
                         ? filtered.find(t => t.id === dialogTarget[0])?.reference_code ?? '—'
                         : 'Actualización en lote'}
@@ -406,18 +406,18 @@ export default function TramitesClient({
 
               {/* New status */}
               <div>
-                <label className="block text-xs font-bold uppercase tracking-wider text-[#18181B]/60 mb-2">
+                <label className="block text-xs font-bold uppercase tracking-wider text-navy-900/60 mb-2">
                   Nuevo Estado
                 </label>
                 <Select value={newStatus} onValueChange={v => setNewStatus(v as TramiteStatus)}>
-                  <SelectTrigger className="border border-[#18181B]/15 rounded-2xl h-11 px-4 focus:ring-2 focus:ring-[#2855E0]/30">
+                  <SelectTrigger className="border border-navy-900/15 rounded-2xl h-11 px-4 focus:ring-2 focus:ring-[#2855E0]/30">
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
                     {ALL_STATUSES.map(s => (
                       <SelectItem key={s} value={s}>
                         <span className="flex items-center gap-2">
-                          <span className={`w-2 h-2 rounded-full ${TRAMITE_STATUS_CONFIG[s]?.bg ?? 'bg-[#18181B]/20'}`} />
+                          <span className={`w-2 h-2 rounded-full ${TRAMITE_STATUS_CONFIG[s]?.bg ?? 'bg-navy-900/20'}`} />
                           {TRAMITE_STATUS_CONFIG[s].label}
                         </span>
                       </SelectItem>
@@ -428,7 +428,7 @@ export default function TramitesClient({
 
               {/* Message */}
               <div>
-                <label className="block text-xs font-bold uppercase tracking-wider text-[#18181B]/60 mb-2">
+                <label className="block text-xs font-bold uppercase tracking-wider text-navy-900/60 mb-2">
                   Mensaje para el broker
                 </label>
                 <Textarea
@@ -436,7 +436,7 @@ export default function TramitesClient({
                   value={notes}
                   onChange={e => setNotes(e.target.value)}
                   rows={4}
-                  className="border border-[#18181B]/15 rounded-2xl px-4 py-3 focus:ring-2 focus:ring-[#2855E0]/30 resize-none text-sm"
+                  className="border border-navy-900/15 rounded-2xl px-4 py-3 focus:ring-2 focus:ring-[#2855E0]/30 resize-none text-sm"
                 />
               </div>
 
@@ -445,14 +445,14 @@ export default function TramitesClient({
                 <button
                   onClick={() => setDialogOpen(false)}
                   disabled={isPending}
-                  className="flex-1 border border-[#18181B]/15 text-[#18181B] rounded-full px-6 py-3 font-semibold bg-transparent hover:bg-[#18181B]/5 transition-colors text-sm"
+                  className="flex-1 border border-navy-900/15 text-navy-900 rounded-full px-6 py-3 font-semibold bg-transparent hover:bg-navy-900/5 transition-colors text-sm"
                 >
                   Cancelar
                 </button>
                 <button
                   onClick={handleUpdateStatus}
                   disabled={isPending}
-                  className="flex-[1.5] bg-[#18181B] text-white rounded-full px-6 py-3 font-semibold hover:opacity-90 transition-opacity flex items-center justify-center gap-2 text-sm"
+                  className="flex-[1.5] bg-navy-900 text-white rounded-full px-6 py-3 font-semibold hover:opacity-90 transition-opacity flex items-center justify-center gap-2 text-sm"
                 >
                   {isPending && <Loader2 size={14} className="animate-spin" />}
                   Actualizar estado →
@@ -462,8 +462,8 @@ export default function TramitesClient({
           </div>
 
           {/* Footer note */}
-          <div className="bg-slate-50 px-8 py-3 border-t border-[#18181B]/5">
-            <p className="text-xs text-center text-[#18181B]/50 font-medium uppercase tracking-widest">
+          <div className="bg-navy-50 px-8 py-3 border-t border-navy-900/5">
+            <p className="text-xs text-center text-navy-900/50 font-medium uppercase tracking-widest">
               Se notificará automáticamente al broker vía email
             </p>
           </div>

@@ -41,7 +41,7 @@
   * { @apply border-border; }
   html { scroll-behavior: smooth; }
   body {
-    @apply bg-[#020952] text-white font-sans antialiased;
+    @apply bg-[#F5F7FF] text-[#020952] font-sans antialiased;
     font-feature-settings: 'kern' 1, 'liga' 1;
   }
   h1, h2 { @apply font-sans; }

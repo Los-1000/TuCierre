@@ -159,10 +159,10 @@ export default function ChatWindow({ tramiteId, senderType }: ChatWindowProps) {
   const isImage = (type: string) => type.startsWith('image/')
 
   return (
-    <div className="flex flex-col h-full min-h-[400px] max-h-[600px] bg-white rounded-xl border border-slate-200 overflow-hidden">
+    <div className="flex flex-col h-full min-h-[400px] max-h-[600px] bg-white rounded-xl border border-navy-200 overflow-hidden">
       {/* Connection status header */}
-      <div className="flex items-center justify-between px-4 py-2.5 border-b border-slate-100 bg-slate-50 shrink-0">
-        <span className="text-sm font-medium text-slate-700">Chat con Notaría</span>
+      <div className="flex items-center justify-between px-4 py-2.5 border-b border-navy-100 bg-navy-50 shrink-0">
+        <span className="text-sm font-medium text-navy-700">Chat con Notaría</span>
         <div className="flex items-center gap-1.5">
           <div
             className={cn(
@@ -170,7 +170,7 @@ export default function ChatWindow({ tramiteId, senderType }: ChatWindowProps) {
               connected ? 'bg-green-500' : 'bg-amber-500'
             )}
           />
-          <span className="text-xs text-slate-500">
+          <span className="text-xs text-navy-500">
             {connected ? 'Conectado' : 'Reconectando...'}
           </span>
         </div>
@@ -180,11 +180,11 @@ export default function ChatWindow({ tramiteId, senderType }: ChatWindowProps) {
       <div className="flex-1 overflow-y-auto px-4 py-4 space-y-3">
         {loading ? (
           <div className="flex items-center justify-center h-full">
-            <Loader2 size={24} className="animate-spin text-slate-300" />
+            <Loader2 size={24} className="animate-spin text-navy-300" />
           </div>
         ) : messages.length === 0 ? (
           <div className="flex flex-col items-center justify-center h-full text-center py-8">
-            <p className="text-sm text-slate-400">
+            <p className="text-sm text-navy-400">
               No hay mensajes aún. Inicia la conversación.
             </p>
           </div>
@@ -206,8 +206,8 @@ export default function ChatWindow({ tramiteId, senderType }: ChatWindowProps) {
                     className={cn(
                       'block rounded-xl overflow-hidden border',
                       isBroker
-                        ? 'border-[#18181B]/20 rounded-tr-sm'
-                        : 'border-[#18181B]/10 rounded-tl-sm'
+                        ? 'border-navy-900/20 rounded-tr-sm'
+                        : 'border-navy-900/10 rounded-tl-sm'
                     )}
                   >
                     {isImage(att.type) ? (
@@ -221,7 +221,7 @@ export default function ChatWindow({ tramiteId, senderType }: ChatWindowProps) {
                       <div
                         className={cn(
                           'flex items-center gap-2 px-3 py-2',
-                          isBroker ? 'bg-[#18181B] text-white' : 'bg-[#18181B]/6 text-[#18181B]'
+                          isBroker ? 'bg-navy-900 text-white' : 'bg-navy-900/6 text-navy-900'
                         )}
                       >
                         <FileText size={16} className="shrink-0" />
@@ -239,8 +239,8 @@ export default function ChatWindow({ tramiteId, senderType }: ChatWindowProps) {
                     className={cn(
                       'max-w-[75%] px-3.5 py-2 text-sm leading-relaxed',
                       isBroker
-                        ? 'bg-[#18181B] text-white rounded-xl rounded-tr-sm'
-                        : 'bg-[#18181B]/6 text-[#18181B] rounded-xl rounded-tl-sm'
+                        ? 'bg-navy-900 text-white rounded-xl rounded-tr-sm'
+                        : 'bg-navy-900/6 text-navy-900 rounded-xl rounded-tl-sm'
                     )}
                   >
                     {msg.content}
@@ -250,7 +250,7 @@ export default function ChatWindow({ tramiteId, senderType }: ChatWindowProps) {
                 {/* Timestamp */}
                 <time
                   dateTime={msg.created_at}
-                  className="text-[11px] text-slate-400 px-1"
+                  className="text-[11px] text-navy-400 px-1"
                 >
                   {formatDateTime(msg.created_at)}
                 </time>
@@ -263,9 +263,9 @@ export default function ChatWindow({ tramiteId, senderType }: ChatWindowProps) {
 
       {/* Pending attachment preview */}
       {pendingAttachment && (
-        <div className="px-4 py-2 border-t border-slate-100 bg-slate-50 flex items-center gap-2">
-          <FileText size={14} className="text-slate-400 shrink-0" />
-          <span className="text-xs text-slate-600 truncate flex-1">{pendingAttachment.name}</span>
+        <div className="px-4 py-2 border-t border-navy-100 bg-navy-50 flex items-center gap-2">
+          <FileText size={14} className="text-navy-400 shrink-0" />
+          <span className="text-xs text-navy-600 truncate flex-1">{pendingAttachment.name}</span>
           <button
             type="button"
             onClick={() => setPendingAttachment(null)}
@@ -277,7 +277,7 @@ export default function ChatWindow({ tramiteId, senderType }: ChatWindowProps) {
       )}
 
       {/* Input area */}
-      <div className="sticky bottom-0 flex items-end gap-2 px-3 py-3 border-t border-slate-100 bg-white shrink-0">
+      <div className="sticky bottom-0 flex items-end gap-2 px-3 py-3 border-t border-navy-100 bg-white shrink-0">
         {/* Attachment button */}
         <input
           ref={fileRef}
@@ -293,7 +293,7 @@ export default function ChatWindow({ tramiteId, senderType }: ChatWindowProps) {
           variant="ghost"
           onClick={() => fileRef.current?.click()}
           disabled={sending}
-          className="shrink-0 text-slate-400 hover:text-slate-600"
+          className="shrink-0 text-navy-400 hover:text-navy-600"
           aria-label="Adjuntar archivo"
         >
           <Paperclip size={18} />
@@ -309,9 +309,9 @@ export default function ChatWindow({ tramiteId, senderType }: ChatWindowProps) {
           placeholder="Escribe un mensaje..."
           disabled={sending}
           className={cn(
-            'flex-1 resize-none rounded-lg border border-slate-200 bg-slate-50 px-3 py-2',
-            'text-sm text-slate-900 placeholder:text-slate-400',
-            'focus:outline-none focus:ring-2 focus:ring-[#18181B]/20 focus:border-[#18181B]/30',
+            'flex-1 resize-none rounded-lg border border-navy-200 bg-navy-50 px-3 py-2',
+            'text-sm text-navy-900 placeholder:text-navy-400',
+            'focus:outline-none focus:ring-2 focus:ring-navy-900/20 focus:border-navy-900/30',
             'disabled:opacity-50 transition-all'
           )}
           style={{ minHeight: '40px', maxHeight: `${4 * 24 + 16}px` }}

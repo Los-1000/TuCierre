@@ -46,8 +46,8 @@ export default function ForgotPasswordPage() {
           <div className="w-16 h-16 rounded-full bg-emerald-100 flex items-center justify-center mx-auto mb-5">
             <CheckCircle2 size={30} className="text-emerald-600" />
           </div>
-          <h2 className="text-3xl font-semibold text-[#18181B] mb-2">Revisa tu correo</h2>
-          <p className="text-[#18181B]/50 text-sm mb-7 leading-relaxed">
+          <h2 className="text-3xl font-semibold text-navy-900 mb-2">Revisa tu correo</h2>
+          <p className="text-navy-900/50 text-sm mb-7 leading-relaxed">
             Te enviamos un enlace para restablecer tu contraseña. Revisa también la carpeta de spam.
           </p>
           <Button asChild variant="outline" className="rounded-full">
@@ -65,22 +65,22 @@ export default function ForgotPasswordPage() {
           <div className="mb-5">
             <Logo size="md" href="/" />
           </div>
-          <h1 className="text-3xl font-semibold text-[#18181B]">¿Olvidaste tu contraseña?</h1>
-          <p className="text-[#18181B]/50 text-sm mt-1.5">
+          <h1 className="text-3xl font-semibold text-navy-900">¿Olvidaste tu contraseña?</h1>
+          <p className="text-navy-900/50 text-sm mt-1.5">
             Ingresa tu email y te enviamos un enlace para restablecerla.
           </p>
         </div>
 
-        <div className="bg-white rounded-3xl border border-[#18181B]/8 shadow-[0_40px_80px_-15px_rgba(24,24,27,0.06)] p-8">
+        <div className="bg-white rounded-3xl border border-navy-900/8 shadow-[0_40px_80px_-15px_rgba(24,24,27,0.06)] p-8">
           <form onSubmit={handleSubmit(onSubmit)} noValidate className="space-y-4">
             <div>
-              <Label htmlFor="email" className="text-[11px] font-bold uppercase tracking-wider text-[#18181B]/60 block mb-2">Email</Label>
+              <Label htmlFor="email" className="text-[11px] font-bold uppercase tracking-wider text-navy-900/60 block mb-2">Email</Label>
               <Input
                 id="email"
                 type="email"
                 placeholder="tu@email.com"
                 autoComplete="email"
-                className="h-[48px] px-5 rounded-2xl bg-[#EEF1FF] border-transparent focus:border-[#2855E0] focus:ring-[#2855E0]/30 text-[#18181B] placeholder:text-[#18181B]/30"
+                className="h-[48px] px-5 rounded-2xl bg-[#EEF1FF] border-transparent focus:border-[#2855E0] focus:ring-[#2855E0]/30 text-navy-900 placeholder:text-navy-900/30"
                 {...register('email')}
               />
               {errors.email && <p className="text-red-500 text-xs mt-1.5">{errors.email.message}</p>}
@@ -96,7 +96,7 @@ export default function ForgotPasswordPage() {
           </form>
         </div>
 
-        <p className="text-center text-sm text-[#18181B]/50 mt-5">
+        <p className="text-center text-sm text-navy-900/50 mt-5">
           <Link href="/login" className="text-[#2855E0] font-medium hover:opacity-80 transition-opacity inline-flex items-center gap-1">
             <ArrowLeft size={13} />
             Volver al inicio de sesión

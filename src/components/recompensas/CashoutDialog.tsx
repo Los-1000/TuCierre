@@ -97,7 +97,7 @@ export default function CashoutDialog({
       <DialogTrigger asChild>
         <Button
           disabled={availableBalance <= 0}
-          className="bg-[#18181B] hover:bg-[#2D2D30] text-white gap-2"
+          className="bg-navy-900 hover:bg-navy-800 text-white gap-2"
         >
           <Banknote size={16} />
           Solicitar retiro
@@ -113,7 +113,7 @@ export default function CashoutDialog({
           <div className="space-y-1.5">
             <Label>Monto a retirar</Label>
             <div className="relative">
-              <span className="absolute left-3 top-1/2 -translate-y-1/2 text-sm text-slate-500 font-mono pointer-events-none">
+              <span className="absolute left-3 top-1/2 -translate-y-1/2 text-sm text-navy-500 font-mono pointer-events-none">
                 S/.
               </span>
               <Input
@@ -128,7 +128,7 @@ export default function CashoutDialog({
                 }
               />
             </div>
-            <p className="text-xs text-slate-500">
+            <p className="text-xs text-navy-500">
               Disponible:{' '}
               <span className="font-semibold text-brand-green tabular-nums">
                 {formatPrice(availableBalance)}
@@ -256,7 +256,7 @@ export default function CashoutDialog({
             </>
           )}
 
-          <div className="flex justify-end gap-2 pt-2 border-t border-slate-100">
+          <div className="flex justify-end gap-2 pt-2 border-t border-navy-100">
             <Button
               type="button"
               variant="outline"
@@ -267,7 +267,7 @@ export default function CashoutDialog({
             <Button
               type="submit"
               disabled={isSubmitting || !method}
-              className="bg-[#18181B] hover:bg-[#2D2D30] text-white"
+              className="bg-navy-900 hover:bg-navy-800 text-white"
             >
               {isSubmitting ? 'Enviando...' : 'Confirmar solicitud'}
             </Button>

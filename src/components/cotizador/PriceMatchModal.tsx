@@ -81,21 +81,21 @@ export default function PriceMatchModal({ open, onClose, tramiteTypeId }: PriceM
 
   return (
     <Dialog open={open} onOpenChange={onClose}>
-      <DialogContent className="sm:max-w-md rounded-3xl border border-[#18181B]/8 shadow-[0_8px_48px_rgba(18,18,27,0.12)] p-0 overflow-hidden">
+      <DialogContent className="sm:max-w-md rounded-3xl border border-navy-900/8 shadow-[0_8px_48px_rgba(18,18,27,0.12)] p-0 overflow-hidden">
         {/* Header */}
-        <div className="px-6 pt-6 pb-4 border-b border-[#18181B]/8">
+        <div className="px-6 pt-6 pb-4 border-b border-navy-900/8">
           <div className="flex items-center justify-between">
             <div>
-              <DialogTitle className="text-lg font-semibold text-[#18181B]">
+              <DialogTitle className="text-lg font-semibold text-navy-900">
                 ¿Tienes una cotización más baja?
               </DialogTitle>
-              <p className="text-sm text-[#18181B]/50 mt-1">
+              <p className="text-sm text-navy-900/50 mt-1">
                 Te igualamos el precio en máximo 2 horas.
               </p>
             </div>
             <button
               onClick={onClose}
-              className="w-8 h-8 rounded-full flex items-center justify-center hover:bg-[#18181B]/6 transition-colors text-[#18181B]/40"
+              className="w-8 h-8 rounded-full flex items-center justify-center hover:bg-navy-900/6 transition-colors text-navy-900/40"
             >
               <X size={16} />
             </button>
@@ -105,12 +105,12 @@ export default function PriceMatchModal({ open, onClose, tramiteTypeId }: PriceM
         <form onSubmit={handleSubmit(onSubmit)} className="p-6 space-y-5">
           {/* Competitor name */}
           <div>
-            <label className="text-[11px] font-bold uppercase tracking-widest text-[#18181B]/50 block mb-1.5">
+            <label className="text-[11px] font-bold uppercase tracking-widest text-navy-900/50 block mb-1.5">
               Notaría competidora <span className="text-red-500">*</span>
             </label>
             <input
               placeholder="Notaría García & Asociados"
-              className="w-full h-11 px-4 rounded-2xl border border-[#18181B]/15 bg-white text-sm text-[#18181B] focus:outline-none focus:ring-2 focus:ring-[#2855E0]/30 focus:border-[#2855E0] transition-colors placeholder:text-[#18181B]/30"
+              className="w-full h-11 px-4 rounded-2xl border border-navy-900/15 bg-white text-sm text-navy-900 focus:outline-none focus:ring-2 focus:ring-[#2855E0]/30 focus:border-[#2855E0] transition-colors placeholder:text-navy-900/30"
               {...register('competitor_name')}
             />
             {errors.competitor_name && (
@@ -120,7 +120,7 @@ export default function PriceMatchModal({ open, onClose, tramiteTypeId }: PriceM
 
           {/* Competitor price */}
           <div>
-            <label className="text-[11px] font-bold uppercase tracking-widest text-[#18181B]/50 block mb-1.5">
+            <label className="text-[11px] font-bold uppercase tracking-widest text-navy-900/50 block mb-1.5">
               Precio cotizado (S/.) <span className="text-red-500">*</span>
             </label>
             <input
@@ -128,7 +128,7 @@ export default function PriceMatchModal({ open, onClose, tramiteTypeId }: PriceM
               placeholder="1200.00"
               step="0.01"
               min="1"
-              className="w-full h-11 px-4 rounded-2xl border border-[#18181B]/15 bg-white text-sm text-[#18181B] focus:outline-none focus:ring-2 focus:ring-[#2855E0]/30 focus:border-[#2855E0] transition-colors placeholder:text-[#18181B]/30 font-mono"
+              className="w-full h-11 px-4 rounded-2xl border border-navy-900/15 bg-white text-sm text-navy-900 focus:outline-none focus:ring-2 focus:ring-[#2855E0]/30 focus:border-[#2855E0] transition-colors placeholder:text-navy-900/30 font-mono"
               {...register('competitor_price', { valueAsNumber: true })}
             />
             {errors.competitor_price && (
@@ -138,19 +138,19 @@ export default function PriceMatchModal({ open, onClose, tramiteTypeId }: PriceM
 
           {/* Evidence file upload */}
           <div>
-            <label className="text-[11px] font-bold uppercase tracking-widest text-[#18181B]/50 block mb-1.5">
-              Evidencia <span className="text-[#18181B]/30 text-xs font-normal normal-case">(foto o PDF, máx. 5 MB)</span>
+            <label className="text-[11px] font-bold uppercase tracking-widest text-navy-900/50 block mb-1.5">
+              Evidencia <span className="text-navy-900/30 text-xs font-normal normal-case">(foto o PDF, máx. 5 MB)</span>
             </label>
             <label
               htmlFor="evidence-modal"
-              className="flex flex-col items-center justify-center gap-2 border-2 border-dashed border-[#18181B]/20 rounded-2xl p-6 cursor-pointer hover:border-[#2855E0]/40 hover:bg-[#2855E0]/3 transition-all"
+              className="flex flex-col items-center justify-center gap-2 border-2 border-dashed border-navy-900/20 rounded-2xl p-6 cursor-pointer hover:border-[#2855E0]/40 hover:bg-[#2855E0]/3 transition-all"
             >
               <Upload size={22} className="text-[#2855E0]" />
-              <span className="text-sm text-[#18181B]/60">
+              <span className="text-sm text-navy-900/60">
                 {evidenceFile ? evidenceFile.name : 'Haz clic para subir la cotización'}
               </span>
               {!evidenceFile && (
-                <span className="text-xs text-[#18181B]/40">PDF, JPG, PNG — máx. 5 MB</span>
+                <span className="text-xs text-navy-900/40">PDF, JPG, PNG — máx. 5 MB</span>
               )}
               <input
                 id="evidence-modal"
@@ -167,14 +167,14 @@ export default function PriceMatchModal({ open, onClose, tramiteTypeId }: PriceM
             <button
               type="button"
               onClick={onClose}
-              className="flex-1 h-11 border border-[#18181B]/15 text-[#18181B] rounded-full font-semibold text-sm hover:bg-[#18181B]/5 transition-colors"
+              className="flex-1 h-11 border border-navy-900/15 text-navy-900 rounded-full font-semibold text-sm hover:bg-navy-900/5 transition-colors"
             >
               Cancelar
             </button>
             <button
               type="submit"
               disabled={loading}
-              className="flex-1 h-11 flex items-center justify-center gap-2 bg-[#18181B] text-white rounded-full font-semibold text-sm hover:bg-[#18181B]/90 transition-colors disabled:opacity-60"
+              className="flex-1 h-11 flex items-center justify-center gap-2 bg-navy-900 text-white rounded-full font-semibold text-sm hover:bg-navy-900/90 transition-colors disabled:opacity-60"
             >
               {loading && <Loader2 size={14} className="animate-spin" />}
               Enviar solicitud

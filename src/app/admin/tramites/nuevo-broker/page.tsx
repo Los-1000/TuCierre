@@ -126,8 +126,8 @@ export default function NuevoBrokerPage() {
   return (
     <div className="max-w-lg mx-auto space-y-6">
       <div>
-        <h1 className="text-2xl font-bold text-gray-900">Registrar trámite de broker</h1>
-        <p className="text-sm text-gray-500 mt-1">
+        <h1 className="text-2xl font-bold text-navy-900">Registrar trámite de broker</h1>
+        <p className="text-sm text-navy-500 mt-1">
           Para clientes que llegan a la notaría con un código de broker.
         </p>
       </div>
@@ -206,7 +206,7 @@ export default function NuevoBrokerPage() {
 
             <Button
               type="submit"
-              className="w-full bg-[#18181B] text-white hover:bg-[#2D2D30]"
+              className="w-full bg-navy-900 text-white hover:bg-navy-800"
               disabled={submitting || !foundBroker}
             >
               {submitting ? 'Registrando...' : 'Registrar trámite'}

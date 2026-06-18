@@ -69,8 +69,8 @@ export default function PriceMatchClient({
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-2xl font-bold text-gray-900">Price Match</h1>
-        <p className="text-sm text-gray-500 mt-1">
+        <h1 className="text-2xl font-bold text-navy-900">Price Match</h1>
+        <p className="text-sm text-navy-500 mt-1">
           Gestiona las solicitudes de igualación de precio ({requests.length})
         </p>
       </div>
@@ -80,10 +80,10 @@ export default function PriceMatchClient({
         {(['pending', 'approved', 'rejected'] as PriceMatchStatus[]).map(s => (
           <div
             key={s}
-            className="bg-white border border-slate-200 rounded-xl p-4 text-center shadow-sm"
+            className="bg-white border border-navy-200 rounded-xl p-4 text-center shadow-sm"
           >
-            <div className="text-2xl font-bold text-slate-900">{byStatus[s] ?? 0}</div>
-            <div className="text-xs text-slate-500 mt-0.5">{STATUS_CONFIG[s].label}</div>
+            <div className="text-2xl font-bold text-navy-900">{byStatus[s] ?? 0}</div>
+            <div className="text-xs text-navy-500 mt-0.5">{STATUS_CONFIG[s].label}</div>
           </div>
         ))}
       </div>
@@ -91,8 +91,8 @@ export default function PriceMatchClient({
       {/* Pending */}
       {pending.length > 0 && (
         <div className="space-y-4">
-          <h2 className="text-base font-semibold text-slate-800">
-            Pendientes <span className="text-sm font-normal text-slate-400">({pending.length})</span>
+          <h2 className="text-base font-semibold text-navy-800">
+            Pendientes <span className="text-sm font-normal text-navy-400">({pending.length})</span>
           </h2>
           {pending.map(r => {
             const isLoading = loadingId === r.id
@@ -101,20 +101,20 @@ export default function PriceMatchClient({
                 <CardContent className="p-5 space-y-4">
                   <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
                     <div>
-                      <p className="text-xs text-slate-400 uppercase tracking-wide mb-1">Broker</p>
-                      <p className="text-sm font-semibold text-slate-900">{r.brokers?.full_name ?? '—'}</p>
-                      <p className="text-xs text-slate-400">{r.brokers?.email}</p>
+                      <p className="text-xs text-navy-400 uppercase tracking-wide mb-1">Broker</p>
+                      <p className="text-sm font-semibold text-navy-900">{r.brokers?.full_name ?? '—'}</p>
+                      <p className="text-xs text-navy-400">{r.brokers?.email}</p>
                     </div>
                     <div>
-                      <p className="text-xs text-slate-400 uppercase tracking-wide mb-1">Tipo</p>
-                      <p className="text-sm font-semibold text-slate-900">{r.tramite_types?.display_name ?? '—'}</p>
+                      <p className="text-xs text-navy-400 uppercase tracking-wide mb-1">Tipo</p>
+                      <p className="text-sm font-semibold text-navy-900">{r.tramite_types?.display_name ?? '—'}</p>
                     </div>
                     <div>
-                      <p className="text-xs text-slate-400 uppercase tracking-wide mb-1">Competidor</p>
-                      <p className="text-sm font-semibold text-slate-900">{r.competitor_name}</p>
+                      <p className="text-xs text-navy-400 uppercase tracking-wide mb-1">Competidor</p>
+                      <p className="text-sm font-semibold text-navy-900">{r.competitor_name}</p>
                     </div>
                     <div>
-                      <p className="text-xs text-slate-400 uppercase tracking-wide mb-1">Precio competidor</p>
+                      <p className="text-xs text-navy-400 uppercase tracking-wide mb-1">Precio competidor</p>
                       <p className="text-sm font-semibold text-red-600">{formatPrice(r.competitor_price)}</p>
                     </div>
                   </div>
@@ -131,15 +131,15 @@ export default function PriceMatchClient({
                     </a>
                   )}
 
-                  <hr className="border-slate-100" />
+                  <hr className="border-navy-100" />
 
                   <div className="flex flex-col sm:flex-row sm:items-end gap-4">
                     <div className="space-y-1.5 flex-1">
-                      <label className="text-xs font-medium text-slate-700">
+                      <label className="text-xs font-medium text-navy-700">
                         Precio igualado propuesto
                       </label>
                       <div className="relative max-w-xs">
-                        <span className="absolute left-3 top-1/2 -translate-y-1/2 text-sm text-slate-500 font-medium">S/.</span>
+                        <span className="absolute left-3 top-1/2 -translate-y-1/2 text-sm text-navy-500 font-medium">S/.</span>
                         <Input
                           type="number"
                           min={0}
@@ -177,7 +177,7 @@ export default function PriceMatchClient({
                     </div>
                   </div>
 
-                  <p className="text-xs text-slate-400">Recibido {formatDate(r.created_at)}</p>
+                  <p className="text-xs text-navy-400">Recibido {formatDate(r.created_at)}</p>
                 </CardContent>
               </Card>
             )
@@ -188,45 +188,45 @@ export default function PriceMatchClient({
       {/* Resolved */}
       {resolved.length > 0 && (
         <div className="space-y-3">
-          <h2 className="text-base font-semibold text-slate-800">
-            Resueltas <span className="text-sm font-normal text-slate-400">({resolved.length})</span>
+          <h2 className="text-base font-semibold text-navy-800">
+            Resueltas <span className="text-sm font-normal text-navy-400">({resolved.length})</span>
           </h2>
-          <div className="overflow-x-auto rounded-xl border border-slate-200 shadow-sm">
+          <div className="overflow-x-auto rounded-xl border border-navy-200 shadow-sm">
             <table className="w-full text-sm">
               <thead>
-                <tr className="border-b border-slate-200 bg-slate-50">
+                <tr className="border-b border-navy-200 bg-navy-50">
                   {['Broker', 'Tipo', 'Competidor', 'Precio comp.', 'Precio igualado', 'Estado', 'Fecha', 'Evidencia'].map(h => (
-                    <th key={h} className="text-left text-xs font-semibold text-slate-500 uppercase tracking-wide px-4 py-3">{h}</th>
+                    <th key={h} className="text-left text-xs font-semibold text-navy-500 uppercase tracking-wide px-4 py-3">{h}</th>
                   ))}
                 </tr>
               </thead>
-              <tbody className="divide-y divide-slate-100 bg-white">
+              <tbody className="divide-y divide-navy-100 bg-white">
                 {resolved.map(r => {
                   const statusConf = STATUS_CONFIG[r.status]
                   return (
-                    <tr key={r.id} className="hover:bg-slate-50/60 transition-colors">
+                    <tr key={r.id} className="hover:bg-navy-50/60 transition-colors">
                       <td className="px-4 py-3">
-                        <div className="font-medium text-slate-900 text-xs">{r.brokers?.full_name ?? '—'}</div>
-                        <div className="text-slate-400 text-xs">{r.brokers?.email}</div>
+                        <div className="font-medium text-navy-900 text-xs">{r.brokers?.full_name ?? '—'}</div>
+                        <div className="text-navy-400 text-xs">{r.brokers?.email}</div>
                       </td>
-                      <td className="px-4 py-3 text-slate-600 text-xs">{r.tramite_types?.display_name ?? '—'}</td>
-                      <td className="px-4 py-3 text-slate-700 text-xs">{r.competitor_name}</td>
+                      <td className="px-4 py-3 text-navy-600 text-xs">{r.tramite_types?.display_name ?? '—'}</td>
+                      <td className="px-4 py-3 text-navy-700 text-xs">{r.competitor_name}</td>
                       <td className="px-4 py-3 font-mono tabular-nums text-xs">{formatPrice(r.competitor_price)}</td>
                       <td className="px-4 py-3 font-mono tabular-nums text-xs">
                         {r.our_matched_price != null
                           ? <span className="font-semibold text-green-700">{formatPrice(r.our_matched_price)}</span>
-                          : <span className="text-slate-400">—</span>}
+                          : <span className="text-navy-400">—</span>}
                       </td>
                       <td className="px-4 py-3">
                         <span className={cn('inline-flex items-center text-xs font-medium px-2 py-0.5 rounded-full border', statusConf.className)}>
                           {statusConf.label}
                         </span>
                       </td>
-                      <td className="px-4 py-3 text-slate-400 text-xs">{formatDate(r.created_at)}</td>
+                      <td className="px-4 py-3 text-navy-400 text-xs">{formatDate(r.created_at)}</td>
                       <td className="px-4 py-3">
                         {r.evidence_url
                           ? <a href={r.evidence_url} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 text-xs text-blue-600 hover:underline">Ver <ExternalLink size={10} /></a>
-                          : <span className="text-slate-400 text-xs">—</span>}
+                          : <span className="text-navy-400 text-xs">—</span>}
                       </td>
                     </tr>
                   )
@@ -240,8 +240,8 @@ export default function PriceMatchClient({
       {requests.length === 0 && (
         <Card>
           <CardContent className="py-12 text-center">
-            <Clock size={32} className="mx-auto text-slate-300 mb-3" />
-            <p className="text-sm text-slate-400">No hay solicitudes de price match</p>
+            <Clock size={32} className="mx-auto text-navy-300 mb-3" />
+            <p className="text-sm text-navy-400">No hay solicitudes de price match</p>
           </CardContent>
         </Card>
       )}

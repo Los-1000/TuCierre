@@ -51,8 +51,8 @@ export default function ReferralCode({ code }: ReferralCodeProps) {
   return (
     <div className="space-y-2">
       <div className="flex items-center gap-2">
-        <div className="flex-1 flex items-center gap-2 bg-slate-50 border border-slate-200 rounded-lg px-4 py-2.5">
-          <code className="font-mono text-sm font-semibold text-[#18181B] tracking-wider flex-1">
+        <div className="flex-1 flex items-center gap-2 bg-navy-50 border border-navy-200 rounded-lg px-4 py-2.5">
+          <code className="font-mono text-sm font-semibold text-navy-900 tracking-wider flex-1">
             {code}
           </code>
         </div>
@@ -76,9 +76,9 @@ export default function ReferralCode({ code }: ReferralCodeProps) {
         </Button>
       </div>
       <div className="flex items-center gap-2">
-        <div className="flex-1 flex items-center gap-2 bg-slate-50 border border-slate-200 rounded-lg px-3 py-2">
-          <LinkIcon size={13} className="text-slate-400 shrink-0" />
-          <span className="text-xs text-slate-500 truncate flex-1 font-mono">{referralUrl}</span>
+        <div className="flex-1 flex items-center gap-2 bg-navy-50 border border-navy-200 rounded-lg px-3 py-2">
+          <LinkIcon size={13} className="text-navy-400 shrink-0" />
+          <span className="text-xs text-navy-500 truncate flex-1 font-mono">{referralUrl}</span>
         </div>
         <Button
           variant="outline"

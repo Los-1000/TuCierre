@@ -88,10 +88,10 @@ export default async function AdminDashboardPage() {
       {/* Page Header */}
       <div className="flex items-end justify-between">
         <div>
-          <p className="text-xs font-bold uppercase tracking-[0.1em] text-[#18181B]/60 mb-1">
+          <p className="text-xs font-bold uppercase tracking-[0.1em] text-navy-900/60 mb-1">
             Resumen Administrativo
           </p>
-          <h1 className="text-4xl font-extrabold tracking-tight text-[#18181B]">Dashboard</h1>
+          <h1 className="text-4xl font-extrabold tracking-tight text-navy-900">Dashboard</h1>
         </div>
       </div>
 
@@ -123,42 +123,42 @@ export default async function AdminDashboardPage() {
       {/* KPI Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-5">
         {/* Trámites activos */}
-        <div className="bg-white rounded-3xl border border-[#18181B]/8 shadow-[0_4px_24px_rgba(18,18,27,0.06)] p-6">
-          <p className="text-xs font-bold uppercase tracking-wider text-[#18181B]/60 mb-1">Trámites activos</p>
-          <h3 className="text-4xl font-black text-[#18181B]">{activeCount}</h3>
-          <p className="text-xs text-[#18181B]/50 mt-1">En proceso actualmente</p>
+        <div className="bg-white rounded-3xl border border-navy-900/8 shadow-[0_4px_24px_rgba(18,18,27,0.06)] p-6">
+          <p className="text-xs font-bold uppercase tracking-wider text-navy-900/60 mb-1">Trámites activos</p>
+          <h3 className="text-4xl font-black text-navy-900">{activeCount}</h3>
+          <p className="text-xs text-navy-900/50 mt-1">En proceso actualmente</p>
         </div>
 
         {/* Sin asignar — highlighted */}
-        <div className={`rounded-3xl border p-6 ${sinAsignar > 0 ? 'bg-red-50 border-red-200' : 'bg-white border-[#18181B]/8 shadow-[0_4px_24px_rgba(18,18,27,0.06)]'}`}>
-          <p className={`text-xs font-bold uppercase tracking-wider mb-1 ${sinAsignar > 0 ? 'text-red-600/70' : 'text-[#18181B]/60'}`}>Sin asignar</p>
+        <div className={`rounded-3xl border p-6 ${sinAsignar > 0 ? 'bg-red-50 border-red-200' : 'bg-white border-navy-900/8 shadow-[0_4px_24px_rgba(18,18,27,0.06)]'}`}>
+          <p className={`text-xs font-bold uppercase tracking-wider mb-1 ${sinAsignar > 0 ? 'text-red-600/70' : 'text-navy-900/60'}`}>Sin asignar</p>
           <div className="flex items-baseline gap-2">
-            <h3 className={`text-4xl font-black ${sinAsignar > 0 ? 'text-red-700' : 'text-[#18181B]'}`}>{sinAsignar}</h3>
+            <h3 className={`text-4xl font-black ${sinAsignar > 0 ? 'text-red-700' : 'text-navy-900'}`}>{sinAsignar}</h3>
             {sinAsignar > 0 && <AlertCircle size={18} className="text-red-500 mb-1" />}
           </div>
-          <p className={`text-xs mt-1 ${sinAsignar > 0 ? 'text-red-500' : 'text-[#18181B]/50'}`}>Requieren acción</p>
+          <p className={`text-xs mt-1 ${sinAsignar > 0 ? 'text-red-500' : 'text-navy-900/50'}`}>Requieren acción</p>
         </div>
 
         {/* En proceso */}
-        <div className="bg-white rounded-3xl border border-[#18181B]/8 shadow-[0_4px_24px_rgba(18,18,27,0.06)] p-6">
-          <p className="text-xs font-bold uppercase tracking-wider text-[#18181B]/60 mb-1">En proceso</p>
-          <h3 className="text-4xl font-black text-[#18181B]">{enProcesoCount}</h3>
-          <p className="text-xs text-[#18181B]/50 mt-1">En revisión, firma o registro</p>
+        <div className="bg-white rounded-3xl border border-navy-900/8 shadow-[0_4px_24px_rgba(18,18,27,0.06)] p-6">
+          <p className="text-xs font-bold uppercase tracking-wider text-navy-900/60 mb-1">En proceso</p>
+          <h3 className="text-4xl font-black text-navy-900">{enProcesoCount}</h3>
+          <p className="text-xs text-navy-900/50 mt-1">En revisión, firma o registro</p>
         </div>
 
         {/* Completados */}
-        <div className="bg-white rounded-3xl border border-[#18181B]/8 shadow-[0_4px_24px_rgba(18,18,27,0.06)] p-6">
-          <p className="text-xs font-bold uppercase tracking-wider text-[#18181B]/60 mb-1">Completados</p>
-          <h3 className="text-4xl font-black text-[#18181B]">{completedCount}</h3>
-          <p className="text-xs text-[#18181B]/50 mt-1">de {totalCount} en total</p>
+        <div className="bg-white rounded-3xl border border-navy-900/8 shadow-[0_4px_24px_rgba(18,18,27,0.06)] p-6">
+          <p className="text-xs font-bold uppercase tracking-wider text-navy-900/60 mb-1">Completados</p>
+          <h3 className="text-4xl font-black text-navy-900">{completedCount}</h3>
+          <p className="text-xs text-navy-900/50 mt-1">de {totalCount} en total</p>
         </div>
 
         {/* Ingresos — dark card */}
-        <div className="bg-[#18181B] rounded-3xl shadow-xl p-6">
-          <p className="text-xs font-bold uppercase tracking-wider text-zinc-400 mb-1">Ingresos del mes</p>
+        <div className="bg-navy-900 rounded-3xl shadow-xl p-6">
+          <p className="text-xs font-bold uppercase tracking-wider text-navy-400 mb-1">Ingresos del mes</p>
           <h3 className="text-2xl font-black text-white tracking-tighter">{formatPrice(incomePEN, 'PEN')}</h3>
           <p className="text-sm font-bold text-white/80 tracking-tight tabular-nums">{formatPrice(incomeUSD, 'USD')}</p>
-          <p className="text-xs text-zinc-500 mt-1">Trámites completados</p>
+          <p className="text-xs text-navy-500 mt-1">Trámites completados</p>
         </div>
       </div>
 
@@ -167,13 +167,13 @@ export default async function AdminDashboardPage() {
         {/* Left: Status breakdown + Quick actions */}
         <div className="lg:col-span-8 space-y-6">
           {/* Status breakdown card */}
-          <div className="bg-white rounded-3xl border border-[#18181B]/8 shadow-[0_4px_24px_rgba(18,18,27,0.06)] p-8">
-            <h4 className="text-lg font-bold text-[#18181B] mb-6">Trámites por estado</h4>
+          <div className="bg-white rounded-3xl border border-navy-900/8 shadow-[0_4px_24px_rgba(18,18,27,0.06)] p-8">
+            <h4 className="text-lg font-bold text-navy-900 mb-6">Trámites por estado</h4>
             <div className="flex flex-wrap gap-3">
               {(Object.keys(TRAMITE_STATUS_CONFIG) as TramiteStatus[]).map((status) => (
                 <div key={status} className="flex items-center gap-2">
                   <StatusBadge status={status} size="sm" />
-                  <span className="text-sm font-bold text-[#18181B]">
+                  <span className="text-sm font-bold text-navy-900">
                     {byStatus[status] || 0}
                   </span>
                 </div>
@@ -182,52 +182,52 @@ export default async function AdminDashboardPage() {
           </div>
 
           {/* Quick Actions */}
-          <div className="bg-white rounded-3xl border border-[#18181B]/8 shadow-[0_4px_24px_rgba(18,18,27,0.06)] p-8">
-            <h4 className="text-lg font-bold text-[#18181B] mb-6">Acciones rápidas</h4>
+          <div className="bg-white rounded-3xl border border-navy-900/8 shadow-[0_4px_24px_rgba(18,18,27,0.06)] p-8">
+            <h4 className="text-lg font-bold text-navy-900 mb-6">Acciones rápidas</h4>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <Link
                 href="/admin/tramites?status=solicitado"
-                className="group flex items-center gap-3 p-4 rounded-2xl border border-[#18181B]/10 hover:border-[#2855E0]/40 hover:bg-[#2855E0]/5 transition-all"
+                className="group flex items-center gap-3 p-4 rounded-2xl border border-navy-900/10 hover:border-[#2855E0]/40 hover:bg-[#2855E0]/5 transition-all"
               >
                 <div className="p-2 bg-[#2855E0]/10 rounded-xl">
                   <FileText size={18} className="text-[#2855E0]" />
                 </div>
                 <div className="flex-1 min-w-0">
-                  <p className="text-sm font-semibold text-[#18181B]">Nuevas solicitudes</p>
-                  <p className="text-xs text-[#18181B]/50">{byStatus['solicitado'] || 0} trámites</p>
+                  <p className="text-sm font-semibold text-navy-900">Nuevas solicitudes</p>
+                  <p className="text-xs text-navy-900/50">{byStatus['solicitado'] || 0} trámites</p>
                 </div>
-                <ArrowRight size={16} className="text-[#18181B]/30 group-hover:text-[#2855E0] transition-colors shrink-0" />
+                <ArrowRight size={16} className="text-navy-900/30 group-hover:text-[#2855E0] transition-colors shrink-0" />
               </Link>
 
               <Link
                 href="/admin/brokers"
-                className="group flex items-center gap-3 p-4 rounded-2xl border border-[#18181B]/10 hover:border-[#2855E0]/40 hover:bg-[#2855E0]/5 transition-all"
+                className="group flex items-center gap-3 p-4 rounded-2xl border border-navy-900/10 hover:border-[#2855E0]/40 hover:bg-[#2855E0]/5 transition-all"
               >
                 <div className="p-2 bg-[#020952]/10 rounded-xl">
                   <Users size={18} className="text-[#020952]" />
                 </div>
                 <div className="flex-1 min-w-0">
-                  <p className="text-sm font-semibold text-[#18181B]">Brokers activos</p>
-                  <p className="text-xs text-[#18181B]/50">{activeBrokers} este mes</p>
+                  <p className="text-sm font-semibold text-navy-900">Brokers activos</p>
+                  <p className="text-xs text-navy-900/50">{activeBrokers} este mes</p>
                 </div>
-                <ArrowRight size={16} className="text-[#18181B]/30 group-hover:text-[#2855E0] transition-colors shrink-0" />
+                <ArrowRight size={16} className="text-navy-900/30 group-hover:text-[#2855E0] transition-colors shrink-0" />
               </Link>
             </div>
           </div>
         </div>
 
         {/* Right: Recent Activity */}
-        <div className="lg:col-span-4 bg-white rounded-3xl border border-[#18181B]/8 shadow-[0_4px_24px_rgba(18,18,27,0.06)] p-8">
-          <h4 className="text-lg font-bold text-[#18181B] mb-8">Actividad Reciente</h4>
+        <div className="lg:col-span-4 bg-white rounded-3xl border border-navy-900/8 shadow-[0_4px_24px_rgba(18,18,27,0.06)] p-8">
+          <h4 className="text-lg font-bold text-navy-900 mb-8">Actividad Reciente</h4>
 
           {recentTramites.length === 0 ? (
-            <div className="py-8 text-center text-[#18181B]/40 text-sm">
+            <div className="py-8 text-center text-navy-900/40 text-sm">
               <AlertCircle size={24} className="mx-auto mb-2 opacity-40" />
               Sin actividad reciente
             </div>
           ) : (
             <div className="relative space-y-6">
-              <div className="absolute left-[11px] top-2 bottom-2 w-px bg-[#18181B]/10" />
+              <div className="absolute left-[11px] top-2 bottom-2 w-px bg-navy-900/10" />
 
               {recentTramites.map((t) => {
                 const cfg = TRAMITE_STATUS_CONFIG[t.status as TramiteStatus]
@@ -240,14 +240,14 @@ export default async function AdminDashboardPage() {
                   : 'bg-[#020952]'
                 return (
                   <div key={t.id} className="relative flex gap-4 pl-8">
-                    <div className={`absolute left-0 top-1 w-6 h-6 rounded-full flex items-center justify-center ${cfg ? cfg.bg : 'bg-[#18181B]/8'}`}>
+                    <div className={`absolute left-0 top-1 w-6 h-6 rounded-full flex items-center justify-center ${cfg ? cfg.bg : 'bg-navy-900/8'}`}>
                       <span className={`w-2 h-2 rounded-full ${dotColor}`} />
                     </div>
                     <div className="flex-1 min-w-0">
-                      <p className="text-sm font-bold leading-tight text-[#18181B]">
+                      <p className="text-sm font-bold leading-tight text-navy-900">
                         {t.reference_code} — {t.brokers?.full_name ?? '—'}
                       </p>
-                      <p className="text-xs text-[#18181B]/50 mt-0.5">
+                      <p className="text-xs text-navy-900/50 mt-0.5">
                         {t.tramite_types?.display_name ?? '—'} · {formatDate(t.updated_at)}
                       </p>
                     </div>
@@ -259,7 +259,7 @@ export default async function AdminDashboardPage() {
 
           <Link
             href="/admin/tramites"
-            className="block w-full mt-8 py-3 text-xs font-bold uppercase tracking-widest text-center text-[#18181B]/50 hover:text-[#2855E0] transition-colors border-t border-[#18181B]/8"
+            className="block w-full mt-8 py-3 text-xs font-bold uppercase tracking-widest text-center text-navy-900/50 hover:text-[#2855E0] transition-colors border-t border-navy-900/8"
           >
             Ver todo el historial
           </Link>

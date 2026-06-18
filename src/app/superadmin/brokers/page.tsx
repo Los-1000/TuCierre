@@ -32,17 +32,17 @@ export default async function SuperAdminBrokersPage() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-2xl font-bold text-gray-900">Brokers</h1>
-        <p className="text-sm text-gray-500 mt-1">
+        <h1 className="text-2xl font-bold text-navy-900">Brokers</h1>
+        <p className="text-sm text-navy-500 mt-1">
           {brokers.length} broker{brokers.length !== 1 ? 's' : ''} registrado
           {brokers.length !== 1 ? 's' : ''}
         </p>
       </div>
 
-      <div className="overflow-x-auto rounded-xl border border-slate-200 shadow-sm">
+      <div className="overflow-x-auto rounded-xl border border-navy-200 shadow-sm">
         <table className="w-full text-sm">
           <thead>
-            <tr className="border-b border-slate-200 bg-slate-50">
+            <tr className="border-b border-navy-200 bg-navy-50">
               {[
                 'Broker',
                 'Email',
@@ -54,17 +54,17 @@ export default async function SuperAdminBrokersPage() {
               ].map(h => (
                 <th
                   key={h}
-                  className="text-left text-xs font-semibold text-slate-500 uppercase tracking-wide px-4 py-3"
+                  className="text-left text-xs font-semibold text-navy-500 uppercase tracking-wide px-4 py-3"
                 >
                   {h}
                 </th>
               ))}
             </tr>
           </thead>
-          <tbody className="divide-y divide-slate-100 bg-white">
+          <tbody className="divide-y divide-navy-100 bg-white">
             {brokers.length === 0 ? (
               <tr>
-                <td colSpan={7} className="px-4 py-8 text-center text-slate-400">
+                <td colSpan={7} className="px-4 py-8 text-center text-navy-400">
                   No hay brokers registrados
                 </td>
               </tr>
@@ -72,15 +72,15 @@ export default async function SuperAdminBrokersPage() {
               brokers.map(b => {
                 const tierConf = TIER_CONFIG[b.tier]
                 return (
-                  <tr key={b.id} className="hover:bg-slate-50/60 transition-colors">
+                  <tr key={b.id} className="hover:bg-navy-50/60 transition-colors">
                     <td className="px-4 py-3">
-                      <div className="font-medium text-slate-900">{b.full_name}</div>
+                      <div className="font-medium text-navy-900">{b.full_name}</div>
                       {b.company_name && (
-                        <div className="text-xs text-slate-400">{b.company_name}</div>
+                        <div className="text-xs text-navy-400">{b.company_name}</div>
                       )}
                     </td>
-                    <td className="px-4 py-3 text-slate-600 text-xs">{b.email}</td>
-                    <td className="px-4 py-3 text-slate-600 font-mono text-xs">{b.phone}</td>
+                    <td className="px-4 py-3 text-navy-600 text-xs">{b.email}</td>
+                    <td className="px-4 py-3 text-navy-600 font-mono text-xs">{b.phone}</td>
                     <td className="px-4 py-3">
                       <span
                         className={`inline-flex items-center gap-1 text-xs font-medium px-2 py-0.5 rounded-full ${tierConf.bg} ${tierConf.color}`}
@@ -88,13 +88,13 @@ export default async function SuperAdminBrokersPage() {
                         {tierConf.icon} {tierConf.label}
                       </span>
                     </td>
-                    <td className="px-4 py-3 text-center font-semibold text-slate-700">
+                    <td className="px-4 py-3 text-center font-semibold text-navy-700">
                       {b.total_tramites}
                     </td>
-                    <td className="px-4 py-3 text-center font-semibold text-slate-700">
+                    <td className="px-4 py-3 text-center font-semibold text-navy-700">
                       {b.total_tramites_month}
                     </td>
-                    <td className="px-4 py-3 text-slate-500 text-xs">
+                    <td className="px-4 py-3 text-navy-500 text-xs">
                       {formatDate(b.created_at)}
                     </td>
                   </tr>

@@ -136,30 +136,30 @@ export default function AdminBrokersPage() {
     <div className="space-y-6">
       {/* Header */}
       <div className="flex items-baseline gap-4">
-        <h1 className="text-3xl font-bold tracking-tight text-[#18181B]">Brokers</h1>
-        <span className="text-xl font-medium text-[#18181B]/30">
+        <h1 className="text-3xl font-bold tracking-tight text-navy-900">Brokers</h1>
+        <span className="text-xl font-medium text-navy-900/30">
           {loading ? '…' : `${filtered.length} activos`}
         </span>
       </div>
 
       {/* Filter bar */}
-      <div className="bg-white rounded-3xl border border-[#18181B]/8 shadow-[0_4px_24px_rgba(18,18,27,0.06)] p-4 flex flex-wrap items-center gap-3">
+      <div className="bg-white rounded-3xl border border-navy-900/8 shadow-[0_4px_24px_rgba(18,18,27,0.06)] p-4 flex flex-wrap items-center gap-3">
         <div className="relative flex-1 min-w-[200px]">
-          <Search size={15} className="absolute left-3 top-1/2 -translate-y-1/2 text-[#18181B]/40" />
+          <Search size={15} className="absolute left-3 top-1/2 -translate-y-1/2 text-navy-900/40" />
           <input
             type="text"
             placeholder="Buscar por nombre o email..."
             aria-label="Buscar por nombre o email"
             value={search}
             onChange={e => setSearch(e.target.value)}
-            className="w-full border border-[#18181B]/15 rounded-2xl h-11 pl-9 pr-4 text-sm focus:outline-none focus:ring-2 focus:ring-[#2855E0]/30 bg-transparent text-[#18181B] placeholder:text-[#18181B]/40"
+            className="w-full border border-navy-900/15 rounded-2xl h-11 pl-9 pr-4 text-sm focus:outline-none focus:ring-2 focus:ring-[#2855E0]/30 bg-transparent text-navy-900 placeholder:text-navy-900/40"
           />
         </div>
 
         <select
           value={tierFilter}
           onChange={e => setTierFilter(e.target.value as TierFilter)}
-          className="border border-[#18181B]/15 rounded-2xl h-11 px-4 text-sm focus:outline-none focus:ring-2 focus:ring-[#2855E0]/30 bg-transparent text-[#18181B]"
+          className="border border-navy-900/15 rounded-2xl h-11 px-4 text-sm focus:outline-none focus:ring-2 focus:ring-[#2855E0]/30 bg-transparent text-navy-900"
         >
           <option value="all">Todos los tiers</option>
           {(Object.keys(TIER_CONFIG) as BrokerTier[]).map(tier => (
@@ -181,31 +181,31 @@ export default function AdminBrokersPage() {
       </div>
 
       {/* Table */}
-      <div className="bg-white rounded-3xl border border-[#18181B]/8 shadow-[0_4px_24px_rgba(18,18,27,0.06)] overflow-hidden">
+      <div className="bg-white rounded-3xl border border-navy-900/8 shadow-[0_4px_24px_rgba(18,18,27,0.06)] overflow-hidden">
         <table className="w-full text-left border-collapse">
           <thead>
-            <tr className="bg-slate-50">
-              <th className="px-8 py-5 text-xs font-bold uppercase tracking-wider text-[#18181B]/60">Nombre</th>
-              <th className="px-6 py-5 text-xs font-bold uppercase tracking-wider text-[#18181B]/60">DNI</th>
-              <th className="px-6 py-5 text-xs font-bold uppercase tracking-wider text-[#18181B]/60">Tier</th>
-              <th className="px-6 py-5 text-xs font-bold uppercase tracking-wider text-[#18181B]/60">Trámites/mes</th>
-              <th className="px-6 py-5 text-xs font-bold uppercase tracking-wider text-[#18181B]/60">Total</th>
-              <th className="px-6 py-5 text-xs font-bold uppercase tracking-wider text-[#18181B]/60">Registrado</th>
-              <th className="px-8 py-5 text-xs font-bold uppercase tracking-wider text-[#18181B]/60 text-right">Acciones</th>
+            <tr className="bg-navy-50">
+              <th className="px-8 py-5 text-xs font-bold uppercase tracking-wider text-navy-900/60">Nombre</th>
+              <th className="px-6 py-5 text-xs font-bold uppercase tracking-wider text-navy-900/60">DNI</th>
+              <th className="px-6 py-5 text-xs font-bold uppercase tracking-wider text-navy-900/60">Tier</th>
+              <th className="px-6 py-5 text-xs font-bold uppercase tracking-wider text-navy-900/60">Trámites/mes</th>
+              <th className="px-6 py-5 text-xs font-bold uppercase tracking-wider text-navy-900/60">Total</th>
+              <th className="px-6 py-5 text-xs font-bold uppercase tracking-wider text-navy-900/60">Registrado</th>
+              <th className="px-8 py-5 text-xs font-bold uppercase tracking-wider text-navy-900/60 text-right">Acciones</th>
             </tr>
           </thead>
 
-          <tbody className="divide-y divide-[#18181B]/5">
+          <tbody className="divide-y divide-navy-900/5">
             {loading ? (
               <tr>
-                <td colSpan={7} className="text-center py-12 text-[#18181B]/40">
+                <td colSpan={7} className="text-center py-12 text-navy-900/40">
                   <Loader2 size={20} className="animate-spin mx-auto mb-2" />
                   Cargando brokers...
                 </td>
               </tr>
             ) : filtered.length === 0 ? (
               <tr>
-                <td colSpan={7} className="text-center py-12 text-[#18181B]/40 text-sm">
+                <td colSpan={7} className="text-center py-12 text-navy-900/40 text-sm">
                   No se encontraron brokers
                 </td>
               </tr>
@@ -215,31 +215,31 @@ export default function AdminBrokersPage() {
                   key={b.id}
                   role="button"
                   tabIndex={0}
-                  className="hover:bg-slate-50/60 transition-colors group cursor-pointer"
+                  className="hover:bg-navy-50/60 transition-colors group cursor-pointer"
                   onClick={() => openBrokerProfile(b)}
                   onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openBrokerProfile(b) } }}
                 >
                   <td className="px-8 py-6">
                     <div className="flex items-center gap-4">
-                      <div className="w-10 h-10 rounded-full bg-[#18181B]/8 flex items-center justify-center font-bold text-[#18181B] text-sm shrink-0">
+                      <div className="w-10 h-10 rounded-full bg-navy-900/8 flex items-center justify-center font-bold text-navy-900 text-sm shrink-0">
                         {b.full_name.split(' ').slice(0, 2).map((w: string) => w[0]).join('').toUpperCase()}
                       </div>
                       <div>
-                        <p className="font-semibold text-[#18181B] text-sm">{b.full_name}</p>
-                        <p className="text-xs text-[#18181B]/50">{b.email}</p>
+                        <p className="font-semibold text-navy-900 text-sm">{b.full_name}</p>
+                        <p className="text-xs text-navy-900/50">{b.email}</p>
                       </div>
                     </div>
                   </td>
-                  <td className="px-6 py-6 font-mono text-sm text-[#18181B]/60">{b.dni}</td>
+                  <td className="px-6 py-6 font-mono text-sm text-navy-900/60">{b.dni}</td>
                   <td className="px-6 py-6">
                     <TierBadge tier={b.tier} />
                   </td>
-                  <td className="px-6 py-6 font-semibold text-sm text-[#18181B]">{b.total_tramites_month}</td>
-                  <td className="px-6 py-6 text-sm text-[#18181B]/80">{b.total_tramites}</td>
-                  <td className="px-6 py-6 text-sm text-[#18181B]/50">{formatDate(b.created_at)}</td>
+                  <td className="px-6 py-6 font-semibold text-sm text-navy-900">{b.total_tramites_month}</td>
+                  <td className="px-6 py-6 text-sm text-navy-900/80">{b.total_tramites}</td>
+                  <td className="px-6 py-6 text-sm text-navy-900/50">{formatDate(b.created_at)}</td>
                   <td className="px-8 py-6 text-right" onClick={e => e.stopPropagation()}>
                     <button
-                      className="border border-[#18181B]/15 text-[#18181B] rounded-full px-4 py-1.5 text-xs font-semibold bg-transparent hover:bg-[#18181B]/5 transition-colors"
+                      className="border border-navy-900/15 text-navy-900 rounded-full px-4 py-1.5 text-xs font-semibold bg-transparent hover:bg-navy-900/5 transition-colors"
                       onClick={() => openBrokerProfile(b)}
                     >
                       Ver perfil
@@ -256,43 +256,43 @@ export default function AdminBrokersPage() {
       <Sheet open={sheetOpen} onOpenChange={setSheetOpen}>
         <SheetContent
           side="right"
-          className="w-full sm:max-w-[480px] p-0 flex flex-col bg-white border-l border-[#18181B]/8"
+          className="w-full sm:max-w-[480px] p-0 flex flex-col bg-white border-l border-navy-900/8"
         >
           {selectedBroker && (
             <>
               {/* Drawer Header */}
-              <div className="p-8 pb-4 flex items-start justify-between border-b border-[#18181B]/5">
+              <div className="p-8 pb-4 flex items-start justify-between border-b border-navy-900/5">
                 <div className="flex items-center gap-4">
-                  <div className="w-14 h-14 rounded-full bg-[#18181B] text-white flex items-center justify-center text-xl font-black shrink-0">
+                  <div className="w-14 h-14 rounded-full bg-navy-900 text-white flex items-center justify-center text-xl font-black shrink-0">
                     {selectedBroker.full_name.split(' ').slice(0, 2).map((w: string) => w[0]).join('').toUpperCase()}
                   </div>
                   <div>
-                    <h3 className="text-xl font-bold text-[#18181B] leading-tight">{selectedBroker.full_name}</h3>
+                    <h3 className="text-xl font-bold text-navy-900 leading-tight">{selectedBroker.full_name}</h3>
                     <div className="flex items-center gap-2 mt-1">
                       <TierBadge tier={selectedBroker.tier} />
-                      <span className="text-xs text-[#18181B]/50">Desde {new Date(selectedBroker.created_at).getFullYear()}</span>
+                      <span className="text-xs text-navy-900/50">Desde {new Date(selectedBroker.created_at).getFullYear()}</span>
                     </div>
                   </div>
                 </div>
                 <button
                   onClick={() => setSheetOpen(false)}
                   aria-label="Cerrar perfil"
-                  className="p-2 hover:bg-[#18181B]/5 rounded-full transition-colors"
+                  className="p-2 hover:bg-navy-900/5 rounded-full transition-colors"
                 >
-                  <X size={18} className="text-[#18181B]/50" />
+                  <X size={18} className="text-navy-900/50" />
                 </button>
               </div>
 
               {/* Tabs */}
-              <div className="flex border-b border-[#18181B]/5 px-8 gap-8">
+              <div className="flex border-b border-navy-900/5 px-8 gap-8">
                 {(['tramites', 'ajustes'] as const).map(tab => (
                   <button
                     key={tab}
                     onClick={() => setActiveTab(tab)}
                     className={`py-4 text-sm font-bold capitalize transition-all border-b-2 ${
                       activeTab === tab
-                        ? 'text-[#18181B] border-[#2855E0]'
-                        : 'text-[#18181B]/40 border-transparent hover:text-[#18181B]/70'
+                        ? 'text-navy-900 border-[#2855E0]'
+                        : 'text-navy-900/40 border-transparent hover:text-navy-900/70'
                     }`}
                   >
                     {tab === 'tramites' ? 'Trámites' : 'Ajustes'}
@@ -307,25 +307,25 @@ export default function AdminBrokersPage() {
                 {activeTab === 'tramites' && (
                   <div className="p-8 space-y-4">
                     <div className="grid grid-cols-2 gap-4 mb-6">
-                      <div className="bg-slate-50 rounded-2xl p-4">
-                        <p className="text-xs font-bold uppercase tracking-wider text-[#18181B]/60 mb-1">Este mes</p>
-                        <p className="text-2xl font-black text-[#18181B]">{selectedBroker.total_tramites_month}</p>
+                      <div className="bg-navy-50 rounded-2xl p-4">
+                        <p className="text-xs font-bold uppercase tracking-wider text-navy-900/60 mb-1">Este mes</p>
+                        <p className="text-2xl font-black text-navy-900">{selectedBroker.total_tramites_month}</p>
                       </div>
-                      <div className="bg-slate-50 rounded-2xl p-4">
-                        <p className="text-xs font-bold uppercase tracking-wider text-[#18181B]/60 mb-1">Total</p>
-                        <p className="text-2xl font-black text-[#18181B]">{selectedBroker.total_tramites}</p>
+                      <div className="bg-navy-50 rounded-2xl p-4">
+                        <p className="text-xs font-bold uppercase tracking-wider text-navy-900/60 mb-1">Total</p>
+                        <p className="text-2xl font-black text-navy-900">{selectedBroker.total_tramites}</p>
                       </div>
                     </div>
 
-                    <h4 className="text-sm font-bold text-[#18181B] mb-3">Últimos trámites</h4>
+                    <h4 className="text-sm font-bold text-navy-900 mb-3">Últimos trámites</h4>
 
                     {loadingTramites ? (
-                      <div className="flex items-center gap-2 text-[#18181B]/40 text-sm py-8 justify-center">
+                      <div className="flex items-center gap-2 text-navy-900/40 text-sm py-8 justify-center">
                         <Loader2 size={16} className="animate-spin" />
                         Cargando trámites...
                       </div>
                     ) : brokerTramites.length === 0 ? (
-                      <p className="text-sm text-[#18181B]/40 text-center py-8">Sin trámites registrados.</p>
+                      <p className="text-sm text-navy-900/40 text-center py-8">Sin trámites registrados.</p>
                     ) : (
                       <div className="space-y-2">
                         {brokerTramites.map(t => {
@@ -333,16 +333,16 @@ export default function AdminBrokersPage() {
                           return (
                             <div
                               key={t.id}
-                              className="flex items-center gap-3 p-3 border border-[#18181B]/8 rounded-2xl hover:bg-slate-50 transition-colors"
+                              className="flex items-center gap-3 p-3 border border-navy-900/8 rounded-2xl hover:bg-navy-50 transition-colors"
                             >
                               <div className="flex-1 min-w-0">
-                                <p className="text-xs font-mono font-bold text-[#18181B]">{t.reference_code}</p>
-                                <p className="text-xs text-[#18181B]/50">{type?.display_name ?? '—'}</p>
+                                <p className="text-xs font-mono font-bold text-navy-900">{t.reference_code}</p>
+                                <p className="text-xs text-navy-900/50">{type?.display_name ?? '—'}</p>
                               </div>
                               <StatusBadge status={t.status} size="sm" />
                               <div className="text-right shrink-0">
-                                <p className="text-sm font-semibold text-[#18181B]">{formatPrice(t.final_price)}</p>
-                                <p className="text-xs text-[#18181B]/40">{formatDate(t.created_at)}</p>
+                                <p className="text-sm font-semibold text-navy-900">{formatPrice(t.final_price)}</p>
+                                <p className="text-xs text-navy-900/40">{formatDate(t.created_at)}</p>
                               </div>
                             </div>
                           )
@@ -357,10 +357,10 @@ export default function AdminBrokersPage() {
                   <div className="p-8 space-y-8">
                     <div className="space-y-4">
                       <div>
-                        <h4 className="text-xs font-bold uppercase tracking-widest text-[#18181B]/60 mb-1">
+                        <h4 className="text-xs font-bold uppercase tracking-widest text-navy-900/60 mb-1">
                           Ajustar tier manualmente
                         </h4>
-                        <p className="text-sm text-[#18181B]/60 leading-relaxed">
+                        <p className="text-sm text-navy-900/60 leading-relaxed">
                           El sistema recalcula el tier automáticamente cada mes. Cambiarlo manualmente fijará el nivel hasta el próximo cierre.
                         </p>
                       </div>
@@ -379,14 +379,14 @@ export default function AdminBrokersPage() {
                               className={`flex items-center justify-between p-4 rounded-2xl border cursor-pointer transition-all ${
                                 isSelected
                                   ? 'bg-[#2855E0] text-white border-[#2855E0]'
-                                  : 'bg-white border-[#18181B]/10 hover:border-[#18181B]/20'
+                                  : 'bg-white border-navy-900/10 hover:border-navy-900/20'
                               }`}
                             >
                               <div className="flex items-center gap-3">
                                 <span className={`text-lg ${isSelected ? '' : tierStyles[tier]}`}>
                                   {TIER_CONFIG[tier].icon}
                                 </span>
-                                <span className={`font-bold text-sm ${isSelected ? 'text-white' : 'text-[#18181B]'}`}>
+                                <span className={`font-bold text-sm ${isSelected ? 'text-white' : 'text-navy-900'}`}>
                                   {TIER_CONFIG[tier].label}
                                 </span>
                               </div>
@@ -405,7 +405,7 @@ export default function AdminBrokersPage() {
                     </div>
 
                     <div className="space-y-2">
-                      <label className="text-xs font-bold text-[#18181B]/60 uppercase tracking-wider">
+                      <label className="text-xs font-bold text-navy-900/60 uppercase tracking-wider">
                         Motivo del ajuste
                       </label>
                       <Textarea
@@ -413,7 +413,7 @@ export default function AdminBrokersPage() {
                         value={tierReason}
                         onChange={e => setTierReason(e.target.value)}
                         rows={4}
-                        className="border border-[#18181B]/15 rounded-2xl px-4 py-3 focus:ring-2 focus:ring-[#2855E0]/30 resize-none text-sm"
+                        className="border border-navy-900/15 rounded-2xl px-4 py-3 focus:ring-2 focus:ring-[#2855E0]/30 resize-none text-sm"
                       />
                     </div>
 
@@ -428,11 +428,11 @@ export default function AdminBrokersPage() {
               </div>
 
               {activeTab === 'ajustes' && (
-                <div className="p-8 border-t border-[#18181B]/5">
+                <div className="p-8 border-t border-navy-900/5">
                   <button
                     onClick={handleUpdateTier}
                     disabled={updatingTier}
-                    className="w-full py-4 bg-[#18181B] text-white rounded-full font-bold flex items-center justify-center gap-2 hover:opacity-90 transition-opacity disabled:opacity-60"
+                    className="w-full py-4 bg-navy-900 text-white rounded-full font-bold flex items-center justify-center gap-2 hover:opacity-90 transition-opacity disabled:opacity-60"
                   >
                     {updatingTier && <Loader2 size={16} className="animate-spin" />}
                     Guardar cambio →

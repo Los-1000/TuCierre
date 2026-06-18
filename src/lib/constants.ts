@@ -24,12 +24,12 @@ export const TIER_CONFIG: Record<
   { label: string; minTramites: number; maxTramites: number; discount: number; color: string; bg: string; icon: string }
 > = {
   bronce: { label: 'Bronce', minTramites: 0, maxTramites: 3, discount: 0, color: 'text-orange-700', bg: 'bg-orange-50',  icon: '🥉' },
-  plata:  { label: 'Plata',  minTramites: 4, maxTramites: 7, discount: 0, color: 'text-gray-600',   bg: 'bg-gray-100',   icon: '🥈' },
+  plata:  { label: 'Plata',  minTramites: 4, maxTramites: 7, discount: 0, color: 'text-navy-600',   bg: 'bg-navy-100',   icon: '🥈' },
   oro:    { label: 'Oro',    minTramites: 8, maxTramites: Infinity, discount: 0, color: 'text-yellow-600', bg: 'bg-yellow-50', icon: '🥇' },
 }
 
 export const DOCUMENT_STATUS_CONFIG = {
-  pending:  { label: 'Pendiente',  icon: 'clock',  color: 'text-gray-500' },
+  pending:  { label: 'Pendiente',  icon: 'clock',  color: 'text-navy-500' },
   uploaded: { label: 'Subido',     icon: 'upload', color: 'text-amber-600' },
   approved: { label: 'Aprobado',   icon: 'check',  color: 'text-green-600' },
   rejected: { label: 'Rechazado',  icon: 'x',      color: 'text-red-600' },

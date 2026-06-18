@@ -203,8 +203,8 @@ export default function SuperAdminTiposPage() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">Tipos de Trámite</h1>
-          <p className="text-sm text-gray-500 mt-1">
+          <h1 className="text-2xl font-bold text-navy-900">Tipos de Trámite</h1>
+          <p className="text-sm text-navy-500 mt-1">
             {loading ? 'Cargando...' : `${tipoList.length} tipo${tipoList.length !== 1 ? 's' : ''} registrado${tipoList.length !== 1 ? 's' : ''}`}
           </p>
         </div>
@@ -215,49 +215,49 @@ export default function SuperAdminTiposPage() {
       </div>
 
       {/* Table */}
-      <div className="border border-gray-200 rounded-lg overflow-hidden bg-white shadow-sm">
+      <div className="border border-navy-200 rounded-lg overflow-hidden bg-white shadow-sm">
         <Table>
           <TableHeader>
-            <TableRow className="bg-gray-50">
-              <TableHead className="text-xs font-semibold uppercase tracking-wide text-gray-500">Nombre</TableHead>
-              <TableHead className="text-xs font-semibold uppercase tracking-wide text-gray-500">Precio base</TableHead>
-              <TableHead className="text-xs font-semibold uppercase tracking-wide text-gray-500">Días estimados</TableHead>
-              <TableHead className="text-xs font-semibold uppercase tracking-wide text-gray-500">Documentos</TableHead>
-              <TableHead className="text-xs font-semibold uppercase tracking-wide text-gray-500">Activo</TableHead>
-              <TableHead className="text-xs font-semibold uppercase tracking-wide text-gray-500 text-right">Acciones</TableHead>
+            <TableRow className="bg-navy-50">
+              <TableHead className="text-xs font-semibold uppercase tracking-wide text-navy-500">Nombre</TableHead>
+              <TableHead className="text-xs font-semibold uppercase tracking-wide text-navy-500">Precio base</TableHead>
+              <TableHead className="text-xs font-semibold uppercase tracking-wide text-navy-500">Días estimados</TableHead>
+              <TableHead className="text-xs font-semibold uppercase tracking-wide text-navy-500">Documentos</TableHead>
+              <TableHead className="text-xs font-semibold uppercase tracking-wide text-navy-500">Activo</TableHead>
+              <TableHead className="text-xs font-semibold uppercase tracking-wide text-navy-500 text-right">Acciones</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
             {loading ? (
               <TableRow>
-                <TableCell colSpan={6} className="text-center py-12 text-gray-400">
+                <TableCell colSpan={6} className="text-center py-12 text-navy-400">
                   <Loader2 size={20} className="animate-spin mx-auto mb-2" />
                   Cargando...
                 </TableCell>
               </TableRow>
             ) : tipoList.length === 0 ? (
               <TableRow>
-                <TableCell colSpan={6} className="text-center py-12 text-gray-400 text-sm">
+                <TableCell colSpan={6} className="text-center py-12 text-navy-400 text-sm">
                   No hay tipos de trámite registrados
                 </TableCell>
               </TableRow>
             ) : (
               tipoList.map((tipo) => (
-                <TableRow key={tipo.id} className="hover:bg-gray-50 transition-colors">
+                <TableRow key={tipo.id} className="hover:bg-navy-50 transition-colors">
                   <TableCell>
                     <div>
-                      <p className="text-sm font-semibold text-gray-900">{tipo.display_name}</p>
-                      <p className="text-xs text-gray-400 font-mono">{tipo.name}</p>
+                      <p className="text-sm font-semibold text-navy-900">{tipo.display_name}</p>
+                      <p className="text-xs text-navy-400 font-mono">{tipo.name}</p>
                     </div>
                   </TableCell>
-                  <TableCell className="text-sm font-semibold text-gray-800">
+                  <TableCell className="text-sm font-semibold text-navy-800">
                     {formatPrice(tipo.base_price)}
                   </TableCell>
-                  <TableCell className="text-sm text-gray-700">
+                  <TableCell className="text-sm text-navy-700">
                     {tipo.estimated_days} día{tipo.estimated_days !== 1 ? 's' : ''}
                   </TableCell>
                   <TableCell>
-                    <span className="text-sm text-gray-600">
+                    <span className="text-sm text-navy-600">
                       {Array.isArray(tipo.required_documents) ? tipo.required_documents.length : 0} docs.
                     </span>
                   </TableCell>
@@ -297,7 +297,7 @@ export default function SuperAdminTiposPage() {
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 py-2">
             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-1.5">
-                <label className="text-sm font-medium text-gray-700">
+                <label className="text-sm font-medium text-navy-700">
                   Nombre interno <span className="text-red-500">*</span>
                 </label>
                 <Input
@@ -309,7 +309,7 @@ export default function SuperAdminTiposPage() {
               </div>
 
               <div className="space-y-1.5">
-                <label className="text-sm font-medium text-gray-700">
+                <label className="text-sm font-medium text-navy-700">
                   Nombre visible <span className="text-red-500">*</span>
                 </label>
                 <Input
@@ -322,7 +322,7 @@ export default function SuperAdminTiposPage() {
             </div>
 
             <div className="space-y-1.5">
-              <label className="text-sm font-medium text-gray-700">Descripción</label>
+              <label className="text-sm font-medium text-navy-700">Descripción</label>
               <Textarea
                 {...register('description')}
                 placeholder="Descripción del tipo de trámite..."
@@ -332,7 +332,7 @@ export default function SuperAdminTiposPage() {
 
             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-1.5">
-                <label className="text-sm font-medium text-gray-700">
+                <label className="text-sm font-medium text-navy-700">
                   Precio base (S/.) <span className="text-red-500">*</span>
                 </label>
                 <Input
@@ -346,7 +346,7 @@ export default function SuperAdminTiposPage() {
               </div>
 
               <div className="space-y-1.5">
-                <label className="text-sm font-medium text-gray-700">
+                <label className="text-sm font-medium text-navy-700">
                   Días estimados <span className="text-red-500">*</span>
                 </label>
                 <Input
@@ -366,7 +366,7 @@ export default function SuperAdminTiposPage() {
                 checked={watch('is_active')}
                 onCheckedChange={(v) => setValue('is_active', v)}
               />
-              <label htmlFor="is_active" className="text-sm font-medium text-gray-700 cursor-pointer">
+              <label htmlFor="is_active" className="text-sm font-medium text-navy-700 cursor-pointer">
                 Tipo activo
               </label>
             </div>
@@ -374,7 +374,7 @@ export default function SuperAdminTiposPage() {
             {/* Required documents */}
             <div className="space-y-2">
               <div className="flex items-center justify-between">
-                <label className="text-sm font-medium text-gray-700">
+                <label className="text-sm font-medium text-navy-700">
                   Documentos requeridos <span className="text-red-500">*</span>
                 </label>
                 <Button
@@ -396,7 +396,7 @@ export default function SuperAdminTiposPage() {
               <div className="space-y-2">
                 {fields.map((field, index) => (
                   <div key={field.id} className="flex items-center gap-2">
-                    <span className="text-xs text-gray-400 w-5 shrink-0 text-right">{index + 1}.</span>
+                    <span className="text-xs text-navy-400 w-5 shrink-0 text-right">{index + 1}.</span>
                     <Input
                       {...register(`required_documents.${index}.value`)}
                       placeholder="Nombre del documento requerido"
@@ -408,7 +408,7 @@ export default function SuperAdminTiposPage() {
                       type="button"
                       variant="ghost"
                       size="sm"
-                      className="h-8 w-8 p-0 shrink-0 text-gray-400 hover:text-red-500 hover:bg-red-50"
+                      className="h-8 w-8 p-0 shrink-0 text-navy-400 hover:text-red-500 hover:bg-red-50"
                       onClick={() => remove(index)}
                       disabled={fields.length === 1}
                       aria-label="Eliminar documento"

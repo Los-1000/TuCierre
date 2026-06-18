@@ -137,10 +137,10 @@ export default function TramiteTimeline({
                     className={cn(
                       'text-sm font-semibold',
                       state === 'completed'
-                        ? 'text-slate-900'
+                        ? 'text-navy-900'
                         : state === 'current'
                         ? 'text-accent'
-                        : 'text-slate-400'
+                        : 'text-navy-400'
                     )}
                   >
                     {config.label}
@@ -148,7 +148,7 @@ export default function TramiteTimeline({
                   {historyEntry && (
                     <time
                       dateTime={historyEntry.created_at}
-                      className="text-xs text-slate-400 tabular-nums shrink-0"
+                      className="text-xs text-navy-400 tabular-nums shrink-0"
                     >
                       {formatDateTime(historyEntry.created_at)}
                     </time>
@@ -156,13 +156,13 @@ export default function TramiteTimeline({
                 </div>
 
                 {historyEntry?.notes && (
-                  <p className="mt-1 text-xs text-slate-500 leading-relaxed">
+                  <p className="mt-1 text-xs text-navy-500 leading-relaxed">
                     {historyEntry.notes}
                   </p>
                 )}
 
                 {historyEntry?.changed_by && (
-                  <p className="mt-0.5 text-xs text-slate-400">
+                  <p className="mt-0.5 text-xs text-navy-400">
                     por {historyEntry.changed_by}
                   </p>
                 )}

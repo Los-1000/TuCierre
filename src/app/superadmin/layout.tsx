@@ -72,7 +72,7 @@ export default async function SuperAdminLayout({
 
   return (
     <div className="flex min-h-screen bg-[#F0F3FF]">
-      <aside className="hidden lg:flex w-64 flex-col fixed left-0 top-0 h-full bg-[#18181B] z-20">
+      <aside className="hidden lg:flex w-64 flex-col fixed left-0 top-0 h-full bg-navy-900 z-20">
         <div className="px-6 h-16 flex items-center justify-between border-b border-white/8">
           <div className="flex items-center gap-2">
             <Logo variant="light" size="md" href="/superadmin" />

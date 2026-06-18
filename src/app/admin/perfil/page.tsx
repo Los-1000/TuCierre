@@ -82,7 +82,7 @@ export default function AdminPerfilPage() {
   if (loading) {
     return (
       <div className="flex items-center justify-center py-20">
-        <Loader2 size={28} className="animate-spin text-[#18181B]" />
+        <Loader2 size={28} className="animate-spin text-navy-900" />
       </div>
     )
   }
@@ -91,34 +91,34 @@ export default function AdminPerfilPage() {
     <div className="max-w-2xl space-y-8">
       {/* Header */}
       <div>
-        <h1 className="text-2xl font-bold text-gray-900">Perfil de Notaría</h1>
-        <p className="text-sm text-gray-500 mt-1">
+        <h1 className="text-2xl font-bold text-navy-900">Perfil de Notaría</h1>
+        <p className="text-sm text-navy-500 mt-1">
           Esta información aparecerá cuando los brokers seleccionen una notaría al crear un trámite.
         </p>
       </div>
 
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
         {/* Email (read-only) */}
-        <div className="bg-white rounded-xl border border-gray-200 p-5">
-          <h2 className="text-sm font-semibold text-gray-700 mb-4 flex items-center gap-2">
+        <div className="bg-white rounded-xl border border-navy-200 p-5">
+          <h2 className="text-sm font-semibold text-navy-700 mb-4 flex items-center gap-2">
             <User size={15} /> Cuenta
           </h2>
           <div>
-            <Label className="text-sm text-gray-600">
+            <Label className="text-sm text-navy-600">
               <Mail size={13} className="inline mr-1.5 opacity-60" />
               Email
             </Label>
             <Input
               value={email}
               disabled
-              className="mt-1.5 bg-gray-50 text-gray-500 cursor-not-allowed"
+              className="mt-1.5 bg-navy-50 text-navy-500 cursor-not-allowed"
             />
           </div>
         </div>
 
         {/* Personal */}
-        <div className="bg-white rounded-xl border border-gray-200 p-5 space-y-4">
-          <h2 className="text-sm font-semibold text-gray-700 flex items-center gap-2">
+        <div className="bg-white rounded-xl border border-navy-200 p-5 space-y-4">
+          <h2 className="text-sm font-semibold text-navy-700 flex items-center gap-2">
             <User size={15} /> Datos personales
           </h2>
           <div>
@@ -145,8 +145,8 @@ export default function AdminPerfilPage() {
         </div>
 
         {/* Notaria info */}
-        <div className="bg-white rounded-xl border border-gray-200 p-5 space-y-4">
-          <h2 className="text-sm font-semibold text-gray-700 flex items-center gap-2">
+        <div className="bg-white rounded-xl border border-navy-200 p-5 space-y-4">
+          <h2 className="text-sm font-semibold text-navy-700 flex items-center gap-2">
             <Building2 size={15} /> Información de la notaría
           </h2>
           <div>
@@ -178,7 +178,7 @@ export default function AdminPerfilPage() {
               <p className="text-red-500 text-xs mt-1">{errors.notaria_address.message}</p>
             )}
           </div>
-          <p className="text-xs text-gray-400">
+          <p className="text-xs text-navy-400">
             Esta dirección será visible para los brokers que seleccionen tu notaría.
           </p>
         </div>

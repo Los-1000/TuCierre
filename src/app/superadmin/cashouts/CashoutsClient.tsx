@@ -21,10 +21,10 @@ const STATUS_CONFIG: Record<CashoutStatus, { label: string; className: string }>
 }
 
 const METHOD_LABEL: Record<CashoutMethod, string> = {
-  bank_transfer: '🏦 Transferencia',
-  yape:          '💜 Yape',
-  plin:          '💚 Plin',
-  otros:         '📱 Otros',
+  bank_transfer: 'Transferencia',
+  yape:          'Yape',
+  plin:          'Plin',
+  otros:         'Otros',
 }
 
 function PaymentDetails({
@@ -36,18 +36,18 @@ function PaymentDetails({
 }) {
   if (method === 'bank_transfer') {
     return (
-      <div className="text-xs text-slate-600 space-y-0.5">
-        <div><span className="text-slate-400">Banco:</span> {details.banco}</div>
-        <div><span className="text-slate-400">CCI:</span> <span className="font-mono">{details.cci}</span></div>
-        <div><span className="text-slate-400">Titular:</span> {details.titular}</div>
-        <div><span className="text-slate-400">Tipo:</span> {details.tipo_cuenta}</div>
+      <div className="text-xs text-navy-600 space-y-0.5">
+        <div><span className="text-navy-400">Banco:</span> {details.banco}</div>
+        <div><span className="text-navy-400">CCI:</span> <span className="font-mono">{details.cci}</span></div>
+        <div><span className="text-navy-400">Titular:</span> {details.titular}</div>
+        <div><span className="text-navy-400">Tipo:</span> {details.tipo_cuenta}</div>
       </div>
     )
   }
   return (
-    <div className="text-xs text-slate-600 space-y-0.5">
-      <div><span className="text-slate-400">Titular:</span> {details.titular}</div>
-      <div><span className="text-slate-400">Teléfono:</span> <span className="font-mono">{details.telefono}</span></div>
+    <div className="text-xs text-navy-600 space-y-0.5">
+      <div><span className="text-navy-400">Titular:</span> {details.titular}</div>
+      <div><span className="text-navy-400">Teléfono:</span> <span className="font-mono">{details.telefono}</span></div>
     </div>
   )
 }
@@ -142,12 +142,12 @@ export default function CashoutsClient({
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-2xl font-bold text-gray-900">Cashouts</h1>
-        <p className="text-sm text-gray-500 mt-1">Gestiona retiros y comisiones de brokers</p>
+        <h1 className="text-2xl font-bold text-navy-900">Cashouts</h1>
+        <p className="text-sm text-navy-500 mt-1">Gestiona retiros y comisiones de brokers</p>
       </div>
 
       {/* Tabs */}
-      <div className="flex gap-1 border-b border-slate-200">
+      <div className="flex gap-1 border-b border-navy-200">
         {(['referidos', 'comisiones'] as const).map(tab => (
           <button
             key={tab}
@@ -155,8 +155,8 @@ export default function CashoutsClient({
             className={cn(
               'px-4 py-2 text-sm font-medium border-b-2 -mb-px transition-colors',
               activeTab === tab
-                ? 'border-[#18181B] text-[#18181B]'
-                : 'border-transparent text-slate-500 hover:text-slate-700'
+                ? 'border-navy-900 text-navy-900'
+                : 'border-transparent text-navy-500 hover:text-navy-700'
             )}
           >
             {tab === 'referidos' ? 'Referidos' : 'Comisiones mensuales'}
@@ -180,19 +180,19 @@ export default function CashoutsClient({
                 className={cn(
                   'p-3 rounded-xl border-2 text-left transition-all',
                   filterStatus === s
-                    ? 'border-[#18181B] bg-[#18181B]/5'
-                    : 'border-slate-200 bg-white hover:border-slate-300'
+                    ? 'border-navy-900 bg-navy-900/5'
+                    : 'border-navy-200 bg-white hover:border-navy-300'
                 )}
               >
-                <div className="text-xl font-bold text-slate-900">{statusCounts[s] ?? 0}</div>
-                <div className="text-xs text-slate-500">{STATUS_CONFIG[s].label}</div>
+                <div className="text-xl font-bold text-navy-900">{statusCounts[s] ?? 0}</div>
+                <div className="text-xs text-navy-500">{STATUS_CONFIG[s].label}</div>
               </button>
             ))}
           </div>
 
           {filtered.length === 0 ? (
             <Card>
-              <CardContent className="py-12 text-center text-slate-400 text-sm">
+              <CardContent className="py-12 text-center text-navy-400 text-sm">
                 No hay cashouts
                 {filterStatus !== 'all'
                   ? ` con estado "${STATUS_CONFIG[filterStatus as CashoutStatus].label}"`
@@ -208,15 +208,15 @@ export default function CashoutsClient({
                 const isLoading = loadingId === c.id
 
                 return (
-                  <Card key={c.id} className="border border-gray-200 shadow-sm">
+                  <Card key={c.id} className="border border-navy-200 shadow-sm">
                     <CardContent className="p-5">
                       <div className="flex items-start justify-between gap-4">
                         <div className="flex-1 min-w-0">
                           <div className="flex items-center gap-2 flex-wrap">
-                            <span className="font-semibold text-slate-900 text-sm">
+                            <span className="font-semibold text-navy-900 text-sm">
                               {c.brokers?.full_name ?? '—'}
                             </span>
-                            <span className="text-xs text-slate-400">{c.brokers?.email}</span>
+                            <span className="text-xs text-navy-400">{c.brokers?.email}</span>
                             <span
                               className={cn(
                                 'inline-flex items-center text-xs font-medium px-2 py-0.5 rounded-full border',
@@ -226,7 +226,7 @@ export default function CashoutsClient({
                               {statusConf.label}
                             </span>
                           </div>
-                          <div className="flex items-center gap-3 mt-1.5 flex-wrap text-xs text-slate-500">
+                          <div className="flex items-center gap-3 mt-1.5 flex-wrap text-xs text-navy-500">
                             <span>{METHOD_LABEL[c.method]}</span>
                             <span>·</span>
                             <span>Solicitado {formatDate(c.created_at)}</span>
@@ -242,7 +242,7 @@ export default function CashoutsClient({
                           )}
                         </div>
                         <div className="text-right shrink-0">
-                          <div className="text-xl font-bold text-slate-900 tabular-nums font-mono">
+                          <div className="text-xl font-bold text-navy-900 tabular-nums font-mono">
                             {formatPrice(c.amount)}
                           </div>
                         </div>
@@ -250,14 +250,14 @@ export default function CashoutsClient({
 
                       <button
                         onClick={() => setExpandedId(isExpanded ? null : c.id)}
-                        className="flex items-center gap-1 text-xs text-slate-400 hover:text-slate-600 mt-3 transition-colors"
+                        className="flex items-center gap-1 text-xs text-navy-400 hover:text-navy-600 mt-3 transition-colors"
                       >
                         {isExpanded ? <ChevronUp size={12} /> : <ChevronDown size={12} />}
                         {isExpanded ? 'Ocultar datos de pago' : 'Ver datos de pago'}
                       </button>
 
                       {isExpanded && (
-                        <div className="mt-2 bg-slate-50 border border-slate-200 rounded-lg p-3">
+                        <div className="mt-2 bg-navy-50 border border-navy-200 rounded-lg p-3">
                           <PaymentDetails method={c.method} details={c.payment_details} />
                         </div>
                       )}
@@ -322,7 +322,7 @@ export default function CashoutsClient({
                             size="sm"
                             disabled={isLoading}
                             onClick={() => handleComplete(c.id)}
-                            className="bg-[#18181B] hover:bg-[#2D2D30] text-white gap-1.5 h-8 text-xs"
+                            className="bg-navy-900 hover:bg-navy-800 text-white gap-1.5 h-8 text-xs"
                           >
                             <Banknote size={13} />
                             {isLoading ? 'Procesando...' : 'Marcar como pagado'}
@@ -343,10 +343,10 @@ export default function CashoutsClient({
         <div className="space-y-5">
           <div className="flex items-center justify-between flex-wrap gap-3">
             <div>
-              <h2 className="text-base font-semibold text-slate-800">
+              <h2 className="text-base font-semibold text-navy-800">
                 Comisiones de <span className="capitalize">{prevMonthLabel}</span>
               </h2>
-              <p className="text-sm text-slate-500 mt-0.5">
+              <p className="text-sm text-navy-500 mt-0.5">
                 {pendingCommissions.length} broker{pendingCommissions.length !== 1 ? 's' : ''} con comisión pendiente de generar
               </p>
             </div>
@@ -354,7 +354,7 @@ export default function CashoutsClient({
               <Button
                 onClick={handleGenerateCommissions}
                 disabled={generating}
-                className="bg-[#18181B] hover:bg-[#2D2D30] text-white gap-2"
+                className="bg-navy-900 hover:bg-navy-800 text-white gap-2"
               >
                 <Calendar size={15} />
                 {generating ? 'Generando...' : 'Generar pagos del mes'}
@@ -366,31 +366,31 @@ export default function CashoutsClient({
             <Card>
               <CardContent className="py-12 text-center">
                 <CheckCircle2 size={28} className="mx-auto text-emerald-400 mb-2" />
-                <p className="text-sm text-slate-500">No hay comisiones pendientes de generar para <span className="capitalize">{prevMonthLabel}</span>.</p>
+                <p className="text-sm text-navy-500">No hay comisiones pendientes de generar para <span className="capitalize">{prevMonthLabel}</span>.</p>
               </CardContent>
             </Card>
           ) : (
-            <div className="overflow-x-auto rounded-xl border border-slate-200 shadow-sm">
+            <div className="overflow-x-auto rounded-xl border border-navy-200 shadow-sm">
               <table className="w-full text-sm">
                 <thead>
-                  <tr className="border-b border-slate-200 bg-slate-50">
+                  <tr className="border-b border-navy-200 bg-navy-50">
                     {['Broker', 'Email', 'Clientes', 'Nivel', 'Monto'].map(h => (
-                      <th key={h} className="text-left text-xs font-semibold text-slate-500 uppercase tracking-wide px-4 py-3">{h}</th>
+                      <th key={h} className="text-left text-xs font-semibold text-navy-500 uppercase tracking-wide px-4 py-3">{h}</th>
                     ))}
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-slate-100 bg-white">
+                <tbody className="divide-y divide-navy-100 bg-white">
                   {pendingCommissions.map(b => {
                     const tc = COMMISSION_TIER_CONFIG[b.tier]
                     return (
-                      <tr key={b.broker_id} className="hover:bg-slate-50/60">
-                        <td className="px-4 py-3 font-medium text-slate-900">{b.broker_name}</td>
-                        <td className="px-4 py-3 text-slate-500 text-xs">{b.broker_email}</td>
-                        <td className="px-4 py-3 text-slate-700">{b.count}</td>
+                      <tr key={b.broker_id} className="hover:bg-navy-50/60">
+                        <td className="px-4 py-3 font-medium text-navy-900">{b.broker_name}</td>
+                        <td className="px-4 py-3 text-navy-500 text-xs">{b.broker_email}</td>
+                        <td className="px-4 py-3 text-navy-700">{b.count}</td>
                         <td className="px-4 py-3">
                           <span className="text-sm">{tc.icon} {tc.label} · {tc.ratePercent}%</span>
                         </td>
-                        <td className="px-4 py-3 font-mono font-semibold text-slate-900 tabular-nums">
+                        <td className="px-4 py-3 font-mono font-semibold text-navy-900 tabular-nums">
                           S/. {b.amount.toFixed(2)}
                         </td>
                       </tr>
@@ -403,24 +403,24 @@ export default function CashoutsClient({
 
           {commissionCashouts.length > 0 && (
             <div className="mt-6">
-              <h3 className="text-sm font-semibold text-slate-700 mb-3">Pagos de comisión generados</h3>
-              <div className="overflow-x-auto rounded-xl border border-slate-200 shadow-sm">
+              <h3 className="text-sm font-semibold text-navy-700 mb-3">Pagos de comisión generados</h3>
+              <div className="overflow-x-auto rounded-xl border border-navy-200 shadow-sm">
                 <table className="w-full text-sm">
                   <thead>
-                    <tr className="border-b border-slate-200 bg-slate-50">
+                    <tr className="border-b border-navy-200 bg-navy-50">
                       {['Broker', 'Monto', 'Estado', 'Fecha'].map(h => (
-                        <th key={h} className="text-left text-xs font-semibold text-slate-500 uppercase tracking-wide px-4 py-3">{h}</th>
+                        <th key={h} className="text-left text-xs font-semibold text-navy-500 uppercase tracking-wide px-4 py-3">{h}</th>
                       ))}
                     </tr>
                   </thead>
-                  <tbody className="divide-y divide-slate-100 bg-white">
+                  <tbody className="divide-y divide-navy-100 bg-white">
                     {commissionCashouts.map(c => {
                       const sc = STATUS_CONFIG[c.status]
                       return (
-                        <tr key={c.id} className="hover:bg-slate-50/60">
+                        <tr key={c.id} className="hover:bg-navy-50/60">
                           <td className="px-4 py-3">
-                            <div className="font-medium text-slate-900 text-xs">{c.brokers?.full_name ?? '—'}</div>
-                            <div className="text-slate-400 text-xs">{c.brokers?.email}</div>
+                            <div className="font-medium text-navy-900 text-xs">{c.brokers?.full_name ?? '—'}</div>
+                            <div className="text-navy-400 text-xs">{c.brokers?.email}</div>
                           </td>
                           <td className="px-4 py-3 font-mono font-semibold tabular-nums text-xs">{formatPrice(c.amount)}</td>
                           <td className="px-4 py-3">
@@ -428,7 +428,7 @@ export default function CashoutsClient({
                               {sc.label}
                             </span>
                           </td>
-                          <td className="px-4 py-3 text-slate-400 text-xs">{formatDate(c.created_at)}</td>
+                          <td className="px-4 py-3 text-navy-400 text-xs">{formatDate(c.created_at)}</td>
                         </tr>
                       )
                     })}

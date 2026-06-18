@@ -11,7 +11,7 @@ export function MobileAdminHeader() {
   return (
     <>
       {/* Mobile top bar */}
-      <header className="lg:hidden fixed top-0 left-0 right-0 h-14 bg-[#18181B] z-30 flex items-center justify-between px-4 border-b border-white/8">
+      <header className="lg:hidden fixed top-0 left-0 right-0 h-14 bg-navy-900 z-30 flex items-center justify-between px-4 border-b border-white/8">
         <div className="flex items-center gap-3">
           <Logo variant="light" size="md" href="/admin" />
           <span className="px-2 py-0.5 border border-red-500/40 bg-red-500/15 text-red-400 text-[10px] font-bold uppercase tracking-widest rounded-full">
@@ -39,7 +39,7 @@ export function MobileAdminHeader() {
       {/* Off-canvas drawer */}
       <aside
         aria-label="Menú de navegación admin"
-        className={`lg:hidden fixed left-0 top-0 h-full w-[240px] bg-[#18181B] z-50 flex flex-col transform transition-transform duration-300 ease-out ${open ? 'translate-x-0' : '-translate-x-full'}`}
+        className={`lg:hidden fixed left-0 top-0 h-full w-[240px] bg-navy-900 z-50 flex flex-col transform transition-transform duration-300 ease-out ${open ? 'translate-x-0' : '-translate-x-full'}`}
       >
         <div className="px-6 pt-6 pb-4 flex items-start justify-between border-b border-white/8">
           <div>

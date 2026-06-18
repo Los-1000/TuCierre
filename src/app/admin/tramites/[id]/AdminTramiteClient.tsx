@@ -73,12 +73,12 @@ const ALL_STATUSES = Object.keys(TRAMITE_STATUS_CONFIG) as TramiteStatus[]
 
 const TIER_COLORS: Record<string, string> = {
   oro: 'text-yellow-600 bg-yellow-50 border-yellow-200',
-  plata: 'text-gray-600 bg-gray-100 border-gray-200',
+  plata: 'text-navy-600 bg-navy-100 border-navy-200',
   bronce: 'text-orange-700 bg-orange-50 border-orange-200',
 }
 
 const DOC_STATUS_CONFIG = {
-  pending:  { label: 'Sin subir',  icon: Clock,        className: 'text-[#18181B]/30' },
+  pending:  { label: 'Sin subir',  icon: Clock,        className: 'text-navy-900/30' },
   uploaded: { label: 'Recibido',   icon: CheckCircle2, className: 'text-blue-600' },
   approved: { label: 'Aprobado',   icon: CheckCircle2, className: 'text-[#2855E0]' },
   rejected: { label: 'Rechazado',  icon: XCircle,      className: 'text-red-600' },
@@ -93,9 +93,9 @@ function unwrap<T>(val: T | T[] | null): T | null {
 
 function InfoRow({ label, value }: { label: string; value: React.ReactNode }) {
   return (
-    <div className="flex items-start justify-between gap-4 py-2.5 border-b border-[#18181B]/5 last:border-0">
-      <span className="text-xs font-medium text-[#18181B]/40 uppercase tracking-wide shrink-0">{label}</span>
-      <span className="text-sm text-[#18181B] text-right">{value}</span>
+    <div className="flex items-start justify-between gap-4 py-2.5 border-b border-navy-900/5 last:border-0">
+      <span className="text-xs font-medium text-navy-900/40 uppercase tracking-wide shrink-0">{label}</span>
+      <span className="text-sm text-navy-900 text-right">{value}</span>
     </div>
   )
 }
@@ -181,23 +181,23 @@ export default function AdminTramiteClient({
   const SolicitudTab = (
     <div className="space-y-4">
       {/* Broker card */}
-      <div className="rounded-2xl border border-[#18181B]/8 bg-white overflow-hidden">
-        <div className="px-4 py-3 bg-slate-50 border-b border-[#18181B]/6 flex items-center gap-2">
-          <User size={14} className="text-[#18181B]/40" />
-          <span className="text-xs font-semibold uppercase tracking-wide text-[#18181B]/40">Broker</span>
+      <div className="rounded-2xl border border-navy-900/8 bg-white overflow-hidden">
+        <div className="px-4 py-3 bg-navy-50 border-b border-navy-900/6 flex items-center gap-2">
+          <User size={14} className="text-navy-900/40" />
+          <span className="text-xs font-semibold uppercase tracking-wide text-navy-900/40">Broker</span>
         </div>
         <div className="p-4 flex items-start gap-4">
-          <div className="w-10 h-10 rounded-full bg-[#18181B] text-white flex items-center justify-center text-sm font-bold shrink-0">
+          <div className="w-10 h-10 rounded-full bg-navy-900 text-white flex items-center justify-center text-sm font-bold shrink-0">
             {generateInitials(broker?.full_name ?? '?')}
           </div>
           <div className="flex-1 min-w-0">
-            <p className="font-semibold text-[#18181B]">{broker?.full_name ?? '—'}</p>
+            <p className="font-semibold text-navy-900">{broker?.full_name ?? '—'}</p>
             <div className="flex items-center flex-wrap gap-x-3 gap-y-1 mt-1">
-              <span className="flex items-center gap-1 text-xs text-[#18181B]/50">
+              <span className="flex items-center gap-1 text-xs text-navy-900/50">
                 <Mail size={11} />{broker?.email ?? '—'}
               </span>
               {broker?.phone && (
-                <span className="flex items-center gap-1 text-xs text-[#18181B]/50">
+                <span className="flex items-center gap-1 text-xs text-navy-900/50">
                   <Phone size={11} />{broker.phone}
                 </span>
               )}
@@ -209,12 +209,12 @@ export default function AdminTramiteClient({
                 </span>
               )}
               {broker?.company_name && (
-                <span className="flex items-center gap-1 text-xs text-[#18181B]/50">
+                <span className="flex items-center gap-1 text-xs text-navy-900/50">
                   <Building2 size={11} />{broker.company_name}
                 </span>
               )}
               {broker?.total_tramites !== undefined && (
-                <span className="text-xs text-[#18181B]/30">{broker.total_tramites} trámites</span>
+                <span className="text-xs text-navy-900/30">{broker.total_tramites} trámites</span>
               )}
             </div>
           </div>
@@ -223,10 +223,10 @@ export default function AdminTramiteClient({
 
       {/* Property card */}
       {(tramite.property_address || tramite.property_district || tramite.property_value) && (
-        <div className="rounded-2xl border border-[#18181B]/8 bg-white overflow-hidden">
-          <div className="px-4 py-3 bg-slate-50 border-b border-[#18181B]/6 flex items-center gap-2">
-            <MapPin size={14} className="text-[#18181B]/40" />
-            <span className="text-xs font-semibold uppercase tracking-wide text-[#18181B]/40">Inmueble</span>
+        <div className="rounded-2xl border border-navy-900/8 bg-white overflow-hidden">
+          <div className="px-4 py-3 bg-navy-50 border-b border-navy-900/6 flex items-center gap-2">
+            <MapPin size={14} className="text-navy-900/40" />
+            <span className="text-xs font-semibold uppercase tracking-wide text-navy-900/40">Inmueble</span>
           </div>
           <div className="p-4 space-y-0">
             {tramite.property_address && <InfoRow label="Dirección" value={tramite.property_address} />}
@@ -239,9 +239,9 @@ export default function AdminTramiteClient({
       )}
 
       {/* Price card */}
-      <div className="rounded-2xl border border-[#18181B]/8 bg-white overflow-hidden">
-        <div className="px-4 py-3 bg-slate-50 border-b border-[#18181B]/6">
-          <span className="text-xs font-semibold uppercase tracking-wide text-[#18181B]/40">Precio</span>
+      <div className="rounded-2xl border border-navy-900/8 bg-white overflow-hidden">
+        <div className="px-4 py-3 bg-navy-50 border-b border-navy-900/6">
+          <span className="text-xs font-semibold uppercase tracking-wide text-navy-900/40">Precio</span>
         </div>
         <div className="p-4 space-y-0">
           <InfoRow label="Tipo" value={tramiteType?.display_name ?? '—'} />
@@ -254,7 +254,7 @@ export default function AdminTramiteClient({
           )}
           <InfoRow
             label="Total"
-            value={<span className="text-base font-bold text-[#18181B]">{formatPrice(tramite.final_price)}</span>}
+            value={<span className="text-base font-bold text-navy-900">{formatPrice(tramite.final_price)}</span>}
           />
           {tramite.price_matched && tramite.price_match_reference?.startsWith('https://') && (
             <div className="pt-2">
@@ -268,9 +268,9 @@ export default function AdminTramiteClient({
       </div>
 
       {/* Dates */}
-      <div className="rounded-2xl border border-[#18181B]/8 bg-white overflow-hidden">
-        <div className="px-4 py-3 bg-slate-50 border-b border-[#18181B]/6">
-          <span className="text-xs font-semibold uppercase tracking-wide text-[#18181B]/40">Fechas</span>
+      <div className="rounded-2xl border border-navy-900/8 bg-white overflow-hidden">
+        <div className="px-4 py-3 bg-navy-50 border-b border-navy-900/6">
+          <span className="text-xs font-semibold uppercase tracking-wide text-navy-900/40">Fechas</span>
         </div>
         <div className="p-4 space-y-0">
           <InfoRow label="Solicitado" value={formatDate(tramite.created_at)} />
@@ -297,7 +297,7 @@ export default function AdminTramiteClient({
   const DocumentosTab = (
     <div className="space-y-3">
       {(tramiteType?.required_documents ?? []).length === 0 ? (
-        <p className="text-sm text-[#18181B]/40 py-8 text-center">Este tipo de trámite no requiere documentos.</p>
+        <p className="text-sm text-navy-900/40 py-8 text-center">Este tipo de trámite no requiere documentos.</p>
       ) : (
         (tramiteType?.required_documents ?? []).map((req: { name: string; description?: string }) => {
           const uploaded = tramite.documents.find(d => d.name === req.name)
@@ -306,18 +306,18 @@ export default function AdminTramiteClient({
           const Icon = cfg.icon
 
           return (
-            <div key={req.name} className="rounded-2xl border border-[#18181B]/8 bg-white overflow-hidden">
+            <div key={req.name} className="rounded-2xl border border-navy-900/8 bg-white overflow-hidden">
               <div className="flex items-center gap-3 p-4">
                 <div className={`shrink-0 ${cfg.className}`}>
                   <Icon size={18} />
                 </div>
                 <div className="flex-1 min-w-0">
-                  <p className="text-sm font-medium text-[#18181B] truncate">{req.name}</p>
+                  <p className="text-sm font-medium text-navy-900 truncate">{req.name}</p>
                   {req.description && (
-                    <p className="text-xs text-[#18181B]/40 mt-0.5 line-clamp-1">{req.description}</p>
+                    <p className="text-xs text-navy-900/40 mt-0.5 line-clamp-1">{req.description}</p>
                   )}
                   {uploaded?.uploaded_at && (
-                    <p className="text-xs text-[#18181B]/40 mt-0.5">
+                    <p className="text-xs text-navy-900/40 mt-0.5">
                       Subido {formatDate(uploaded.uploaded_at)}
                     </p>
                   )}
@@ -369,23 +369,23 @@ export default function AdminTramiteClient({
   const PartesTab = (
     <div className="space-y-3">
       {(tramite.parties ?? []).length === 0 ? (
-        <p className="text-sm text-[#18181B]/40 py-8 text-center">No hay partes registradas en este trámite.</p>
+        <p className="text-sm text-navy-900/40 py-8 text-center">No hay partes registradas en este trámite.</p>
       ) : (
         tramite.parties.map((party, i) => (
-          <div key={i} className="rounded-2xl border border-[#18181B]/8 bg-white p-4 flex items-start gap-3">
-            <div className="w-9 h-9 rounded-full bg-[#18181B]/8 text-[#18181B] flex items-center justify-center text-sm font-bold shrink-0">
+          <div key={i} className="rounded-2xl border border-navy-900/8 bg-white p-4 flex items-start gap-3">
+            <div className="w-9 h-9 rounded-full bg-navy-900/8 text-navy-900 flex items-center justify-center text-sm font-bold shrink-0">
               {generateInitials(party.name)}
             </div>
             <div className="flex-1 min-w-0">
               <div className="flex items-center gap-2 flex-wrap">
-                <span className="text-sm font-semibold text-[#18181B]">{party.name}</span>
-                <span className="px-2 py-0.5 rounded-full bg-[#18181B]/5 border border-[#18181B]/8 text-xs text-[#18181B]/60 font-medium capitalize">
+                <span className="text-sm font-semibold text-navy-900">{party.name}</span>
+                <span className="px-2 py-0.5 rounded-full bg-navy-900/5 border border-navy-900/8 text-xs text-navy-900/60 font-medium capitalize">
                   {party.role}
                 </span>
               </div>
-              <p className="text-xs text-[#18181B]/50 mt-0.5">DNI: {party.dni}</p>
-              {party.email && <p className="text-xs text-[#18181B]/40">{party.email}</p>}
-              {party.phone && <p className="text-xs text-[#18181B]/40">{party.phone}</p>}
+              <p className="text-xs text-navy-900/50 mt-0.5">DNI: {party.dni}</p>
+              {party.email && <p className="text-xs text-navy-900/40">{party.email}</p>}
+              {party.phone && <p className="text-xs text-navy-900/40">{party.phone}</p>}
             </div>
           </div>
         ))
@@ -411,17 +411,17 @@ export default function AdminTramiteClient({
         <div className="space-y-1.5">
           <Link
             href="/admin/tramites"
-            className="inline-flex items-center gap-1.5 text-sm text-[#18181B]/50 hover:text-[#2855E0] transition-colors -ml-1"
+            className="inline-flex items-center gap-1.5 text-sm text-navy-900/50 hover:text-[#2855E0] transition-colors -ml-1"
           >
             <ArrowLeft size={15} />
             Todos los trámites
           </Link>
           <div className="flex items-center gap-2 flex-wrap">
-            <code className="font-mono text-sm bg-[#18181B]/5 text-[#18181B]/70 px-2 py-0.5 rounded-lg border border-[#18181B]/8">
+            <code className="font-mono text-sm bg-navy-900/5 text-navy-900/70 px-2 py-0.5 rounded-lg border border-navy-900/8">
               {tramite.reference_code}
             </code>
-            <ChevronRight size={14} className="text-[#18181B]/30" />
-            <span className="text-base font-semibold text-[#18181B]">
+            <ChevronRight size={14} className="text-navy-900/30" />
+            <span className="text-base font-semibold text-navy-900">
               {tramiteType?.display_name ?? 'Trámite notarial'}
             </span>
           </div>
@@ -446,9 +446,9 @@ export default function AdminTramiteClient({
         {/* Left — tabs */}
         <div className="lg:col-span-7">
           <Tabs defaultValue="solicitud">
-            <TabsList className="w-full grid grid-cols-4 mb-4 bg-slate-50 rounded-2xl p-1">
-              <TabsTrigger value="solicitud" className="text-xs rounded-xl data-[state=active]:bg-white data-[state=active]:text-[#18181B] data-[state=active]:shadow-sm">Solicitud</TabsTrigger>
-              <TabsTrigger value="documentos" className="text-xs rounded-xl data-[state=active]:bg-white data-[state=active]:text-[#18181B] data-[state=active]:shadow-sm">
+            <TabsList className="w-full grid grid-cols-4 mb-4 bg-navy-50 rounded-2xl p-1">
+              <TabsTrigger value="solicitud" className="text-xs rounded-xl data-[state=active]:bg-white data-[state=active]:text-navy-900 data-[state=active]:shadow-sm">Solicitud</TabsTrigger>
+              <TabsTrigger value="documentos" className="text-xs rounded-xl data-[state=active]:bg-white data-[state=active]:text-navy-900 data-[state=active]:shadow-sm">
                 Documentos
                 {tramite.documents.filter(d => d.status === 'uploaded').length > 0 && (
                   <span className="ml-1.5 inline-flex items-center justify-center w-4 h-4 rounded-full bg-[#2855E0] text-white text-[10px] font-bold">
@@ -456,8 +456,8 @@ export default function AdminTramiteClient({
                   </span>
                 )}
               </TabsTrigger>
-              <TabsTrigger value="partes" className="text-xs rounded-xl data-[state=active]:bg-white data-[state=active]:text-[#18181B] data-[state=active]:shadow-sm">Partes</TabsTrigger>
-              <TabsTrigger value="historial" className="text-xs rounded-xl data-[state=active]:bg-white data-[state=active]:text-[#18181B] data-[state=active]:shadow-sm">Historial</TabsTrigger>
+              <TabsTrigger value="partes" className="text-xs rounded-xl data-[state=active]:bg-white data-[state=active]:text-navy-900 data-[state=active]:shadow-sm">Partes</TabsTrigger>
+              <TabsTrigger value="historial" className="text-xs rounded-xl data-[state=active]:bg-white data-[state=active]:text-navy-900 data-[state=active]:shadow-sm">Historial</TabsTrigger>
             </TabsList>
 
             <TabsContent value="solicitud">{SolicitudTab}</TabsContent>
@@ -470,9 +470,9 @@ export default function AdminTramiteClient({
         {/* Right — chat */}
         <div className="lg:col-span-5">
           <div className="sticky top-6">
-            <div className="rounded-3xl border border-[#18181B]/8 bg-white overflow-hidden">
-              <div className="px-4 py-3 bg-slate-50 border-b border-[#18181B]/6 flex items-center gap-2">
-                <span className="text-xs font-semibold uppercase tracking-wide text-[#18181B]/40">
+            <div className="rounded-3xl border border-navy-900/8 bg-white overflow-hidden">
+              <div className="px-4 py-3 bg-navy-50 border-b border-navy-900/6 flex items-center gap-2">
+                <span className="text-xs font-semibold uppercase tracking-wide text-navy-900/40">
                   Chat con {broker?.full_name?.split(' ')[0] ?? 'broker'}
                 </span>
                 <span className="text-[10px] h-4 px-1.5 inline-flex items-center border border-[#2855E0]/20 text-[#2855E0] bg-[#2855E0]/8 rounded-full font-medium">
@@ -489,13 +489,13 @@ export default function AdminTramiteClient({
       <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
         <DialogContent className="sm:max-w-md rounded-3xl">
           <DialogHeader>
-            <DialogTitle className="text-[#18181B]">Cambiar estado del trámite</DialogTitle>
+            <DialogTitle className="text-navy-900">Cambiar estado del trámite</DialogTitle>
           </DialogHeader>
           <div className="space-y-4 py-2">
             <div className="space-y-1.5">
-              <label className="text-sm font-medium text-[#18181B]">Nuevo estado</label>
+              <label className="text-sm font-medium text-navy-900">Nuevo estado</label>
               <Select value={newStatus} onValueChange={v => setNewStatus(v as TramiteStatus)}>
-                <SelectTrigger className="rounded-xl border-[#18181B]/15"><SelectValue /></SelectTrigger>
+                <SelectTrigger className="rounded-xl border-navy-900/15"><SelectValue /></SelectTrigger>
                 <SelectContent>
                   {ALL_STATUSES.map(s => (
                     <SelectItem key={s} value={s}>{TRAMITE_STATUS_CONFIG[s].label}</SelectItem>
@@ -504,15 +504,15 @@ export default function AdminTramiteClient({
               </Select>
             </div>
             <div className="space-y-1.5">
-              <label className="text-sm font-medium text-[#18181B]">
-                Nota para el broker <span className="text-[#18181B]/40 font-normal">(opcional)</span>
+              <label className="text-sm font-medium text-navy-900">
+                Nota para el broker <span className="text-navy-900/40 font-normal">(opcional)</span>
               </label>
               <Textarea
                 placeholder="Ej: Falta el DNI del vendedor..."
                 value={statusNote}
                 onChange={e => setStatusNote(e.target.value)}
                 rows={3}
-                className="rounded-xl border-[#18181B]/15 resize-none"
+                className="rounded-xl border-navy-900/15 resize-none"
               />
             </div>
           </div>
@@ -520,7 +520,7 @@ export default function AdminTramiteClient({
             <button
               onClick={() => setDialogOpen(false)}
               disabled={isPending}
-              className="inline-flex items-center gap-2 border border-[#18181B]/15 text-[#18181B] text-sm font-medium px-4 py-2 rounded-full hover:bg-[#18181B]/5 transition-colors disabled:opacity-40"
+              className="inline-flex items-center gap-2 border border-navy-900/15 text-navy-900 text-sm font-medium px-4 py-2 rounded-full hover:bg-navy-900/5 transition-colors disabled:opacity-40"
             >
               Cancelar
             </button>
@@ -540,22 +540,22 @@ export default function AdminTramiteClient({
       <Dialog open={!!rejectDoc} onOpenChange={open => { if (!open) setRejectDoc(null) }}>
         <DialogContent className="sm:max-w-sm rounded-3xl">
           <DialogHeader>
-            <DialogTitle className="text-[#18181B]">Rechazar documento</DialogTitle>
+            <DialogTitle className="text-navy-900">Rechazar documento</DialogTitle>
           </DialogHeader>
           <div className="py-2 space-y-3">
-            <p className="text-sm text-[#18181B]/60">
-              Documento: <strong className="text-[#18181B]">{rejectDoc}</strong>
+            <p className="text-sm text-navy-900/60">
+              Documento: <strong className="text-navy-900">{rejectDoc}</strong>
             </p>
             <div className="space-y-1.5">
-              <label className="text-sm font-medium text-[#18181B]">
-                Motivo <span className="text-[#18181B]/40 font-normal">(opcional)</span>
+              <label className="text-sm font-medium text-navy-900">
+                Motivo <span className="text-navy-900/40 font-normal">(opcional)</span>
               </label>
               <Textarea
                 placeholder="Ej: El documento no es legible..."
                 value={rejectNote}
                 onChange={e => setRejectNote(e.target.value)}
                 rows={3}
-                className="rounded-xl border-[#18181B]/15 resize-none"
+                className="rounded-xl border-navy-900/15 resize-none"
               />
             </div>
           </div>
@@ -563,7 +563,7 @@ export default function AdminTramiteClient({
             <button
               onClick={() => setRejectDoc(null)}
               disabled={docPending}
-              className="inline-flex items-center gap-2 border border-[#18181B]/15 text-[#18181B] text-sm font-medium px-4 py-2 rounded-full hover:bg-[#18181B]/5 transition-colors disabled:opacity-40"
+              className="inline-flex items-center gap-2 border border-navy-900/15 text-navy-900 text-sm font-medium px-4 py-2 rounded-full hover:bg-navy-900/5 transition-colors disabled:opacity-40"
             >
               Cancelar
             </button>

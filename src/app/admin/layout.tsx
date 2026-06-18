@@ -34,12 +34,12 @@ export default async function AdminLayout({ children }: { children: React.ReactN
     .toUpperCase()
 
   return (
-    <div className="flex min-h-screen bg-slate-50">
+    <div className="flex min-h-screen bg-navy-50">
       {/* Mobile top bar + off-canvas drawer */}
       <MobileAdminHeader />
 
       {/* Desktop sidebar — dark, distinct */}
-      <aside className="hidden lg:flex w-[240px] flex-col fixed left-0 top-0 h-full bg-[#18181B] z-20">
+      <aside className="hidden lg:flex w-[240px] flex-col fixed left-0 top-0 h-full bg-navy-900 z-20">
         {/* Brand */}
         <div className="px-6 pt-8 pb-10">
           <Logo variant="light" size="md" href="/admin" />

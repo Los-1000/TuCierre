@@ -27,7 +27,7 @@ export default function PartiesForm({ form }: PartiesFormProps) {
   return (
     <div className="space-y-4">
       <div className="flex items-center justify-between">
-        <h3 className="font-semibold text-slate-900">Partes involucradas</h3>
+        <h3 className="font-semibold text-navy-900">Partes involucradas</h3>
         <Button type="button" variant="outline" size="sm" onClick={addParty}>
           <Plus size={14} />
           Agregar parte
@@ -35,8 +35,8 @@ export default function PartiesForm({ form }: PartiesFormProps) {
       </div>
 
       {fields.length === 0 && (
-        <div className="text-center py-6 border-2 border-dashed border-slate-200 rounded-xl">
-          <p className="text-sm text-slate-500 mb-3">No hay partes agregadas</p>
+        <div className="text-center py-6 border-2 border-dashed border-navy-200 rounded-xl">
+          <p className="text-sm text-navy-500 mb-3">No hay partes agregadas</p>
           <Button type="button" variant="outline" size="sm" onClick={addParty}>
             <Plus size={14} />
             Agregar primera parte
@@ -45,14 +45,14 @@ export default function PartiesForm({ form }: PartiesFormProps) {
       )}
 
       {fields.map((field, index) => (
-        <div key={field.id} className="bg-slate-50 rounded-xl p-4 border border-slate-200 space-y-3">
+        <div key={field.id} className="bg-navy-50 rounded-xl p-4 border border-navy-200 space-y-3">
           <div className="flex items-center justify-between">
-            <span className="text-sm font-medium text-slate-700">Parte {index + 1}</span>
+            <span className="text-sm font-medium text-navy-700">Parte {index + 1}</span>
             {fields.length > 1 && (
               <button
                 type="button"
                 onClick={() => remove(index)}
-                className="text-slate-400 hover:text-red-500 transition-colors p-1"
+                className="text-navy-400 hover:text-red-500 transition-colors p-1"
                 aria-label="Eliminar parte"
               >
                 <Trash2 size={14} />
@@ -63,7 +63,7 @@ export default function PartiesForm({ form }: PartiesFormProps) {
           <div className="grid grid-cols-2 gap-3">
             {/* Name */}
             <div className="col-span-2">
-              <Label className="text-xs text-slate-600">
+              <Label className="text-xs text-navy-600">
                 Nombre completo <span className="text-red-500">*</span>
               </Label>
               <Input
@@ -78,7 +78,7 @@ export default function PartiesForm({ form }: PartiesFormProps) {
 
             {/* DNI */}
             <div>
-              <Label className="text-xs text-slate-600">
+              <Label className="text-xs text-navy-600">
                 DNI <span className="text-red-500">*</span>
               </Label>
               <Input
@@ -95,7 +95,7 @@ export default function PartiesForm({ form }: PartiesFormProps) {
 
             {/* Role */}
             <div>
-              <Label className="text-xs text-slate-600">
+              <Label className="text-xs text-navy-600">
                 Rol <span className="text-red-500">*</span>
               </Label>
               <Select
@@ -115,7 +115,7 @@ export default function PartiesForm({ form }: PartiesFormProps) {
 
             {/* Email */}
             <div>
-              <Label className="text-xs text-slate-600">Email</Label>
+              <Label className="text-xs text-navy-600">Email</Label>
               <Input
                 {...register(`parties.${index}.email`)}
                 type="email"
@@ -129,7 +129,7 @@ export default function PartiesForm({ form }: PartiesFormProps) {
 
             {/* Phone */}
             <div>
-              <Label className="text-xs text-slate-600">Teléfono</Label>
+              <Label className="text-xs text-navy-600">Teléfono</Label>
               <Input
                 {...register(`parties.${index}.phone`)}
                 type="tel"
