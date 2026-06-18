@@ -82,7 +82,7 @@ export default function ForgotPasswordPage() {
                 autoComplete="email"
                 aria-invalid={!!errors.email}
                 aria-describedby={errors.email ? 'email-error' : undefined}
-                className="h-[48px] px-5 rounded-2xl bg-[#EEF1FF] border-transparent focus:border-[#2855E0] focus:ring-[#2855E0]/70 text-navy-900 placeholder:text-navy-900/70"
+                className="h-[48px] px-5 rounded-2xl bg-[#EEF1FF] border-transparent focus:border-[#2855E0] focus:ring-[#2855E0]/70 text-navy-900 placeholder:text-navy-900/45"
                 {...register('email')}
               />
               {errors.email && <p id="email-error" className="text-red-500 text-xs mt-1.5">{errors.email.message}</p>}

@@ -163,7 +163,7 @@ export default function HeroSection() {
                 <p className="text-[11px] text-white/45 mt-0.5">Notaría Central Lima · 2 h</p>
               </div>
               <span
-                className="shrink-0 text-[10px] font-black uppercase tracking-widest px-2 py-1 rounded-full"
+                className="shrink-0 text-[11px] font-black uppercase tracking-widest px-2 py-1 rounded-full"
                 style={{ background: 'rgba(40,85,224,0.25)', color: 'rgba(150,185,255,0.9)' }}
               >
                 En firma

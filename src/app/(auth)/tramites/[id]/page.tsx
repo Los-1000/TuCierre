@@ -170,7 +170,7 @@ export default function TramiteDetailPage() {
                     >
                       {done ? '✓' : i + 1}
                     </div>
-                    <span className="text-[9px] text-navy-300 mt-1 text-center leading-tight hidden sm:block">
+                    <span className="text-[11px] text-navy-300 mt-1 text-center leading-tight hidden sm:block">
                       {STATUS_LABELS[step]?.split(' ')[0]}
                     </span>
                   </div>
@@ -280,17 +280,17 @@ export default function TramiteDetailPage() {
                       {showDay && (
                         <div className="flex items-center gap-3 my-2">
                           <div className="flex-1 h-px bg-navy-100" />
-                          <span className="text-[10px] text-navy-300 font-medium">{formatDay(m.createdAt)}</span>
+                          <span className="text-[11px] text-navy-300 font-medium">{formatDay(m.createdAt)}</span>
                           <div className="flex-1 h-px bg-navy-100" />
                         </div>
                       )}
                       <div className={`flex flex-col gap-0.5 ${isOwn ? 'items-end' : 'items-start'}`}>
                         {!isOwn && (
-                          <span className="text-[10px] text-navy-400 font-semibold ml-1">{m.senderName}</span>
+                          <span className="text-[11px] text-navy-400 font-semibold ml-1">{m.senderName}</span>
                         )}
                         <div className={`flex items-end gap-2 ${isOwn ? 'flex-row-reverse' : 'flex-row'}`}>
                           {!isOwn && (
-                            <div className="w-6 h-6 rounded-full shrink-0 flex items-center justify-center text-[9px] font-bold text-white mb-1" style={{ background: '#0f1d3d' }}>
+                            <div className="w-6 h-6 rounded-full shrink-0 flex items-center justify-center text-[11px] font-bold text-white mb-1" style={{ background: '#0f1d3d' }}>
                               {m.senderName.split(' ').map(n => n[0]).join('').slice(0, 2)}
                             </div>
                           )}
@@ -305,11 +305,11 @@ export default function TramiteDetailPage() {
                           </div>
                         </div>
                         <div className={`flex items-center gap-1 ${isOwn ? 'flex-row-reverse' : ''} px-1`}>
-                          <span className="text-[10px] text-navy-300">{formatTime(m.createdAt)}</span>
+                          <span className="text-[11px] text-navy-300">{formatTime(m.createdAt)}</span>
                           {isOwn && m.failed && (
                             <button
                               onClick={() => handleRetry(m)}
-                              className="flex items-center gap-1 text-[10px] text-red-500 font-medium hover:text-red-700"
+                              className="flex items-center gap-1 text-[11px] text-red-500 font-medium hover:text-red-700"
                             >
                               <AlertCircle size={10} />
                               Error · Reintentar

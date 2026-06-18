@@ -142,17 +142,17 @@ export default async function AdminPriceMatchPage() {
                   {/* Price grid */}
                   <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 bg-navy-50 p-4 rounded-2xl">
                     <div>
-                      <p className="text-[10px] font-bold text-navy-900/70 uppercase mb-1">Competidor</p>
+                      <p className="text-[11px] font-bold text-navy-900/70 uppercase mb-1">Competidor</p>
                       <p className="text-lg font-bold text-navy-900">{formatPrice(r.competitor_price)}</p>
                     </div>
                     <div>
-                      <p className="text-[10px] font-bold text-navy-900/70 uppercase mb-1">Nuestro</p>
+                      <p className="text-[11px] font-bold text-navy-900/70 uppercase mb-1">Nuestro</p>
                       <p className="text-lg font-bold text-navy-900">
                         {r.our_matched_price != null ? formatPrice(r.our_matched_price) : '—'}
                       </p>
                     </div>
                     <div>
-                      <p className="text-[10px] font-bold text-navy-900/70 uppercase mb-1">Diferencia</p>
+                      <p className="text-[11px] font-bold text-navy-900/70 uppercase mb-1">Diferencia</p>
                       <p className="text-lg font-black text-red-600">
                         {diff > 0 ? `+${formatPrice(diff)}` : formatPrice(diff)}
                       </p>

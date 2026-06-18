@@ -43,7 +43,7 @@ export default async function AdminLayout({ children }: { children: React.ReactN
         {/* Brand */}
         <div className="px-6 pt-8 pb-10">
           <Logo variant="light" size="md" href="/admin" />
-          <span className="inline-block mt-1 px-2 py-0.5 border border-red-500/40 bg-red-500/15 text-red-400 text-[10px] font-bold uppercase tracking-widest rounded-full">
+          <span className="inline-block mt-1 px-2 py-0.5 border border-red-500/40 bg-red-500/15 text-red-400 text-[11px] font-bold uppercase tracking-widest rounded-full">
             ADMIN
           </span>
         </div>

@@ -110,7 +110,7 @@ export default function PriceMatchModal({ open, onClose, tramiteTypeId }: PriceM
             </label>
             <input
               placeholder="Notaría García & Asociados"
-              className="w-full h-11 px-4 rounded-2xl border border-navy-900/15 bg-white text-sm text-navy-900 focus:outline-none focus:ring-2 focus:ring-[#2855E0]/70 focus:border-[#2855E0] transition-colors placeholder:text-navy-900/70"
+              className="w-full h-11 px-4 rounded-2xl border border-navy-900/15 bg-white text-sm text-navy-900 focus:outline-none focus:ring-2 focus:ring-[#2855E0]/70 focus:border-[#2855E0] transition-colors placeholder:text-navy-900/45"
               {...register('competitor_name')}
             />
             {errors.competitor_name && (
@@ -128,7 +128,7 @@ export default function PriceMatchModal({ open, onClose, tramiteTypeId }: PriceM
               placeholder="1200.00"
               step="0.01"
               min="1"
-              className="w-full h-11 px-4 rounded-2xl border border-navy-900/15 bg-white text-sm text-navy-900 focus:outline-none focus:ring-2 focus:ring-[#2855E0]/70 focus:border-[#2855E0] transition-colors placeholder:text-navy-900/70 font-mono"
+              className="w-full h-11 px-4 rounded-2xl border border-navy-900/15 bg-white text-sm text-navy-900 focus:outline-none focus:ring-2 focus:ring-[#2855E0]/70 focus:border-[#2855E0] transition-colors placeholder:text-navy-900/45 font-mono"
               {...register('competitor_price', { valueAsNumber: true })}
             />
             {errors.competitor_price && (

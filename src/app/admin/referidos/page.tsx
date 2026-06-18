@@ -115,7 +115,7 @@ export default function AdminReferidosPage() {
           aria-label="Buscar broker o código"
           value={search}
           onChange={(e) => setSearch(e.target.value)}
-          className="w-full border border-navy-900/15 rounded-2xl h-10 pl-9 pr-4 text-sm focus:outline-none focus:ring-2 focus:ring-[#2855E0]/70 bg-white text-navy-900 placeholder:text-navy-900/70"
+          className="w-full border border-navy-900/15 rounded-2xl h-10 pl-9 pr-4 text-sm focus:outline-none focus:ring-2 focus:ring-[#2855E0]/70 bg-white text-navy-900 placeholder:text-navy-900/45"
         />
       </div>
 

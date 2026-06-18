@@ -218,7 +218,7 @@ export default function TramitesClient({
             placeholder="Buscar por código o broker..."
             value={search}
             onChange={e => setSearch(e.target.value)}
-            className="w-full border border-navy-900/15 rounded-2xl h-11 pl-9 pr-4 text-sm focus:outline-none focus:ring-2 focus:ring-[#2855E0]/70 bg-transparent text-navy-900 placeholder:text-navy-900/70"
+            className="w-full border border-navy-900/15 rounded-2xl h-11 pl-9 pr-4 text-sm focus:outline-none focus:ring-2 focus:ring-[#2855E0]/70 bg-transparent text-navy-900 placeholder:text-navy-900/45"
           />
         </div>
 

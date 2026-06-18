@@ -77,7 +77,7 @@ export default async function SuperAdminLayout({
           <div className="flex items-center gap-2">
             <Logo variant="light" size="md" href="/superadmin" />
           </div>
-          <span className="text-[10px] font-bold tracking-[0.12em] text-[#2855E0] uppercase bg-[#2855E0]/10 px-2 py-0.5 rounded-full">
+          <span className="text-[11px] font-bold tracking-[0.12em] text-[#2855E0] uppercase bg-[#2855E0]/10 px-2 py-0.5 rounded-full">
             Super
           </span>
         </div>
@@ -101,7 +101,7 @@ export default async function SuperAdminLayout({
                 {item.label}
               </div>
               {item.badge != null && (
-                <span className="bg-[#2855E0] text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full min-w-[18px] text-center">
+                <span className="bg-[#2855E0] text-white text-[11px] font-bold px-1.5 py-0.5 rounded-full min-w-[18px] text-center">
                   {item.badge}
                 </span>
               )}

@@ -14,7 +14,7 @@ export function MobileAdminHeader() {
       <header className="lg:hidden fixed top-0 left-0 right-0 h-14 bg-navy-900 z-30 flex items-center justify-between px-4 border-b border-white/8">
         <div className="flex items-center gap-3">
           <Logo variant="light" size="md" href="/admin" />
-          <span className="px-2 py-0.5 border border-red-500/40 bg-red-500/15 text-red-400 text-[10px] font-bold uppercase tracking-widest rounded-full">
+          <span className="px-2 py-0.5 border border-red-500/40 bg-red-500/15 text-red-400 text-[11px] font-bold uppercase tracking-widest rounded-full">
             ADMIN
           </span>
         </div>
@@ -44,7 +44,7 @@ export function MobileAdminHeader() {
         <div className="px-6 pt-6 pb-4 flex items-start justify-between border-b border-white/8">
           <div>
             <Logo variant="light" size="md" href="/admin" />
-            <span className="inline-block mt-1 px-2 py-0.5 border border-red-500/40 bg-red-500/15 text-red-400 text-[10px] font-bold uppercase tracking-widest rounded-full">
+            <span className="inline-block mt-1 px-2 py-0.5 border border-red-500/40 bg-red-500/15 text-red-400 text-[11px] font-bold uppercase tracking-widest rounded-full">
               ADMIN
             </span>
           </div>

@@ -451,7 +451,7 @@ export default function AdminTramiteClient({
               <TabsTrigger value="documentos" className="text-xs rounded-xl data-[state=active]:bg-white data-[state=active]:text-navy-900 data-[state=active]:shadow-sm">
                 Documentos
                 {tramite.documents.filter(d => d.status === 'uploaded').length > 0 && (
-                  <span className="ml-1.5 inline-flex items-center justify-center w-4 h-4 rounded-full bg-[#2855E0] text-white text-[10px] font-bold">
+                  <span className="ml-1.5 inline-flex items-center justify-center w-4 h-4 rounded-full bg-[#2855E0] text-white text-[11px] font-bold">
                     {tramite.documents.filter(d => d.status === 'uploaded').length}
                   </span>
                 )}
@@ -475,7 +475,7 @@ export default function AdminTramiteClient({
                 <span className="text-xs font-semibold uppercase tracking-wide text-navy-900/70">
                   Chat con {broker?.full_name?.split(' ')[0] ?? 'broker'}
                 </span>
-                <span className="text-[10px] h-4 px-1.5 inline-flex items-center border border-[#2855E0]/20 text-[#2855E0] bg-[#2855E0]/8 rounded-full font-medium">
+                <span className="text-[11px] h-4 px-1.5 inline-flex items-center border border-[#2855E0]/20 text-[#2855E0] bg-[#2855E0]/8 rounded-full font-medium">
                   Notaría
                 </span>
               </div>
