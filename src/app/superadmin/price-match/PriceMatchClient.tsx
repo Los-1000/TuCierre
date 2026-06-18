@@ -225,7 +225,7 @@ export default function PriceMatchClient({
                       <td className="px-4 py-3 text-navy-400 text-xs">{formatDate(r.created_at)}</td>
                       <td className="px-4 py-3">
                         {r.evidence_url
-                          ? <a href={r.evidence_url} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 text-xs text-blue-600 hover:underline">Ver <ExternalLink size={10} /></a>
+                          ? <a href={r.evidence_url} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 text-xs text-blue-600 hover:underline py-1.5 px-1 -mx-1">Ver <ExternalLink size={14} /></a>
                           : <span className="text-navy-400 text-xs">—</span>}
                       </td>
                     </tr>

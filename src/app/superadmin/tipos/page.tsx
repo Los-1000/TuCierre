@@ -273,7 +273,7 @@ export default function SuperAdminTiposPage() {
                     <Button
                       variant="ghost"
                       size="sm"
-                      className="h-7 w-7 p-0"
+                      className="h-11 w-11 p-0"
                       onClick={() => openEditDialog(tipo)}
                       aria-label={`Editar ${tipo.display_name}`}
                     >
@@ -381,7 +381,7 @@ export default function SuperAdminTiposPage() {
                   type="button"
                   variant="ghost"
                   size="sm"
-                  className="h-7 text-xs gap-1 text-blue-600 hover:text-blue-700 hover:bg-blue-50"
+                  className="h-10 text-xs gap-1 text-blue-600 hover:text-blue-700 hover:bg-blue-50"
                   onClick={() => append({ value: '' })}
                 >
                   <Plus size={12} />

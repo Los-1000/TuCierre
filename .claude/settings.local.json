@@ -150,7 +150,10 @@
       "Bash(ls -la .impeccable.md)",
       "Bash(ls design-system/)",
       "PowerShell(head *)",
-      "Bash(git config *)"
+      "Bash(git config *)",
+      "Bash(sed -i 's/w-full grid grid-cols-4 mb-4/w-full grid grid-cols-2 md:grid-cols-4 mb-4/' src/app/admin/tramites/\\\\[id\\\\]/AdminTramiteClient.tsx)",
+      "Bash(sed -i 's/grid grid-cols-3 gap-4 bg-navy-50/grid grid-cols-1 sm:grid-cols-3 gap-4 bg-navy-50/' src/app/admin/price-match/page.tsx)",
+      "Bash(sed -i 's/className=\"h-7 w-7 p-0\"/className=\"h-11 w-11 p-0\"/; s/className=\"h-7 text-xs gap-1/className=\"h-10 text-xs gap-1/' src/app/superadmin/tipos/page.tsx)"
     ]
   }
 }

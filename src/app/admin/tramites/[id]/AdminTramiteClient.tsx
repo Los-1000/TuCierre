@@ -446,7 +446,7 @@ export default function AdminTramiteClient({
         {/* Left — tabs */}
         <div className="lg:col-span-7">
           <Tabs defaultValue="solicitud">
-            <TabsList className="w-full grid grid-cols-4 mb-4 bg-navy-50 rounded-2xl p-1">
+            <TabsList className="w-full grid grid-cols-2 md:grid-cols-4 mb-4 bg-navy-50 rounded-2xl p-1">
               <TabsTrigger value="solicitud" className="text-xs rounded-xl data-[state=active]:bg-white data-[state=active]:text-navy-900 data-[state=active]:shadow-sm">Solicitud</TabsTrigger>
               <TabsTrigger value="documentos" className="text-xs rounded-xl data-[state=active]:bg-white data-[state=active]:text-navy-900 data-[state=active]:shadow-sm">
                 Documentos

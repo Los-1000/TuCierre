@@ -346,6 +346,11 @@ export default function RecompensasClient({
                       </td>
                       <td className="px-5 py-3.5 text-navy-900/70 max-w-xs">
                         <span className="line-clamp-2">{reward.description}</span>
+                        {reward.tramites?.reference_code && (
+                          <code className="md:hidden mt-1 inline-block text-xs font-mono text-navy-900/70 bg-navy-900/6 px-2 py-0.5 rounded-full">
+                            {reward.tramites.reference_code}
+                          </code>
+                        )}
                       </td>
                       <td className="px-5 py-3.5 text-right whitespace-nowrap">
                         <span className="font-semibold text-[#2855E0] tabular-nums font-mono">
