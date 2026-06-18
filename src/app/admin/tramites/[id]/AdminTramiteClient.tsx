@@ -78,7 +78,7 @@ const TIER_COLORS: Record<string, string> = {
 }
 
 const DOC_STATUS_CONFIG = {
-  pending:  { label: 'Sin subir',  icon: Clock,        className: 'text-navy-900/30' },
+  pending:  { label: 'Sin subir',  icon: Clock,        className: 'text-navy-900/70' },
   uploaded: { label: 'Recibido',   icon: CheckCircle2, className: 'text-blue-600' },
   approved: { label: 'Aprobado',   icon: CheckCircle2, className: 'text-[#2855E0]' },
   rejected: { label: 'Rechazado',  icon: XCircle,      className: 'text-red-600' },
@@ -94,7 +94,7 @@ function unwrap<T>(val: T | T[] | null): T | null {
 function InfoRow({ label, value }: { label: string; value: React.ReactNode }) {
   return (
     <div className="flex items-start justify-between gap-4 py-2.5 border-b border-navy-900/5 last:border-0">
-      <span className="text-xs font-medium text-navy-900/40 uppercase tracking-wide shrink-0">{label}</span>
+      <span className="text-xs font-medium text-navy-900/70 uppercase tracking-wide shrink-0">{label}</span>
       <span className="text-sm text-navy-900 text-right">{value}</span>
     </div>
   )
@@ -183,8 +183,8 @@ export default function AdminTramiteClient({
       {/* Broker card */}
       <div className="rounded-2xl border border-navy-900/8 bg-white overflow-hidden">
         <div className="px-4 py-3 bg-navy-50 border-b border-navy-900/6 flex items-center gap-2">
-          <User size={14} className="text-navy-900/40" />
-          <span className="text-xs font-semibold uppercase tracking-wide text-navy-900/40">Broker</span>
+          <User size={14} className="text-navy-900/70" />
+          <span className="text-xs font-semibold uppercase tracking-wide text-navy-900/70">Broker</span>
         </div>
         <div className="p-4 flex items-start gap-4">
           <div className="w-10 h-10 rounded-full bg-navy-900 text-white flex items-center justify-center text-sm font-bold shrink-0">
@@ -193,11 +193,11 @@ export default function AdminTramiteClient({
           <div className="flex-1 min-w-0">
             <p className="font-semibold text-navy-900">{broker?.full_name ?? '—'}</p>
             <div className="flex items-center flex-wrap gap-x-3 gap-y-1 mt-1">
-              <span className="flex items-center gap-1 text-xs text-navy-900/50">
+              <span className="flex items-center gap-1 text-xs text-navy-900/70">
                 <Mail size={11} />{broker?.email ?? '—'}
               </span>
               {broker?.phone && (
-                <span className="flex items-center gap-1 text-xs text-navy-900/50">
+                <span className="flex items-center gap-1 text-xs text-navy-900/70">
                   <Phone size={11} />{broker.phone}
                 </span>
               )}
@@ -209,12 +209,12 @@ export default function AdminTramiteClient({
                 </span>
               )}
               {broker?.company_name && (
-                <span className="flex items-center gap-1 text-xs text-navy-900/50">
+                <span className="flex items-center gap-1 text-xs text-navy-900/70">
                   <Building2 size={11} />{broker.company_name}
                 </span>
               )}
               {broker?.total_tramites !== undefined && (
-                <span className="text-xs text-navy-900/30">{broker.total_tramites} trámites</span>
+                <span className="text-xs text-navy-900/70">{broker.total_tramites} trámites</span>
               )}
             </div>
           </div>
@@ -225,8 +225,8 @@ export default function AdminTramiteClient({
       {(tramite.property_address || tramite.property_district || tramite.property_value) && (
         <div className="rounded-2xl border border-navy-900/8 bg-white overflow-hidden">
           <div className="px-4 py-3 bg-navy-50 border-b border-navy-900/6 flex items-center gap-2">
-            <MapPin size={14} className="text-navy-900/40" />
-            <span className="text-xs font-semibold uppercase tracking-wide text-navy-900/40">Inmueble</span>
+            <MapPin size={14} className="text-navy-900/70" />
+            <span className="text-xs font-semibold uppercase tracking-wide text-navy-900/70">Inmueble</span>
           </div>
           <div className="p-4 space-y-0">
             {tramite.property_address && <InfoRow label="Dirección" value={tramite.property_address} />}
@@ -241,7 +241,7 @@ export default function AdminTramiteClient({
       {/* Price card */}
       <div className="rounded-2xl border border-navy-900/8 bg-white overflow-hidden">
         <div className="px-4 py-3 bg-navy-50 border-b border-navy-900/6">
-          <span className="text-xs font-semibold uppercase tracking-wide text-navy-900/40">Precio</span>
+          <span className="text-xs font-semibold uppercase tracking-wide text-navy-900/70">Precio</span>
         </div>
         <div className="p-4 space-y-0">
           <InfoRow label="Tipo" value={tramiteType?.display_name ?? '—'} />
@@ -270,7 +270,7 @@ export default function AdminTramiteClient({
       {/* Dates */}
       <div className="rounded-2xl border border-navy-900/8 bg-white overflow-hidden">
         <div className="px-4 py-3 bg-navy-50 border-b border-navy-900/6">
-          <span className="text-xs font-semibold uppercase tracking-wide text-navy-900/40">Fechas</span>
+          <span className="text-xs font-semibold uppercase tracking-wide text-navy-900/70">Fechas</span>
         </div>
         <div className="p-4 space-y-0">
           <InfoRow label="Solicitado" value={formatDate(tramite.created_at)} />
@@ -297,7 +297,7 @@ export default function AdminTramiteClient({
   const DocumentosTab = (
     <div className="space-y-3">
       {(tramiteType?.required_documents ?? []).length === 0 ? (
-        <p className="text-sm text-navy-900/40 py-8 text-center">Este tipo de trámite no requiere documentos.</p>
+        <p className="text-sm text-navy-900/70 py-8 text-center">Este tipo de trámite no requiere documentos.</p>
       ) : (
         (tramiteType?.required_documents ?? []).map((req: { name: string; description?: string }) => {
           const uploaded = tramite.documents.find(d => d.name === req.name)
@@ -314,10 +314,10 @@ export default function AdminTramiteClient({
                 <div className="flex-1 min-w-0">
                   <p className="text-sm font-medium text-navy-900 truncate">{req.name}</p>
                   {req.description && (
-                    <p className="text-xs text-navy-900/40 mt-0.5 line-clamp-1">{req.description}</p>
+                    <p className="text-xs text-navy-900/70 mt-0.5 line-clamp-1">{req.description}</p>
                   )}
                   {uploaded?.uploaded_at && (
-                    <p className="text-xs text-navy-900/40 mt-0.5">
+                    <p className="text-xs text-navy-900/70 mt-0.5">
                       Subido {formatDate(uploaded.uploaded_at)}
                     </p>
                   )}
@@ -369,7 +369,7 @@ export default function AdminTramiteClient({
   const PartesTab = (
     <div className="space-y-3">
       {(tramite.parties ?? []).length === 0 ? (
-        <p className="text-sm text-navy-900/40 py-8 text-center">No hay partes registradas en este trámite.</p>
+        <p className="text-sm text-navy-900/70 py-8 text-center">No hay partes registradas en este trámite.</p>
       ) : (
         tramite.parties.map((party, i) => (
           <div key={i} className="rounded-2xl border border-navy-900/8 bg-white p-4 flex items-start gap-3">
@@ -379,13 +379,13 @@ export default function AdminTramiteClient({
             <div className="flex-1 min-w-0">
               <div className="flex items-center gap-2 flex-wrap">
                 <span className="text-sm font-semibold text-navy-900">{party.name}</span>
-                <span className="px-2 py-0.5 rounded-full bg-navy-900/5 border border-navy-900/8 text-xs text-navy-900/60 font-medium capitalize">
+                <span className="px-2 py-0.5 rounded-full bg-navy-900/5 border border-navy-900/8 text-xs text-navy-900/70 font-medium capitalize">
                   {party.role}
                 </span>
               </div>
-              <p className="text-xs text-navy-900/50 mt-0.5">DNI: {party.dni}</p>
-              {party.email && <p className="text-xs text-navy-900/40">{party.email}</p>}
-              {party.phone && <p className="text-xs text-navy-900/40">{party.phone}</p>}
+              <p className="text-xs text-navy-900/70 mt-0.5">DNI: {party.dni}</p>
+              {party.email && <p className="text-xs text-navy-900/70">{party.email}</p>}
+              {party.phone && <p className="text-xs text-navy-900/70">{party.phone}</p>}
             </div>
           </div>
         ))
@@ -411,7 +411,7 @@ export default function AdminTramiteClient({
         <div className="space-y-1.5">
           <Link
             href="/admin/tramites"
-            className="inline-flex items-center gap-1.5 text-sm text-navy-900/50 hover:text-[#2855E0] transition-colors -ml-1"
+            className="inline-flex items-center gap-1.5 text-sm text-navy-900/70 hover:text-[#2855E0] transition-colors -ml-1"
           >
             <ArrowLeft size={15} />
             Todos los trámites
@@ -420,7 +420,7 @@ export default function AdminTramiteClient({
             <code className="font-mono text-sm bg-navy-900/5 text-navy-900/70 px-2 py-0.5 rounded-lg border border-navy-900/8">
               {tramite.reference_code}
             </code>
-            <ChevronRight size={14} className="text-navy-900/30" />
+            <ChevronRight size={14} className="text-navy-900/70" />
             <span className="text-base font-semibold text-navy-900">
               {tramiteType?.display_name ?? 'Trámite notarial'}
             </span>
@@ -472,7 +472,7 @@ export default function AdminTramiteClient({
           <div className="sticky top-6">
             <div className="rounded-3xl border border-navy-900/8 bg-white overflow-hidden">
               <div className="px-4 py-3 bg-navy-50 border-b border-navy-900/6 flex items-center gap-2">
-                <span className="text-xs font-semibold uppercase tracking-wide text-navy-900/40">
+                <span className="text-xs font-semibold uppercase tracking-wide text-navy-900/70">
                   Chat con {broker?.full_name?.split(' ')[0] ?? 'broker'}
                 </span>
                 <span className="text-[10px] h-4 px-1.5 inline-flex items-center border border-[#2855E0]/20 text-[#2855E0] bg-[#2855E0]/8 rounded-full font-medium">
@@ -505,7 +505,7 @@ export default function AdminTramiteClient({
             </div>
             <div className="space-y-1.5">
               <label className="text-sm font-medium text-navy-900">
-                Nota para el broker <span className="text-navy-900/40 font-normal">(opcional)</span>
+                Nota para el broker <span className="text-navy-900/70 font-normal">(opcional)</span>
               </label>
               <Textarea
                 placeholder="Ej: Falta el DNI del vendedor..."
@@ -543,12 +543,12 @@ export default function AdminTramiteClient({
             <DialogTitle className="text-navy-900">Rechazar documento</DialogTitle>
           </DialogHeader>
           <div className="py-2 space-y-3">
-            <p className="text-sm text-navy-900/60">
+            <p className="text-sm text-navy-900/70">
               Documento: <strong className="text-navy-900">{rejectDoc}</strong>
             </p>
             <div className="space-y-1.5">
               <label className="text-sm font-medium text-navy-900">
-                Motivo <span className="text-navy-900/40 font-normal">(opcional)</span>
+                Motivo <span className="text-navy-900/70 font-normal">(opcional)</span>
               </label>
               <Textarea
                 placeholder="Ej: El documento no es legible..."

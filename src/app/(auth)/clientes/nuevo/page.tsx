@@ -207,7 +207,7 @@ export default function NuevoClientePage() {
                     className={`h-10 rounded-lg text-sm font-semibold border transition-colors ${
                       currency === val
                         ? 'border-[#2855E0] bg-[#2855E0]/8 text-[#2855E0]'
-                        : 'border-navy-900/15 bg-navy-900/3 text-navy-900/60'
+                        : 'border-navy-900/15 bg-navy-900/3 text-navy-900/70'
                     }`}
                   >
                     {label}

@@ -150,7 +150,7 @@ export default function PerfilPage() {
   if (loading) {
     return (
       <div className="flex items-center justify-center py-20">
-        <Loader2 size={24} className="animate-spin text-navy-900/30" />
+        <Loader2 size={24} className="animate-spin text-navy-900/70" />
       </div>
     )
   }
@@ -158,8 +158,8 @@ export default function PerfilPage() {
   return (
     <div className="space-y-6 max-w-2xl">
       <div>
-        <h1 className="text-2xl font-bold text-white">Mi perfil</h1>
-        <p className="text-white/50 text-sm mt-1">Gestiona tu información y código de referido.</p>
+        <h1 className="text-2xl font-bold text-navy-900">Mi perfil</h1>
+        <p className="text-navy-400 text-sm mt-1">Gestiona tu información y código de referido.</p>
       </div>
 
       {/* Avatar + tier */}
@@ -170,7 +170,7 @@ export default function PerfilPage() {
           </div>
           <div>
             <p className="text-lg font-semibold text-navy-900">{broker?.full_name}</p>
-            <p className="text-sm text-navy-900/50">{broker?.email}</p>
+            <p className="text-sm text-navy-900/70">{broker?.email}</p>
           </div>
         </div>
       </div>
@@ -178,7 +178,7 @@ export default function PerfilPage() {
       {/* Profile form */}
       <div className="rounded-3xl border border-navy-900/8 bg-white p-6">
         <div className="flex items-center gap-2 mb-5">
-          <User size={16} className="text-navy-900/40" />
+          <User size={16} className="text-navy-900/70" />
           <h2 className="text-base font-semibold text-navy-900">Información personal</h2>
         </div>
         <form onSubmit={handleSubmit(onSaveProfile)} className="space-y-4">
@@ -204,11 +204,11 @@ export default function PerfilPage() {
             </div>
             <div>
               <Label className="text-navy-900 font-medium">DNI</Label>
-              <Input value={broker?.dni ?? ''} disabled className="mt-1 rounded-xl bg-navy-900/3 text-navy-900/40 border-navy-900/8" />
+              <Input value={broker?.dni ?? ''} disabled className="mt-1 rounded-xl bg-navy-900/3 text-navy-900/70 border-navy-900/8" />
             </div>
             <div>
               <Label className="text-navy-900 font-medium">Email</Label>
-              <Input value={broker?.email ?? ''} disabled className="mt-1 rounded-xl bg-navy-900/3 text-navy-900/40 border-navy-900/8" />
+              <Input value={broker?.email ?? ''} disabled className="mt-1 rounded-xl bg-navy-900/3 text-navy-900/70 border-navy-900/8" />
             </div>
           </div>
           <div className="flex justify-end">
@@ -227,10 +227,10 @@ export default function PerfilPage() {
       {/* Referral code */}
       <div className="rounded-3xl border border-navy-900/8 bg-white p-6">
         <div className="flex items-center gap-2 mb-1">
-          <Gift size={16} className="text-navy-900/40" />
+          <Gift size={16} className="text-navy-900/70" />
           <h2 className="text-base font-semibold text-navy-900">Código de referido</h2>
         </div>
-        <p className="text-sm text-navy-900/50 mb-4">
+        <p className="text-sm text-navy-900/70 mb-4">
           Comparte tu código con otros brokers. Ganas S/. 50 cada vez que alguien se registra con él y completa un trámite.
         </p>
 
@@ -238,7 +238,7 @@ export default function PerfilPage() {
           <ReferralCode code={broker.referral_code} />
         ) : (
           <div className="text-center py-4 space-y-3">
-            <p className="text-sm text-navy-900/50">Aún no tienes un código de referido.</p>
+            <p className="text-sm text-navy-900/70">Aún no tienes un código de referido.</p>
             <button
               onClick={generateReferralCode}
               disabled={generatingCode}
@@ -268,10 +268,10 @@ export default function PerfilPage() {
       {/* Bank details */}
       <div className="rounded-3xl border border-navy-900/8 bg-white p-6">
         <div className="flex items-center gap-2 mb-1">
-          <Landmark size={16} className="text-navy-900/40" />
+          <Landmark size={16} className="text-navy-900/70" />
           <h2 className="text-base font-semibold text-navy-900">Datos bancarios</h2>
         </div>
-        <p className="text-sm text-navy-900/50 mb-4">
+        <p className="text-sm text-navy-900/70 mb-4">
           Se usarán automáticamente al generar tu pago de comisiones mensual.
         </p>
         <form onSubmit={handleSubmitBank(onSaveBankDetails)} className="space-y-4">
@@ -310,7 +310,7 @@ export default function PerfilPage() {
       {/* Change password */}
       <div className="rounded-3xl border border-navy-900/8 bg-white p-6">
         <div className="flex items-center gap-2 mb-5">
-          <Lock size={16} className="text-navy-900/40" />
+          <Lock size={16} className="text-navy-900/70" />
           <h2 className="text-base font-semibold text-navy-900">Cambiar contraseña</h2>
         </div>
         <form onSubmit={handleSubmitPwd(onChangePassword)} className="space-y-4">

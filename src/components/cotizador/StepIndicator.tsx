@@ -24,7 +24,7 @@ export default function StepIndicator({ steps, currentStep }: StepIndicatorProps
                 className={cn(
                   'w-9 h-9 rounded-full flex items-center justify-center text-sm font-semibold transition-colors',
                   isCompleted && 'bg-brand-green text-white',
-                  isCurrent && 'bg-navy-900 text-white ring-4 ring-navy-900/20',
+                  isCurrent && 'bg-navy-900 text-white ring-4 ring-navy-900/70',
                   !isCompleted && !isCurrent && 'bg-navy-100 text-navy-400'
                 )}
               >

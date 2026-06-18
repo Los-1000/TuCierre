@@ -53,6 +53,7 @@ export default async function SuperAdminBrokersPage() {
                 'Registrado',
               ].map(h => (
                 <th
+                  scope="col"
                   key={h}
                   className="text-left text-xs font-semibold text-navy-500 uppercase tracking-wide px-4 py-3"
                 >

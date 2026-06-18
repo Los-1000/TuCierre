@@ -149,7 +149,8 @@
       "Bash(echo \"EXIT: $?\")",
       "Bash(ls -la .impeccable.md)",
       "Bash(ls design-system/)",
-      "PowerShell(head *)"
+      "PowerShell(head *)",
+      "Bash(git config *)"
     ]
   }
 }

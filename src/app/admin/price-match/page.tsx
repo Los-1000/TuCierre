@@ -79,7 +79,7 @@ export default async function AdminPriceMatchPage() {
             </span>
           )}
         </div>
-        <p className="text-navy-900/60 text-sm max-w-2xl">
+        <p className="text-navy-900/70 text-sm max-w-2xl">
           Gestión de solicitudes para igualación de precios de mercado. Revisa la documentación adjunta y aprueba los nuevos montos.
         </p>
       </header>
@@ -89,10 +89,10 @@ export default async function AdminPriceMatchPage() {
         <button className="pb-4 text-sm font-bold uppercase tracking-widest text-navy-900 border-b-2 border-[#2855E0]">
           Pendientes ({pending.length})
         </button>
-        <button className="pb-4 text-sm font-bold uppercase tracking-widest text-navy-900/40 hover:text-navy-900 transition-colors">
+        <button className="pb-4 text-sm font-bold uppercase tracking-widest text-navy-900/70 hover:text-navy-900 transition-colors">
           Aprobados ({approved.length})
         </button>
-        <button className="pb-4 text-sm font-bold uppercase tracking-widest text-navy-900/40 hover:text-navy-900 transition-colors">
+        <button className="pb-4 text-sm font-bold uppercase tracking-widest text-navy-900/70 hover:text-navy-900 transition-colors">
           Rechazados ({rejected.length})
         </button>
       </div>
@@ -101,7 +101,7 @@ export default async function AdminPriceMatchPage() {
       {pending.length === 0 ? (
         <div className="bg-white rounded-3xl border border-navy-900/8 shadow-[0_4px_24px_rgba(18,18,27,0.06)] py-16 text-center">
           <CheckCircle2 size={36} className="mx-auto text-emerald-400 mb-3" />
-          <p className="text-sm text-navy-900/50 font-medium">No hay solicitudes pendientes</p>
+          <p className="text-sm text-navy-900/70 font-medium">No hay solicitudes pendientes</p>
         </div>
       ) : (
         <div className="grid grid-cols-1 gap-6">
@@ -118,7 +118,7 @@ export default async function AdminPriceMatchPage() {
                     <div>
                       <h3 className="text-xl font-bold text-navy-900">{r.brokers?.full_name ?? '—'}</h3>
                       <div className="flex items-center gap-3 mt-1">
-                        <span className="text-xs font-bold text-navy-900/50 uppercase tracking-tight bg-navy-50 px-2 py-0.5 rounded-lg">
+                        <span className="text-xs font-bold text-navy-900/70 uppercase tracking-tight bg-navy-50 px-2 py-0.5 rounded-lg">
                           {r.competitor_name}
                         </span>
                         <span className="text-sm font-medium text-[#2855E0]">
@@ -131,7 +131,7 @@ export default async function AdminPriceMatchPage() {
                         href={r.evidence_url}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="flex items-center gap-2 px-4 py-2 rounded-full border border-navy-900/15 text-navy-900/60 text-xs font-bold uppercase tracking-wider hover:bg-navy-50 transition-colors"
+                        className="flex items-center gap-2 px-4 py-2 rounded-full border border-navy-900/15 text-navy-900/70 text-xs font-bold uppercase tracking-wider hover:bg-navy-50 transition-colors"
                       >
                         <ExternalLink size={12} />
                         Ver evidencia
@@ -142,24 +142,24 @@ export default async function AdminPriceMatchPage() {
                   {/* Price grid */}
                   <div className="grid grid-cols-3 gap-4 bg-navy-50 p-4 rounded-2xl">
                     <div>
-                      <p className="text-[10px] font-bold text-navy-900/50 uppercase mb-1">Competidor</p>
+                      <p className="text-[10px] font-bold text-navy-900/70 uppercase mb-1">Competidor</p>
                       <p className="text-lg font-bold text-navy-900">{formatPrice(r.competitor_price)}</p>
                     </div>
                     <div>
-                      <p className="text-[10px] font-bold text-navy-900/50 uppercase mb-1">Nuestro</p>
+                      <p className="text-[10px] font-bold text-navy-900/70 uppercase mb-1">Nuestro</p>
                       <p className="text-lg font-bold text-navy-900">
                         {r.our_matched_price != null ? formatPrice(r.our_matched_price) : '—'}
                       </p>
                     </div>
                     <div>
-                      <p className="text-[10px] font-bold text-navy-900/50 uppercase mb-1">Diferencia</p>
+                      <p className="text-[10px] font-bold text-navy-900/70 uppercase mb-1">Diferencia</p>
                       <p className="text-lg font-black text-red-600">
                         {diff > 0 ? `+${formatPrice(diff)}` : formatPrice(diff)}
                       </p>
                     </div>
                   </div>
 
-                  <p className="text-xs text-navy-900/40">Recibido {formatDate(r.created_at)}</p>
+                  <p className="text-xs text-navy-900/70">Recibido {formatDate(r.created_at)}</p>
                 </div>
 
                 {/* Divider */}
@@ -183,7 +183,7 @@ export default async function AdminPriceMatchPage() {
       {/* Resolved section */}
       {(approved.length > 0 || rejected.length > 0) && (
         <section className="space-y-4">
-          <h2 className="text-base font-semibold text-navy-900/60 uppercase tracking-wider text-sm">
+          <h2 className="text-base font-semibold text-navy-900/70 uppercase tracking-wider text-sm">
             Solicitudes resueltas ({approved.length + rejected.length})
           </h2>
           <div className="bg-white rounded-3xl border border-navy-900/8 shadow-[0_4px_24px_rgba(18,18,27,0.06)] overflow-hidden divide-y divide-navy-900/5">
@@ -192,11 +192,11 @@ export default async function AdminPriceMatchPage() {
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-2 flex-wrap mb-1">
                     <span className="text-sm font-semibold text-navy-900">{r.brokers?.full_name ?? '—'}</span>
-                    <span className="text-xs text-navy-900/40">·</span>
-                    <span className="text-xs text-navy-900/60">{r.tramite_types?.display_name ?? '—'}</span>
+                    <span className="text-xs text-navy-900/70">·</span>
+                    <span className="text-xs text-navy-900/70">{r.tramite_types?.display_name ?? '—'}</span>
                     <StatusPill status={r.status} />
                   </div>
-                  <div className="flex flex-wrap gap-4 text-xs text-navy-900/50">
+                  <div className="flex flex-wrap gap-4 text-xs text-navy-900/70">
                     <span>Competidor: <strong className="text-navy-900/80">{r.competitor_name}</strong></span>
                     <span>Precio competidor: <strong className="text-navy-900/80">{formatPrice(r.competitor_price)}</strong></span>
                     {r.status === 'approved' && r.our_matched_price != null && (
@@ -204,7 +204,7 @@ export default async function AdminPriceMatchPage() {
                     )}
                   </div>
                 </div>
-                <div className="text-xs text-navy-900/40 shrink-0">
+                <div className="text-xs text-navy-900/70 shrink-0">
                   {r.reviewed_at ? formatDate(r.reviewed_at) : formatDate(r.created_at)}
                 </div>
               </div>

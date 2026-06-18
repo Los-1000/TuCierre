@@ -137,7 +137,7 @@ export default function AdminBrokersPage() {
       {/* Header */}
       <div className="flex items-baseline gap-4">
         <h1 className="text-3xl font-bold tracking-tight text-navy-900">Brokers</h1>
-        <span className="text-xl font-medium text-navy-900/30">
+        <span className="text-xl font-medium text-navy-900/70">
           {loading ? '…' : `${filtered.length} activos`}
         </span>
       </div>
@@ -145,21 +145,21 @@ export default function AdminBrokersPage() {
       {/* Filter bar */}
       <div className="bg-white rounded-3xl border border-navy-900/8 shadow-[0_4px_24px_rgba(18,18,27,0.06)] p-4 flex flex-wrap items-center gap-3">
         <div className="relative flex-1 min-w-[200px]">
-          <Search size={15} className="absolute left-3 top-1/2 -translate-y-1/2 text-navy-900/40" />
+          <Search size={15} className="absolute left-3 top-1/2 -translate-y-1/2 text-navy-900/70" />
           <input
             type="text"
             placeholder="Buscar por nombre o email..."
             aria-label="Buscar por nombre o email"
             value={search}
             onChange={e => setSearch(e.target.value)}
-            className="w-full border border-navy-900/15 rounded-2xl h-11 pl-9 pr-4 text-sm focus:outline-none focus:ring-2 focus:ring-[#2855E0]/30 bg-transparent text-navy-900 placeholder:text-navy-900/40"
+            className="w-full border border-navy-900/15 rounded-2xl h-11 pl-9 pr-4 text-sm focus:outline-none focus:ring-2 focus:ring-[#2855E0]/70 bg-transparent text-navy-900 placeholder:text-navy-900/70"
           />
         </div>
 
         <select
           value={tierFilter}
           onChange={e => setTierFilter(e.target.value as TierFilter)}
-          className="border border-navy-900/15 rounded-2xl h-11 px-4 text-sm focus:outline-none focus:ring-2 focus:ring-[#2855E0]/30 bg-transparent text-navy-900"
+          className="border border-navy-900/15 rounded-2xl h-11 px-4 text-sm focus:outline-none focus:ring-2 focus:ring-[#2855E0]/70 bg-transparent text-navy-900"
         >
           <option value="all">Todos los tiers</option>
           {(Object.keys(TIER_CONFIG) as BrokerTier[]).map(tier => (
@@ -185,27 +185,27 @@ export default function AdminBrokersPage() {
         <table className="w-full text-left border-collapse">
           <thead>
             <tr className="bg-navy-50">
-              <th className="px-8 py-5 text-xs font-bold uppercase tracking-wider text-navy-900/60">Nombre</th>
-              <th className="px-6 py-5 text-xs font-bold uppercase tracking-wider text-navy-900/60">DNI</th>
-              <th className="px-6 py-5 text-xs font-bold uppercase tracking-wider text-navy-900/60">Tier</th>
-              <th className="px-6 py-5 text-xs font-bold uppercase tracking-wider text-navy-900/60">Trámites/mes</th>
-              <th className="px-6 py-5 text-xs font-bold uppercase tracking-wider text-navy-900/60">Total</th>
-              <th className="px-6 py-5 text-xs font-bold uppercase tracking-wider text-navy-900/60">Registrado</th>
-              <th className="px-8 py-5 text-xs font-bold uppercase tracking-wider text-navy-900/60 text-right">Acciones</th>
+              <th scope="col" className="px-8 py-5 text-xs font-bold uppercase tracking-wider text-navy-900/70">Nombre</th>
+              <th scope="col" className="px-6 py-5 text-xs font-bold uppercase tracking-wider text-navy-900/70">DNI</th>
+              <th scope="col" className="px-6 py-5 text-xs font-bold uppercase tracking-wider text-navy-900/70">Tier</th>
+              <th scope="col" className="px-6 py-5 text-xs font-bold uppercase tracking-wider text-navy-900/70">Trámites/mes</th>
+              <th scope="col" className="px-6 py-5 text-xs font-bold uppercase tracking-wider text-navy-900/70">Total</th>
+              <th scope="col" className="px-6 py-5 text-xs font-bold uppercase tracking-wider text-navy-900/70">Registrado</th>
+              <th scope="col" className="px-8 py-5 text-xs font-bold uppercase tracking-wider text-navy-900/70 text-right">Acciones</th>
             </tr>
           </thead>
 
           <tbody className="divide-y divide-navy-900/5">
             {loading ? (
               <tr>
-                <td colSpan={7} className="text-center py-12 text-navy-900/40">
+                <td colSpan={7} className="text-center py-12 text-navy-900/70">
                   <Loader2 size={20} className="animate-spin mx-auto mb-2" />
                   Cargando brokers...
                 </td>
               </tr>
             ) : filtered.length === 0 ? (
               <tr>
-                <td colSpan={7} className="text-center py-12 text-navy-900/40 text-sm">
+                <td colSpan={7} className="text-center py-12 text-navy-900/70 text-sm">
                   No se encontraron brokers
                 </td>
               </tr>
@@ -226,17 +226,17 @@ export default function AdminBrokersPage() {
                       </div>
                       <div>
                         <p className="font-semibold text-navy-900 text-sm">{b.full_name}</p>
-                        <p className="text-xs text-navy-900/50">{b.email}</p>
+                        <p className="text-xs text-navy-900/70">{b.email}</p>
                       </div>
                     </div>
                   </td>
-                  <td className="px-6 py-6 font-mono text-sm text-navy-900/60">{b.dni}</td>
+                  <td className="px-6 py-6 font-mono text-sm text-navy-900/70">{b.dni}</td>
                   <td className="px-6 py-6">
                     <TierBadge tier={b.tier} />
                   </td>
                   <td className="px-6 py-6 font-semibold text-sm text-navy-900">{b.total_tramites_month}</td>
                   <td className="px-6 py-6 text-sm text-navy-900/80">{b.total_tramites}</td>
-                  <td className="px-6 py-6 text-sm text-navy-900/50">{formatDate(b.created_at)}</td>
+                  <td className="px-6 py-6 text-sm text-navy-900/70">{formatDate(b.created_at)}</td>
                   <td className="px-8 py-6 text-right" onClick={e => e.stopPropagation()}>
                     <button
                       className="border border-navy-900/15 text-navy-900 rounded-full px-4 py-1.5 text-xs font-semibold bg-transparent hover:bg-navy-900/5 transition-colors"
@@ -270,7 +270,7 @@ export default function AdminBrokersPage() {
                     <h3 className="text-xl font-bold text-navy-900 leading-tight">{selectedBroker.full_name}</h3>
                     <div className="flex items-center gap-2 mt-1">
                       <TierBadge tier={selectedBroker.tier} />
-                      <span className="text-xs text-navy-900/50">Desde {new Date(selectedBroker.created_at).getFullYear()}</span>
+                      <span className="text-xs text-navy-900/70">Desde {new Date(selectedBroker.created_at).getFullYear()}</span>
                     </div>
                   </div>
                 </div>
@@ -279,7 +279,7 @@ export default function AdminBrokersPage() {
                   aria-label="Cerrar perfil"
                   className="p-2 hover:bg-navy-900/5 rounded-full transition-colors"
                 >
-                  <X size={18} className="text-navy-900/50" />
+                  <X size={18} className="text-navy-900/70" />
                 </button>
               </div>
 
@@ -292,7 +292,7 @@ export default function AdminBrokersPage() {
                     className={`py-4 text-sm font-bold capitalize transition-all border-b-2 ${
                       activeTab === tab
                         ? 'text-navy-900 border-[#2855E0]'
-                        : 'text-navy-900/40 border-transparent hover:text-navy-900/70'
+                        : 'text-navy-900/70 border-transparent hover:text-navy-900/70'
                     }`}
                   >
                     {tab === 'tramites' ? 'Trámites' : 'Ajustes'}
@@ -308,11 +308,11 @@ export default function AdminBrokersPage() {
                   <div className="p-8 space-y-4">
                     <div className="grid grid-cols-2 gap-4 mb-6">
                       <div className="bg-navy-50 rounded-2xl p-4">
-                        <p className="text-xs font-bold uppercase tracking-wider text-navy-900/60 mb-1">Este mes</p>
+                        <p className="text-xs font-bold uppercase tracking-wider text-navy-900/70 mb-1">Este mes</p>
                         <p className="text-2xl font-black text-navy-900">{selectedBroker.total_tramites_month}</p>
                       </div>
                       <div className="bg-navy-50 rounded-2xl p-4">
-                        <p className="text-xs font-bold uppercase tracking-wider text-navy-900/60 mb-1">Total</p>
+                        <p className="text-xs font-bold uppercase tracking-wider text-navy-900/70 mb-1">Total</p>
                         <p className="text-2xl font-black text-navy-900">{selectedBroker.total_tramites}</p>
                       </div>
                     </div>
@@ -320,12 +320,12 @@ export default function AdminBrokersPage() {
                     <h4 className="text-sm font-bold text-navy-900 mb-3">Últimos trámites</h4>
 
                     {loadingTramites ? (
-                      <div className="flex items-center gap-2 text-navy-900/40 text-sm py-8 justify-center">
+                      <div className="flex items-center gap-2 text-navy-900/70 text-sm py-8 justify-center">
                         <Loader2 size={16} className="animate-spin" />
                         Cargando trámites...
                       </div>
                     ) : brokerTramites.length === 0 ? (
-                      <p className="text-sm text-navy-900/40 text-center py-8">Sin trámites registrados.</p>
+                      <p className="text-sm text-navy-900/70 text-center py-8">Sin trámites registrados.</p>
                     ) : (
                       <div className="space-y-2">
                         {brokerTramites.map(t => {
@@ -337,12 +337,12 @@ export default function AdminBrokersPage() {
                             >
                               <div className="flex-1 min-w-0">
                                 <p className="text-xs font-mono font-bold text-navy-900">{t.reference_code}</p>
-                                <p className="text-xs text-navy-900/50">{type?.display_name ?? '—'}</p>
+                                <p className="text-xs text-navy-900/70">{type?.display_name ?? '—'}</p>
                               </div>
                               <StatusBadge status={t.status} size="sm" />
                               <div className="text-right shrink-0">
                                 <p className="text-sm font-semibold text-navy-900">{formatPrice(t.final_price)}</p>
-                                <p className="text-xs text-navy-900/40">{formatDate(t.created_at)}</p>
+                                <p className="text-xs text-navy-900/70">{formatDate(t.created_at)}</p>
                               </div>
                             </div>
                           )
@@ -357,10 +357,10 @@ export default function AdminBrokersPage() {
                   <div className="p-8 space-y-8">
                     <div className="space-y-4">
                       <div>
-                        <h4 className="text-xs font-bold uppercase tracking-widest text-navy-900/60 mb-1">
+                        <h4 className="text-xs font-bold uppercase tracking-widest text-navy-900/70 mb-1">
                           Ajustar tier manualmente
                         </h4>
-                        <p className="text-sm text-navy-900/60 leading-relaxed">
+                        <p className="text-sm text-navy-900/70 leading-relaxed">
                           El sistema recalcula el tier automáticamente cada mes. Cambiarlo manualmente fijará el nivel hasta el próximo cierre.
                         </p>
                       </div>
@@ -405,7 +405,7 @@ export default function AdminBrokersPage() {
                     </div>
 
                     <div className="space-y-2">
-                      <label className="text-xs font-bold text-navy-900/60 uppercase tracking-wider">
+                      <label className="text-xs font-bold text-navy-900/70 uppercase tracking-wider">
                         Motivo del ajuste
                       </label>
                       <Textarea
@@ -413,7 +413,7 @@ export default function AdminBrokersPage() {
                         value={tierReason}
                         onChange={e => setTierReason(e.target.value)}
                         rows={4}
-                        className="border border-navy-900/15 rounded-2xl px-4 py-3 focus:ring-2 focus:ring-[#2855E0]/30 resize-none text-sm"
+                        className="border border-navy-900/15 rounded-2xl px-4 py-3 focus:ring-2 focus:ring-[#2855E0]/70 resize-none text-sm"
                       />
                     </div>
 

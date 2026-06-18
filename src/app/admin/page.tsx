@@ -88,7 +88,7 @@ export default async function AdminDashboardPage() {
       {/* Page Header */}
       <div className="flex items-end justify-between">
         <div>
-          <p className="text-xs font-bold uppercase tracking-[0.1em] text-navy-900/60 mb-1">
+          <p className="text-xs font-bold uppercase tracking-[0.1em] text-navy-900/70 mb-1">
             Resumen Administrativo
           </p>
           <h1 className="text-4xl font-extrabold tracking-tight text-navy-900">Dashboard</h1>
@@ -124,33 +124,33 @@ export default async function AdminDashboardPage() {
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-5">
         {/* Trámites activos */}
         <div className="bg-white rounded-3xl border border-navy-900/8 shadow-[0_4px_24px_rgba(18,18,27,0.06)] p-6">
-          <p className="text-xs font-bold uppercase tracking-wider text-navy-900/60 mb-1">Trámites activos</p>
+          <p className="text-xs font-bold uppercase tracking-wider text-navy-900/70 mb-1">Trámites activos</p>
           <h3 className="text-4xl font-black text-navy-900">{activeCount}</h3>
-          <p className="text-xs text-navy-900/50 mt-1">En proceso actualmente</p>
+          <p className="text-xs text-navy-900/70 mt-1">En proceso actualmente</p>
         </div>
 
         {/* Sin asignar — highlighted */}
         <div className={`rounded-3xl border p-6 ${sinAsignar > 0 ? 'bg-red-50 border-red-200' : 'bg-white border-navy-900/8 shadow-[0_4px_24px_rgba(18,18,27,0.06)]'}`}>
-          <p className={`text-xs font-bold uppercase tracking-wider mb-1 ${sinAsignar > 0 ? 'text-red-600/70' : 'text-navy-900/60'}`}>Sin asignar</p>
+          <p className={`text-xs font-bold uppercase tracking-wider mb-1 ${sinAsignar > 0 ? 'text-red-600/70' : 'text-navy-900/70'}`}>Sin asignar</p>
           <div className="flex items-baseline gap-2">
             <h3 className={`text-4xl font-black ${sinAsignar > 0 ? 'text-red-700' : 'text-navy-900'}`}>{sinAsignar}</h3>
             {sinAsignar > 0 && <AlertCircle size={18} className="text-red-500 mb-1" />}
           </div>
-          <p className={`text-xs mt-1 ${sinAsignar > 0 ? 'text-red-500' : 'text-navy-900/50'}`}>Requieren acción</p>
+          <p className={`text-xs mt-1 ${sinAsignar > 0 ? 'text-red-500' : 'text-navy-900/70'}`}>Requieren acción</p>
         </div>
 
         {/* En proceso */}
         <div className="bg-white rounded-3xl border border-navy-900/8 shadow-[0_4px_24px_rgba(18,18,27,0.06)] p-6">
-          <p className="text-xs font-bold uppercase tracking-wider text-navy-900/60 mb-1">En proceso</p>
+          <p className="text-xs font-bold uppercase tracking-wider text-navy-900/70 mb-1">En proceso</p>
           <h3 className="text-4xl font-black text-navy-900">{enProcesoCount}</h3>
-          <p className="text-xs text-navy-900/50 mt-1">En revisión, firma o registro</p>
+          <p className="text-xs text-navy-900/70 mt-1">En revisión, firma o registro</p>
         </div>
 
         {/* Completados */}
         <div className="bg-white rounded-3xl border border-navy-900/8 shadow-[0_4px_24px_rgba(18,18,27,0.06)] p-6">
-          <p className="text-xs font-bold uppercase tracking-wider text-navy-900/60 mb-1">Completados</p>
+          <p className="text-xs font-bold uppercase tracking-wider text-navy-900/70 mb-1">Completados</p>
           <h3 className="text-4xl font-black text-navy-900">{completedCount}</h3>
-          <p className="text-xs text-navy-900/50 mt-1">de {totalCount} en total</p>
+          <p className="text-xs text-navy-900/70 mt-1">de {totalCount} en total</p>
         </div>
 
         {/* Ingresos — dark card */}
@@ -194,9 +194,9 @@ export default async function AdminDashboardPage() {
                 </div>
                 <div className="flex-1 min-w-0">
                   <p className="text-sm font-semibold text-navy-900">Nuevas solicitudes</p>
-                  <p className="text-xs text-navy-900/50">{byStatus['solicitado'] || 0} trámites</p>
+                  <p className="text-xs text-navy-900/70">{byStatus['solicitado'] || 0} trámites</p>
                 </div>
-                <ArrowRight size={16} className="text-navy-900/30 group-hover:text-[#2855E0] transition-colors shrink-0" />
+                <ArrowRight size={16} className="text-navy-900/70 group-hover:text-[#2855E0] transition-colors shrink-0" />
               </Link>
 
               <Link
@@ -208,9 +208,9 @@ export default async function AdminDashboardPage() {
                 </div>
                 <div className="flex-1 min-w-0">
                   <p className="text-sm font-semibold text-navy-900">Brokers activos</p>
-                  <p className="text-xs text-navy-900/50">{activeBrokers} este mes</p>
+                  <p className="text-xs text-navy-900/70">{activeBrokers} este mes</p>
                 </div>
-                <ArrowRight size={16} className="text-navy-900/30 group-hover:text-[#2855E0] transition-colors shrink-0" />
+                <ArrowRight size={16} className="text-navy-900/70 group-hover:text-[#2855E0] transition-colors shrink-0" />
               </Link>
             </div>
           </div>
@@ -221,7 +221,7 @@ export default async function AdminDashboardPage() {
           <h4 className="text-lg font-bold text-navy-900 mb-8">Actividad Reciente</h4>
 
           {recentTramites.length === 0 ? (
-            <div className="py-8 text-center text-navy-900/40 text-sm">
+            <div className="py-8 text-center text-navy-900/70 text-sm">
               <AlertCircle size={24} className="mx-auto mb-2 opacity-40" />
               Sin actividad reciente
             </div>
@@ -247,7 +247,7 @@ export default async function AdminDashboardPage() {
                       <p className="text-sm font-bold leading-tight text-navy-900">
                         {t.reference_code} — {t.brokers?.full_name ?? '—'}
                       </p>
-                      <p className="text-xs text-navy-900/50 mt-0.5">
+                      <p className="text-xs text-navy-900/70 mt-0.5">
                         {t.tramite_types?.display_name ?? '—'} · {formatDate(t.updated_at)}
                       </p>
                     </div>
@@ -259,7 +259,7 @@ export default async function AdminDashboardPage() {
 
           <Link
             href="/admin/tramites"
-            className="block w-full mt-8 py-3 text-xs font-bold uppercase tracking-widest text-center text-navy-900/50 hover:text-[#2855E0] transition-colors border-t border-navy-900/8"
+            className="block w-full mt-8 py-3 text-xs font-bold uppercase tracking-widest text-center text-navy-900/70 hover:text-[#2855E0] transition-colors border-t border-navy-900/8"
           >
             Ver todo el historial
           </Link>

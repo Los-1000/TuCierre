@@ -84,15 +84,15 @@ export default function RecompensasClient({
           <div className="rounded-2xl border border-[#2855E0]/15 bg-[#2855E0]/5 p-5">
             <div className="text-4xl font-black tracking-tight text-[#2855E0] tabular-nums">5%</div>
             <p className="text-sm font-semibold text-navy-900 mt-1">de cashback por cada trámite</p>
-            <p className="text-xs text-navy-900/55 mt-0.5">Sobre cada trámite que cierras, desde el primero.</p>
+            <p className="text-xs text-navy-900/70 mt-0.5">Sobre cada trámite que cierras, desde el primero.</p>
           </div>
           <div className="rounded-2xl border border-[#1C7A52]/20 bg-[#1C7A52]/5 p-5">
             <div className="text-4xl font-black tracking-tight text-[#1C7A52] tabular-nums">1%</div>
             <p className="text-sm font-semibold text-navy-900 mt-1">por los trámites de tus referidos</p>
-            <p className="text-xs text-navy-900/55 mt-0.5">Por cada trámite que cierran los brokers que invitas.</p>
+            <p className="text-xs text-navy-900/70 mt-0.5">Por cada trámite que cierran los brokers que invitas.</p>
           </div>
         </div>
-        <p className="text-xs text-navy-900/50 mt-4">
+        <p className="text-xs text-navy-900/70 mt-4">
           Sin niveles. Sin mínimos. Tu cashback se acumula solo y se paga a fin de mes.
         </p>
       </div>
@@ -100,10 +100,10 @@ export default function RecompensasClient({
       {/* ── Referral code ── */}
       <div className="bg-white rounded-3xl border border-navy-900/8 shadow-[0_4px_24px_rgba(18,18,27,0.06)] p-6">
         <div className="flex items-center gap-2 mb-1">
-          <Users size={17} className="text-navy-900/50" />
+          <Users size={17} className="text-navy-900/70" />
           <h2 className="text-base font-semibold text-navy-900">Código de referido</h2>
         </div>
-        <p className="text-sm text-navy-900/50 mb-5">
+        <p className="text-sm text-navy-900/70 mb-5">
           Comparte tu código y gana 1% de cada trámite que cierren tus referidos.
         </p>
         {broker?.referral_code ? (
@@ -118,14 +118,14 @@ export default function RecompensasClient({
               <Users size={15} className="text-[#2855E0]" />
             </div>
             <div className="text-2xl font-bold text-navy-900">{referralCount}</div>
-            <div className="text-xs text-navy-900/50 mt-0.5">referidos activos</div>
+            <div className="text-xs text-navy-900/70 mt-0.5">referidos activos</div>
           </div>
           <div className="bg-navy-900/4 border border-navy-900/8 rounded-2xl p-4 text-center">
             <div className="flex items-center justify-center gap-1.5 mb-1">
               <PiggyBank size={15} className="text-[#1C7A52]" />
             </div>
             <div className="text-lg font-bold text-navy-900 tabular-nums font-mono">{formatPrice(referralCashback)}</div>
-            <div className="text-xs text-navy-900/50 mt-0.5">ganado por referidos (1%)</div>
+            <div className="text-xs text-navy-900/70 mt-0.5">ganado por referidos (1%)</div>
           </div>
         </div>
       </div>
@@ -142,7 +142,7 @@ export default function RecompensasClient({
             <div className="bg-green-50 border border-green-200 rounded-2xl p-4">
               <div className="flex items-center gap-1.5 mb-1">
                 <ArrowDownCircle size={15} className="text-green-600" />
-                <span className="text-xs text-navy-900/50 font-medium">Saldo disponible</span>
+                <span className="text-xs text-navy-900/70 font-medium">Saldo disponible</span>
               </div>
               <div className="text-xl font-bold text-green-700 tabular-nums font-mono">
                 {formatPrice(availableBalance)}
@@ -152,7 +152,7 @@ export default function RecompensasClient({
               <div className="bg-amber-50 border border-amber-200 rounded-2xl p-4">
                 <div className="flex items-center gap-1.5 mb-1">
                   <Clock size={15} className="text-amber-600" />
-                  <span className="text-xs text-navy-900/50 font-medium">En proceso</span>
+                  <span className="text-xs text-navy-900/70 font-medium">En proceso</span>
                 </div>
                 <div className="text-xl font-bold text-amber-700 tabular-nums font-mono">
                   {formatPrice(lockedAmount)}
@@ -162,7 +162,7 @@ export default function RecompensasClient({
           </div>
 
           <div className="flex items-center justify-between gap-4 flex-wrap">
-            <p className="text-sm text-navy-900/50">
+            <p className="text-sm text-navy-900/70">
               {hasPendingCashout
                 ? 'Tienes una solicitud en proceso. Espera a que sea aprobada.'
                 : availableBalance <= 0
@@ -190,7 +190,7 @@ export default function RecompensasClient({
                       className="flex items-center justify-between gap-3 py-2.5 border-b border-navy-900/5 last:border-0"
                     >
                       <div className="flex items-center gap-2 min-w-0 flex-wrap">
-                        <span className="text-sm text-navy-900/60">
+                        <span className="text-sm text-navy-900/70">
                           {CASHOUT_METHOD_LABEL[c.method] ?? c.method}
                         </span>
                         <span className={cn('inline-flex items-center text-xs font-medium px-2 py-0.5 rounded-full border', statusConf.badgeClass)}>
@@ -226,7 +226,7 @@ export default function RecompensasClient({
 
         {initialCommissionMonths.length === 0 ? (
           <div className="bg-white rounded-3xl border border-navy-900/8 shadow-[0_4px_24px_rgba(18,18,27,0.06)] py-10 text-center">
-            <DollarSign size={28} className="mx-auto text-navy-900/20 mb-2" />
+            <DollarSign size={28} className="mx-auto text-navy-900/70 mb-2" />
             <p className="text-sm text-[#6B7A9A]">Aún no tienes cashback generado.</p>
           </div>
         ) : (
@@ -245,22 +245,22 @@ export default function RecompensasClient({
               return (
                 <div className="grid grid-cols-2 gap-3 p-5 border-b border-navy-900/6">
                   <div className="bg-green-50 border border-green-200 rounded-2xl p-4">
-                    <div className="text-xs text-navy-900/50 font-medium mb-1">Cashback este mes</div>
+                    <div className="text-xs text-navy-900/70 font-medium mb-1">Cashback este mes</div>
                     <div className="text-xl font-bold text-green-700 tabular-nums font-mono">
                       {currentCommission ? formatPrice(currentCommission.amount) : 'S/. 0.00'}
                     </div>
                     {currentCommission && currentCommission.count > 0 && (
-                      <div className="text-xs text-navy-900/50 mt-0.5">
+                      <div className="text-xs text-navy-900/70 mt-0.5">
                         {currentCommission.count} trámite{currentCommission.count !== 1 ? 's' : ''} · 5%
                       </div>
                     )}
                   </div>
                   <div className="bg-amber-50 border border-amber-200 rounded-2xl p-4">
-                    <div className="text-xs text-navy-900/50 font-medium mb-1">Pendiente de cobro</div>
+                    <div className="text-xs text-navy-900/70 font-medium mb-1">Pendiente de cobro</div>
                     <div className="text-xl font-bold text-amber-700 tabular-nums font-mono">
                       {formatPrice(totalPending)}
                     </div>
-                    <div className="text-xs text-navy-900/50 mt-0.5">se paga a fin de mes</div>
+                    <div className="text-xs text-navy-900/70 mt-0.5">se paga a fin de mes</div>
                   </div>
                 </div>
               )
@@ -284,8 +284,8 @@ export default function RecompensasClient({
                     return (
                       <tr key={month.yearMonth} className="hover:bg-navy-900/3 transition-colors motion-reduce:transition-none">
                         <td className="px-5 py-3.5 font-medium text-navy-900 capitalize">{label}</td>
-                        <td className="px-5 py-3.5 text-navy-900/60">{r.count}</td>
-                        <td className="px-5 py-3.5 text-navy-900/60">{Math.round(r.rate * 100)}%</td>
+                        <td className="px-5 py-3.5 text-navy-900/70">{r.count}</td>
+                        <td className="px-5 py-3.5 text-navy-900/70">{Math.round(r.rate * 100)}%</td>
                         <td className="px-5 py-3.5 font-mono font-semibold text-navy-900 tabular-nums">{formatPrice(r.amount)}</td>
                         <td className="px-5 py-3.5">
                           {month.cashoutStatus === 'completed' ? (
@@ -293,7 +293,7 @@ export default function RecompensasClient({
                           ) : month.cashoutStatus === 'pending' ? (
                             <span className="inline-flex items-center text-xs font-medium px-2.5 py-0.5 rounded-full border bg-amber-50 text-amber-700 border-amber-200">En proceso</span>
                           ) : (
-                            <span className="inline-flex items-center text-xs font-medium px-2.5 py-0.5 rounded-full border bg-navy-900/4 text-navy-900/50 border-navy-900/10">Pendiente</span>
+                            <span className="inline-flex items-center text-xs font-medium px-2.5 py-0.5 rounded-full border bg-navy-900/4 text-navy-900/70 border-navy-900/10">Pendiente</span>
                           )}
                         </td>
                       </tr>
@@ -315,7 +315,7 @@ export default function RecompensasClient({
 
         {initialRewards.length === 0 ? (
           <EmptyState
-            icon={<Award size={28} className="text-navy-900/30" />}
+            icon={<Award size={28} className="text-navy-900/70" />}
             title="Sin recompensas aún"
             description="Cierra trámites e invita referidos para empezar a acumular cashback."
           />
@@ -335,7 +335,7 @@ export default function RecompensasClient({
                 {initialRewards.map((reward) => {
                   const typeConfig = REWARD_TYPE_CONFIG[reward.type] ?? {
                     label: reward.type,
-                    badgeClass: 'bg-navy-900/4 text-navy-900/60 border-navy-900/10',
+                    badgeClass: 'bg-navy-900/4 text-navy-900/70 border-navy-900/10',
                   }
                   return (
                     <tr key={reward.id} className="hover:bg-navy-900/3 transition-colors motion-reduce:transition-none">
@@ -354,7 +354,7 @@ export default function RecompensasClient({
                       </td>
                       <td className="px-5 py-3.5 hidden md:table-cell">
                         {reward.tramites ? (
-                          <code className="text-xs font-mono text-navy-900/50 bg-navy-900/6 px-2 py-0.5 rounded-full">
+                          <code className="text-xs font-mono text-navy-900/70 bg-navy-900/6 px-2 py-0.5 rounded-full">
                             {reward.tramites?.reference_code}
                           </code>
                         ) : (

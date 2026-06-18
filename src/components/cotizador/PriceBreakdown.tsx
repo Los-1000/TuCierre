@@ -23,10 +23,10 @@ export default function PriceBreakdown({ basePrice, tier, propertyValue, matched
   if (matchedPrice !== undefined) {
     return (
       <div className="bg-white rounded-3xl border border-navy-900/8 shadow-[0_4px_24px_rgba(18,18,27,0.06)] p-6">
-        <h3 className="text-xs font-bold uppercase tracking-widest text-navy-900/40 mb-5">Resumen de precio</h3>
+        <h3 className="text-xs font-bold uppercase tracking-widest text-navy-900/70 mb-5">Resumen de precio</h3>
         <div className="space-y-0">
           <div className="flex justify-between items-center py-3 border-b border-navy-900/6">
-            <span className="text-sm text-navy-900/60">Precio base</span>
+            <span className="text-sm text-navy-900/70">Precio base</span>
             <span className="text-sm font-semibold tabular-nums font-mono text-navy-900 line-through opacity-40">
               {formatPrice(basePrice)}
             </span>
@@ -58,15 +58,15 @@ export default function PriceBreakdown({ basePrice, tier, propertyValue, matched
 
   return (
     <div className="bg-white rounded-3xl border border-navy-900/8 shadow-[0_4px_24px_rgba(18,18,27,0.06)] p-6">
-      <h3 className="text-xs font-bold uppercase tracking-widest text-navy-900/40 mb-5">Resumen de precio</h3>
+      <h3 className="text-xs font-bold uppercase tracking-widest text-navy-900/70 mb-5">Resumen de precio</h3>
       <div className="space-y-0">
         <div className="flex justify-between items-center py-3 border-b border-navy-900/6">
-          <span className="text-sm text-navy-900/60">Precio base</span>
+          <span className="text-sm text-navy-900/70">Precio base</span>
           <span className="text-sm font-semibold tabular-nums font-mono text-navy-900">{formatPrice(quoted)}</span>
         </div>
         {discount > 0 && (
           <div className="flex justify-between items-center py-3 border-b border-navy-900/6">
-            <span className="text-sm text-navy-900/60">
+            <span className="text-sm text-navy-900/70">
               Descuento {tierConfig.label} ({tierConfig.discount}%)
             </span>
             <span className="text-sm font-semibold text-emerald-600 tabular-nums font-mono">

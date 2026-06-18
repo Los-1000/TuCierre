@@ -69,7 +69,7 @@ export default function AdminReferidosPage() {
       {/* Header */}
       <div className="flex items-baseline gap-4">
         <h1 className="text-3xl font-bold tracking-tight text-navy-900">Referidos</h1>
-        <span className="text-xl font-medium text-navy-900/30">
+        <span className="text-xl font-medium text-navy-900/70">
           {loading ? '…' : `${brokers.length} brokers`}
         </span>
       </div>
@@ -80,42 +80,42 @@ export default function AdminReferidosPage() {
           <div className="w-10 h-10 rounded-xl bg-[#2855E0]/10 flex items-center justify-center mb-4">
             <Users size={20} className="text-[#2855E0]" />
           </div>
-          <p className="text-xs font-bold uppercase tracking-wider text-navy-900/60 mb-1">Brokers referidos</p>
+          <p className="text-xs font-bold uppercase tracking-wider text-navy-900/70 mb-1">Brokers referidos</p>
           <p className="text-2xl font-black text-navy-900">{loading ? '—' : totalReferrals}</p>
-          <p className="text-xs text-navy-900/50 mt-1">Con código de referido aplicado</p>
+          <p className="text-xs text-navy-900/70 mt-1">Con código de referido aplicado</p>
         </div>
 
         <div className="bg-white rounded-3xl border border-navy-900/8 shadow-[0_4px_24px_rgba(18,18,27,0.06)] p-6">
           <div className="w-10 h-10 rounded-xl bg-[#020952]/10 flex items-center justify-center mb-4">
             <TrendingUp size={20} className="text-[#020952]" />
           </div>
-          <p className="text-xs font-bold uppercase tracking-wider text-navy-900/60 mb-1">Referidores activos</p>
+          <p className="text-xs font-bold uppercase tracking-wider text-navy-900/70 mb-1">Referidores activos</p>
           <p className="text-2xl font-black text-navy-900">{loading ? '—' : topReferrers}</p>
-          <p className="text-xs text-navy-900/50 mt-1">Brokers que han referido al menos 1</p>
+          <p className="text-xs text-navy-900/70 mt-1">Brokers que han referido al menos 1</p>
         </div>
 
         <div className="bg-white rounded-3xl border border-navy-900/8 shadow-[0_4px_24px_rgba(18,18,27,0.06)] p-6">
           <div className="w-10 h-10 rounded-xl bg-[#6B7A9A]/10 flex items-center justify-center mb-4">
             <Gift size={20} className="text-[#6B7A9A]" />
           </div>
-          <p className="text-xs font-bold uppercase tracking-wider text-navy-900/60 mb-1">Bonos generados</p>
+          <p className="text-xs font-bold uppercase tracking-wider text-navy-900/70 mb-1">Bonos generados</p>
           <p className="text-2xl font-black text-navy-900">
             {loading ? '—' : `S/. ${totalBonuses.toLocaleString('es-PE', { minimumFractionDigits: 2 })}`}
           </p>
-          <p className="text-xs text-navy-900/50 mt-1">S/. 50 por referido registrado</p>
+          <p className="text-xs text-navy-900/70 mt-1">S/. 50 por referido registrado</p>
         </div>
       </div>
 
       {/* Search */}
       <div className="relative max-w-xs">
-        <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-navy-900/40" />
+        <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-navy-900/70" />
         <input
           type="text"
           placeholder="Buscar broker o código..."
           aria-label="Buscar broker o código"
           value={search}
           onChange={(e) => setSearch(e.target.value)}
-          className="w-full border border-navy-900/15 rounded-2xl h-10 pl-9 pr-4 text-sm focus:outline-none focus:ring-2 focus:ring-[#2855E0]/30 bg-white text-navy-900 placeholder:text-navy-900/40"
+          className="w-full border border-navy-900/15 rounded-2xl h-10 pl-9 pr-4 text-sm focus:outline-none focus:ring-2 focus:ring-[#2855E0]/70 bg-white text-navy-900 placeholder:text-navy-900/70"
         />
       </div>
 
@@ -124,24 +124,24 @@ export default function AdminReferidosPage() {
         <table className="w-full text-left border-collapse">
           <thead>
             <tr className="bg-navy-50">
-              <th className="px-8 py-5 text-xs font-bold uppercase tracking-wider text-navy-900/60">Broker</th>
-              <th className="px-6 py-5 text-xs font-bold uppercase tracking-wider text-navy-900/60">Código</th>
-              <th className="px-6 py-5 text-xs font-bold uppercase tracking-wider text-navy-900/60 text-center">Referidos</th>
-              <th className="px-6 py-5 text-xs font-bold uppercase tracking-wider text-navy-900/60">Referido por</th>
-              <th className="px-6 py-5 text-xs font-bold uppercase tracking-wider text-navy-900/60">Registrado</th>
+              <th scope="col" className="px-8 py-5 text-xs font-bold uppercase tracking-wider text-navy-900/70">Broker</th>
+              <th scope="col" className="px-6 py-5 text-xs font-bold uppercase tracking-wider text-navy-900/70">Código</th>
+              <th scope="col" className="px-6 py-5 text-xs font-bold uppercase tracking-wider text-navy-900/70 text-center">Referidos</th>
+              <th scope="col" className="px-6 py-5 text-xs font-bold uppercase tracking-wider text-navy-900/70">Referido por</th>
+              <th scope="col" className="px-6 py-5 text-xs font-bold uppercase tracking-wider text-navy-900/70">Registrado</th>
             </tr>
           </thead>
           <tbody className="divide-y divide-navy-900/5">
             {loading ? (
               <tr>
-                <td colSpan={5} className="text-center py-12 text-navy-900/40">
+                <td colSpan={5} className="text-center py-12 text-navy-900/70">
                   <Loader2 size={20} className="animate-spin mx-auto mb-2" />
                   Cargando...
                 </td>
               </tr>
             ) : filtered.length === 0 ? (
               <tr>
-                <td colSpan={5} className="text-center py-12 text-navy-900/40 text-sm">
+                <td colSpan={5} className="text-center py-12 text-navy-900/70 text-sm">
                   No se encontraron resultados
                 </td>
               </tr>
@@ -150,7 +150,7 @@ export default function AdminReferidosPage() {
                 <tr key={b.id} className="hover:bg-navy-50 transition-colors">
                   <td className="px-8 py-5">
                     <p className="text-sm font-semibold text-navy-900">{b.full_name}</p>
-                    <p className="text-xs text-navy-900/50">{b.email}</p>
+                    <p className="text-xs text-navy-900/70">{b.email}</p>
                   </td>
                   <td className="px-6 py-5">
                     {b.referral_code ? (
@@ -158,7 +158,7 @@ export default function AdminReferidosPage() {
                         {b.referral_code}
                       </code>
                     ) : (
-                      <span className="text-navy-900/40 text-xs">—</span>
+                      <span className="text-navy-900/70 text-xs">—</span>
                     )}
                   </td>
                   <td className="px-6 py-5 text-center">
@@ -167,17 +167,17 @@ export default function AdminReferidosPage() {
                         {b.referral_count}
                       </span>
                     ) : (
-                      <span className="text-navy-900/40 text-xs">0</span>
+                      <span className="text-navy-900/70 text-xs">0</span>
                     )}
                   </td>
                   <td className="px-6 py-5">
                     {b.referrer_name ? (
                       <span className="text-sm text-navy-900/80">{b.referrer_name}</span>
                     ) : (
-                      <span className="text-navy-900/40 text-xs">—</span>
+                      <span className="text-navy-900/70 text-xs">—</span>
                     )}
                   </td>
-                  <td className="px-6 py-5 text-sm text-navy-900/50">{formatDate(b.created_at)}</td>
+                  <td className="px-6 py-5 text-sm text-navy-900/70">{formatDate(b.created_at)}</td>
                 </tr>
               ))
             )}

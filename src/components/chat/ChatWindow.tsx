@@ -311,7 +311,7 @@ export default function ChatWindow({ tramiteId, senderType }: ChatWindowProps) {
           className={cn(
             'flex-1 resize-none rounded-lg border border-navy-200 bg-navy-50 px-3 py-2',
             'text-sm text-navy-900 placeholder:text-navy-400',
-            'focus:outline-none focus:ring-2 focus:ring-navy-900/20 focus:border-navy-900/30',
+            'focus:outline-none focus:ring-2 focus:ring-navy-900/70 focus:border-navy-900/30',
             'disabled:opacity-50 transition-all'
           )}
           style={{ minHeight: '40px', maxHeight: `${4 * 24 + 16}px` }}

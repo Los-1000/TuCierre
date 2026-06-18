@@ -375,7 +375,7 @@ export default function CashoutsClient({
                 <thead>
                   <tr className="border-b border-navy-200 bg-navy-50">
                     {['Broker', 'Email', 'Clientes', 'Nivel', 'Monto'].map(h => (
-                      <th key={h} className="text-left text-xs font-semibold text-navy-500 uppercase tracking-wide px-4 py-3">{h}</th>
+                      <th scope="col" key={h} className="text-left text-xs font-semibold text-navy-500 uppercase tracking-wide px-4 py-3">{h}</th>
                     ))}
                   </tr>
                 </thead>
@@ -409,7 +409,7 @@ export default function CashoutsClient({
                   <thead>
                     <tr className="border-b border-navy-200 bg-navy-50">
                       {['Broker', 'Monto', 'Estado', 'Fecha'].map(h => (
-                        <th key={h} className="text-left text-xs font-semibold text-navy-500 uppercase tracking-wide px-4 py-3">{h}</th>
+                        <th scope="col" key={h} className="text-left text-xs font-semibold text-navy-500 uppercase tracking-wide px-4 py-3">{h}</th>
                       ))}
                     </tr>
                   </thead>
