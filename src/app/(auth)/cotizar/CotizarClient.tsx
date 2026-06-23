@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useRef } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { useRouter } from 'next/navigation'
 import { ArrowLeft, ArrowRight, Check, Home, Heart, KeyRound, ChevronRight, Upload, FileText, X } from 'lucide-react'
 import { api } from '@/lib/api'
@@ -33,9 +33,13 @@ const CURRENCIES: { value: Currency; label: string }[] = [
   { value: 'USD', label: 'US$ Dólares' },
 ]
 
-function calcFee(propertyValue: number) {
-  return Math.max(propertyValue * 0.008, 500)
+// La fórmula opera siempre en soles.
+function calcFee(propertyValueInSoles: number) {
+  return Math.max(propertyValueInSoles * 0.008, 500)
 }
+
+// Tipo de cambio USD→PEN de respaldo si la API no responde.
+const FALLBACK_USD_PEN = 3.75
 
 export default function CotizarClient() {
   const router = useRouter()
@@ -47,11 +51,28 @@ export default function CotizarClient() {
   const [currency, setCurrency] = useState<Currency>('PEN')
   const [submitting, setSubmitting] = useState(false)
   const [docFiles, setDocFiles] = useState<Record<string, File>>({})
+  const [usdToPen, setUsdToPen] = useState<number | null>(null)
   const fileInputRef = useRef<HTMLInputElement>(null)
   const pendingDocName = useRef<string | null>(null)
 
+  // Tipo de cambio USD→PEN en tiempo real (API gratuita, sin key).
+  useEffect(() => {
+    let cancelled = false
+    fetch('https://open.er-api.com/v6/latest/USD')
+      .then((r) => r.json())
+      .then((d) => {
+        const pen = d?.rates?.PEN
+        if (!cancelled && typeof pen === 'number' && pen > 0) setUsdToPen(pen)
+      })
+      .catch(() => { /* se usa FALLBACK_USD_PEN */ })
+    return () => { cancelled = true }
+  }, [])
+
+  const rate = usdToPen ?? FALLBACK_USD_PEN
   const numValue = parseFloat(propertyValue.replace(/,/g, '')) || 0
-  const fee = calcFee(numValue)
+  // Si el valor está en dólares, primero se convierte a soles y luego se calcula.
+  const valueInSoles = currency === 'USD' ? numValue * rate : numValue
+  const fee = calcFee(valueInSoles) // siempre en soles
   const attachedCount = Object.keys(docFiles).length
 
   const triggerAttach = (name: string) => {
@@ -238,9 +259,15 @@ export default function CotizarClient() {
               <div className="flex items-center justify-between">
                 <h3 className="text-xs font-bold text-navy-500 uppercase tracking-wide">Tarifa estimada</h3>
                 <span className="text-lg font-bold tabular-nums" style={{ color: '#2c4dfb' }}>
-                  {formatPrice(fee, currency)}
+                  {formatPrice(fee, 'PEN')}
                 </span>
               </div>
+              {currency === 'USD' && (
+                <p className="text-xs text-navy-400 pt-2">
+                  US$ {numValue.toLocaleString('es-PE')} × {rate.toFixed(3)} = {formatPrice(valueInSoles, 'PEN')}
+                  <span className="text-navy-300"> · TC {usdToPen ? 'actual' : 'referencial'}</span>
+                </p>
+              )}
               <p className="text-xs text-navy-300 pt-2">
                 Estimado sobre el valor del inmueble. La tarifa final la confirma el notario asignado.
               </p>
@@ -355,8 +382,13 @@ export default function CotizarClient() {
             ))}
             <div className="flex justify-between pt-1">
               <span className="text-xs text-navy-400">Tarifa estimada</span>
-              <span className="text-sm font-bold tabular-nums" style={{ color: '#2c4dfb' }}>{formatPrice(fee, currency)}</span>
+              <span className="text-sm font-bold tabular-nums" style={{ color: '#2c4dfb' }}>{formatPrice(fee, 'PEN')}</span>
             </div>
+            {currency === 'USD' && (
+              <p className="text-[11px] text-navy-300 text-right">
+                Convertido a {formatPrice(valueInSoles, 'PEN')} · TC {rate.toFixed(3)}
+              </p>
+            )}
           </div>
 
           <p className="text-xs text-navy-400 text-center">
