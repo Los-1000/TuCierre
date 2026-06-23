@@ -493,6 +493,7 @@ USING (
 INSERT INTO tramite_types (name, display_name, description, base_price, estimated_days, required_documents, is_active) VALUES
 ('compraventa', 'Compra y Venta', 'Transferencia de propiedad entre comprador y vendedor', 1500.00, 7,
   '[
+    {"name":"Foto del DNI","description":"Foto legible del DNI vigente de las partes"},
     {"name":"HR","description":"Hoja de Resumen (HR) vigente del predio"},
     {"name":"PU","description":"Predio Urbano (PU) vigente del predio"},
     {"name":"Copia Literal","description":"Copia literal de la partida registral del inmueble"},
@@ -501,6 +502,7 @@ INSERT INTO tramite_types (name, display_name, description, base_price, estimate
   ]'::jsonb, true),
 ('donacion', 'Donación', 'Donación de inmueble a tercero', 700.00, 5,
   '[
+    {"name":"Foto del DNI","description":"Foto legible del DNI vigente de las partes"},
     {"name":"HR","description":"Hoja de Resumen (HR) vigente del predio"},
     {"name":"PU","description":"Predio Urbano (PU) vigente del predio"},
     {"name":"Copia Literal","description":"Copia literal de la partida registral del inmueble"},
@@ -509,6 +511,7 @@ INSERT INTO tramite_types (name, display_name, description, base_price, estimate
   ]'::jsonb, true),
 ('arrendamiento', 'Arriendo', 'Contrato de arrendamiento sobre inmueble', 900.00, 5,
   '[
+    {"name":"Foto del DNI","description":"Foto legible del DNI vigente de las partes"},
     {"name":"HR","description":"Hoja de Resumen (HR) vigente del predio"},
     {"name":"PU","description":"Predio Urbano (PU) vigente del predio"},
     {"name":"Copia Literal","description":"Copia literal de la partida registral del inmueble"},

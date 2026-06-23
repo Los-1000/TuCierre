@@ -14,6 +14,7 @@ const TRAMITE_TYPES = [
 ]
 
 const REQUIRED_DOCUMENTS = [
+  { name: 'Foto del DNI', description: 'Foto legible del DNI vigente de las partes' },
   { name: 'HR', description: 'Hoja de Resumen (HR) vigente del predio' },
   { name: 'PU', description: 'Predio Urbano (PU) vigente del predio' },
   { name: 'Copia Literal', description: 'Copia literal de la partida registral del inmueble' },

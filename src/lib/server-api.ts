@@ -60,6 +60,7 @@ export const MOCK_TRAMITE_DETAIL: ApiTramiteDetail = {
     { fullName: 'Ana Torres', role: 'VENDEDOR', idDocumentNumber: '32156789', typeIdDocument: false, idDocumentFileCopy: null },
   ],
   requiredDocuments: [
+    { name: 'Foto del DNI', description: 'Foto legible del DNI vigente de las partes' },
     { name: 'HR', description: 'Hoja de Resumen (HR) vigente del predio' },
     { name: 'PU', description: 'Predio Urbano (PU) vigente del predio' },
     { name: 'Copia Literal', description: 'Copia literal de la partida registral del inmueble' },
