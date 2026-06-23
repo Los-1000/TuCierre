@@ -40,6 +40,21 @@ export type ApiParty = {
   idDocumentFileCopy: string | null
 }
 
+export type ApiTramiteDocStatus = 'pending' | 'uploaded' | 'approved' | 'rejected'
+
+export type ApiRequiredDocument = {
+  name: string
+  description?: string
+}
+
+export type ApiUploadedDocument = {
+  name: string
+  url?: string | null
+  uploaded_at?: string | null
+  status: ApiTramiteDocStatus
+  rejection_note?: string
+}
+
 export type ApiTramiteDetail = {
   id?: number
   statusTramite: ApiTramiteStatus
@@ -55,6 +70,10 @@ export type ApiTramiteDetail = {
   currency: Currency
   createdAt: string
   parties: ApiParty[]
+  // Documentos requeridos del tipo de trámite y los que el broker ya subió.
+  // El backend los devuelve; en modo mock se simulan.
+  requiredDocuments?: ApiRequiredDocument[]
+  documents?: ApiUploadedDocument[]
 }
 
 export type ApiDashboardStats = {

@@ -59,6 +59,18 @@ export const MOCK_TRAMITE_DETAIL: ApiTramiteDetail = {
     { fullName: 'Carlos Mendoza', role: 'COMPRADOR', idDocumentNumber: '45678901', typeIdDocument: false, idDocumentFileCopy: null },
     { fullName: 'Ana Torres', role: 'VENDEDOR', idDocumentNumber: '32156789', typeIdDocument: false, idDocumentFileCopy: null },
   ],
+  requiredDocuments: [
+    { name: 'HR', description: 'Hoja de Resumen (HR) vigente del predio' },
+    { name: 'PU', description: 'Predio Urbano (PU) vigente del predio' },
+    { name: 'Copia Literal', description: 'Copia literal de la partida registral del inmueble' },
+    { name: 'Constancia de no adeudo', description: 'Constancia de no adeudo de tributos municipales' },
+    { name: 'Poder del apoderado', description: 'Poder vigente que acredita al apoderado' },
+  ],
+  documents: [
+    { name: 'HR', url: '#', uploaded_at: '2024-05-19T16:00:00', status: 'approved' },
+    { name: 'PU', url: '#', uploaded_at: '2024-05-20T09:30:00', status: 'pending' },
+    { name: 'Copia Literal', url: '#', uploaded_at: '2024-05-18T11:00:00', status: 'rejected', rejection_note: 'La copia literal está vencida. Adjunta una con antigüedad menor a 30 días.' },
+  ],
 }
 
 function isMock(token: string) { return token === MOCK_TOKEN }

@@ -3,13 +3,13 @@
 import { useState, useEffect, useRef } from 'react'
 import { useParams, useRouter } from 'next/navigation'
 import Link from 'next/link'
-import { ArrowLeft, Loader2, Send, MessageSquare, Info, Users, RefreshCw, AlertCircle } from 'lucide-react'
+import { ArrowLeft, Loader2, Send, MessageSquare, Info, Users, RefreshCw, AlertCircle, FileText, Upload, CheckCircle2, Clock, XCircle, Circle, ChevronDown, ChevronUp } from 'lucide-react'
 import { api } from '@/lib/api'
 import { useAuth } from '@/hooks/useAuth'
 import { useTramiteStatusRealtime, useChatRealtime } from '@/hooks/useRealtime'
 import { formatPrice } from '@/lib/utils'
 import { toast } from 'sonner'
-import type { ApiTramiteDetail, ApiMessage } from '@/types/api'
+import type { ApiTramiteDetail, ApiMessage, ApiUploadedDocument } from '@/types/api'
 
 const STATUS_LABELS: Record<string, string> = {
   SOLICITADO: 'Solicitado', COTIZADO: 'Cotizado', DOCS_PENDIENTES: 'Docs. Pendientes',
@@ -44,7 +44,12 @@ export default function TramiteDetailPage() {
   const [loading, setLoading] = useState(true)
   const [messageText, setMessageText] = useState('')
   const [sending, setSending] = useState(false)
-  const [activeTab, setActiveTab] = useState<'info' | 'chat' | 'parties'>('info')
+  const [activeTab, setActiveTab] = useState<'info' | 'docs' | 'chat' | 'parties'>('info')
+  const [docs, setDocs] = useState<ApiUploadedDocument[]>([])
+  const [uploadingDoc, setUploadingDoc] = useState<string | null>(null)
+  const [showRejection, setShowRejection] = useState<string | null>(null)
+  const fileInputRef = useRef<HTMLInputElement>(null)
+  const pendingDocName = useRef<string | null>(null)
   const chatEndRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
@@ -54,6 +59,7 @@ export default function TramiteDetailPage() {
         getTramiteById('mock-demo-token', id)
       ).then((t) => {
         setTramite(t)
+        setDocs(t?.documents ?? [])
         setMessages([
           { id: 1, tramiteId: Number(id), senderId: 99, senderName: 'Notaría Central Lima', content: 'Hola, hemos recibido su expediente. Procederemos a revisarlo en breve.', createdAt: '2024-05-20T10:00:00' },
           { id: 2, tramiteId: Number(id), senderId: 1, senderName: 'María Ríos', content: 'Gracias, ¿cuánto tiempo tomará la revisión?', createdAt: '2024-05-20T10:05:00' },
@@ -68,6 +74,7 @@ export default function TramiteDetailPage() {
       api.messages.list(Number(id)),
     ]).then(([t, msgs]) => {
       setTramite(t)
+      setDocs(t?.documents ?? [])
       setMessages(msgs?.content ?? [])
     }).finally(() => setLoading(false))
   }, [id])
@@ -115,6 +122,33 @@ export default function TramiteDetailPage() {
       setMessages((prev) => prev.map((m) => m.tempId === msg.tempId ? { ...sent } : m))
     } catch {
       setMessages((prev) => prev.map((m) => m.tempId === msg.tempId ? { ...m, failed: true } : m))
+    }
+  }
+
+  const triggerDocUpload = (docName: string) => {
+    pendingDocName.current = docName
+    fileInputRef.current?.click()
+  }
+
+  const handleDocFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0]
+    const docName = pendingDocName.current
+    if (fileInputRef.current) fileInputRef.current.value = ''
+    if (!file || !docName) return
+    if (file.size > 10 * 1024 * 1024) {
+      toast.error('El archivo no puede superar los 10 MB.')
+      return
+    }
+    setUploadingDoc(docName)
+    try {
+      const uploaded = await api.tramites.uploadDocument(Number(id), docName, file)
+      setDocs((prev) => [...prev.filter((d) => d.name !== docName), uploaded])
+      toast.success(`"${docName}" subido. Pendiente de revisión.`)
+    } catch {
+      toast.error('No se pudo subir el documento. Inténtalo de nuevo.')
+    } finally {
+      setUploadingDoc(null)
+      pendingDocName.current = null
     }
   }
 
@@ -188,6 +222,7 @@ export default function TramiteDetailPage() {
       <div className="flex gap-1 bg-white border border-navy-100 rounded-xl p-1">
         {[
           { key: 'info', label: 'Información', icon: Info },
+          { key: 'docs', label: 'Documentos', icon: FileText },
           { key: 'chat', label: `Chat${messages.length > 0 ? ` (${messages.length})` : ''}`, icon: MessageSquare },
           { key: 'parties', label: 'Partes', icon: Users },
         ].map(({ key, label, icon: Icon }) => (
@@ -232,6 +267,104 @@ export default function TramiteDetailPage() {
               </div>
             ))}
           </div>
+        </div>
+      )}
+
+      {/* Documents tab */}
+      {activeTab === 'docs' && (
+        <div className="space-y-3">
+          <input
+            ref={fileInputRef}
+            type="file"
+            accept=".pdf,.jpg,.jpeg,.png"
+            className="hidden"
+            onChange={handleDocFileChange}
+            aria-label="Subir documento"
+          />
+          {(tramite.requiredDocuments ?? []).length === 0 ? (
+            <div className="bg-white rounded-xl border border-navy-100 p-8 text-center">
+              <FileText size={26} className="text-navy-200 mx-auto mb-2" />
+              <p className="text-navy-400 text-sm">Este trámite no requiere documentos.</p>
+            </div>
+          ) : (
+            (tramite.requiredDocuments ?? []).map((req) => {
+              const uploaded = docs.find((d) => d.name === req.name)
+              const status = uploaded?.status
+              const isUploading = uploadingDoc === req.name
+              const cfg = !status
+                ? { Icon: Circle, color: '#97aed4', label: 'Sin documento' }
+                : status === 'approved'
+                ? { Icon: CheckCircle2, color: '#059669', label: 'Aprobado' }
+                : status === 'rejected'
+                ? { Icon: XCircle, color: '#dc2626', label: 'Rechazado' }
+                : { Icon: Clock, color: '#b2832e', label: 'Pendiente de revisión' }
+              const StatusIcon = cfg.Icon
+              const btnLabel = !status ? 'Subir' : status === 'rejected' ? 'Re-subir' : 'Reemplazar'
+
+              return (
+                <div key={req.name} className="bg-white rounded-xl border border-navy-100 p-4">
+                  <div className="flex items-start gap-3">
+                    <div className="shrink-0 mt-0.5" style={{ color: cfg.color }}>
+                      <StatusIcon size={18} />
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <p className="text-sm font-semibold text-navy-900 truncate">{req.name}</p>
+                      {req.description && (
+                        <p className="text-xs text-navy-400 mt-0.5 leading-snug">{req.description}</p>
+                      )}
+                      <div className="flex items-center gap-1.5 mt-1.5">
+                        <span className="text-xs font-medium" style={{ color: cfg.color }}>{cfg.label}</span>
+                        {uploaded?.uploaded_at && status !== 'rejected' && (
+                          <span className="text-[11px] text-navy-300">· {formatDay(uploaded.uploaded_at)}</span>
+                        )}
+                      </div>
+                      {status === 'rejected' && uploaded?.rejection_note && (
+                        <div className="mt-2">
+                          <button
+                            type="button"
+                            onClick={() => setShowRejection((v) => v === req.name ? null : req.name)}
+                            className="flex items-center gap-1 text-[11px] text-red-600 hover:text-red-700 font-medium"
+                          >
+                            {showRejection === req.name ? <ChevronUp size={12} /> : <ChevronDown size={12} />}
+                            {showRejection === req.name ? 'Ocultar motivo' : 'Ver motivo de rechazo'}
+                          </button>
+                          {showRejection === req.name && (
+                            <p className="mt-1.5 text-xs text-red-700 bg-red-50 border border-red-200 rounded-lg px-2 py-1.5 leading-relaxed">
+                              {uploaded.rejection_note}
+                            </p>
+                          )}
+                        </div>
+                      )}
+                    </div>
+                    <div className="shrink-0 flex flex-col items-end gap-1.5">
+                      {status !== 'approved' && (
+                        <button
+                          onClick={() => triggerDocUpload(req.name)}
+                          disabled={isUploading}
+                          className="inline-flex items-center gap-1.5 text-xs font-semibold px-3 py-1.5 rounded-lg text-white disabled:opacity-50 transition-opacity"
+                          style={{ background: status === 'rejected' ? '#dc2626' : '#2c4dfb' }}
+                        >
+                          {isUploading ? <Loader2 size={12} className="animate-spin" /> : <Upload size={12} />}
+                          {isUploading ? 'Subiendo...' : btnLabel}
+                        </button>
+                      )}
+                      {uploaded?.url && (
+                        <a
+                          href={uploaded.url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="inline-flex items-center gap-1 text-xs font-medium hover:underline"
+                          style={{ color: '#2c4dfb' }}
+                        >
+                          <FileText size={12} /> Ver
+                        </a>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              )
+            })
+          )}
         </div>
       )}
 

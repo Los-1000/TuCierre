@@ -1,4 +1,4 @@
-import type { ApiBroker, ApiTramiteListItem, ApiTramiteDetail, ApiDashboardStats, ApiMessage, ApiPage } from '@/types/api'
+import type { ApiBroker, ApiTramiteListItem, ApiTramiteDetail, ApiDashboardStats, ApiMessage, ApiPage, ApiUploadedDocument } from '@/types/api'
 import type { Currency } from '@/lib/utils'
 
 function isMockMode() {
@@ -25,6 +25,19 @@ async function mockApiFetch(path: string, options?: RequestInit): Promise<any> {
   }
   if (path === '/api/dashboard/stats') return getDashboardStats(MOCK_TOKEN)
   if (path === '/api/brokers/me') return getMe(MOCK_TOKEN)
+  if (/\/api\/tramites\/\d+\/documents$/.test(path) && method === 'POST') {
+    // Simula la subida: el backend real persiste el archivo; aquí solo devolvemos
+    // el documento en estado 'pending' (subido, pendiente de revisión).
+    const form = options?.body as FormData
+    const documentName = (form?.get?.('documentName') as string) ?? 'Documento'
+    const file = form?.get?.('file') as File | null
+    return {
+      name: documentName,
+      url: file ? '#' : null,
+      uploaded_at: new Date().toISOString(),
+      status: 'pending',
+    }
+  }
   if (path.includes('/messages') && method === 'POST') {
     return { id: Date.now(), tramiteId: 0, senderId: 2, senderName: 'Tú', content: JSON.parse(options?.body as string).content, createdAt: new Date().toISOString() }
   }
@@ -35,11 +48,13 @@ async function mockApiFetch(path: string, options?: RequestInit): Promise<any> {
 async function apiFetch(path: string, options?: RequestInit): Promise<any> {
   if (isMockMode()) return mockApiFetch(path, options)
 
+  const isForm = typeof FormData !== 'undefined' && options?.body instanceof FormData
   const res = await fetch(path, {
     ...options,
     credentials: 'include',
     headers: {
-      'Content-Type': 'application/json',
+      // No fijar Content-Type para FormData: el navegador agrega el boundary.
+      ...(isForm ? {} : { 'Content-Type': 'application/json' }),
       ...(options?.headers ?? {}),
     },
   })
@@ -91,6 +106,14 @@ export const api = {
       apiFetch(`/api/tramites/${id}`, { method: 'DELETE' }),
     create: (data: { tramiteType: string; propertyAddress: string; propertyDistrictAddress: string; quotedPriceProperty: number; currency: Currency }): Promise<ApiTramiteDetail> =>
       apiFetch('/api/tramites', { method: 'POST', body: JSON.stringify(data) }),
+    // Sube un documento requerido. El backend persiste el archivo y responde con
+    // el documento en estado 'pending'. En modo mock se simula la respuesta.
+    uploadDocument: (id: number, documentName: string, file: File): Promise<ApiUploadedDocument> => {
+      const form = new FormData()
+      form.append('documentName', documentName)
+      form.append('file', file)
+      return apiFetch(`/api/tramites/${id}/documents`, { method: 'POST', body: form })
+    },
   },
   dashboard: {
     stats: (): Promise<ApiDashboardStats> => apiFetch('/api/dashboard/stats'),
