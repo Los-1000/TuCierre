@@ -2,16 +2,15 @@
 
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { ArrowLeft, ArrowRight, Check, Home, FileText, Heart, Users, ChevronRight } from 'lucide-react'
+import { ArrowLeft, ArrowRight, Check, Home, Heart, KeyRound, ChevronRight } from 'lucide-react'
 import { api } from '@/lib/api'
 import { formatPrice, type Currency } from '@/lib/utils'
 import { toast } from 'sonner'
 
 const TRAMITE_TYPES = [
-  { value: 'COMPRAVENTA', label: 'Compraventa', desc: 'Transferencia de propiedad entre partes', icon: Home },
-  { value: 'HIPOTECA', label: 'Hipoteca', desc: 'Constitución de garantía hipotecaria', icon: FileText },
+  { value: 'COMPRAVENTA', label: 'Compra y Venta', desc: 'Transferencia de propiedad entre partes', icon: Home },
   { value: 'DONACION', label: 'Donación', desc: 'Donación de inmueble a tercero', icon: Heart },
-  { value: 'SUCESION', label: 'Sucesión', desc: 'Declaratoria de herederos o testamento', icon: Users },
+  { value: 'ARRENDAMIENTO', label: 'Arriendo', desc: 'Contrato de arrendamiento sobre inmueble', icon: KeyRound },
 ]
 
 const DISTRICTS = [
