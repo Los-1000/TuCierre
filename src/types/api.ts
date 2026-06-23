@@ -87,15 +87,6 @@ export type ApiDashboardStats = {
   tramitesThisMonth: number
 }
 
-export type ApiMessage = {
-  id: number
-  tramiteId: number
-  senderId: number
-  senderName: string
-  content: string
-  createdAt: string
-}
-
 export type ApiPage<T> = {
   content: T[]
   totalElements: number

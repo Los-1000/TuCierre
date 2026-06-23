@@ -56,17 +56,6 @@ export async function subscribeToTramiteStatus(
   })
 }
 
-export async function subscribeToChat(
-  tramiteId: number,
-  callback: (data: any) => void
-): Promise<StompSubscription> {
-  await connectStomp()
-  const client = await getClient()
-  return client.subscribe(`/topic/tramite/${tramiteId}/chat`, (msg) => {
-    callback(JSON.parse(msg.body))
-  })
-}
-
 export function disconnectStomp(): void {
   if (stompClient?.active) {
     stompClient.deactivate()

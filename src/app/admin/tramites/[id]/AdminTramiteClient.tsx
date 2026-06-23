@@ -12,7 +12,6 @@ import {
 import {
   Select, SelectContent, SelectItem, SelectTrigger, SelectValue,
 } from '@/components/ui/select'
-import ChatWindow from '@/components/chat/ChatWindow'
 import TramiteTimeline from '@/components/tramites/TramiteTimeline'
 import { TRAMITE_STATUS_CONFIG } from '@/lib/constants'
 import { formatPrice, formatDate, formatDateTime, generateInitials } from '@/lib/utils'
@@ -441,10 +440,10 @@ export default function AdminTramiteClient({
       </div>
 
       {/* Layout */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+      <div className="grid grid-cols-1 gap-6">
 
-        {/* Left — tabs */}
-        <div className="lg:col-span-7">
+        {/* Tabs */}
+        <div>
           <Tabs defaultValue="solicitud">
             <TabsList className="w-full grid grid-cols-2 md:grid-cols-4 mb-4 bg-navy-50 rounded-2xl p-1">
               <TabsTrigger value="solicitud" className="text-xs rounded-xl data-[state=active]:bg-white data-[state=active]:text-navy-900 data-[state=active]:shadow-sm">Solicitud</TabsTrigger>
@@ -465,23 +464,6 @@ export default function AdminTramiteClient({
             <TabsContent value="partes">{PartesTab}</TabsContent>
             <TabsContent value="historial">{HistorialTab}</TabsContent>
           </Tabs>
-        </div>
-
-        {/* Right — chat */}
-        <div className="lg:col-span-5">
-          <div className="sticky top-6">
-            <div className="rounded-3xl border border-navy-900/8 bg-white overflow-hidden">
-              <div className="px-4 py-3 bg-navy-50 border-b border-navy-900/6 flex items-center gap-2">
-                <span className="text-xs font-semibold uppercase tracking-wide text-navy-900/70">
-                  Chat con {broker?.full_name?.split(' ')[0] ?? 'broker'}
-                </span>
-                <span className="text-[11px] h-4 px-1.5 inline-flex items-center border border-[#2855E0]/20 text-[#2855E0] bg-[#2855E0]/8 rounded-full font-medium">
-                  Notaría
-                </span>
-              </div>
-              <ChatWindow tramiteId={tramite.id} senderType="notaria" />
-            </div>
-          </div>
         </div>
       </div>
 

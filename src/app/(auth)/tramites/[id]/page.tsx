@@ -1,15 +1,14 @@
 'use client'
 
 import { useState, useEffect, useRef } from 'react'
-import { useParams, useRouter } from 'next/navigation'
+import { useParams } from 'next/navigation'
 import Link from 'next/link'
-import { ArrowLeft, Loader2, Send, MessageSquare, Info, Users, RefreshCw, AlertCircle, FileText, Upload, CheckCircle2, Clock, XCircle, Circle, ChevronDown, ChevronUp } from 'lucide-react'
+import { ArrowLeft, Loader2, Info, Users, FileText, Upload, CheckCircle2, Clock, XCircle, Circle, ChevronDown, ChevronUp } from 'lucide-react'
 import { api } from '@/lib/api'
-import { useAuth } from '@/hooks/useAuth'
-import { useTramiteStatusRealtime, useChatRealtime } from '@/hooks/useRealtime'
+import { useTramiteStatusRealtime } from '@/hooks/useRealtime'
 import { formatPrice } from '@/lib/utils'
 import { toast } from 'sonner'
-import type { ApiTramiteDetail, ApiMessage, ApiUploadedDocument } from '@/types/api'
+import type { ApiTramiteDetail, ApiUploadedDocument } from '@/types/api'
 
 const STATUS_LABELS: Record<string, string> = {
   SOLICITADO: 'Solicitado', COTIZADO: 'Cotizado', DOCS_PENDIENTES: 'Docs. Pendientes',
@@ -26,31 +25,20 @@ const STATUS_COLORS: Record<string, { bg: string; text: string }> = {
 
 const STEPS = ['SOLICITADO', 'COTIZADO', 'DOCS_PENDIENTES', 'EN_REVISION', 'EN_FIRMA', 'EN_REGISTRO', 'COMPLETADO']
 
-type MessageWithState = ApiMessage & { failed?: boolean; tempId?: string }
-
-function formatTime(iso: string) {
-  return new Date(iso).toLocaleTimeString('es-PE', { hour: '2-digit', minute: '2-digit' })
-}
-
 function formatDay(iso: string) {
   return new Date(iso).toLocaleDateString('es-PE', { day: 'numeric', month: 'short' })
 }
 
 export default function TramiteDetailPage() {
   const { id } = useParams<{ id: string }>()
-  const { broker } = useAuth()
   const [tramite, setTramite] = useState<ApiTramiteDetail | null>(null)
-  const [messages, setMessages] = useState<MessageWithState[]>([])
   const [loading, setLoading] = useState(true)
-  const [messageText, setMessageText] = useState('')
-  const [sending, setSending] = useState(false)
-  const [activeTab, setActiveTab] = useState<'info' | 'docs' | 'chat' | 'parties'>('info')
+  const [activeTab, setActiveTab] = useState<'info' | 'docs' | 'parties'>('info')
   const [docs, setDocs] = useState<ApiUploadedDocument[]>([])
   const [uploadingDoc, setUploadingDoc] = useState<string | null>(null)
   const [showRejection, setShowRejection] = useState<string | null>(null)
   const fileInputRef = useRef<HTMLInputElement>(null)
   const pendingDocName = useRef<string | null>(null)
-  const chatEndRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     const isMock = document.cookie.includes('mock-demo-token')
@@ -60,70 +48,19 @@ export default function TramiteDetailPage() {
       ).then((t) => {
         setTramite(t)
         setDocs(t?.documents ?? [])
-        setMessages([
-          { id: 1, tramiteId: Number(id), senderId: 99, senderName: 'Notaría Central Lima', content: 'Hola, hemos recibido su expediente. Procederemos a revisarlo en breve.', createdAt: '2024-05-20T10:00:00' },
-          { id: 2, tramiteId: Number(id), senderId: 1, senderName: 'María Ríos', content: 'Gracias, ¿cuánto tiempo tomará la revisión?', createdAt: '2024-05-20T10:05:00' },
-          { id: 3, tramiteId: Number(id), senderId: 99, senderName: 'Notaría Central Lima', content: 'Aproximadamente 2 días hábiles. Le notificaremos cuando esté listo.', createdAt: '2024-05-20T10:08:00' },
-          { id: 4, tramiteId: Number(id), senderId: 1, senderName: 'María Ríos', content: 'Perfecto, gracias por la respuesta rápida.', createdAt: '2024-05-20T10:10:00' },
-        ])
       }).finally(() => setLoading(false))
       return
     }
-    Promise.all([
-      api.tramites.getById(Number(id)),
-      api.messages.list(Number(id)),
-    ]).then(([t, msgs]) => {
+    api.tramites.getById(Number(id)).then((t) => {
       setTramite(t)
       setDocs(t?.documents ?? [])
-      setMessages(msgs?.content ?? [])
     }).finally(() => setLoading(false))
   }, [id])
-
-  useEffect(() => {
-    if (activeTab === 'chat') {
-      setTimeout(() => chatEndRef.current?.scrollIntoView({ behavior: 'smooth' }), 50)
-    }
-  }, [activeTab, messages.length])
 
   useTramiteStatusRealtime(Number(id), (status) => {
     setTramite((prev) => prev ? { ...prev, statusTramite: status as any } : null)
     toast.info(`Estado actualizado: ${STATUS_LABELS[status] ?? status}`)
   })
-
-  useChatRealtime(Number(id), (msg: ApiMessage) => {
-    setMessages((prev) => [...prev, msg])
-  })
-
-  const handleSend = async () => {
-    if (!messageText.trim()) return
-    const tempId = `temp-${Date.now()}`
-    const optimistic: MessageWithState = {
-      id: Date.now(), tramiteId: Number(id),
-      senderId: broker?.id ?? 1, senderName: broker?.fullName ?? 'Tú',
-      content: messageText.trim(), createdAt: new Date().toISOString(), tempId,
-    }
-    setMessages((prev) => [...prev, optimistic])
-    setMessageText('')
-    setSending(true)
-    try {
-      const msg = await api.messages.send(Number(id), optimistic.content)
-      setMessages((prev) => prev.map((m) => m.tempId === tempId ? { ...msg } : m))
-    } catch {
-      setMessages((prev) => prev.map((m) => m.tempId === tempId ? { ...m, failed: true } : m))
-    } finally {
-      setSending(false)
-    }
-  }
-
-  const handleRetry = async (msg: MessageWithState) => {
-    setMessages((prev) => prev.map((m) => m.tempId === msg.tempId ? { ...m, failed: false } : m))
-    try {
-      const sent = await api.messages.send(Number(id), msg.content)
-      setMessages((prev) => prev.map((m) => m.tempId === msg.tempId ? { ...sent } : m))
-    } catch {
-      setMessages((prev) => prev.map((m) => m.tempId === msg.tempId ? { ...m, failed: true } : m))
-    }
-  }
 
   const triggerDocUpload = (docName: string) => {
     pendingDocName.current = docName
@@ -169,7 +106,6 @@ export default function TramiteDetailPage() {
 
   const colors = STATUS_COLORS[tramite.statusTramite] ?? { bg: '#f4f6fb', text: '#4a6da8' }
   const currentStep = STEPS.indexOf(tramite.statusTramite)
-  const brokerId = broker?.id ?? 1
 
   return (
     <div className="space-y-4">
@@ -223,7 +159,6 @@ export default function TramiteDetailPage() {
         {[
           { key: 'info', label: 'Información', icon: Info },
           { key: 'docs', label: 'Documentos', icon: FileText },
-          { key: 'chat', label: `Chat${messages.length > 0 ? ` (${messages.length})` : ''}`, icon: MessageSquare },
           { key: 'parties', label: 'Partes', icon: Users },
         ].map(({ key, label, icon: Icon }) => (
           <button
@@ -389,94 +324,6 @@ export default function TramiteDetailPage() {
               ))}
             </div>
           )}
-        </div>
-      )}
-
-      {/* Chat tab */}
-      {activeTab === 'chat' && (
-        <div className="bg-white rounded-xl border border-navy-100 overflow-hidden flex flex-col" style={{ height: '460px' }}>
-          <div className="flex-1 overflow-y-auto p-4 space-y-4">
-            {messages.length === 0 ? (
-              <div className="flex flex-col items-center justify-center h-full text-center">
-                <MessageSquare size={28} className="text-navy-200 mb-2" />
-                <p className="text-navy-400 text-sm font-medium">Aún no hay mensajes</p>
-                <p className="text-navy-300 text-xs mt-1">Escribe abajo para contactar a la notaría</p>
-              </div>
-            ) : (
-              <>
-                {messages.map((m, i) => {
-                  const isOwn = m.senderId === brokerId
-                  const prevMsg = messages[i - 1]
-                  const showDay = !prevMsg || formatDay(m.createdAt) !== formatDay(prevMsg.createdAt)
-                  return (
-                    <div key={m.id}>
-                      {showDay && (
-                        <div className="flex items-center gap-3 my-2">
-                          <div className="flex-1 h-px bg-navy-100" />
-                          <span className="text-[11px] text-navy-300 font-medium">{formatDay(m.createdAt)}</span>
-                          <div className="flex-1 h-px bg-navy-100" />
-                        </div>
-                      )}
-                      <div className={`flex flex-col gap-0.5 ${isOwn ? 'items-end' : 'items-start'}`}>
-                        {!isOwn && (
-                          <span className="text-[11px] text-navy-400 font-semibold ml-1">{m.senderName}</span>
-                        )}
-                        <div className={`flex items-end gap-2 ${isOwn ? 'flex-row-reverse' : 'flex-row'}`}>
-                          {!isOwn && (
-                            <div className="w-6 h-6 rounded-full shrink-0 flex items-center justify-center text-[11px] font-bold text-white mb-1" style={{ background: '#0f1d3d' }}>
-                              {m.senderName.split(' ').map(n => n[0]).join('').slice(0, 2)}
-                            </div>
-                          )}
-                          <div
-                            className="rounded-2xl px-3 py-2 text-sm max-w-[75%]"
-                            style={isOwn
-                              ? { background: '#2c4dfb', color: 'white', borderBottomRightRadius: '4px' }
-                              : { background: '#f4f6fb', color: '#0f1d3d', borderBottomLeftRadius: '4px' }
-                            }
-                          >
-                            {m.content}
-                          </div>
-                        </div>
-                        <div className={`flex items-center gap-1 ${isOwn ? 'flex-row-reverse' : ''} px-1`}>
-                          <span className="text-[11px] text-navy-300">{formatTime(m.createdAt)}</span>
-                          {isOwn && m.failed && (
-                            <button
-                              onClick={() => handleRetry(m)}
-                              className="flex items-center gap-1 text-[11px] text-red-500 font-medium hover:text-red-700"
-                            >
-                              <AlertCircle size={10} />
-                              Error · Reintentar
-                              <RefreshCw size={10} />
-                            </button>
-                          )}
-                        </div>
-                      </div>
-                    </div>
-                  )
-                })}
-                <div ref={chatEndRef} />
-              </>
-            )}
-          </div>
-
-          <div className="border-t border-navy-100 p-3 flex gap-2">
-            <input
-              type="text"
-              value={messageText}
-              onChange={(e) => setMessageText(e.target.value)}
-              onKeyDown={(e) => e.key === 'Enter' && !e.shiftKey && handleSend()}
-              placeholder="Escribe un mensaje..."
-              className="flex-1 h-9 px-3 text-sm border border-navy-100 rounded-lg bg-navy-50 text-navy-900 placeholder:text-navy-300 outline-none focus:border-blue-400"
-            />
-            <button
-              onClick={handleSend}
-              disabled={sending || !messageText.trim()}
-              className="w-9 h-9 flex items-center justify-center rounded-lg text-white disabled:opacity-40 transition-opacity"
-              style={{ background: '#2c4dfb' }}
-            >
-              {sending ? <Loader2 size={14} className="animate-spin" /> : <Send size={14} />}
-            </button>
-          </div>
         </div>
       )}
     </div>

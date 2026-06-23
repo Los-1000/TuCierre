@@ -1,4 +1,4 @@
-import type { ApiBroker, ApiTramiteListItem, ApiTramiteDetail, ApiDashboardStats, ApiMessage, ApiPage, ApiUploadedDocument } from '@/types/api'
+import type { ApiBroker, ApiTramiteListItem, ApiTramiteDetail, ApiDashboardStats, ApiPage, ApiUploadedDocument } from '@/types/api'
 import type { Currency } from '@/lib/utils'
 
 function isMockMode() {
@@ -38,10 +38,6 @@ async function mockApiFetch(path: string, options?: RequestInit): Promise<any> {
       status: 'pending',
     }
   }
-  if (path.includes('/messages') && method === 'POST') {
-    return { id: Date.now(), tramiteId: 0, senderId: 2, senderName: 'Tú', content: JSON.parse(options?.body as string).content, createdAt: new Date().toISOString() }
-  }
-  if (path.includes('/messages')) return { content: [], totalElements: 0, totalPages: 0, number: 0, size: 0, first: true, last: true }
   return null
 }
 
@@ -117,15 +113,6 @@ export const api = {
   },
   dashboard: {
     stats: (): Promise<ApiDashboardStats> => apiFetch('/api/dashboard/stats'),
-  },
-  messages: {
-    list: (tramiteId: number, page = 0, size = 50): Promise<ApiPage<ApiMessage>> =>
-      apiFetch(`/api/tramites/${tramiteId}/messages?page=${page}&size=${size}`),
-    send: (tramiteId: number, content: string): Promise<ApiMessage> =>
-      apiFetch(`/api/tramites/${tramiteId}/messages`, {
-        method: 'POST',
-        body: JSON.stringify({ content }),
-      }),
   },
   priceMatch: {
     myRequests: (brokerId: number) => apiFetch(`/api/price-match/broker/${brokerId}`),
